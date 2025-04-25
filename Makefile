@@ -1,4 +1,5 @@
 OLLAMA_MODELS = qwen2.5-coder:7b-instruct qwen2.5-coder:7b-instruct-q4_0
+SELECTED_MODEL = qwen2.5-coder:7b-instruct 
 
 PROJECT_DIR = $(QUIZ_PROJECT_DIR)
 VENV_DIR = $(OLLAMA_VENV_DIR)
@@ -40,7 +41,7 @@ run_quiz_generator:
 		echo "Virtual environment found at $(VENV_DIR)"; \
 	fi
 	@echo "Running quiz generator script..."
-	@cd $(PROJECT_DIR) && . $(VENV_DIR)/bin/activate && python python_quiz_gen.py
+	@cd $(PROJECT_DIR) && . $(VENV_DIR)/bin/activate && SELECTED_MODEL=$(SELECTED_MODEL) python python_quiz_gen.py
 	@echo "Quiz generation complete!"
 
 

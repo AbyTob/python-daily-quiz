@@ -6,7 +6,8 @@ from datetime import datetime
 
 
 def generate_response_ollama(user_prompt):
-    model = "llama3.2:3b-instruct-q8_0"
+    model = os.environ.get("SELECTED_MODEL", "")
+    print(f"model used: {model}")
     response = ollama.chat(
         model=model,
         messages=[
