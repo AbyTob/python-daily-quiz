@@ -32,6 +32,7 @@ run_quiz_generator:
 	@echo "Checking for virtual environment..."
 	@if [ ! -d $(VENV_DIR) ]; then \
 		echo "Virtual environment not found. Creating one with Python $(PYTHON_VERSION)..."; \
+                apt install -y python3.11-venv; \
 		python$(PYTHON_VERSION) -m venv $(VENV_DIR) || (echo "Failed to create virtual environment. Is Python $(PYTHON_VERSION) installed?" && exit 1); \
 		echo "Installing requirements..."; \
 		. $(VENV_DIR)/bin/activate && pip install -r requirements.txt || true; \
@@ -43,10 +44,7 @@ run_quiz_generator:
 	@echo "Quiz generation complete!"
 
 
-setup_and_run:
-	check_and_setup_ollama
-	run_quiz_generator
-	git_push
+setup_and_run: check_and_setup_ollama run_quiz_generator git_push
 
 git_push:
 	git add .
