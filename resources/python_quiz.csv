@@ -141,3 +141,39 @@ C) The metaclass will not allow `DerivedClass` to be defined at all.
 D) An `AttributeError` will be raised when trying to access `empty_attr`.";"B) A `ValueError` will be raised because `empty_attr` is an empty string.
 
 Explanation: In the provided code, the metaclass `Meta` checks for any string attributes that are empty during the class creation. Since `DerivedClass` has an attribute `empty_attr` which is an empty string, the metaclass raises a `ValueError`. The `__init_subclass__` method in `BaseClass` does not add additional validation logic beyond what the metaclass already enforces, so it does not change this behavior."
+"2025-04-25 21:57";"[QUESTION]
+You are tasked with creating a decorator that measures the execution time of any function it decorates. However, this decorator should also handle nested decorators without interfering with their timing calculations. Implement such a decorator in Python.
+
+Here's a code snippet to get you started:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+@timer
+def nested_function():
+    time.sleep(1)
+    @timer
+    def inner_function():
+        time.sleep(0.5)
+
+nested_function()
+```
+
+What modifications are needed in the `timer` decorator to ensure that it correctly handles nested decorators and accurately measures their execution times?
+
+A) No changes are needed.
+B) Use a class-based approach with an `__call__` method.
+C) Add a unique identifier for each decorated function to avoid overwriting timers.
+D) Modify the decorator to use a global dictionary to store start and end times.";"[ANSWER]
+A) No changes are needed.
+
+Explanation: The provided code snippet already correctly implements a decorator that measures the execution time of any function it decorates, including nested decorators. Each call to `wrapper` captures the start and end times for its own scope and prints the duration, which is then passed on to the original function call. There's no need for additional changes such as using a class-based approach, adding unique identifiers, or using a global dictionary for managing start and end times. The existing implementation handles nested decorators seamlessly by creating separate timers for each level of nesting."
