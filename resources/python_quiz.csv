@@ -408,3 +408,38 @@ B) `Executing task1 took <time> seconds.` and `Executing task2 took 0.5000 secon
 
 Explanation:
 The metaclass `TimeLogger` dynamically wraps any method defined in its class with a timing function `wrapper`. When the methods `task1` and `task2` are called on an instance of `Task`, they execute as usual but also print their execution times to the console. The method `task1` runs synchronously, measuring the time it takes to complete a simple loop (which is not computationally expensive), while `task2` sleeps for 0.5 seconds before returning, thus demonstrating that both methods have their execution times measured and printed correctly."
+"2025-04-26 16:16";"Part 1 (Question):
+Consider the following Python code that uses metaclasses to modify class attributes. The `Meta` metaclass appends a prefix to all method names in the class it creates, except for special methods (those starting and ending with double underscores).
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        new_dct = {}
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value) and not attr_name.startswith('__') and not attr_name.endswith('__'):
+                new_dct['prefix_' + attr_name] = attr_value
+            else:
+                new_dct[attr_name] = attr_value
+        return super().__new__(cls, name, bases, new_dct)
+
+class MyClass(metaclass=Meta):
+    def my_method(self):
+        print(""This is my method."")
+
+    def another_method(self):
+        print(""Another method here!"")
+
+obj = MyClass()
+```
+
+What will be the output of `dir(obj)` (not including built-in attributes like `__init__`, `__class__` etc.)? Select the correct option:
+
+A) ['my_method', 'another_method']  
+B) ['prefix_my_method', 'prefix_another_method']  
+C) ['MyClass', 'Meta']  
+D) An error will be raised
+
+Part 2 (Answer):
+B) ['prefix_my_method', 'prefix_another_method']
+
+Explanation: The `Meta` metaclass overrides the `__new__` method to modify the class dictionary (`dct`) before creating a new class. It checks each attribute of the class and, if it's callable and not a special method (those starting and ending with double underscores), it renames the method by adding the 'prefix_' prefix to its name. As a result, `my_method` becomes `prefix_my_method`, and `another_method` becomes `prefix_another_method`. Special methods like `__init__` are not affected and do not appear in the output of `dir(obj)` as they are excluded per instruction. Therefore, when we inspect the attributes of an instance of `MyClass` using `dir(obj)`, only the renamed methods are listed among user-defined attributes, hence the correct answer is B.";"Answer format error. Please check the generated content."

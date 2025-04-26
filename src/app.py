@@ -84,8 +84,12 @@ def save_quiz_to_json(question, answer):
     # Create unique key combining index and date
     key = f"q{next_index}_{current_datetime}"
 
+    # Generate a unique ID using timestamp and index
+    unique_id = f"{int(datetime.now().timestamp())}_{next_index}"
+
     # Add new quiz question
     quiz_data[key] = {
+        "id": unique_id,
         "question": question,
         "answer": answer,
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
