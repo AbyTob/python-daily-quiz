@@ -360,3 +360,51 @@ A) `False` - The two instances are not the same.
 B) `True` - Both variables point to the same instance, demonstrating the singleton pattern.
 C) An error occurs because the metaclass implementation is incorrect.
 D) The function will hang indefinitely.";"[B] - `True` - Both variables point to the same instance, demonstrating the singleton pattern."
+"2025-04-26 13:53";"";"**Part 1 (Question):**
+Consider the following Python code snippet that aims to create a metaclass which measures and prints the execution time of any method defined in its class. However, it doesn't work as intended:
+
+```python
+import time
+
+class TimeLogger(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = cls.time_it(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def time_it(func):
+        def wrapper(*args, **kwargs):
+            start_time = time.time()
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            print(f""Executing {func.__name__} took {end_time - start_time:.4f} seconds."")
+            return result
+        return wrapper
+
+class Task(metaclass=TimeLogger):
+    def task1(self):
+        for i in range(1000000):
+            pass
+    
+    def task2(self):
+        time.sleep(0.5)
+
+t = Task()
+t.task1()
+t.task2()
+```
+
+What does the above code print when run? Explain why.
+
+A) `Executing task1 took <time> seconds.`  
+B) `Executing task1 took <time> seconds.` and `Executing task2 took 0.5000 seconds.`  
+C) An error because `TimeLogger` is not a valid metaclass.  
+D) Nothing is printed, as the methods are not callable.
+
+**Part 2 (Answer):**
+B) `Executing task1 took <time> seconds.` and `Executing task2 took 0.5000 seconds.`
+
+Explanation:
+The metaclass `TimeLogger` dynamically wraps any method defined in its class with a timing function `wrapper`. When the methods `task1` and `task2` are called on an instance of `Task`, they execute as usual but also print their execution times to the console. The method `task1` runs synchronously, measuring the time it takes to complete a simple loop (which is not computationally expensive), while `task2` sleeps for 0.5 seconds before returning, thus demonstrating that both methods have their execution times measured and printed correctly."
