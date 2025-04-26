@@ -329,3 +329,34 @@ C) The output of `print(db1 is db2)` will be `True`, indicating that `db1` and `
 
 **Explanation:**
 In Python, metaclasses control the creation process of a class. In this example, `SingletonMeta` overrides the `__call__` method to ensure that only one instance of `Database` is created. When you try to create multiple instances (`db1` and `db2`), the metaclass checks if an instance already exists for the class in question. If it does, it returns the existing instance instead of creating a new one. Therefore, `db1` and `db2` are indeed the same instance, making `print(db1 is db2)` evaluate to `True`. This demonstrates how a metaclass can be used to enforce singleton behavior in Python."
+"2025-04-26 13:11";"[QUESTION]  
+Consider the following Python code snippet that utilizes a metaclass to create a singleton pattern:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    def __init__(self):
+        self.connection = ""Database Connection Established""
+
+def create_database_connection():
+    db1 = Database()
+    db2 = Database()
+    print(db1 is db2)  # What will this print?
+
+create_database_connection()
+```
+
+Which of the following statements is true about the output of `create_database_connection()`?
+
+A) `False` - The two instances are not the same.
+B) `True` - Both variables point to the same instance, demonstrating the singleton pattern.
+C) An error occurs because the metaclass implementation is incorrect.
+D) The function will hang indefinitely.";"[B] - `True` - Both variables point to the same instance, demonstrating the singleton pattern."
