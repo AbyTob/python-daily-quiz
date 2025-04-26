@@ -289,3 +289,43 @@ A.
 The correct answer is A. When the `long_running_task` function is called, it starts a timer that ticks every second and prints ""Timer ticked at 1 seconds"". The `long_running_task` then proceeds to print its progress until completion. After the task completes, the timer stops ticking as its `running` attribute is set to `False`.
 
 This demonstrates how an async decorator can be used to run additional logic (like a timer) alongside the main task, without blocking the execution of the main function."
+"2025-04-26 12:14";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to create a singleton class:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    def connect(self):
+        print(""Connecting to the database..."")
+
+# Usage
+db1 = Database()
+db2 = Database()
+
+print(db1 is db2)  # What will this print?
+```
+
+Which of the following statements about this code is true?
+
+A) `db1` and `db2` are two separate instances of `Database`.
+
+B) When `db1.connect()` is called, it prints ""Connecting to the database..."" twice.
+
+C) The output of `print(db1 is db2)` will be `True`, indicating that `db1` and `db2` are the same instance.
+
+D) The metaclass implementation in `SingletonMeta` has a memory leak since it stores all instances indefinitely.
+
+**Part 2 (Answer):**
+
+C) The output of `print(db1 is db2)` will be `True`, indicating that `db1` and `db2` are the same instance.
+
+**Explanation:**
+In Python, metaclasses control the creation process of a class. In this example, `SingletonMeta` overrides the `__call__` method to ensure that only one instance of `Database` is created. When you try to create multiple instances (`db1` and `db2`), the metaclass checks if an instance already exists for the class in question. If it does, it returns the existing instance instead of creating a new one. Therefore, `db1` and `db2` are indeed the same instance, making `print(db1 is db2)` evaluate to `True`. This demonstrates how a metaclass can be used to enforce singleton behavior in Python."
