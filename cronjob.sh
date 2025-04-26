@@ -6,7 +6,7 @@
 echo ">> Current date" $(date)
 echo ">> moving to folder"
 
-cd ${$QUIZ_PROJECT_DIR} 
+cd $QUIZ_PROJECT_DIR
 
 echo ">> Executing make..."
 
