@@ -5,7 +5,7 @@
 
 echo ">> moving to folder"
 
-cd /root/Projects/abytob/python-daily-quiz
+cd ${$QUIZ_PROJECT_DIR} 
 
 echo "Executing make..."
 
