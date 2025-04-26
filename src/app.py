@@ -2,12 +2,24 @@ import os
 import ollama
 import csv
 import json
+import logging
 from datetime import datetime
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('quiz_generator.log'),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger(__name__)
 
 def generate_response_ollama(user_prompt):
     model = os.environ.get("SELECTED_MODEL", "")
-    print(f"model used: {model}")
+    logger.info(f"model used: {model}")
     response = ollama.chat(
         model=model,
         messages=[
@@ -110,63 +122,36 @@ def read_quiz_from_json(date=None):
             quiz_data = json.load(jsonfile)
 
         if date:
-            # Filter questions for specific date
             date_questions = {k: v for k, v in quiz_data.items() if date in k}
             return date_questions
         return quiz_data
 
     except FileNotFoundError:
-        print("No quiz data found.")
+        logger.warning("No quiz data found.")
         return {}
     except json.JSONDecodeError:
-        print("Error reading quiz data.")
+        logger.error("Error reading quiz data.")
         return {}
-
-
-def display_quiz(quiz_data, show_answers=False):
-    for key, value in quiz_data.items():
-        print(f"\nQuestion {key.split('_')[0]}:")
-        print(f"Generated at: {value['timestamp']}")
-        print("-" * 30)
-        print("Question:")
-        print(value['question'])
-        if show_answers:
-            print("\nAnswer:")
-            print(value['answer'])
-        print("-" * 50)
 
 
 def main():
     try:
         question, answer = generate_quiz_question()
-        print("\nGenerated Python Quiz Question:")
-        print("-" * 50)
-        print("Question:")
-        print(question)
-        print("\nAnswer:")
-        print(answer)
-        print("-" * 50)
+        logger.info("\nGenerated Python Quiz Question:")
+        logger.info("-" * 50)
+        logger.info("Question:")
+        logger.info(question)
+        logger.info("\nAnswer:")
+        logger.info(answer)
+        logger.info("-" * 50)
 
-        # Save to both CSV and JSON
         save_quiz_to_csv(question, answer)
         save_quiz_to_json(question, answer)
 
-        print("\nQuiz question saved to resources/python_quiz.csv and resources/python_quiz.json")
-
-        # # Display today's questions
-        # today = datetime.now().strftime("%Y-%m-%d")
-        # today_questions = read_quiz_from_json(today)
-        # if today_questions:
-        #     print(f"\nQuestions generated today ({today}):")
-        #     display_quiz(today_questions, show_answers=False)
-        #
-        #     # Ask if user wants to see answers
-        #     show_ans = input("\nWould you like to see the answers? (y/n): ").lower().strip()
-        #     if show_ans == 'y':
-        #         display_quiz(today_questions, show_answers=True)
+        logger.info("Quiz question saved to resources/python_quiz.csv and resources/python_quiz.json")
 
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        logger.error(f"An error occurred: {str(e)}")
 
 
 if __name__ == "__main__":
