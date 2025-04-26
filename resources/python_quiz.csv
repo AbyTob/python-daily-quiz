@@ -216,3 +216,76 @@ D) All instance methods of `MyClass` are now synchronous and cannot be used in a
 
 Explanation:
 The `log_method_calls` decorator iterates over all attributes of the class and applies the `_log_call` wrapper to any callable attribute that is not a special method. In this case, both `method1` and `method2` are instance methods, so they are wrapped by `_log_call`. When an instance of `MyClass` calls `method1(5)`, it indeed prints the method call with arguments and returns the result as specified."
+"2025-04-26 11:52";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self.running = False
+
+    async def start(self):
+        while self.running:
+            await asyncio.sleep(self.interval)
+            print(f""Timer ticked at {self.interval} seconds"")
+
+def async_timer_decorator(func):
+    async def wrapper(*args, **kwargs):
+        timer = AsyncTimer(1)  # Timer set to tick every second
+        timer.running = True
+        task = asyncio.create_task(timer.start())
+        result = await func(*args, **kwargs)
+        timer.running = False
+        return result
+    return wrapper
+
+@async_timer_decorator
+async def long_running_task():
+    print(""Starting long running task"")
+    for i in range(5):
+        await asyncio.sleep(1)  # Simulate work with sleep
+        print(f""Task progress: {i+1}/5"")
+    print(""Long running task completed"")
+
+# Run the async task
+asyncio.run(long_running_task())
+```
+
+What will be printed when you run this code?
+
+A. Starting long running task  
+   Timer ticked at 1 seconds  
+   Task progress: 1/5  
+   Task progress: 2/5  
+   Task progress: 3/5  
+   Task progress: 4/5  
+   Long running task completed  
+
+B. Starting long running task  
+   Long running task completed  
+   Timer ticked at 1 seconds  
+   Task progress: 1/5  
+   Task progress: 2/5  
+   Task progress: 3/5  
+   Task progress: 4/5  
+
+C. Starting long running task  
+   Timer ticked at 1 seconds  
+   Task progress: 1/5  
+   Long running task completed  
+   Task progress: 2/5  
+   Task progress: 3/5  
+   Task progress: 4/5  
+
+D. Starting long running task  
+   Long running task completed";"**Part 2 (Answer):**
+
+A. 
+
+The correct answer is A. When the `long_running_task` function is called, it starts a timer that ticks every second and prints ""Timer ticked at 1 seconds"". The `long_running_task` then proceeds to print its progress until completion. After the task completes, the timer stops ticking as its `running` attribute is set to `False`.
+
+This demonstrates how an async decorator can be used to run additional logic (like a timer) alongside the main task, without blocking the execution of the main function."

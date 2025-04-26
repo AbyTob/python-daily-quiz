@@ -49,5 +49,5 @@ setup_and_run: check_and_setup_ollama run_quiz_generator git_push
 
 git_push:
 	git add .
-	git commit -m "update run via makefile"
+	git commit -m "auto update"
 	git push
