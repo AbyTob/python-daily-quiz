@@ -290,16 +290,16 @@ def save_quiz_to_markdown(question, answer, question_id):
     
     # Format the markdown content
     markdown_content = f"""# Python Quiz Question
-
-## Question
-{question}
-
-## Answer
-{answer}
-
----
-*Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
-"""
+    
+    ## Question
+    {question}
+    
+    ## Answer
+    {answer}
+    
+    ---
+    *Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
+    """
     
     with open(file_path, 'w', encoding='utf-8') as md_file:
         md_file.write(markdown_content)
