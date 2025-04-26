@@ -1,5 +1,5 @@
 OLLAMA_MODELS = qwen2.5-coder:7b-instruct qwen2.5-coder:7b-instruct-q4_0 qwen2.5-coder:32b-instruct-q8_0
-SELECTED_MODEL = qwen2.5-coder:32b-instruct-q8_0
+SELECTED_MODEL = qwen2.5-coder:7b-instruct
 
 PROJECT_DIR = $(QUIZ_PROJECT_DIR)
 VENV_DIR = $(OLLAMA_VENV_DIR)
