@@ -52,8 +52,8 @@ def generate_quiz_question():
 
 
 def save_quiz_to_json(question, answer):
-    os.makedirs('resources', exist_ok=True)
-    file_path = os.path.join('resources', 'python_quiz.json')
+    os.makedirs('../resources', exist_ok=True)
+    file_path = os.path.join('../resources', 'python_quiz.json')
 
     # Get current date and time
     current_datetime = datetime.now().strftime("%Y-%m-%d")
@@ -85,8 +85,8 @@ def save_quiz_to_json(question, answer):
 
 
 def save_quiz_to_csv(question, answer):
-    os.makedirs('resources', exist_ok=True)
-    file_path = os.path.join('resources', 'python_quiz.csv')
+    os.makedirs('../resources', exist_ok=True)
+    file_path = os.path.join('../resources', 'python_quiz.csv')
 
     file_exists = os.path.isfile(file_path)
 
@@ -103,7 +103,7 @@ def save_quiz_to_csv(question, answer):
 
 
 def read_quiz_from_json(date=None):
-    file_path = os.path.join('resources', 'python_quiz.json')
+    file_path = os.path.join('../resources', 'python_quiz.json')
 
     try:
         with open(file_path, 'r', encoding='utf-8') as jsonfile:

@@ -41,7 +41,7 @@ run_quiz_generator:
 		echo "Virtual environment found at $(VENV_DIR)"; \
 	fi
 	@echo "Running quiz generator script..."
-	@cd $(PROJECT_DIR) && . $(VENV_DIR)/bin/activate && SELECTED_MODEL=$(SELECTED_MODEL) python python_quiz_gen.py
+	@cd $(PROJECT_DIR) && . $(VENV_DIR)/bin/activate && SELECTED_MODEL=$(SELECTED_MODEL) python src/app.py
 	@echo "Quiz generation complete!"
 
 
