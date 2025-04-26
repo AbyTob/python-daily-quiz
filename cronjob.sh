@@ -2,4 +2,4 @@
 
 cd /root/Projects/abytob/python-daily-quiz/
 
-make git_push
+make setup_and_run

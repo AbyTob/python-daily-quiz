@@ -177,3 +177,42 @@ D) Modify the decorator to use a global dictionary to store start and end times.
 A) No changes are needed.
 
 Explanation: The provided code snippet already correctly implements a decorator that measures the execution time of any function it decorates, including nested decorators. Each call to `wrapper` captures the start and end times for its own scope and prints the duration, which is then passed on to the original function call. There's no need for additional changes such as using a class-based approach, adding unique identifiers, or using a global dictionary for managing start and end times. The existing implementation handles nested decorators seamlessly by creating separate timers for each level of nesting."
+"2025-04-26 11:33";"[QUESTION]
+Consider the following Python code snippet that uses a decorator to modify the behavior of class methods:
+
+```python
+def log_method_calls(cls):
+    for name, method in cls.__dict__.items():
+        if callable(method) and not name.startswith('__'):
+            setattr(cls, name, _log_call(method))
+    return cls
+
+def _log_call(func):
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned: {result}"")
+        return result
+    return wrapper
+
+@log_method_calls
+class MyClass:
+    def method1(self, x):
+        return x * 2
+    
+    def method2(self, y):
+        return y + 3
+```
+
+Which of the following statements about this code is correct?
+
+A) The `log_method_calls` decorator does not modify the behavior of instance methods.
+
+B) When an instance of `MyClass` calls `method1(5)`, it will print: ""Calling method1 with args: (5,), kwargs: {}"" followed by ""method1 returned: 10"".
+
+C) The `_log_call` function will only log calls to class methods that start with 'method'.
+
+D) All instance methods of `MyClass` are now synchronous and cannot be used in an asynchronous context.";"B) When an instance of `MyClass` calls `method1(5)`, it will print: ""Calling method1 with args: (5,), kwargs: {}"" followed by ""method1 returned: 10"".
+
+Explanation:
+The `log_method_calls` decorator iterates over all attributes of the class and applies the `_log_call` wrapper to any callable attribute that is not a special method. In this case, both `method1` and `method2` are instance methods, so they are wrapped by `_log_call`. When an instance of `MyClass` calls `method1(5)`, it indeed prints the method call with arguments and returns the result as specified."
