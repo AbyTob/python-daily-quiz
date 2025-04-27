@@ -86,3 +86,90 @@ B) Correct. By overriding the `__new__` method in the metaclass to add the attri
 C) This would work but doesn't utilize the decorator mechanism and isn't as clean or flexible as using a metaclass.
 
 D) Calling the decorator directly on the class is also not correct because it bypasses the metaclass's influence, which should be used to set the `allowed_types` attribute."
+"2025-04-27 00:02";"[QUESTION]  
+You are developing a Python library that needs to provide thread-safe logging functionality. You want to ensure that log messages from different threads do not interfere with each other, even when they are written simultaneously. Implement a decorator that can be applied to any function to make it thread-safe using locks.
+
+```python
+import threading
+
+# Your solution goes here
+
+def thread_safe_logger(func):
+    # Decorator code
+    pass
+
+@thread_safe_logger
+def log_message(message):
+    print(f""Log: {message}"")
+```
+
+Choose the correct implementation for the `thread_safe_logger` decorator:
+
+A)  
+```python
+lock = threading.Lock()
+
+@thread_safe_logger
+def log_message(message):
+    with lock:
+        print(f""Log: {message}"")
+```
+
+B)  
+```python
+lock = threading.Lock()
+
+def thread_safe_logger(func):
+    def wrapper(*args, **kwargs):
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+@thread_safe_logger
+def log_message(message):
+    print(f""Log: {message}"")
+```
+
+C)  
+```python
+def thread_safe_logger(func):
+    lock = threading.Lock()
+    def wrapper(*args, **kwargs):
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+@thread_safe_logger
+def log_message(message):
+    print(f""Log: {message}"")
+```
+
+D)  
+```python
+lock = threading.Lock()
+
+def thread_safe_logger(func):
+    def wrapper(*args, **kwargs):
+        with lock:
+            print(f""Log: {message}"")
+    return wrapper
+
+@thread_safe_logger
+def log_message(message):
+    print(f""Log: {message}"")
+```";"B)  
+```python
+lock = threading.Lock()
+
+def thread_safe_logger(func):
+    def wrapper(*args, **kwargs):
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+@thread_safe_logger
+def log_message(message):
+    print(f""Log: {message}"")
+```
+
+**Explanation**: The correct implementation is option B. In this solution, the `lock` is defined outside of the decorator function so that it is not recreated with each decorated function call. This ensures that all calls to the decorated functions use the same lock, making the logging thread-safe."
