@@ -236,3 +236,41 @@ async def compute_sum(n):
 ```
 
 This version of the decorator uses conditional logic to determine whether to measure synchronous or asynchronous functions."
+"2025-04-27 16:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import time
+
+class Timer:
+    def __init__(self, name):
+        self.name = name
+
+    async def __aenter__(self):
+        print(f""Starting {self.name}"")
+        self.start_time = time.time()
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        elapsed_time = time.time() - self.start_time
+        print(f""{self.name} took {elapsed_time:.4f} seconds"")
+
+async def main():
+    async with Timer(""Task 1""):
+        await asyncio.sleep(0.5)
+    async with Timer(""Task 2""):
+        await asyncio.sleep(0.3)
+
+if __name__ == ""__main__"":
+    import asyncio
+    asyncio.run(main())
+```
+
+Which of the following statements about this code is true?
+
+A) The `Timer` class can be used as a context manager for synchronous tasks.
+B) The `Timer` class does not support asynchronous execution and will block when used in an async context.
+C) Both ""Task 1"" and ""Task 2"" will print their completion time to the console with high precision.
+D) Only ""Task 1"" will be able to complete successfully due to a bug.";"C) Both ""Task 1"" and ""Task 2"" will print their completion time to the console with high precision.
+
+Explanation: The `Timer` class is designed as an asynchronous context manager, which means it can be used in an async block (`async with`). The `__aenter__` method records the start time using `time.time()` and prints a message when entering the block. The `__aexit__` method calculates the elapsed time after exiting the block and prints it. Both tasks, ""Task 1"" and ""Task 2"", will run concurrently due to their usage within an async context manager (`async with`). Therefore, both tasks will measure their execution time accurately and print it to the console."
