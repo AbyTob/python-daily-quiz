@@ -274,3 +274,35 @@ C) Both ""Task 1"" and ""Task 2"" will print their completion time to the consol
 D) Only ""Task 1"" will be able to complete successfully due to a bug.";"C) Both ""Task 1"" and ""Task 2"" will print their completion time to the console with high precision.
 
 Explanation: The `Timer` class is designed as an asynchronous context manager, which means it can be used in an async block (`async with`). The `__aenter__` method records the start time using `time.time()` and prints a message when entering the block. The `__aexit__` method calculates the elapsed time after exiting the block and prints it. Both tasks, ""Task 1"" and ""Task 2"", will run concurrently due to their usage within an async context manager (`async with`). Therefore, both tasks will measure their execution time accurately and print it to the console."
+"2025-04-28 00:01";"### Part 1 (Question)
+
+Consider the following code snippet that uses a metaclass to add a method to all classes dynamically:
+
+```python
+class AddMethodMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['add_method'] = lambda self, x: x + 5
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=AddMethodMeta):
+    pass
+
+obj = MyClass()
+print(obj.add_method(10))  # Output?
+```
+
+Which of the following statements is true about this code?
+
+A) The output will be `15` because `add_method` adds 5 to its argument.
+
+B) The output will be an error because `add_method` is not defined in `MyClass`.
+
+C) The output will be `None` because metaclasses do not affect method definitions.
+
+D) The code will raise a TypeError because metaclasses cannot add methods dynamically.";"### Part 2 (Answer)
+
+**A) The output will be `15` because `add_method` adds 5 to its argument.**
+
+This is the correct answer. In Python, metaclasses allow you to customize class creation by modifying or extending the class definition before it's finalized. In this case, the `AddMethodMeta` metaclass dynamically adds a method named `add_method` to any class it's applied to. When we create an instance of `MyClass`, it gains access to this new method, which simply returns its argument incremented by 5.
+
+The line `print(obj.add_method(10))` will therefore output `15`."
