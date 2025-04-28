@@ -347,3 +347,55 @@ A) The metaclass `Meta` correctly checks if the subclass has a `greet` method. I
 B) The `greeting_decorator` correctly modifies the `greet` method by adding a greeting message at the beginning, which is also true.
 C) Both A and B are correct because they both accurately describe aspects of how the code works.
 D) This answer is correct as it correctly identifies both parts A and B as being true."
+"2025-04-28 16:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import threading
+
+def thread_safe(func):
+    def wrapper(*args, **kwargs):
+        lock = threading.Lock()
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+@thread_safe
+class SharedResource:
+    def __init__(self):
+        self.value = 0
+
+    def increment(self):
+        self.value += 1
+
+def thread_function(resource, num_times):
+    for _ in range(num_times):
+        resource.increment()
+
+resource = SharedResource()
+threads = [threading.Thread(target=thread_function, args=(resource, 100)) for _ in range(10)]
+
+for thread in threads:
+    thread.start()
+
+for thread in threads:
+    thread.join()
+
+print(resource.value)
+```
+
+What is the expected output of this code? Why does it behave that way?
+
+A) The output will be 1000 because all increments are performed atomically.
+
+B) The output will be less than 1000 because multiple threads might read and write to `value` concurrently, leading to a race condition.
+
+C) The output will be more than 1000 due to extra increments caused by thread switching.
+
+D) The program will raise an exception due to improper use of the lock.";"B) The output will be less than 1000 because multiple threads might read and write to `value` concurrently, leading to a race condition.
+
+Explanation:
+- The decorator `@thread_safe` is intended to ensure that the `increment` method of `SharedResource` is thread-safe by using a lock.
+- However, the lock object is created inside the wrapper function for each call. This means that each `increment` call will use its own separate lock instead of sharing the same one across threads.
+- Since each thread uses its own lock and does not block other threads from reading and writing to `value`, race conditions can still occur.
+- Therefore, the final value of `resource.value` will be less than 1000, as multiple increments might be incorrectly applied."
