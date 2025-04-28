@@ -306,3 +306,44 @@ D) The code will raise a TypeError because metaclasses cannot add methods dynami
 This is the correct answer. In Python, metaclasses allow you to customize class creation by modifying or extending the class definition before it's finalized. In this case, the `AddMethodMeta` metaclass dynamically adds a method named `add_method` to any class it's applied to. When we create an instance of `MyClass`, it gains access to this new method, which simply returns its argument incremented by 5.
 
 The line `print(obj.add_method(10))` will therefore output `15`."
+"2025-04-28 08:01";"[QUESTION]
+Consider the following Python code snippet that uses metaclasses and decorators:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'greet' not in dct:
+            raise TypeError(""Missing greet method"")
+        return super().__new__(cls, name, bases, dct)
+
+def greeting_decorator(cls):
+    original_greet = cls.greet
+
+    def new_greet(self):
+        print(f""Hello from {self.__class__.__name__}"")
+        original_greet(self)
+    
+    cls.greet = new_greet
+    return cls
+
+@greeting_decorator
+class Person(metaclass=Meta):
+    def greet(self):
+        print(""I am a person"")
+
+person = Person()
+person.greet()
+```
+
+Which of the following statements is true about this code? Select all correct answers:
+
+A) The metaclass `Meta` checks if the subclass has a `greet` method before allowing it to be instantiated.
+B) The `greeting_decorator` modifies the `greet` method of any class it decorates, adding a greeting message at the beginning.
+C) When `person.greet()` is called, it will first print ""Hello from Person"" and then ""I am a person"".
+D) Both A and B are correct.";"[ANSWER] D
+
+Explanation:
+A) The metaclass `Meta` correctly checks if the subclass has a `greet` method. If not, it raises a `TypeError`, which is true.
+B) The `greeting_decorator` correctly modifies the `greet` method by adding a greeting message at the beginning, which is also true.
+C) Both A and B are correct because they both accurately describe aspects of how the code works.
+D) This answer is correct as it correctly identifies both parts A and B as being true."
