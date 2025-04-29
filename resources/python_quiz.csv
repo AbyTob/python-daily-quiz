@@ -437,3 +437,46 @@ Option C is correct because it appends an instance of the newly created class to
 Option D is incorrect because it tries to append the metaclass itself rather than an instance of the class.
 
 Adding this line to the `__new__` method will correctly track and store instances of classes that use the `InstanceTracker` metaclass."
+"2025-04-29 08:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self.tasks = []
+
+    def add_task(self, coro):
+        task = asyncio.create_task(coro)
+        self.tasks.append(task)
+
+    async def run(self):
+        while True:
+            for task in self.tasks:
+                await task
+            await asyncio.sleep(self.interval)
+
+async def my_coroutine():
+    print(""Coroutine started"")
+    await asyncio.sleep(2)
+    print(""Coroutine finished"")
+
+# Usage
+timer = AsyncTimer(3)
+timer.add_task(my_coroutine())
+asyncio.run(timer.run())
+```
+
+What is the behavior of this code, and what will be printed to the console? Explain why.
+
+A) The coroutine starts, waits for 2 seconds, then finishes. The timer runs in an infinite loop every 3 seconds, but since there's only one task, it doesn't add any complexity.
+
+B) The coroutine starts, waits for 2 seconds, then finishes. After that, the program will print nothing as the timer is not running any more tasks.
+
+C) The coroutine starts and stays alive indefinitely because the timer keeps scheduling itself to run every 3 seconds.
+
+D) There will be an error because adding a task to the `AsyncTimer` instance does not start it immediately.";"A) The coroutine starts, waits for 2 seconds, then finishes. The timer runs in an infinite loop every 3 seconds, but since there's only one task, it doesn't add any complexity.
+
+The `run` method of the `AsyncTimer` class is designed to run indefinitely, continuously waiting for all tasks to complete before sleeping for the specified interval. Since the `my_coroutine` is added with a sleep duration of 2 seconds, it will complete after 2 seconds and then wait again for the next iteration of the timer loop (every 3 seconds). Therefore, the output will be ""Coroutine started"" followed by ""Coroutine finished"" every 3 seconds after the initial 2-second delay."
