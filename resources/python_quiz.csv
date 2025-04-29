@@ -480,3 +480,28 @@ C) The coroutine starts and stays alive indefinitely because the timer keeps sch
 D) There will be an error because adding a task to the `AsyncTimer` instance does not start it immediately.";"A) The coroutine starts, waits for 2 seconds, then finishes. The timer runs in an infinite loop every 3 seconds, but since there's only one task, it doesn't add any complexity.
 
 The `run` method of the `AsyncTimer` class is designed to run indefinitely, continuously waiting for all tasks to complete before sleeping for the specified interval. Since the `my_coroutine` is added with a sleep duration of 2 seconds, it will complete after 2 seconds and then wait again for the next iteration of the timer loop (every 3 seconds). Therefore, the output will be ""Coroutine started"" followed by ""Coroutine finished"" every 3 seconds after the initial 2-second delay."
+"2025-04-29 16:01";"[QUESTION]  
+You are tasked with creating a Python decorator that can be used to measure the execution time of any function it decorates. The decorator should be able to handle both synchronous and asynchronous functions seamlessly.
+
+```python
+import time
+
+# Your metaclass or decorator goes here
+def timing_decorator(func):
+    pass
+
+@timing_decorator
+def sync_function():
+    time.sleep(1)
+
+async def async_function():
+    await asyncio.sleep(1)
+```
+
+Which of the following best demonstrates how to implement this `timing_decorator`?
+
+A) Use a metaclass to dynamically add timing logic at class creation.
+B) Create a synchronous decorator that uses the `time.time()` method.
+C) Create an asynchronous decorator that uses the `asyncio.get_event_loop().run_until_complete()` method.
+D) Implement both a synchronous and an asynchronous decorator, each using its respective timing method.";"[ANSWER] D  
+The correct implementation involves creating two separate decorators: one for synchronous functions and another for asynchronous functions. The synchronous version will use `time.time()`, while the asynchronous version will utilize `asyncio.get_event_loop().run_until_complete()` to measure execution time accurately."
