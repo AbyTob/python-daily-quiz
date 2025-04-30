@@ -75,5 +75,12 @@
     "answer": "[ANSWER] D  \nThe correct implementation involves creating two separate decorators: one for synchronous functions and another for asynchronous functions. The synchronous version will use `time.time()`, while the asynchronous version will utilize `asyncio.get_event_loop().run_until_complete()` to measure execution time accurately.",
     "timestamp": "2025-04-29 16:01:20",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-04-30": {
+    "id": "1745971278_1",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to modify class behavior dynamically:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['new_attr'] = 'Hello from metaclass'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\nprint(obj.new_attr)\n```\n\nWhat will be the output when running this code?\n\nA) Error  \nB) AttributeError: 'MyClass' object has no attribute 'new_attr'  \nC) Hello from metaclass  \nD) None",
+    "answer": "C) Hello from metaclass\n\nExplanation:\nThe `Meta` class is a metaclass that dynamically adds an attribute `new_attr` to any class it's applied to. When the `MyClass` class is defined, the `Meta` metaclass modifies its dictionary to include `new_attr`. This new attribute is accessible as an instance attribute when creating an instance of `MyClass`, hence printing \"Hello from metaclass\".",
+    "timestamp": "2025-04-30 00:01:18",
+    "topic": "Object-Oriented Programming"
   }
 }
