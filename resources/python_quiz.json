@@ -82,5 +82,12 @@
     "answer": "C) Hello from metaclass\n\nExplanation:\nThe `Meta` class is a metaclass that dynamically adds an attribute `new_attr` to any class it's applied to. When the `MyClass` class is defined, the `Meta` metaclass modifies its dictionary to include `new_attr`. This new attribute is accessible as an instance attribute when creating an instance of `MyClass`, hence printing \"Hello from metaclass\".",
     "timestamp": "2025-04-30 00:01:18",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-04-30": {
+    "id": "1746000109_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport time\n\ndef time_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {func.__name__} took {end_time - start_time:.4f} seconds to execute.\")\n        return result\n    return wrapper\n\n@time_decorator\nasync def async_task(n):\n    await asyncio.sleep(n)\n    return n\n\nasync def main():\n    tasks = [async_task(i) for i in range(5)]\n    results = await asyncio.gather(*tasks)\n    print(results)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhat does this code do, and how can it be improved to ensure that the `time_decorator` works correctly with asynchronous functions?\n\nA) It measures the time taken for each task in `async_task` but has a race condition.\n\nB) It accurately measures the time taken for each task in `async_task`, but it will not work without `await asyncio.gather`.\n\nC) It measures the time taken for each task in `async_task` and works correctly with asynchronous functions. There is no need for any improvements.\n\nD) It measures the time taken for each task in `async_task`, but it won't print the results.",
+    "answer": "[C] It measures the time taken for each task in `async_task` and works correctly with asynchronous functions. There is no need for any improvements.\n\nThe code provided uses a decorator to measure the execution time of an asynchronous function. The `time_decorator` is applied to `async_task`, which sleeps for a given number of seconds. When run, it accurately measures the time taken by each task using `await asyncio.sleep(n)` and prints it correctly. There are no issues with this code that would prevent it from working as intended.",
+    "timestamp": "2025-04-30 08:01:49",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

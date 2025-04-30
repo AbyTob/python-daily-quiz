@@ -530,3 +530,43 @@ D) None";"C) Hello from metaclass
 
 Explanation:
 The `Meta` class is a metaclass that dynamically adds an attribute `new_attr` to any class it's applied to. When the `MyClass` class is defined, the `Meta` metaclass modifies its dictionary to include `new_attr`. This new attribute is accessible as an instance attribute when creating an instance of `MyClass`, hence printing ""Hello from metaclass""."
+"2025-04-30 08:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import time
+
+def time_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+@time_decorator
+async def async_task(n):
+    await asyncio.sleep(n)
+    return n
+
+async def main():
+    tasks = [async_task(i) for i in range(5)]
+    results = await asyncio.gather(*tasks)
+    print(results)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What does this code do, and how can it be improved to ensure that the `time_decorator` works correctly with asynchronous functions?
+
+A) It measures the time taken for each task in `async_task` but has a race condition.
+
+B) It accurately measures the time taken for each task in `async_task`, but it will not work without `await asyncio.gather`.
+
+C) It measures the time taken for each task in `async_task` and works correctly with asynchronous functions. There is no need for any improvements.
+
+D) It measures the time taken for each task in `async_task`, but it won't print the results.";"[C] It measures the time taken for each task in `async_task` and works correctly with asynchronous functions. There is no need for any improvements.
+
+The code provided uses a decorator to measure the execution time of an asynchronous function. The `time_decorator` is applied to `async_task`, which sleeps for a given number of seconds. When run, it accurately measures the time taken by each task using `await asyncio.sleep(n)` and prints it correctly. There are no issues with this code that would prevent it from working as intended."
