@@ -570,3 +570,71 @@ C) It measures the time taken for each task in `async_task` and works correctly 
 D) It measures the time taken for each task in `async_task`, but it won't print the results.";"[C] It measures the time taken for each task in `async_task` and works correctly with asynchronous functions. There is no need for any improvements.
 
 The code provided uses a decorator to measure the execution time of an asynchronous function. The `time_decorator` is applied to `async_task`, which sleeps for a given number of seconds. When run, it accurately measures the time taken by each task using `await asyncio.sleep(n)` and prints it correctly. There are no issues with this code that would prevent it from working as intended."
+"2025-04-30 16:02";"[QUESTION]  
+Consider the following Python code snippet that uses a metaclass to modify class attributes dynamically:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name in list(dct.keys()):
+            if isinstance(dct[attr_name], int):
+                dct[f'{attr_name}_description'] = f'This is an integer attribute: {attr_name}'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    x = 10
+    y = 'Hello'
+    z = 3.14
+```
+
+What will be the output of `MyClass.__dict__` after class creation?
+
+A) 
+```python
+{
+    '__module__': '__main__',
+    'x': 10,
+    'y': 'Hello',
+    'z': 3.14,
+    'Meta': <class '__main__.Meta'>
+}
+```
+
+B) 
+```python
+{
+    '__module__': '__main__',
+    'x': 10,
+    'x_description': 'This is an integer attribute: x',
+    'y': 'Hello',
+    'z': 3.14,
+    'z_description': 'This is an integer attribute: z',
+    'Meta': <class '__main__.Meta'>
+}
+```
+
+C) 
+```python
+{
+    '__module__': '__main__',
+    'x': 10,
+    'y': 'Hello',
+    'z': 3.14,
+    '__new__': <function Meta.__new__ at ...>,
+    'Meta': <class '__main__.Meta'>
+}
+```
+
+D) 
+```python
+{
+    '__module__': '__main__',
+    'x': 10,
+    'x_description': 'This is an integer attribute: x',
+    'y': 'Hello',
+    '__new__': <function Meta.__new__ at ...>,
+    'Meta': <class '__main__.Meta'>
+}
+```";"D) 
+
+The correct answer is D. The metaclass `Meta` dynamically adds a new attribute to each integer attribute in the class, but it only affects attributes named with a single letter ('x', 'z'). This is because when the `Meta` metaclass iterates over all attributes, it includes inherited attributes as well. In this case, since 'y' is not an integer, no additional attribute is added for it. The '__new__' method of the metaclass is included in the class dictionary because metaclasses define their own `__new__` method to create and return a new class object."
