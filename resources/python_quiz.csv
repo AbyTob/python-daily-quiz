@@ -735,3 +735,42 @@ class AsyncTimerContextManager:
 ```
 
 This implementation ensures that exceptions are correctly propagated, allowing for proper error handling in the code using the context manager."
+"2025-05-01 16:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def task1():
+    print(""Task 1 started"")
+    await asyncio.sleep(2)
+    print(""Task 1 finished"")
+
+async def task2():
+    print(""Task 2 started"")
+    await asyncio.sleep(1)
+    print(""Task 2 finished"")
+
+async def main():
+    await asyncio.gather(task1(), task2())
+    print(""All tasks completed"")
+
+# Run the main function
+asyncio.run(main())
+```
+
+Which of the following statements is true about the output of this script?
+
+A) The output will be ""Task 1 started"", followed by ""Task 2 started"", then ""Task 1 finished"", and finally ""Task 2 finished"".
+
+B) The output will be ""Task 1 started"", then ""Task 2 started"", followed by ""Task 1 finished"" after a delay of 1 second, and finally ""Task 2 finished"".
+
+C) The output will be ""Task 1 started"", followed by ""Task 2 started"", and both tasks will finish concurrently without waiting for the other.
+
+D) The output will be ""Task 1 started"", then ""Task 2 started"", followed by ""Task 2 finished"" after a delay of 1 second, but ""Task 1 finished"" will not print because it takes longer to complete.";"B) The output will be ""Task 1 started"", then ""Task 2 started"", followed by ""Task 1 finished"" after a delay of 1 second, and finally ""Task 2 finished"".
+
+Explanation: 
+- The `asyncio.gather` function runs multiple coroutines concurrently.
+- When both tasks start, they print their start messages immediately.
+- However, since `task2` completes first (after 1 second), its completion is printed next.
+- After a total of 2 seconds, the completion of `task1` is printed."
