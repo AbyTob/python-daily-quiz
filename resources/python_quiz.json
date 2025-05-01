@@ -96,5 +96,12 @@
     "answer": "D) \n\nThe correct answer is D. The metaclass `Meta` dynamically adds a new attribute to each integer attribute in the class, but it only affects attributes named with a single letter ('x', 'z'). This is because when the `Meta` metaclass iterates over all attributes, it includes inherited attributes as well. In this case, since 'y' is not an integer, no additional attribute is added for it. The '__new__' method of the metaclass is included in the class dictionary because metaclasses define their own `__new__` method to create and return a new class object.",
     "timestamp": "2025-04-30 16:02:22",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-05-01": {
+    "id": "1746057701_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to control class creation:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'x' not in dct:\n            raise TypeError(\"Class must have an attribute 'x'\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    x = 10\n```\n\nWhich of the following statements is true regarding this code?\n\nA) When `MyClass` is defined, it does not raise any errors.\nB) If you remove the line `x = 10` from `MyClass`, it will raise a `TypeError`.\nC) The metaclass `Meta` can be used to enforce that all classes inheriting from `MyClass` must also define an attribute `x`.\nD) The metaclass `Meta` cannot be instantiated directly.",
+    "answer": "B) If you remove the line `x = 10` from `MyClass`, it will raise a `TypeError`.\n\nExplanation:\n- Option A is incorrect because the code does not run without errors. It raises a `TypeError` during class creation.\n- Option C is incorrect because metaclasses like `Meta` control the creation of classes, not their inheritance.\n- Option D is correct because a metaclass itself is just a class that inherits from `type`, and it can be instantiated as any other class.\n- Option B is correct. The metaclass `Meta` checks if the attribute `x` is present in the class dictionary when the class is being created. If it's not, it raises a `TypeError`.",
+    "timestamp": "2025-05-01 00:01:41",
+    "topic": "Object-Oriented Programming"
   }
 }
