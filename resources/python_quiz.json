@@ -117,5 +117,12 @@
     "answer": "B) The output will be \"Task 1 started\", then \"Task 2 started\", followed by \"Task 1 finished\" after a delay of 1 second, and finally \"Task 2 finished\".\n\nExplanation: \n- The `asyncio.gather` function runs multiple coroutines concurrently.\n- When both tasks start, they print their start messages immediately.\n- However, since `task2` completes first (after 1 second), its completion is printed next.\n- After a total of 2 seconds, the completion of `task1` is printed.",
     "timestamp": "2025-05-01 16:01:50",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-05-02": {
+    "id": "1746144094_1",
+    "question": "[QUESTION]\n**Question:** Consider the following Python code snippet which uses a metaclass to ensure that only one instance of a class can be created:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]\n\nclass Database(metaclass=SingletonMeta):\n    pass\n\n# Usage\ndb1 = Database()\ndb2 = Database()\n\nprint(db1 is db2)  # Output: ?\n```\n\nWhich of the following statements correctly describes the output of `print(db1 is db2)`?\n\nA) True  \nB) False  \nC) The code will raise an error  \nD) None of the above",
+    "answer": "**Answer:** A) True\n\n**Explanation:**  \nThe provided metaclass, `SingletonMeta`, ensures that only one instance of any class using it can be created. In this case, when `db1` and `db2` are instantiated from the `Database` class, the `__call__` method of the metaclass is invoked. Since `_instances[cls]` is checked for `SingletonMeta`, and since no other instance exists in `_instances`, both `db1` and `db2` will reference the same instance stored in `_instances`. Therefore, `db1 is db2` evaluates to `True`.",
+    "timestamp": "2025-05-02 00:01:34",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }

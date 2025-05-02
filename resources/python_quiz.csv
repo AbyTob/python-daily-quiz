@@ -774,3 +774,34 @@ Explanation:
 - When both tasks start, they print their start messages immediately.
 - However, since `task2` completes first (after 1 second), its completion is printed next.
 - After a total of 2 seconds, the completion of `task1` is printed."
+"2025-05-02 00:01";"[QUESTION]
+**Question:** Consider the following Python code snippet which uses a metaclass to ensure that only one instance of a class can be created:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    pass
+
+# Usage
+db1 = Database()
+db2 = Database()
+
+print(db1 is db2)  # Output: ?
+```
+
+Which of the following statements correctly describes the output of `print(db1 is db2)`?
+
+A) True  
+B) False  
+C) The code will raise an error  
+D) None of the above";"**Answer:** A) True
+
+**Explanation:**  
+The provided metaclass, `SingletonMeta`, ensures that only one instance of any class using it can be created. In this case, when `db1` and `db2` are instantiated from the `Database` class, the `__call__` method of the metaclass is invoked. Since `_instances[cls]` is checked for `SingletonMeta`, and since no other instance exists in `_instances`, both `db1` and `db2` will reference the same instance stored in `_instances`. Therefore, `db1 is db2` evaluates to `True`."
