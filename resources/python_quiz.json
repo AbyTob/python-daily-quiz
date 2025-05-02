@@ -124,5 +124,12 @@
     "answer": "**Answer:** A) True\n\n**Explanation:**  \nThe provided metaclass, `SingletonMeta`, ensures that only one instance of any class using it can be created. In this case, when `db1` and `db2` are instantiated from the `Database` class, the `__call__` method of the metaclass is invoked. Since `_instances[cls]` is checked for `SingletonMeta`, and since no other instance exists in `_instances`, both `db1` and `db2` will reference the same instance stored in `_instances`. Therefore, `db1 is db2` evaluates to `True`.",
     "timestamp": "2025-05-02 00:01:34",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q2_2025-05-02": {
+    "id": "1746172894_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses decorators and metaclasses:\n\n```python\nimport time\n\ndef timing_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"{func.__name__} took {end_time - start_time:.4f} seconds to run\")\n        return result\n    return wrapper\n\nclass TimingMeta(type):\n    def __new__(cls, name, bases, dct):\n        for attr, value in dct.items():\n            if callable(value) and not attr.startswith(\"__\"):\n                dct[attr] = timing_decorator(value)\n        return super().__new__(cls, name, bases, dct)\n\nclass Timer(metaclass=TimingMeta):\n    def __init__(self, value):\n        self.value = value\n\n    def add(self, other):\n        return self.value + other\n\n    def multiply(self, other):\n        return self.value * other\n```\n\nWhen an instance of the `Timer` class is created and its methods are called, which aspects of the code will be affected by both the decorator and metaclass?\n\nA) The creation of the `Timer` class itself will be timed.\n\nB) All callable methods of the `Timer` instances will have their execution time printed.\n\nC) Only the `add` method's execution time will be printed.\n\nD) The `multiply` method's result will be printed instead of its execution time.",
+    "answer": "[B] Both A and B are correct.",
+    "timestamp": "2025-05-02 08:01:34",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }

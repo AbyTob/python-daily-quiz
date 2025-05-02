@@ -805,3 +805,45 @@ D) None of the above";"**Answer:** A) True
 
 **Explanation:**  
 The provided metaclass, `SingletonMeta`, ensures that only one instance of any class using it can be created. In this case, when `db1` and `db2` are instantiated from the `Database` class, the `__call__` method of the metaclass is invoked. Since `_instances[cls]` is checked for `SingletonMeta`, and since no other instance exists in `_instances`, both `db1` and `db2` will reference the same instance stored in `_instances`. Therefore, `db1 is db2` evaluates to `True`."
+"2025-05-02 08:01";"[QUESTION]
+Consider the following Python code snippet that uses decorators and metaclasses:
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds to run"")
+        return result
+    return wrapper
+
+class TimingMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr, value in dct.items():
+            if callable(value) and not attr.startswith(""__""):
+                dct[attr] = timing_decorator(value)
+        return super().__new__(cls, name, bases, dct)
+
+class Timer(metaclass=TimingMeta):
+    def __init__(self, value):
+        self.value = value
+
+    def add(self, other):
+        return self.value + other
+
+    def multiply(self, other):
+        return self.value * other
+```
+
+When an instance of the `Timer` class is created and its methods are called, which aspects of the code will be affected by both the decorator and metaclass?
+
+A) The creation of the `Timer` class itself will be timed.
+
+B) All callable methods of the `Timer` instances will have their execution time printed.
+
+C) Only the `add` method's execution time will be printed.
+
+D) The `multiply` method's result will be printed instead of its execution time.";"[B] Both A and B are correct."
