@@ -131,5 +131,12 @@
     "answer": "[B] Both A and B are correct.",
     "timestamp": "2025-05-02 08:01:34",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-05-02": {
+    "id": "1746201714_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that uses a decorator to count the number of times a function is called:\n\n```python\ndef counter(func):\n    func.count = 0\n    def wrapper(*args, **kwargs):\n        func.count += 1\n        return func(*args, **kwargs)\n    return wrapper\n\n@counter\ndef my_function():\n    pass\n\n# Now call the function multiple times and print its count\nmy_function()\nprint(my_function.count)  # Expected output: 1\nmy_function()\nprint(my_function.count)  # Expected output: 2\n```\n\nWhich of the following statements is true about the `counter` decorator and the `my_function` when it's decorated?\n\nA) The `func.count` attribute is correctly incremented each time `my_function` is called.\n\nB) The `wrapper` function does not have access to the `count` attribute because it is a local variable in the `counter` function.\n\nC) Each call to `my_function` creates a new instance of the `counter` decorator.\n\nD) When `my_function` is decorated, the `func.count` attribute is set to 1 immediately and then incremented by 1 each time the function is called.\n\n**Part 2 (Answer):**\n\nA) The `func.count` attribute is correctly incremented each time `my_function` is called.\n\nExplanation:\n- A decorator in Python is a function that takes another function and extends its behavior without explicitly modifying it. In this case, the `counter` decorator is designed to keep track of how many times the decorated function (`my_function`) has been called.\n- The `wrapper` function inside the `counter` decorator has access to all non-local variables, including those defined in enclosing functions. Therefore, it can modify the `count` attribute which was set on the original function object when it was passed to the decorator.\n- Each call to `my_function()` increments the `count` by 1, demonstrating that the `func.count` attribute is indeed being updated correctly with each invocation.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-05-02 16:01:54",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }
