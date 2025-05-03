@@ -152,5 +152,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-05-03 08:01:41",
     "topic": "Function and Method Decorators"
+  },
+  "q3_2025-05-03": {
+    "id": "1746288117_3",
+    "question": "",
+    "answer": "Part 1 (Question):\nConsider the following Python code snippet:\n\n```python\nfrom functools import wraps\n\ndef my_decorator(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(\"Something is happening before the function is called.\")\n        result = func(*args, **kwargs)\n        print(\"Something is happening after the function is called.\")\n        return result\n    return wrapper\n\n@my_decorator\ndef say_hello():\n    \"\"\"This function prints 'Hello'.\"\"\"\n    print(\"Hello\")\n\nclass MyClass:\n    def __init__(self):\n        self.value = 0\n\n    @property\n    @my_decorator\n    def my_property(self):\n        \"\"\"A property that uses the decorator.\"\"\"\n        return self.value\n\n# Usage\nsay_hello()\nobj = MyClass()\nobj.my_property = 5\nprint(obj.my_property)\n```\n\nWhich of the following statements is true about the execution and output of the code snippet?\n\nA) The `my_decorator` will only execute before the `say_hello()` function, not when accessing the `my_property`.\n\nB) When accessing `obj.my_property`, the decorator prints \"Something is happening before the function is called.\" but does not print \"Something is happening after the function is called.\"\n\nC) Both statements A and B are correct.\n\nD) None of the above.\n\nPart 2 (Answer):\nA) The `my_decorator` will only execute before the `say_hello()` function, not when accessing the `my_property`.\n\nExplanation:\nIn Python, decorators can be applied to methods in classes. However, when a property is accessed, it does not pass through the decorator because properties have their own getter, setter, and deleter methods associated with them. In this case, the `@property` decorator applies the `my_decorator` only to the getter method of `my_property`. Therefore, the message \"Something is happening before the function is called.\" will be printed when accessing `obj.my_property`, but \"Something is happening after the function is called.\" will not be printed because the decorator does not apply to the setter or deleter methods.",
+    "timestamp": "2025-05-03 16:01:57",
+    "topic": "Advanced Python Programming"
   }
 }
