@@ -928,3 +928,40 @@ D) The execution time measurement is accurate but can be improved by using a mor
 A) The decorator `time_decorator` correctly measures the execution time of asynchronous functions.
 
 Explanation: The code uses `asyncio.get_running_loop().time()` to get the current time asynchronously, which is appropriate for measuring the execution time of an asyncio function. This method ensures that the timing does not interfere with other tasks running in the event loop. The decorator works as intended and provides accurate execution time measurements for asynchronous functions."
+"2025-05-03 08:01";"**Part 1 (Question):**
+
+Consider the following Python code that attempts to create a custom context manager using a decorator:
+
+```python
+from contextlib import contextmanager
+
+def log_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(f""Executing {func.__name__}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@contextmanager
+@log_decorator
+def open_file(filename, mode):
+    file = open(filename, mode)
+    yield file
+    file.close()
+
+# Usage of the custom context manager
+with open_file('example.txt', 'w') as f:
+    f.write(""Hello, World!"")
+```
+
+What is the output when running this code?
+
+A) The file 'example.txt' will be created with ""Hello, World!"" inside.
+B) ""Executing open_file"" will be printed before the file is written to.
+C) An error will occur because decorators cannot be used with context managers.
+D) ""Executing open_file"" will not be printed.
+
+**Part 2 (Answer):**
+
+A) The file 'example.txt' will be created with ""Hello, World!"" inside.
+
+Explanation: Decorators and context managers are separate concepts in Python. While you can use a decorator on any callable, including a function used within a context manager, the decorators themselves do not interfere with the behavior of the context manager. In this example, `log_decorator` is applied to `open_file`, but since it does not modify the behavior of opening or closing the file (only logs that the function is being executed), the file operations will still occur as expected. The correct output would be that 'example.txt' is created with ""Hello, World!"" inside, demonstrating that the context manager works correctly.";"Answer format error. Please check the generated content."
