@@ -888,3 +888,43 @@ Explanation:
 - A decorator in Python is a function that takes another function and extends its behavior without explicitly modifying it. In this case, the `counter` decorator is designed to keep track of how many times the decorated function (`my_function`) has been called.
 - The `wrapper` function inside the `counter` decorator has access to all non-local variables, including those defined in enclosing functions. Therefore, it can modify the `count` attribute which was set on the original function object when it was passed to the decorator.
 - Each call to `my_function()` increments the `count` by 1, demonstrating that the `func.count` attribute is indeed being updated correctly with each invocation.";"Answer format error. Please check the generated content."
+"2025-05-03 00:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that aims to create a decorator for an asynchronous function to measure its execution time:
+
+```python
+import asyncio
+
+def time_decorator(func):
+    async def wrapper(*args, **kwargs):
+        start = asyncio.get_running_loop().time()
+        result = await func(*args, **kwargs)
+        end = asyncio.get_running_loop().time()
+        print(f""{func.__name__} took {end - start:.4f} seconds to run"")
+        return result
+    return wrapper
+
+@time_decorator
+async def async_task():
+    await asyncio.sleep(2)
+    return ""Task Completed""
+
+# Example usage
+asyncio.run(async_task())
+```
+
+Which of the following statements about this code is true?
+
+A) The decorator `time_decorator` correctly measures the execution time of asynchronous functions.
+
+B) The use of `asyncio.get_running_loop().time()` inside the wrapper function is incorrect and will raise an error.
+
+C) The `@time_decorator` syntax applies the decorator to any synchronous or asynchronous function without modification.
+
+D) The execution time measurement is accurate but can be improved by using a more precise timer.
+
+**Part 2 (Answer):**
+
+A) The decorator `time_decorator` correctly measures the execution time of asynchronous functions.
+
+Explanation: The code uses `asyncio.get_running_loop().time()` to get the current time asynchronously, which is appropriate for measuring the execution time of an asyncio function. This method ensures that the timing does not interfere with other tasks running in the event loop. The decorator works as intended and provides accurate execution time measurements for asynchronous functions."
