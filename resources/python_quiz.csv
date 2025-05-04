@@ -1017,3 +1017,40 @@ A) The `my_decorator` will only execute before the `say_hello()` function, not w
 
 Explanation:
 In Python, decorators can be applied to methods in classes. However, when a property is accessed, it does not pass through the decorator because properties have their own getter, setter, and deleter methods associated with them. In this case, the `@property` decorator applies the `my_decorator` only to the getter method of `my_property`. Therefore, the message ""Something is happening before the function is called."" will be printed when accessing `obj.my_property`, but ""Something is happening after the function is called."" will not be printed because the decorator does not apply to the setter or deleter methods."
+"2025-05-04 00:01";"### Part 1 (Question)
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    def __call__(self, *args, **kwargs):
+        return self.func(*args, **kwargs)
+
+@AsyncDecorator
+async def my_async_function():
+    await asyncio.sleep(1)
+    print(""Async function completed"")
+
+# Usage
+asyncio.run(my_async_function())
+```
+
+Which of the following statements is true about this code?
+
+A) The `@AsyncDecorator` decorator does not modify the behavior of `my_async_function`.
+
+B) The `@AsyncDecorator` decorator wraps `my_async_function` in a way that it can be used with `asyncio.run()`.
+
+C) The `@AsyncDecorator` decorator will raise an error when trying to run `my_async_function`.
+
+D) The `@AsyncDecorator` decorator ensures that `my_async_function` runs synchronously, ignoring the `await asyncio.sleep(1)` call.";"### Part 2 (Answer)
+
+B) The `@AsyncDecorator` decorator wraps `my_async_function` in a way that it can be used with `asyncio.run()`.
+
+**Explanation:**
+The `@AsyncDecorator` class is designed to accept an asynchronous function (`my_async_function`) and simply call it. This does not change the fact that `my_async_function` is still an async function, meaning it requires proper execution through an event loop like `asyncio.run()`. Thus, using `@AsyncDecorator` does not alter the fundamental nature of `my_async_function`; it remains a coroutine, which can only be executed in an asyncio context. Therefore, calling `my_async_function()` directly outside of an async context or without wrapping it in an appropriate event loop will raise an error unless `my_async_function` is defined as a regular function rather than an async one."
