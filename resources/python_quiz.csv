@@ -1083,3 +1083,37 @@ The other options have limitations:
 - **Option A** uses `asyncio.Lock`, which is more for synchronization rather than state management.
 - **Option C**, while it might be interesting, introduces unnecessary complexity and potential issues related to maintaining state in a metaclass, especially since metaclasses are not directly designed for this purpose.
 - **Option D** relies on the GIL, which would limit performance gains from asynchronous programming, as it doesn't take advantage of multiple cores or threads effectively."
+"2025-05-04 16:01";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to automatically add a `created_at` timestamp to any class it decorates:
+
+```python
+from datetime import datetime
+
+class AutoTimestampMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['created_at'] = datetime.now()
+        return super().__new__(cls, name, bases, dct)
+
+class Resource(metaclass=AutoTimestampMeta):
+    pass
+
+class Document(Resource):
+    content: str
+```
+
+Which of the following statements about this code is true?
+
+A) The `Resource` class will have a `created_at` attribute with the current timestamp.
+
+B) When an instance of `Document` is created, it will not have a `created_at` attribute.
+
+C) The `AutoTimestampMeta` metaclass cannot be used to create other classes besides `Resource`.
+
+D) The `created_at` attribute will be added to all subclasses of `Document`, but not to the `Resource` class itself.
+
+**Part 2 (Answer):**
+
+A) The `Resource` class will have a `created_at` attribute with the current timestamp.
+
+Explanation: The metaclass `AutoTimestampMeta` is applied to the `Resource` class, which adds a `created_at` attribute with the current timestamp when the class is defined. Since no other classes are explicitly decorated or subclassed in this example, only instances of `Resource` and its subclasses will have access to this automatically added attribute.";"Answer format error. Please check the generated content."
