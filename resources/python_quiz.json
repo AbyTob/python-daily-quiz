@@ -194,5 +194,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-05-05 08:01:54",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q3_2025-05-05": {
+    "id": "1746460935_3",
+    "question": "",
+    "answer": "**Part 1 (Question):**\nConsider the following Python code snippet that uses a metaclass to modify class behavior. The goal is to create a metaclass `LogMethodCalls` that logs every method call with its arguments.\n\n```python\nclass LogMethodCalls(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name, attr_value in dct.items():\n            if callable(attr_value):\n                dct[attr_name] = cls.wrap_method(attr_value)\n        return super().__new__(cls, name, bases, dct)\n\n    @staticmethod\n    def wrap_method(method):\n        def wrapper(*args, **kwargs):\n            print(f\"Method '{method.__name__}' called with args: {args}, kwargs: {kwargs}\")\n            return method(*args, **kwargs)\n        return wrapper\n\nclass MyClass(metaclass=LogMethodCalls):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def add(self, a, b):\n        return self.x + self.y + a + b\n\n# Example usage:\nobj = MyClass(10, 20)\nprint(obj.add(5, 3))\n```\n\nWhat will be the output of the code when `MyClass` is instantiated and its method `add` is called?\n\nA) Method 'add' called with args: (5,), kwargs: {}  \n   40\n\nB) Method '__init__' called with args: (), kwargs: {}  \n   38\n\nC) Method '__init__' called with args: (10, 20), kwargs: {}  \n   Method 'add' called with args: (5,), kwargs: {}  \n   40\n\nD) Error: __new__() got multiple values for argument 'name'\n\n**Part 2 (Answer):**\nC) Method '__init__' called with args: (10, 20), kwargs: {}  \n   Method 'add' called with args: (5,), kwargs: {}  \n   40\n\n**Explanation:** \nWhen `MyClass` is instantiated, the metaclass `LogMethodCalls` logs the call to the `__init__` method before executing it. After `__init__` is called, when `obj.add(5, 3)` is executed, the `add` method is also logged by the `LogMethodCalls` metaclass. The expected output includes both the log statements and the result of the `add` method call, which is 40.",
+    "timestamp": "2025-05-05 16:02:15",
+    "topic": "Advanced Python Programming"
   }
 }
