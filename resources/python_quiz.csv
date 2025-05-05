@@ -1117,3 +1117,74 @@ D) The `created_at` attribute will be added to all subclasses of `Document`, but
 A) The `Resource` class will have a `created_at` attribute with the current timestamp.
 
 Explanation: The metaclass `AutoTimestampMeta` is applied to the `Resource` class, which adds a `created_at` attribute with the current timestamp when the class is defined. Since no other classes are explicitly decorated or subclassed in this example, only instances of `Resource` and its subclasses will have access to this automatically added attribute.";"Answer format error. Please check the generated content."
+"2025-05-05 00:02";"";"**Part 1 (Question):**
+
+Consider the following Python code that aims to create a custom metaclass for logging class instantiation and method calls. However, it contains a critical bug that causes unexpected behavior.
+
+```python
+class LoggingMeta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                setattr(dct, attr_name, cls.log_method(attr_value))
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def log_method(method):
+        def wrapper(*args, **kwargs):
+            print(f""Calling method {method.__name__} with args {args}, kwargs {kwargs}"")
+            return method(*args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=LoggingMeta):
+    def __init__(self, value):
+        self.value = value
+
+    def increment(self):
+        self.value += 1
+```
+
+Which of the following is the correct diagnosis for why `MyClass` instances do not log method calls as expected?
+
+A) The metaclass's `__new__` method is incorrectly overriding the class dictionary.
+
+B) The staticmethod `log_method` does not properly capture the original method's scope.
+
+C) Using `setattr(dct, attr_name, cls.log_method(attr_value))` modifies the class dictionary in an unintended way.
+
+D) The `wrapper` function inside `log_method` is incorrectly capturing its arguments.
+
+**Part 2 (Answer):**
+
+B) The staticmethod `log_method` does not properly capture the original method's scope.
+
+The issue with the provided code is that the `log_method` static method is intended to return a new callable that logs when the wrapped method is called. However, it incorrectly modifies the `wrapper` function's closure by using `*args, **kwargs`, which prevents it from capturing the correct arguments and keyword arguments of the original method.
+
+To fix this, one should avoid modifying the `wrapper` function in-place within `log_method`. A better approach would be to define a new callable object that captures the original method and its signature correctly. Here is a corrected version of the code:
+
+```python
+class LoggingMeta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                setattr(dct, attr_name, cls.log_method(attr_value))
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def log_method(method):
+        def wrapper(*args, **kwargs):
+            print(f""Calling method {method.__name__} with args {args}, kwargs {kwargs}"")
+            return method(*args, **kwargs)
+        return type(f""{method.__name__}_wrapper"", (object,), {'__call__': wrapper})()
+
+class MyClass(metaclass=LoggingMeta):
+    def __init__(self, value):
+        self.value = value
+
+    def increment(self):
+        self.value += 1
+```
+
+This version of `log_method` returns a callable object that wraps the original method and provides logging functionality without modifying its signature or scope in an unintended way."
