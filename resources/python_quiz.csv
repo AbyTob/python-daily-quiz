@@ -1309,3 +1309,43 @@ C. True, 20
 D. False, 20";"A. True, 10  
 
 Explanation: The `Singleton` metaclass ensures that only one instance of `MyClass` can be created, no matter how many times it is instantiated. When `instance1 = create_instance(10)` is executed, an instance with `value=10` is created and stored in `_instances`. Then, when `instance2 = create_instance(20)` is called, the existing instance from `_instances` (which has `value=10`) is returned. Therefore, `instance1 == instance2` evaluates to True because they refer to the same object. Additionally, since both instances are the same, `instance1.value` also returns 10."
+"2025-05-06 08:01";"[QUESTION]
+Consider the following Python code that uses a decorator to modify the behavior of a class method:
+
+```python
+from functools import wraps
+
+def log_method_calls(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        print(f""Calling {func.__name__} with args={args}, kwargs={kwargs}"")
+        return func(self, *args, **kwargs)
+    return wrapper
+
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+    
+    @log_method_calls
+    def get_value(self):
+        return self.value
+
+# Create an instance of MyClass and call its method
+obj = MyClass(10)
+print(obj.get_value())
+```
+
+What will be the output of this code when executed? Explain how decorators work in this context.
+
+A) ""Calling get_value with args=(), kwargs={}  
+10""
+
+B) ""Calling get_value with args=(10,), kwargs={}""  
+""10""
+
+C) TypeError: get_value() missing 1 required positional argument: 'self'
+
+D) None";"A) ""Calling get_value with args=(), kwargs={}  
+10""
+
+Explanation: In this example, a decorator named `log_method_calls` is defined to log the calls to methods it decorates. The `wrapper` function inside the decorator logs the method name and its arguments before calling the original method. When an instance of `MyClass` is created and the `get_value` method is called, the output shows that the method was successfully logged with no arguments passed (as `self` is automatically passed by Python when a method is called on an instance), followed by the return value of the method call."

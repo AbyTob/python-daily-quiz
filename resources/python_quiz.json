@@ -208,5 +208,12 @@
     "answer": "A. True, 10  \n\nExplanation: The `Singleton` metaclass ensures that only one instance of `MyClass` can be created, no matter how many times it is instantiated. When `instance1 = create_instance(10)` is executed, an instance with `value=10` is created and stored in `_instances`. Then, when `instance2 = create_instance(20)` is called, the existing instance from `_instances` (which has `value=10`) is returned. Therefore, `instance1 == instance2` evaluates to True because they refer to the same object. Additionally, since both instances are the same, `instance1.value` also returns 10.",
     "timestamp": "2025-05-06 00:01:45",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q2_2025-05-06": {
+    "id": "1746518500_2",
+    "question": "[QUESTION]\nConsider the following Python code that uses a decorator to modify the behavior of a class method:\n\n```python\nfrom functools import wraps\n\ndef log_method_calls(func):\n    @wraps(func)\n    def wrapper(self, *args, **kwargs):\n        print(f\"Calling {func.__name__} with args={args}, kwargs={kwargs}\")\n        return func(self, *args, **kwargs)\n    return wrapper\n\nclass MyClass:\n    def __init__(self, value):\n        self.value = value\n    \n    @log_method_calls\n    def get_value(self):\n        return self.value\n\n# Create an instance of MyClass and call its method\nobj = MyClass(10)\nprint(obj.get_value())\n```\n\nWhat will be the output of this code when executed? Explain how decorators work in this context.\n\nA) \"Calling get_value with args=(), kwargs={}  \n10\"\n\nB) \"Calling get_value with args=(10,), kwargs={}\"  \n\"10\"\n\nC) TypeError: get_value() missing 1 required positional argument: 'self'\n\nD) None",
+    "answer": "A) \"Calling get_value with args=(), kwargs={}  \n10\"\n\nExplanation: In this example, a decorator named `log_method_calls` is defined to log the calls to methods it decorates. The `wrapper` function inside the decorator logs the method name and its arguments before calling the original method. When an instance of `MyClass` is created and the `get_value` method is called, the output shows that the method was successfully logged with no arguments passed (as `self` is automatically passed by Python when a method is called on an instance), followed by the return value of the method call.",
+    "timestamp": "2025-05-06 08:01:40",
+    "topic": "Function and Method Decorators"
   }
 }
