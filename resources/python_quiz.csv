@@ -1272,3 +1272,40 @@ C) Method '__init__' called with args: (10, 20), kwargs: {}
 
 **Explanation:** 
 When `MyClass` is instantiated, the metaclass `LogMethodCalls` logs the call to the `__init__` method before executing it. After `__init__` is called, when `obj.add(5, 3)` is executed, the `add` method is also logged by the `LogMethodCalls` metaclass. The expected output includes both the log statements and the result of the `add` method call, which is 40."
+"2025-05-06 00:01";"[QUESTION]  
+Consider the following Python code:
+
+```python
+class Singleton(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=Singleton):
+    def __init__(self, value):
+        self.value = value
+
+def create_instance(value):
+    obj = MyClass(value)
+    return obj
+
+# Usage:
+instance1 = create_instance(10)
+instance2 = create_instance(20)
+
+print(instance1 == instance2)  # Output: ?
+print(instance1.value)       # Output: ?
+```
+
+What will be the output of `instance1 == instance2` and `instance1.value` when the code is executed?
+
+A. True, 10  
+B. False, 10  
+C. True, 20  
+D. False, 20";"A. True, 10  
+
+Explanation: The `Singleton` metaclass ensures that only one instance of `MyClass` can be created, no matter how many times it is instantiated. When `instance1 = create_instance(10)` is executed, an instance with `value=10` is created and stored in `_instances`. Then, when `instance2 = create_instance(20)` is called, the existing instance from `_instances` (which has `value=10`) is returned. Therefore, `instance1 == instance2` evaluates to True because they refer to the same object. Additionally, since both instances are the same, `instance1.value` also returns 10."
