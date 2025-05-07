@@ -229,5 +229,12 @@
     "answer": "C) The `main` function uses a custom event loop to manage tasks, but it does not need to be created explicitly since `asyncio.run()` takes care of that.",
     "timestamp": "2025-05-07 00:01:28",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-05-07": {
+    "id": "1746604895_2",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses a decorator to measure the execution time of a function:\n\n```python\nimport time\n\ndef timing_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {func.__name__} took {end_time - start_time:.4f} seconds to execute.\")\n        return result\n    return wrapper\n\n@timing_decorator\ndef compute_sum(n):\n    \"\"\"Computes the sum of numbers from 1 to n.\"\"\"\n    total = 0\n    for i in range(1, n+1):\n        total += i\n    return total\n\nprint(compute_sum(1000000))\n```\n\nWhich of the following statements correctly describes what happens when the `compute_sum` function is called with an argument of 1 million?\n\nA) The execution time of `compute_sum` will be printed to the console and then the sum of numbers from 1 to 1 million will be returned.\n\nB) Only the sum of numbers from 1 to 1 million will be returned without any output indicating execution time.\n\nC) An error will occur because decorators cannot be used with functions that have docstrings.\n\nD) The function will execute normally without any modification due to the decorator.",
+    "answer": "A) The execution time of `compute_sum` will be printed to the console and then the sum of numbers from 1 to 1 million will be returned.",
+    "timestamp": "2025-05-07 08:01:35",
+    "topic": "Function and Method Decorators"
   }
 }
