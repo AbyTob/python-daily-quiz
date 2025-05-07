@@ -222,5 +222,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-05-06 16:01:38",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-05-07": {
+    "id": "1746576088_1",
+    "question": "[QUESTION]\nConsider the following code snippet:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    print(\"Fetching data...\")\n    await asyncio.sleep(2)\n    return \"Data fetched\"\n\nasync def process_data(data):\n    print(f\"Processing {data}...\")\n    await asyncio.sleep(1)\n    return f\"{data} processed\"\n\nasync def main():\n    loop = asyncio.get_event_loop()\n    task = loop.create_task(fetch_data())\n    data = await task\n    result = await process_data(data)\n    print(result)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements about this code is true?\n\nA) The `fetch_data` and `process_data` functions are synchronous.\nB) Both `fetch_data` and `process_data` use explicit coroutine syntax with `async def`.\nC) The `main` function uses a custom event loop to manage tasks, but it does not need to be created explicitly since `asyncio.run()` takes care of that.\nD) Using `await asyncio.sleep(n)` is more efficient than using `time.sleep(n)` for simulating delays in asynchronous code.",
+    "answer": "C) The `main` function uses a custom event loop to manage tasks, but it does not need to be created explicitly since `asyncio.run()` takes care of that.",
+    "timestamp": "2025-05-07 00:01:28",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
