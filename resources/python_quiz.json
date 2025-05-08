@@ -243,5 +243,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-05-07 16:01:53",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-05-08": {
+    "id": "1746662512_1",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to modify class behavior. The goal is to add an `__init_subclass__` method to any subclass, which initializes each attribute with a default value if it's not provided.\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        super().__new__(cls, name, bases, dct)\n        cls.__init_subclass__ = lambda self: None\n\nclass Base(metaclass=Meta):\n    pass\n\nclass Derived(Base):\n    def __init__(self, a=None, b=None):\n        if a is not None:\n            self.a = a\n        if b is not None:\n            self.b = b\n\n# Expected behavior:\nderived_instance = Derived(a=10)\nassert derived_instance.a == 10 and derived_instance.b is None\n```\n\nWhich of the following changes would correctly implement the desired functionality without breaking any existing code?\n\nA) Change the `Meta` metaclass to modify `__init_subclass__` so that it initializes all attributes in subclasses.\n\nB) Change the `Base` class to use a different metaclass that already implements `__init_subclass__`.\n\nC) Modify the `Derived` class to explicitly call `super().__init_subclass__()` and then define its own `__init_subclass__`.\n\nD) Replace the `Meta` metaclass with a simple `object` type, as it's not needed for this functionality.",
+    "answer": "[ANSWER] A) Change the `Meta` metaclass to modify `__init_subclass__` so that it initializes all attributes in subclasses.  \n**Explanation:** The current implementation of `__init_subclass__` does nothing. By modifying the `Meta` metaclass, you can add behavior to all subclasses by changing how `__init_subclass__` is defined within any subclass. This allows you to initialize attributes with default values if they are not provided.",
+    "timestamp": "2025-05-08 00:01:52",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
