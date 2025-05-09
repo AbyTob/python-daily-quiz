@@ -1614,3 +1614,34 @@ This statement is incorrect because the `wrapper` function does not replace `com
 
 **Option D:**
 The execution time is printed inside the `wrapper` function each time `compute_sum` is called. It is not a one-time print outside of the function call."
+"2025-05-09 00:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncCounter:
+    def __init__(self):
+        self.count = 0
+
+    async def increment(self):
+        await asyncio.sleep(1)
+        self.count += 1
+
+async def main():
+    counter = AsyncCounter()
+    tasks = [counter.increment() for _ in range(5)]
+    await asyncio.gather(*tasks)
+
+asyncio.run(main())
+```
+
+Which of the following statements is true regarding the execution and behavior of this code?
+
+A) The `increment` method will run concurrently, and all increments will be completed after 1 second.
+
+B) The `increment` method will run sequentially, one at a time, completing each increment before moving to the next.
+
+C) Each call to `counter.increment()` in `main` will block other tasks from running until the sleep completes.
+
+D) The code will raise an exception because the `increment` method is not awaited properly in the loop.";"A) The `increment` method will run concurrently, and all increments will be completed after 1 second."

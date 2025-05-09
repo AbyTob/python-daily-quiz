@@ -264,5 +264,12 @@
     "answer": "A) The decorator `timer` modifies the original function `compute_sum` to include timing functionality.\n\n**Explanation:** \nOption A is correct. In Python, decorators are functions that take another function and extend its behavior without explicitly modifying it. The `wrapper` function captures the execution time by recording the start and end times around the call to the original function `func`. This extended behavior is then returned when `compute_sum` is called.\n\n**Option B:**\nWhile the decorator does use a closure, this is not what makes it modify the original function. A closure only affects how variables are bound within nested functions. The modification happens through the way the `wrapper` function is defined and returned by the `timer` decorator.\n\n**Option C:**\nThis statement is incorrect because the `wrapper` function does not replace `compute_sum`. Instead, it wraps around `compute_sum` to add the timing functionality.\n\n**Option D:**\nThe execution time is printed inside the `wrapper` function each time `compute_sum` is called. It is not a one-time print outside of the function call.",
     "timestamp": "2025-05-08 16:01:58",
     "topic": "Functions and Functional Programming"
+  },
+  "q1_2025-05-09": {
+    "id": "1746748880_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncCounter:\n    def __init__(self):\n        self.count = 0\n\n    async def increment(self):\n        await asyncio.sleep(1)\n        self.count += 1\n\nasync def main():\n    counter = AsyncCounter()\n    tasks = [counter.increment() for _ in range(5)]\n    await asyncio.gather(*tasks)\n\nasyncio.run(main())\n```\n\nWhich of the following statements is true regarding the execution and behavior of this code?\n\nA) The `increment` method will run concurrently, and all increments will be completed after 1 second.\n\nB) The `increment` method will run sequentially, one at a time, completing each increment before moving to the next.\n\nC) Each call to `counter.increment()` in `main` will block other tasks from running until the sleep completes.\n\nD) The code will raise an exception because the `increment` method is not awaited properly in the loop.",
+    "answer": "A) The `increment` method will run concurrently, and all increments will be completed after 1 second.",
+    "timestamp": "2025-05-09 00:01:20",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
