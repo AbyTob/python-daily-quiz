@@ -271,5 +271,12 @@
     "answer": "A) The `increment` method will run concurrently, and all increments will be completed after 1 second.",
     "timestamp": "2025-05-09 00:01:20",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-05-09": {
+    "id": "1746777718_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that demonstrates a custom metaclass designed to automatically add a `__repr__` method to any class it decorates. The `__repr__` method should return a string representation of an instance, formatted as \"ClassName(instance_id)\".\n\n```python\nclass AutoReprMeta(type):\n    def __new__(cls, name, bases, dct):\n        if '__repr__' not in dct:\n            def custom_repr(self):\n                return f\"{self.__class__.__name__}({id(self)})\"\n            dct['__repr__'] = custom_repr\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=AutoReprMeta):\n    pass\n\ninstance = MyClass()\nprint(instance)\n```\n\nWhich of the following statements is true about this code?\n\nA) The `MyClass` instances will raise an AttributeError when trying to call `__repr__`.\nB) When you create an instance of `MyClass`, it will have a custom `__repr__` method that outputs the class name and its unique identifier.\nC) The metaclass `AutoReprMeta` can be used on multiple classes, but each class will use its own version of the `__repr__` method.\nD) The `AutoReprMeta` metaclass ensures that all methods in a decorated class are automatically renamed to avoid conflicts.",
+    "answer": "B) When you create an instance of `MyClass`, it will have a custom `__repr__` method that outputs the class name and its unique identifier.\n\nExplanation: The correct answer is B. The metaclass `AutoReprMeta` dynamically adds a `__repr__` method to any class it decorates, which in this case is `MyClass`. This method returns a string formatted as \"ClassName(instance_id)\", where `instance_id` is the memory address of the instance, as returned by Python's built-in `id()` function. Therefore, when you create an instance of `MyClass` and call its `__repr__` method (implicitly done when printing the instance), it will output the class name followed by the unique identifier of that specific instance.",
+    "timestamp": "2025-05-09 08:01:58",
+    "topic": "Object-Oriented Programming"
   }
 }
