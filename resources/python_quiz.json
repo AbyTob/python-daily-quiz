@@ -299,5 +299,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-05-10 08:02:25",
     "topic": "Functional Programming Utilities"
+  },
+  "q3_2025-05-10": {
+    "id": "1746892880_3",
+    "question": "[QUESTION]\nConsider the following code snippet:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass MyClass(metaclass=SingletonMeta):\n    pass\n\ndef create_instance():\n    obj1 = MyClass()\n    obj2 = MyClass()\n    return obj1 is obj2\n\n# What will be the result of calling `create_instance()`?\nA) True\nB) False\nC) TypeError\nD) SyntaxError",
+    "answer": "A) True\n\nExplanation: \nThe `SingletonMeta` metaclass ensures that only one instance of `MyClass` can ever be created. When you call `create_instance()`, it attempts to create two instances of `MyClass`. Due to the singleton pattern enforced by the metaclass, both `obj1` and `obj2` will refer to the same object in memory, making the comparison `obj1 is obj2` evaluate to `True`.",
+    "timestamp": "2025-05-10 16:01:20",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
