@@ -306,5 +306,12 @@
     "answer": "A) True\n\nExplanation: \nThe `SingletonMeta` metaclass ensures that only one instance of `MyClass` can ever be created. When you call `create_instance()`, it attempts to create two instances of `MyClass`. Due to the singleton pattern enforced by the metaclass, both `obj1` and `obj2` will refer to the same object in memory, making the comparison `obj1 is obj2` evaluate to `True`.",
     "timestamp": "2025-05-10 16:01:20",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q1_2025-05-11": {
+    "id": "1746921701_1",
+    "question": "Part 1 (Question):\nConsider the following code snippet that attempts to create a metaclass that logs when a class is created:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        print(f\"Class {name} is being created\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nwith MyClass() as obj:\n    pass\n```\n\nWhat will happen when you run this code? Choose the correct option:\n\nA) \"Class MyClass is being created\" will be printed, and then a TypeError will occur because `MyClass` cannot be used as a context manager.\nB) \"Class MyClass is being created\" will be printed, and then an instance of `MyClass` will be created without any errors.\nC) A NameError will occur because the `with` statement requires an object that implements the `__enter__` and `__exit__` methods.\nD) The code will not run as there is a syntax error in defining the `Meta` metaclass.",
+    "answer": "Part 2 (Answer):\nA) \"Class MyClass is being created\" will be printed, and then a TypeError will occur because `MyClass` cannot be used as a context manager.\n\nExplanation: The `with` statement requires that the object passed to it implements the `__enter__` and `__exit__` methods. Since `Meta` does not define these methods, attempting to use `MyClass` with a `with` statement results in a TypeError even though the metaclass logs the creation of the class as intended.",
+    "timestamp": "2025-05-11 00:01:41",
+    "topic": "Object-Oriented Programming"
   }
 }

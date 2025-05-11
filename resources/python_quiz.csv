@@ -1848,3 +1848,28 @@ D) SyntaxError";"A) True
 
 Explanation: 
 The `SingletonMeta` metaclass ensures that only one instance of `MyClass` can ever be created. When you call `create_instance()`, it attempts to create two instances of `MyClass`. Due to the singleton pattern enforced by the metaclass, both `obj1` and `obj2` will refer to the same object in memory, making the comparison `obj1 is obj2` evaluate to `True`."
+"2025-05-11 00:01";"Part 1 (Question):
+Consider the following code snippet that attempts to create a metaclass that logs when a class is created:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Class {name} is being created"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+with MyClass() as obj:
+    pass
+```
+
+What will happen when you run this code? Choose the correct option:
+
+A) ""Class MyClass is being created"" will be printed, and then a TypeError will occur because `MyClass` cannot be used as a context manager.
+B) ""Class MyClass is being created"" will be printed, and then an instance of `MyClass` will be created without any errors.
+C) A NameError will occur because the `with` statement requires an object that implements the `__enter__` and `__exit__` methods.
+D) The code will not run as there is a syntax error in defining the `Meta` metaclass.";"Part 2 (Answer):
+A) ""Class MyClass is being created"" will be printed, and then a TypeError will occur because `MyClass` cannot be used as a context manager.
+
+Explanation: The `with` statement requires that the object passed to it implements the `__enter__` and `__exit__` methods. Since `Meta` does not define these methods, attempting to use `MyClass` with a `with` statement results in a TypeError even though the metaclass logs the creation of the class as intended."
