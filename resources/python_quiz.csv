@@ -2137,3 +2137,27 @@ A) The program creates two instances of `MyClass`, each with a delay of 1 and 2 
 
 **Explanation:** 
 The metaclass `Meta` is used to add an instance counter to the class, which increments every time a new instance of `MyClass` is created. The async method `async_method` is dynamically added to `MyClass` using the `__get__` method of the coroutine function to bind it correctly to the class methods. When run, the program creates two instances of `MyClass`, and each prints its value after a delay followed by the total count of instances created."
+"2025-05-12 16:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'magic_method' not in dct:
+            raise TypeError(""Missing magic method"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    def regular_method(self):
+        pass
+
+# Uncommenting the following line will raise a TypeError
+# class AnotherClass(metaclass=Meta): pass
+```
+
+What is the role of the `Meta` metaclass in this example? Choose the best option that describes its purpose.
+
+A) To enforce the presence of specific methods in classes  
+B) To provide additional properties to instances of classes  
+C) To control the creation and initialization of class objects  
+D) To implement thread-safe operations";"[C] The role of the `Meta` metaclass in this example is to control the creation and initialization of class objects. It checks if a class has a specific method (`magic_method`) during the class creation process using the `__new__` method, raising a `TypeError` if it's missing."

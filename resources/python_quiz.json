@@ -341,5 +341,12 @@
     "answer": "### Part 2 (Answer)\n\nA) The program creates two instances of `MyClass`, each with a delay of 1 and 2 seconds respectively. It then prints the values and counts.\n\n**Explanation:** \nThe metaclass `Meta` is used to add an instance counter to the class, which increments every time a new instance of `MyClass` is created. The async method `async_method` is dynamically added to `MyClass` using the `__get__` method of the coroutine function to bind it correctly to the class methods. When run, the program creates two instances of `MyClass`, and each prints its value after a delay followed by the total count of instances created.",
     "timestamp": "2025-05-12 08:02:06",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-05-12": {
+    "id": "1747065679_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'magic_method' not in dct:\n            raise TypeError(\"Missing magic method\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    def regular_method(self):\n        pass\n\n# Uncommenting the following line will raise a TypeError\n# class AnotherClass(metaclass=Meta): pass\n```\n\nWhat is the role of the `Meta` metaclass in this example? Choose the best option that describes its purpose.\n\nA) To enforce the presence of specific methods in classes  \nB) To provide additional properties to instances of classes  \nC) To control the creation and initialization of class objects  \nD) To implement thread-safe operations",
+    "answer": "[C] The role of the `Meta` metaclass in this example is to control the creation and initialization of class objects. It checks if a class has a specific method (`magic_method`) during the class creation process using the `__new__` method, raising a `TypeError` if it's missing.",
+    "timestamp": "2025-05-12 16:01:19",
+    "topic": "Object-Oriented Programming"
   }
 }
