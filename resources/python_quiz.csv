@@ -2085,3 +2085,55 @@ class Singleton(metaclass=SingletonMeta):
 The correct implementation is option B. This metaclass uses a class variable `_instance` to store the instance of the class when it is first created. Any subsequent attempts to create an instance will return this stored instance, ensuring that only one instance of the class exists.
 
 Option A and D are essentially the same, storing all instances in a dictionary `_instances`, which could lead to issues if multiple different classes use this metaclass. Option C incorrectly tries to modify the class definition during creation using `__new__`, which is not necessary for this functionality."
+"2025-05-12 08:02";"### Part 1 (Question)
+
+Consider the following Python code snippet that uses a combination of metaclasses, decorators, and asyncio:
+
+```python
+import asyncio
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['instance_count'] = 0
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    def __init__(self, value):
+        self.value = value
+        MyClass.instance_count += 1
+
+@asyncio.coroutine
+def async_method(self, delay):
+    yield from asyncio.sleep(delay)
+    return self.value
+
+MyClass.async_method = async_method.__get__(None, MyClass)
+
+async def main():
+    obj1 = MyClass(10)
+    obj2 = MyClass(20)
+    
+    result1 = await obj1.async_method(1)
+    result2 = await obj2.async_method(2)
+    
+    print(f""obj1.value: {result1}, obj2.value: {result2}"")
+    print(f""Instance count: {MyClass.instance_count}"")
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What does the code do when executed? What are the expected outputs?
+
+A) The program creates two instances of `MyClass`, each with a delay of 1 and 2 seconds respectively. It then prints the values and counts.
+
+B) The program creates one instance of `MyClass` and prints its value twice, followed by the count of instances.
+
+C) An error occurs because async methods cannot be added to classes using metaclasses.
+
+D) The program crashes due to a misuse of asyncio.";"### Part 2 (Answer)
+
+A) The program creates two instances of `MyClass`, each with a delay of 1 and 2 seconds respectively. It then prints the values and counts.
+
+**Explanation:** 
+The metaclass `Meta` is used to add an instance counter to the class, which increments every time a new instance of `MyClass` is created. The async method `async_method` is dynamically added to `MyClass` using the `__get__` method of the coroutine function to bind it correctly to the class methods. When run, the program creates two instances of `MyClass`, and each prints its value after a delay followed by the total count of instances created."
