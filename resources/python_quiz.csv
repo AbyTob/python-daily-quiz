@@ -2161,3 +2161,40 @@ A) To enforce the presence of specific methods in classes
 B) To provide additional properties to instances of classes  
 C) To control the creation and initialization of class objects  
 D) To implement thread-safe operations";"[C] The role of the `Meta` metaclass in this example is to control the creation and initialization of class objects. It checks if a class has a specific method (`magic_method`) during the class creation process using the `__new__` method, raising a `TypeError` if it's missing."
+"2025-05-13 00:01";"**Part 1 (Question):**
+
+Consider the following Python code that uses a metaclass to automatically add a new method `hello_world` to any class it decorates. This method prints ""Hello, World!"" when called.
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        # Dynamically add hello_world method to the class
+        dct['hello_world'] = lambda self: print(""Hello, World!"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+# Usage
+obj = MyClass()
+obj.hello_world()  # Output should be ""Hello, World!""
+```
+
+Which of the following statements correctly describes how and why this metaclass works?
+
+A) The metaclass dynamically defines a new method `hello_world` during class creation.
+
+B) The `__new__` method is overridden to manually add the method to each instance.
+
+C) The metaclass uses a decorator to modify the class after it's created.
+
+D) The `hello_world` method is added to instances of `MyClass`, not to the class itself.";"**Part 2 (Answer):**
+
+A) The metaclass dynamically defines a new method `hello_world` during class creation.
+
+Explanation: In Python, metaclasses are essentially classes that create other classes. When a class is defined using a metaclass, the metaclass's `__new__` method is called with the class name, base classes, and class dictionary as arguments. Inside this method, we can modify or extend the class dictionary to include additional methods, attributes, or even dynamically define new methods. In this case, the `Meta` metaclass adds a lambda function named `hello_world` that prints ""Hello, World!"" whenever it is called.
+
+The other options are incorrect:
+- B) The method is added directly to the class itself through the metaclass.
+- C) This refers to decorators, which modify functions or methods after they are defined, not during class creation.
+- D) The method is added to the class, not instances of the class."
