@@ -355,5 +355,12 @@
     "answer": "**Part 2 (Answer):**\n\nA) The metaclass dynamically defines a new method `hello_world` during class creation.\n\nExplanation: In Python, metaclasses are essentially classes that create other classes. When a class is defined using a metaclass, the metaclass's `__new__` method is called with the class name, base classes, and class dictionary as arguments. Inside this method, we can modify or extend the class dictionary to include additional methods, attributes, or even dynamically define new methods. In this case, the `Meta` metaclass adds a lambda function named `hello_world` that prints \"Hello, World!\" whenever it is called.\n\nThe other options are incorrect:\n- B) The method is added directly to the class itself through the metaclass.\n- C) This refers to decorators, which modify functions or methods after they are defined, not during class creation.\n- D) The method is added to the class, not instances of the class.",
     "timestamp": "2025-05-13 00:01:57",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q2_2025-05-13": {
+    "id": "1747123277_2",
+    "question": "[QUESTION]\nConsider the following code snippet:\n\n```python\nimport asyncio\n\nclass AsyncLogger:\n    def __init__(self, filename):\n        self.filename = filename\n\n    async def log(self, message):\n        with open(self.filename, 'a') as file:\n            await asyncio.sleep(0.1)  # Simulate IO delay\n            file.write(message + '\\n')\n\nasync def main():\n    logger = AsyncLogger('log.txt')\n    tasks = [logger.log(f'Message {i}') for i in range(5)]\n    await asyncio.gather(*tasks)\n\n# Run the main function\nasyncio.run(main())\n```\n\nWhat is a potential issue with this implementation that could affect its performance?\n\nA) It doesn't handle exceptions during file writing.\nB) The `await asyncio.sleep(0.1)` call will block other tasks from running.\nC) Writing to a file in an asynchronous context might not be thread-safe if multiple threads access it simultaneously.\nD) There is no way to ensure that all messages are written before the program exits.",
+    "answer": "A) It doesn't handle exceptions during file writing.",
+    "timestamp": "2025-05-13 08:01:17",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

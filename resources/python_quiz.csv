@@ -2198,3 +2198,33 @@ The other options are incorrect:
 - B) The method is added directly to the class itself through the metaclass.
 - C) This refers to decorators, which modify functions or methods after they are defined, not during class creation.
 - D) The method is added to the class, not instances of the class."
+"2025-05-13 08:01";"[QUESTION]
+Consider the following code snippet:
+
+```python
+import asyncio
+
+class AsyncLogger:
+    def __init__(self, filename):
+        self.filename = filename
+
+    async def log(self, message):
+        with open(self.filename, 'a') as file:
+            await asyncio.sleep(0.1)  # Simulate IO delay
+            file.write(message + '\n')
+
+async def main():
+    logger = AsyncLogger('log.txt')
+    tasks = [logger.log(f'Message {i}') for i in range(5)]
+    await asyncio.gather(*tasks)
+
+# Run the main function
+asyncio.run(main())
+```
+
+What is a potential issue with this implementation that could affect its performance?
+
+A) It doesn't handle exceptions during file writing.
+B) The `await asyncio.sleep(0.1)` call will block other tasks from running.
+C) Writing to a file in an asynchronous context might not be thread-safe if multiple threads access it simultaneously.
+D) There is no way to ensure that all messages are written before the program exits.";"A) It doesn't handle exceptions during file writing."
