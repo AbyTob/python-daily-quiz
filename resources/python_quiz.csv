@@ -2228,3 +2228,71 @@ A) It doesn't handle exceptions during file writing.
 B) The `await asyncio.sleep(0.1)` call will block other tasks from running.
 C) Writing to a file in an asynchronous context might not be thread-safe if multiple threads access it simultaneously.
 D) There is no way to ensure that all messages are written before the program exits.";"A) It doesn't handle exceptions during file writing."
+"2025-05-13 16:02";"[QUESTION]
+You are tasked with creating a decorator that can be used to measure the execution time of any function it decorates. The decorator should handle asynchronous functions as well as synchronous ones. However, you've encountered an issue: when applying the decorator to an async function, it doesn't work correctly due to the way decorators are typically applied.
+
+Here's a code snippet that attempts to create such a decorator:
+
+```python
+import time
+
+def measure_time(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time} seconds to run"")
+        return result
+    return wrapper
+
+@measure_time
+async def async_example():
+    await asyncio.sleep(1)
+
+if __name__ == ""__main__"":
+    import asyncio
+    asyncio.run(async_example())
+```
+
+The code does not work as expected for an async function. Modify the `measure_time` decorator so that it can handle both synchronous and asynchronous functions correctly.
+
+A) Provide a solution that works for both types of functions.
+B) Explain why the original implementation fails for async functions.
+C) Suggest a way to modify the decorator to accommodate both cases without significantly altering its structure.";"[A] The modified `measure_time` decorator should use Python's `asyncio.iscoroutinefunction()` to check if the decorated function is an async function. If it is, the decorator should measure time differently by using `await asyncio.get_event_loop().run_in_executor(None, func)` inside a coroutine.
+
+[B] The original implementation fails for async functions because it calls the function directly without awaiting it when it's an async function. This leads to the measurement starting before the function actually starts running and ending before it finishes, resulting in incorrect timing.
+
+[C] To accommodate both synchronous and asynchronous functions, the decorator can be modified to check if the wrapped function is an async function using `asyncio.iscoroutinefunction(func)`. If it is, the decorator should measure time by awaiting the function inside a coroutine. Otherwise, it should proceed as before:
+
+```python
+import asyncio
+import time
+
+def measure_time(func):
+    def wrapper(*args, **kwargs):
+        if asyncio.iscoroutinefunction(func):
+            async def async_wrapper():
+                start_time = time.time()
+                result = await func(*args, **kwargs)
+                end_time = time.time()
+                print(f""{func.__name__} took {end_time - start_time} seconds to run"")
+                return result
+            return asyncio.run(async_wrapper())
+        else:
+            start_time = time.time()
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            print(f""{func.__name__} took {end_time - start_time} seconds to run"")
+            return result
+    return wrapper
+
+@measure_time
+async def async_example():
+    await asyncio.sleep(1)
+
+if __name__ == ""__main__"":
+    import asyncio
+    asyncio.run(async_example())
+```
+
+This modified decorator now correctly measures the execution time for both synchronous and asynchronous functions."
