@@ -2514,3 +2514,42 @@ D. The `value` attribute is correctly set for both `obj1` and `obj2`.";"Part 2 (
 A. The statement ""The `SingletonMeta` metaclass correctly implements the singleton pattern"" is incorrect.
 
 Explanation: While `SingletonMeta` does ensure that only one instance of `MyClass` is created, it uses a class-level dictionary `_instances` to store instances. This approach might not be thread-safe in a multi-threaded environment where multiple threads could potentially create instances simultaneously before any have been added to the dictionary. A more robust solution would involve using threading locks or atomic operations to ensure thread safety when checking and setting `_instances`."
+"2025-05-15 08:01";"### Question:
+Consider the following Python code that uses a decorator to create a context manager. The goal is to ensure that resources are properly managed, including logging when entering and exiting a block of code.
+
+```python
+import functools
+
+def log_resource_access(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Entering {func.__name__}"")
+        result = func(*args, **kwargs)
+        print(f""Exiting {func.__name__}"")
+        return result
+    return wrapper
+
+@log_resource_access
+def access_database():
+    # Simulate database access
+    print(""Accessing database..."")
+
+if __name__ == ""__main__"":
+    access_database()
+```
+
+Which of the following statements is true about this code?
+
+A) The decorator `log_resource_access` ensures that the `access_database` function can only be called once.
+
+B) When `access_database` is decorated with `@log_resource_access`, it logs entering and exiting the function, and then executes the actual database access logic.
+
+C) The decorator `log_resource_access` will cause a syntax error when applied to any function.
+
+D) Calling `access_database()` will not output any messages because the decorator does nothing.";"### Answer:
+B) When `access_database` is decorated with `@log_resource_access`, it logs entering and exiting the function, and then executes the actual database access logic.
+
+**Explanation:**
+- The decorator `log_resource_access` wraps the original `access_database` function to add logging functionality before and after its execution.
+- Inside the `wrapper` function, the message ""Entering {func.__name__}"" is printed when entering the function, followed by the execution of `func(*args, **kwargs)`, which performs the actual database access. Afterward, the message ""Exiting {func.__name__}"" is printed to indicate that the function has exited.
+- This allows for monitoring and debugging purposes without modifying the original function logic."
