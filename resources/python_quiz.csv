@@ -2553,3 +2553,42 @@ B) When `access_database` is decorated with `@log_resource_access`, it logs ente
 - The decorator `log_resource_access` wraps the original `access_database` function to add logging functionality before and after its execution.
 - Inside the `wrapper` function, the message ""Entering {func.__name__}"" is printed when entering the function, followed by the execution of `func(*args, **kwargs)`, which performs the actual database access. Afterward, the message ""Exiting {func.__name__}"" is printed to indicate that the function has exited.
 - This allows for monitoring and debugging purposes without modifying the original function logic."
+"2025-05-15 16:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import time
+
+class Timer:
+    def __init__(self):
+        self.start_time = None
+
+    async def __aenter__(self):
+        self.start_time = time.time()
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        elapsed_time = time.time() - self.start_time
+        print(f""Elapsed Time: {elapsed_time:.4f} seconds"")
+
+async def main():
+    async with Timer():
+        await asyncio.sleep(1)
+
+if __name__ == ""__main__"":
+    import asyncio
+    asyncio.run(main())
+```
+
+Which of the following statements is true about this code?
+
+A) The `Timer` class cannot be used in an asynchronous context.
+B) The `Timer` class is designed to measure the time taken by synchronous functions only.
+C) The `Timer` class accurately measures the time taken by both synchronous and asynchronous operations within its `async with` block.
+D) The `Timer` class is not thread-safe.";"[ANSWER] C) The `Timer` class accurately measures the time taken by both synchronous and asynchronous operations within its `async with` block.
+
+**Explanation:**
+- The `Timer` class uses Python's `asyncio.sleep()` in its `main()` function, which is an asynchronous operation. 
+- The `Timer` class defines both `__aenter__` and `__aexit__` methods, making it a context manager that works with the `async with` statement.
+- When using `await asyncio.sleep(1)`, Python's event loop is not blocked, allowing other tasks to run concurrently. This demonstrates that the `Timer` class can accurately measure both synchronous (like time.sleep) and asynchronous operations.
+- The example correctly shows how to use an asynchronous context manager (`async with`) with a function that involves asynchronous sleep, making option C the correct answer."
