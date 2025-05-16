@@ -2614,3 +2614,33 @@ A) When `MyClass` is instantiated, it raises an error because 'dynamic_attr' doe
 B) The value of `dynamic_attr` can be changed after creating instances of `MyClass`.
 C) Instances of `MyClass` cannot access the attribute 'dynamic_attr'.
 D) The metaclass adds 'dynamic_attr' to the class before any instance is created.";"[D] The metaclass adds 'dynamic_attr' to the class before any instance is created."
+"2025-05-16 08:01";"[QUESTION]  
+Consider the following Python code snippet that uses a decorator to enhance a class method. The goal is to create a decorator that logs the arguments with which a method was called.
+
+```python
+def log_arguments(func):
+    def wrapper(*args, **kwargs):
+        print(f""Arguments: {args}, Keyword Arguments: {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+class Calculator:
+    @log_arguments
+    def add(self, x, y):
+        return x + y
+```
+
+Which of the following statements about this implementation is true?
+
+A) The `log_arguments` decorator correctly logs both positional and keyword arguments for any method it decorates.
+
+B) When `add(2, 3)` is called on an instance of `Calculator`, it will print ""Arguments: (2, 3), Keyword Arguments: {}"" before returning the result of the addition.
+
+C) The `wrapper` function in the decorator replaces the original method's signature, leading to potential issues when the method's signature needs to be preserved.
+
+D) The `log_arguments` decorator can be used on any method that does not require access to the instance (`self`) or class (`cls`) of the object it is called on.";"B) When `add(2, 3)` is called on an instance of `Calculator`, it will print ""Arguments: (2, 3), Keyword Arguments: {}"" before returning the result of the addition.
+
+Explanation:
+- Option A is incorrect because while the decorator correctly logs positional arguments, it does not log keyword arguments when they are provided.
+- Option C is partially correct but misleading. The `wrapper` function does not replace the original method's signature; instead, it simply adds logging functionality around the method call without altering its interface.
+- Option D is incorrect because if a method is decorated with `log_arguments`, it will receive an additional positional argument (`self`) when called as a class method, which might cause errors or unexpected behavior unless explicitly handled in the decorator."
