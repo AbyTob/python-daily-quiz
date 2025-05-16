@@ -2592,3 +2592,25 @@ D) The `Timer` class is not thread-safe.";"[ANSWER] C) The `Timer` class accurat
 - The `Timer` class defines both `__aenter__` and `__aexit__` methods, making it a context manager that works with the `async with` statement.
 - When using `await asyncio.sleep(1)`, Python's event loop is not blocked, allowing other tasks to run concurrently. This demonstrates that the `Timer` class can accurately measure both synchronous (like time.sleep) and asynchronous operations.
 - The example correctly shows how to use an asynchronous context manager (`async with`) with a function that involves asynchronous sleep, making option C the correct answer."
+"2025-05-16 00:01";"[QUESTION]
+Consider the following Python code snippet which uses a metaclass to dynamically add an attribute to a class:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_attr'] = 'I am dynamic'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.dynamic_attr)
+```
+
+Which of the following statements is true about this code?
+
+A) When `MyClass` is instantiated, it raises an error because 'dynamic_attr' does not exist.
+B) The value of `dynamic_attr` can be changed after creating instances of `MyClass`.
+C) Instances of `MyClass` cannot access the attribute 'dynamic_attr'.
+D) The metaclass adds 'dynamic_attr' to the class before any instance is created.";"[D] The metaclass adds 'dynamic_attr' to the class before any instance is created."

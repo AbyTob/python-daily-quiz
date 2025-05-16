@@ -411,5 +411,12 @@
     "answer": "[ANSWER] C) The `Timer` class accurately measures the time taken by both synchronous and asynchronous operations within its `async with` block.\n\n**Explanation:**\n- The `Timer` class uses Python's `asyncio.sleep()` in its `main()` function, which is an asynchronous operation. \n- The `Timer` class defines both `__aenter__` and `__aexit__` methods, making it a context manager that works with the `async with` statement.\n- When using `await asyncio.sleep(1)`, Python's event loop is not blocked, allowing other tasks to run concurrently. This demonstrates that the `Timer` class can accurately measure both synchronous (like time.sleep) and asynchronous operations.\n- The example correctly shows how to use an asynchronous context manager (`async with`) with a function that involves asynchronous sleep, making option C the correct answer.",
     "timestamp": "2025-05-15 16:01:53",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-05-16": {
+    "id": "1747353676_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet which uses a metaclass to dynamically add an attribute to a class:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_attr'] = 'I am dynamic'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\nprint(obj.dynamic_attr)\n```\n\nWhich of the following statements is true about this code?\n\nA) When `MyClass` is instantiated, it raises an error because 'dynamic_attr' does not exist.\nB) The value of `dynamic_attr` can be changed after creating instances of `MyClass`.\nC) Instances of `MyClass` cannot access the attribute 'dynamic_attr'.\nD) The metaclass adds 'dynamic_attr' to the class before any instance is created.",
+    "answer": "[D] The metaclass adds 'dynamic_attr' to the class before any instance is created.",
+    "timestamp": "2025-05-16 00:01:16",
+    "topic": "Object-Oriented Programming"
   }
 }
