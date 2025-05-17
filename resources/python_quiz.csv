@@ -2738,3 +2738,56 @@ Explanation:
 - When `asyncio.run(web_server.start())` is called in `run_server`, it executes the async function as expected, without awaiting it directly inside another async function or coroutine. This is valid because `asyncio.run()` takes care of running the main entry point for asyncio programs.
 
 The correct use of asyncio and the proper setup of an asynchronous server make option C true."
+"2025-05-17 08:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import threading
+
+class Singleton:
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super(Singleton, cls).__new__(cls)
+        return cls._instance
+
+    def do_something(self):
+        print(""Doing something"")
+
+# Create two threads
+def thread_function():
+    singleton_instance = Singleton()
+    singleton_instance.do_something()
+
+thread1 = threading.Thread(target=thread_function)
+thread2 = threading.Thread(target=thread_function)
+
+# Start the threads
+thread1.start()
+thread2.start()
+
+# Wait for both threads to finish
+thread1.join()
+thread2.join()
+
+# Check if they share the same instance
+print(f""Thread 1 instance: {id(thread1._target._args[0])}"")
+print(f""Thread 2 instance: {id(thread2._target._args[0])}"")
+```
+
+What will be printed to the console when the code is executed?
+
+A) Both threads print ""Doing something"" and both have different singleton instances.
+
+B) Both threads print ""Doing something"" and both use the same singleton instance.
+
+C) The output depends on the order in which the threads finish execution.
+
+D) An error occurs because accessing `_target` of a thread object is not allowed.";"B) Both threads print ""Doing something"" and both use the same singleton instance.
+
+Explanation:
+The `Singleton` class uses the `__new__` method with a lock to ensure that only one instance of the class is created, even in a multi-threaded environment. The `_lock` ensures that if multiple threads attempt to create an instance simultaneously, only one will succeed, and all subsequent attempts will return the same instance. Therefore, when both threads call `Singleton()`, they receive the same instance of the class."
