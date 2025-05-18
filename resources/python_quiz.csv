@@ -2969,3 +2969,52 @@ finally:
 ```
 
 This modification ensures that any exceptions raised by the decorated async function are caught, logged, and re-raised after the execution time has been printed."
+"2025-05-18 16:02";"[QUESTION]  
+Imagine you are developing a library that needs to manage resources efficiently. You decide to create a context manager that automatically handles the opening and closing of files, but also ensures that each file is only opened once even if multiple parts of your code attempt to open it simultaneously.
+
+Here's an example implementation using a context manager:
+
+```python
+class FileManager:
+    def __init__(self, filename):
+        self.filename = filename
+        self.file = None
+
+    async def open(self):
+        if not self.file:
+            self.file = await aiofiles.open(self.filename, mode='r')
+
+    async def read(self):
+        if self.file:
+            return await self.file.read()
+        else:
+            raise IOError(""File is not opened"")
+
+    async def close(self):
+        if self.file:
+            await self.file.close()
+            self.file = None
+
+async def manage_file(filename):
+    manager = FileManager(filename)
+    await manager.open()
+    try:
+        data = await manager.read()
+        return data
+    finally:
+        await manager.close()
+```
+
+However, you notice that this approach is not thread-safe because multiple threads could potentially attempt to open the same file simultaneously. To fix this, you decide to use a decorator to ensure that only one thread can execute the `open` method at a time.
+
+Here's your task:  
+1. Implement a thread-safe version of the `FileManager` class using a decorator.
+2. Explain how this solution ensures thread safety and why it is effective.";"[A] The solution uses the `threading.Lock()` to ensure that only one thread can execute the `open` method at a time, making it thread-safe. This is effective because it prevents multiple threads from opening and closing the file simultaneously, which could lead to data corruption or other issues.
+
+[B] The decorator ensures that each file is only opened once by using a class variable to track whether the file has already been opened. However, this approach does not ensure true thread safety because it relies on shared state without proper synchronization mechanisms.
+
+[C] The solution uses `asyncio.Lock()` instead of `threading.Lock()`, making it suitable for asynchronous operations. While this is a step in the right direction, it still lacks proper synchronization across threads and processes, thus not ensuring true thread safety.
+
+[D] The implementation does not require any changes because the original code already ensures thread safety by checking if the file is open before attempting to close it.
+
+The correct answer is [A]."
