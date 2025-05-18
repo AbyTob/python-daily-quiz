@@ -2845,3 +2845,50 @@ The provided code defines a coroutine `get_data()` that uses another coroutine `
 When `get_data()` is called, it wraps the call to `fetch_data()` with timing logic. Inside the `__call__` method of the decorator, the start time is recorded before calling the decorated function (`self.func`). After the function returns, the end time is recorded, and the difference (time taken) is printed out.
 
 This allows you to measure and print how long it takes for `fetch_data()` to execute, which demonstrates that the decorator works correctly with asynchronous functions."
+"2025-05-18 00:02";"";"**Part 1 (Question):**
+
+Consider the following Python code that utilizes both decorators and metaclasses. The goal is to create a decorator that modifies a class attribute when it's accessed, and a metaclass that ensures this modification only occurs once for each instance of the class.
+
+```python
+class Meta(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        if 'attribute' not in cls.__dict__:
+            setattr(cls, 'attribute', 0)
+
+def modify_attribute(func):
+    def wrapper(*args, **kwargs):
+        args[0].attribute += 1
+        return func(*args, **kwargs)
+    return wrapper
+
+class MyClass(metaclass=Meta):
+    @modify_attribute
+    def increment(self):
+        pass
+
+# Usage
+obj = MyClass()
+print(obj.attribute)  # Output should be 1
+obj.increment()
+print(obj.attribute)  # Output should be 2
+```
+
+Which of the following statements correctly describes the behavior and limitations of this code?
+
+A) The `attribute` is incremented every time `increment()` is called, but it will always start from 0 for each new instance.
+
+B) The `attribute` starts at 1 and is incremented every time `increment()` is called.
+
+C) The `attribute` is incremented correctly on the first call to `increment()`, but subsequent calls have no effect.
+
+D) The code does not compile because it attempts to modify a class attribute inside a metaclass method.
+
+**Part 2 (Answer):**
+
+A) The `attribute` is incremented every time `increment()` is called, but it will always start from 0 for each new instance.
+
+Explanation:
+- The metaclass `Meta` sets the default value of `attribute` to 0 when the class is initialized.
+- The decorator `modify_attribute` increments the `attribute` by 1 each time the decorated method `increment()` is called.
+- Since `attribute` is a class attribute, it is shared among all instances of the class. However, in this specific code structure, it behaves as if it were incremented only once per instance because the increment happens every time an instance calls its own `increment()` method, not the original implementation in the metaclass."
