@@ -2892,3 +2892,80 @@ Explanation:
 - The metaclass `Meta` sets the default value of `attribute` to 0 when the class is initialized.
 - The decorator `modify_attribute` increments the `attribute` by 1 each time the decorated method `increment()` is called.
 - Since `attribute` is a class attribute, it is shared among all instances of the class. However, in this specific code structure, it behaves as if it were incremented only once per instance because the increment happens every time an instance calls its own `increment()` method, not the original implementation in the metaclass."
+"2025-05-18 08:02";"";"**Part 1 (Question):**
+
+Consider the following Python code that aims to create a decorator for asynchronous functions. The goal is to measure the execution time of these async functions. However, there's an issue with how the decorator is currently implemented. Identify what needs to be fixed in the `time_async_func` decorator.
+
+```python
+import asyncio
+
+def time_async_func(func):
+    async def wrapper(*args, **kwargs):
+        start_time = asyncio.get_event_loop().time()
+        result = await func(*args, **kwargs)
+        end_time = asyncio.get_event_loop().time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+@time_async_func
+async def my_async_function():
+    await asyncio.sleep(2)  # Simulate a time-consuming async operation
+
+# Example usage:
+# loop = asyncio.get_event_loop()
+# try:
+#     loop.run_until_complete(my_async_function())
+# finally:
+#     loop.close()
+```
+
+Which of the following is an issue with the current implementation of `time_async_func`?
+
+A) The decorator does not account for the asynchronous nature of the function it decorates.
+
+B) The `asyncio.get_event_loop().time()` method is not necessary in this context.
+
+C) The `wrapper` function does not properly handle exceptions raised by the decorated async function.
+
+D) There is no issue with the current implementation; it correctly measures the execution time of async functions.
+
+**Part 2 (Answer):**
+
+C) The `wrapper` function does not properly handle exceptions raised by the decorated async function.
+
+Explanation:
+In the provided code, if an exception occurs within the `my_async_function`, it will not be caught and propagated. To fix this, the `wrapper` function should be modified to catch exceptions and re-raise them after printing the execution time. Here's how you can correct it:
+
+```python
+import asyncio
+
+def time_async_func(func):
+    async def wrapper(*args, **kwargs):
+        try:
+            start_time = asyncio.get_event_loop().time()
+            result = await func(*args, **kwargs)
+            end_time = asyncio.get_event_loop().time()
+            print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds"")
+        except Exception as e:
+            print(f""An error occurred: {e}"")
+            raise
+        return result
+    return wrapper
+
+@time_async_func
+async def my_async_function():
+    await asyncio.sleep(2)  # Simulate a time-consuming async operation
+    raise ValueError(""Simulated error"")  # Example of an exception raised
+
+# Example usage:
+loop = asyncio.get_event_loop()
+try:
+    loop.run_until_complete(my_async_function())
+except Exception as e:
+    print(f""Caught an exception: {e}"")
+finally:
+    loop.close()
+```
+
+This modification ensures that any exceptions raised by the decorated async function are caught, logged, and re-raised after the execution time has been printed."
