@@ -3063,3 +3063,79 @@ In the provided code:
 - The third method call (`fc.method2()`) does not affect `method1`'s count because it was already assigned a different state with its own separate `call_count`.
 
 Thus, `FunctionCounter.method1.call_count` remains 2 (since it was only incremented twice), and `FunctionCounter.method2.call_count` is still 0 (as it was never called)."
+"2025-05-19 08:02";"### Part 1 (Question)
+
+**Question:** Consider the following Python code snippet that attempts to create a class decorator which measures and prints the execution time of any method in the decorated class. The goal is to enhance each method's functionality without modifying its implementation.
+
+```python
+import time
+
+def measure_time(cls):
+    for name, value in cls.__dict__.items():
+        if callable(value):
+            setattr(cls, name, _time_decorator(value))
+    return cls
+
+def _time_decorator(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f""Executing {func.__name__} took {end - start:.4f} seconds"")
+        return result
+    return wrapper
+
+@measure_time
+class ExampleClass:
+    def method1(self):
+        time.sleep(0.5)
+
+    def method2(self):
+        time.sleep(1)
+```
+
+**Question:** What is the issue with this implementation of the `measure_time` decorator, and how might you fix it to ensure that the original method behavior remains intact?
+
+A) The decorator does not handle instance methods correctly.
+
+B) The decorator modifies the class in-place which could cause issues if multiple instances are created.
+
+C) The `wrapper` function is not capturing the correct reference of the original method.
+
+D) The `measure_time` decorator should be a metaclass instead of a class decorator to avoid modifying the class directly.";"### Part 2 (Answer)
+
+**Correct Answer:** A) The decorator does not handle instance methods correctly.
+
+**Explanation:** The current implementation assumes that all attributes in the class dictionary are callable methods, but it fails to distinguish between static methods and instance methods. When a method is called on an instance, Python first checks if it exists in the instance's `__dict__`, then in its class. Since the decorator replaces all callables with wrappers, it mistakenly tries to wrap static methods as well, leading to errors.
+
+To fix this, you need to ensure that only instance methods are wrapped. Here is a corrected version of the `measure_time` decorator:
+
+```python
+import time
+
+def measure_time(cls):
+    for name, value in cls.__dict__.items():
+        if callable(value) and not isinstance(value, staticmethod):
+            setattr(cls, name, _time_decorator(value))
+    return cls
+
+def _time_decorator(func):
+    def wrapper(self, *args, **kwargs):
+        start = time.time()
+        result = func(self, *args, **kwargs)
+        end = time.time()
+        print(f""Executing {func.__name__} took {end - start:.4f} seconds"")
+        return result
+    return wrapper
+
+@measure_time
+class ExampleClass:
+    def method1(self):
+        time.sleep(0.5)
+
+    @staticmethod
+    def method2():
+        time.sleep(1)
+```
+
+In this corrected version, the decorator checks if the callable is not a staticmethod using `isinstance(value, staticmethod)` before wrapping it, ensuring that only instance methods are modified."
