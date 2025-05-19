@@ -3018,3 +3018,48 @@ Here's your task:
 [D] The implementation does not require any changes because the original code already ensures thread safety by checking if the file is open before attempting to close it.
 
 The correct answer is [A]."
+"2025-05-19 00:02";"[QUESTION]
+Consider the following Python code snippet that aims to create a decorator for counting how many times each function in a class is called:
+
+```python
+import functools
+
+def call_count(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        wrapper.call_count += 1
+        return func(*args, **kwargs)
+    wrapper.call_count = 0
+    return wrapper
+
+class FunctionCounter:
+    pass
+
+# Applying the decorator to methods of FunctionCounter
+FunctionCounter.method1 = call_count(FunctionCounter.method1)
+FunctionCounter.method2 = call_count(FunctionCounter.method2)
+
+fc = FunctionCounter()
+fc.method1()
+fc.method1()
+fc.method2()
+
+print(FunctionCounter.method1.call_count)  # Output: ?
+print(FunctionCounter.method2.call_count)  # Output: ?
+```
+
+What will be the output of the above code when run? Explain why.
+
+A) 0, 0
+B) 1, 1
+C) 2, 1
+D) 1, 2";"Answer: C) 2, 1
+
+Explanation:
+The `call_count` decorator is designed to count how many times a method is called. However, the issue lies in how decorators are applied and shared across class methods. In Python, when you apply a decorator to multiple methods of a class using direct assignment like `FunctionCounter.method1 = call_count(FunctionCounter.method1)`, the decorator's state (in this case, `call_count`) is not preserved or shared between these methods.
+
+In the provided code:
+- The first two method calls (`fc.method1()` twice) correctly increment the `call_count` for `method1`.
+- The third method call (`fc.method2()`) does not affect `method1`'s count because it was already assigned a different state with its own separate `call_count`.
+
+Thus, `FunctionCounter.method1.call_count` remains 2 (since it was only incremented twice), and `FunctionCounter.method2.call_count` is still 0 (as it was never called)."
