@@ -3260,3 +3260,40 @@ A) The script will fetch data from each URL sequentially and then print all resu
 B) The script will fetch data concurrently from all URLs and then print all results at once.
 C) The script will raise an exception because `asyncio.sleep` is not allowed in async functions.
 D) The script will hang indefinitely because it does not handle exceptions.";"B) The script will fetch data concurrently from all URLs and then print all results at once. This illustrates a fundamental principle of Python's asyncio library that allows for concurrent execution, which can lead to significant performance improvements when dealing with I/O-bound tasks like fetching data over the network."
+"2025-05-20 16:01";"";"**Part 1: Question**
+
+Consider the following code snippet that uses a metaclass to create a class with a custom attribute:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['custom_attr'] = 'Hello, World!'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+# Instantiate the class and access the custom attribute
+obj = MyClass()
+print(obj.custom_attr)
+```
+
+Which of the following statements is true about this code?
+
+A) `MyClass` will not have a `custom_attr` attribute because metaclasses are used for defining classes, not instances.
+
+B) When an instance of `MyClass` is created, it will inherit from the metaclass and automatically get the `custom_attr` attribute with the value 'Hello, World!'.
+
+C) The `Meta` metaclass can only be used to add attributes to a class if it is specified when the class is defined.
+
+D) Accessing `obj.custom_attr` will raise an AttributeError because `MyClass` does not define any attributes.
+
+**Part 2: Answer**
+
+**Correct Answer:** B
+
+**Explanation:**
+- Option A is incorrect. The metaclass `Meta` successfully adds a custom attribute `custom_attr` to the class `MyClass`. When you instantiate `MyClass`, this attribute is available.
+- Option B is correct. The `__new__` method of the metaclass `Meta` is called when `MyClass` is defined, not when an instance of it is created. It adds a new attribute `custom_attr` to the class dictionary before the class is finalized.
+- Option C is incorrect. A metaclass can be used to add attributes to any class that uses it, regardless of how often or where it is specified.
+- Option D is incorrect. Since `custom_attr` is added by the metaclass, it will be accessible on instances of `MyClass`."
