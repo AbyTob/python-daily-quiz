@@ -3229,3 +3229,34 @@ Explanation:
 - The `timed_function` decorator correctly wraps any function to measure and print its execution time. It uses Python's built-in timing functions from the `time` module to calculate the duration and prints it after the decorated function completes.
 - The `Timer` class indeed supports context management using the `__enter__` and `__exit__` methods, which are used in the example with the `with Timer('compute_sum'):` statement.
 - Descriptors are not involved in the implementation of context management or decorators as shown in this code."
+"2025-05-20 08:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data(url):
+    print(f""Fetching data from {url}"")
+    await asyncio.sleep(1)
+    return f""Data from {url}""
+
+async def main():
+    urls = [""http://example.com"", ""http://example.org"", ""http://example.net""]
+    tasks = [fetch_data(url) for url in urls]
+    results = await asyncio.gather(*tasks)
+    print(""All data fetched:"", results)
+
+if __name__ == ""__main__"":
+    import time
+    start_time = time.time()
+    asyncio.run(main())
+    end_time = time.time()
+    print(f""Total time taken: {end_time - start_time:.2f} seconds"")
+```
+
+What is the expected output of this script, and how does it illustrate a fundamental principle of Python's asyncio library?
+
+A) The script will fetch data from each URL sequentially and then print all results together.
+B) The script will fetch data concurrently from all URLs and then print all results at once.
+C) The script will raise an exception because `asyncio.sleep` is not allowed in async functions.
+D) The script will hang indefinitely because it does not handle exceptions.";"B) The script will fetch data concurrently from all URLs and then print all results at once. This illustrates a fundamental principle of Python's asyncio library that allows for concurrent execution, which can lead to significant performance improvements when dealing with I/O-bound tasks like fetching data over the network."
