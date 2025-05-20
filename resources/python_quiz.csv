@@ -3178,3 +3178,54 @@ C) An error
 D) The message ""Connecting to the database..."" twice";"B) True
 
 Explanation: In the provided code, both `db1` and `db2` will refer to the same instance of the `DatabaseConnection` class because of the singleton pattern implemented through both a metaclass (`Singleton`) and a decorator (`singleton`). The `metaclass=Singleton` ensures that only one instance of any class decorated with this metaclass can be created. Thus, when `db1 = DatabaseConnection()` and `db2 = DatabaseConnection()`, `db1 is db2` evaluates to True because they both reference the same object."
+"2025-05-20 00:02";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import time
+
+class Timer:
+    def __init__(self, name):
+        self.name = name
+        self.start_time = None
+
+    def __enter__(self):
+        self.start_time = time.time()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        end_time = time.time()
+        print(f""Timer '{self.name}' took {end_time - self.start_time:.4f} seconds."")
+
+def timed_function(func):
+    def wrapper(*args, **kwargs):
+        with Timer(func.__name__):
+            result = func(*args, **kwargs)
+        return result
+    return wrapper
+
+@timed_function
+def compute_sum(n):
+    return sum(range(n))
+
+# Usage of the compute_sum function
+result = compute_sum(1000000)
+print(f""Result: {result}"")
+```
+
+Which statement is true regarding the above code?
+
+A) The `Timer` class is a metaclass and does not support context management.
+
+B) The `timed_function` decorator measures the execution time of any function it decorates.
+
+C) Using `@timed_function`, the execution time of `compute_sum(1000000)` will be printed before its result.
+
+D) The `Timer` class uses a descriptor for its context management functionality.";"[ANSWER]
+B) The `timed_function` decorator measures the execution time of any function it decorates.
+
+Explanation:
+- The `Timer` class is not a metaclass but a simple context manager that prints the time taken by the block of code inside its `with` statement.
+- The `timed_function` decorator correctly wraps any function to measure and print its execution time. It uses Python's built-in timing functions from the `time` module to calculate the duration and prints it after the decorated function completes.
+- The `Timer` class indeed supports context management using the `__enter__` and `__exit__` methods, which are used in the example with the `with Timer('compute_sum'):` statement.
+- Descriptors are not involved in the implementation of context management or decorators as shown in this code."
