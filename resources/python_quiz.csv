@@ -3330,3 +3330,43 @@ D) The output is unpredictable due to issues with garbage collection.";"B) Both 
 
 Explanation:
 The `SingletonMeta` metaclass ensures that only one instance of the `Database` class is created. When `use_database` is called, it attempts to create two instances (`db1` and `db2`). However, because of the singleton pattern enforced by the metaclass, both variables end up referencing the same instance, as stored in `_instances`. Therefore, `db1 is db2` evaluates to `True`, indicating that they are indeed the same object."
+"2025-05-21 08:01";"[QUESTION]
+**Question:** Consider the following Python code that aims to create a simple rate limiter decorator. The goal is to ensure that a function can only be called once every `interval` seconds. However, the implementation has an issue.
+
+```python
+import time
+
+def rate_limit(interval):
+    def decorator(func):
+        last_call_time = 0
+        def wrapper(*args, **kwargs):
+            nonlocal last_call_time
+            current_time = time.time()
+            if current_time - last_call_time < interval:
+                time.sleep(interval - (current_time - last_call_time))
+            last_call_time = current_time
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@rate_limit(1)  # Limit to 1 call per second
+def my_function():
+    print(""Function is called"")
+
+# Example usage:
+my_function()  # Calls the function normally
+time.sleep(0.5)
+my_function()  # Should wait for 0.5 seconds before calling again
+```
+
+Which of the following statements correctly identifies a problem with this implementation?
+
+A) The `rate_limit` decorator does not properly handle the case when multiple instances of `my_function` are called concurrently.
+
+B) The use of a nonlocal variable inside the wrapper function can lead to memory leaks under certain conditions.
+
+C) The sleep time calculation in the wrapper is incorrect, potentially leading to suboptimal performance.
+
+D) The `last_call_time` variable is not thread-safe, which could result in unexpected behavior when called from multiple threads.";"**Answer:** A
+
+**Explanation:** The issue with the provided implementation is that it does not handle concurrent calls correctly. When multiple instances of `my_function` are called concurrently, each call will check the global `last_call_time`, which can lead to all instances waiting for their turn instead of only one instance at a time. This defeats the purpose of rate limiting. The decorator should maintain separate state for each instance or thread if concurrent access is expected."
