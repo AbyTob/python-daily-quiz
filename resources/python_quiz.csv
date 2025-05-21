@@ -3297,3 +3297,36 @@ D) Accessing `obj.custom_attr` will raise an AttributeError because `MyClass` do
 - Option B is correct. The `__new__` method of the metaclass `Meta` is called when `MyClass` is defined, not when an instance of it is created. It adds a new attribute `custom_attr` to the class dictionary before the class is finalized.
 - Option C is incorrect. A metaclass can be used to add attributes to any class that uses it, regardless of how often or where it is specified.
 - Option D is incorrect. Since `custom_attr` is added by the metaclass, it will be accessible on instances of `MyClass`."
+"2025-05-21 00:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to create a singleton pattern. A singleton pattern ensures that a class has only one instance and provides a global point of access to it.
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    def __init__(self):
+        self.connection = ""Database Connection Established""
+
+def use_database():
+    db1 = Database()
+    db2 = Database()
+    print(db1 is db2)
+
+use_database()
+```
+
+What will be the output of the `use_database` function when it is called?
+
+A) Both `db1` and `db2` are new instances, so their identities are different.
+B) Both `db1` and `db2` refer to the same instance, so their identities are the same.
+C) An error will be raised because metaclasses cannot be used with singletons.
+D) The output is unpredictable due to issues with garbage collection.";"B) Both `db1` and `db2` refer to the same instance, so their identities are the same.
+
+Explanation:
+The `SingletonMeta` metaclass ensures that only one instance of the `Database` class is created. When `use_database` is called, it attempts to create two instances (`db1` and `db2`). However, because of the singleton pattern enforced by the metaclass, both variables end up referencing the same instance, as stored in `_instances`. Therefore, `db1 is db2` evaluates to `True`, indicating that they are indeed the same object."
