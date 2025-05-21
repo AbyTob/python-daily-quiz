@@ -3370,3 +3370,52 @@ C) The sleep time calculation in the wrapper is incorrect, potentially leading t
 D) The `last_call_time` variable is not thread-safe, which could result in unexpected behavior when called from multiple threads.";"**Answer:** A
 
 **Explanation:** The issue with the provided implementation is that it does not handle concurrent calls correctly. When multiple instances of `my_function` are called concurrently, each call will check the global `last_call_time`, which can lead to all instances waiting for their turn instead of only one instance at a time. This defeats the purpose of rate limiting. The decorator should maintain separate state for each instance or thread if concurrent access is expected."
+"2025-05-21 16:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def async_task():
+    print(""Task started"")
+    await asyncio.sleep(1)
+    print(""Task completed"")
+
+loop = asyncio.get_event_loop()
+result = loop.run_until_complete(async_task())
+print(result)
+```
+
+What will be the output of this code?
+
+A) Task started  
+   Task completed  
+   None  
+
+B) Task started  
+   Task completed  
+
+C) Task started  
+   Task completed  
+   Future object at 0x...  
+
+D) Error: Cannot run inside async context";"A) Task started  
+   Task completed  
+   None  
+
+Explanation:
+- The `AsyncDecorator` is a class that takes an asynchronous function (`async_task`) as its argument.
+- When the decorated function is called, it uses `asyncio.run()` to execute the asynchronous function in a new event loop. This is necessary because `asyncio.run()` is used for running top-level entry point coroutines and should be called only once per program.
+- Inside `async_task`, an asyncio sleep of 1 second is simulated using `await asyncio.sleep(1)`.
+- When `async_task` completes, the function prints ""Task completed"".
+- Since the result of `async_task` is not explicitly returned or captured, it defaults to `None`. Therefore, the final printed output is `Task started`, `Task completed`, and `None`.
+
+This question tests the understanding of how to properly run asynchronous functions using a decorator that handles the event loop management."
