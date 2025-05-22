@@ -3419,3 +3419,39 @@ Explanation:
 - Since the result of `async_task` is not explicitly returned or captured, it defaults to `None`. Therefore, the final printed output is `Task started`, `Task completed`, and `None`.
 
 This question tests the understanding of how to properly run asynchronous functions using a decorator that handles the event loop management."
+"2025-05-22 00:01";"[QUESTION]
+Imagine you're developing a web framework in Python, and you want to ensure that all routes defined are secure. You decide to implement a decorator `@secure` that logs the user ID and route accessed before executing the view function. However, you also want this decorator to be reusable across different classes without manually applying it to each method.
+
+Here's a simplified version of what you have:
+
+```python
+from functools import wraps
+
+def secure(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        user_id = kwargs.get('user_id')
+        route = func.__name__
+        print(f""Accessing {route} by user {user_id}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+class SecureView:
+    @secure
+    def index(self, user_id=None):
+        return ""Welcome to the homepage""
+
+    @secure
+    def profile(self, user_id=None):
+        return ""This is your profile""
+```
+
+Now, you want to create a metaclass that automatically applies this `@secure` decorator to all methods of any class it decorates. This way, you can simply define your view classes without worrying about applying the decorator manually.
+
+Here's your task:
+1. Implement a metaclass `SecureMeta` that applies the `@secure` decorator to all non-static methods of any class.
+2. Create a class `SecureApp` using this metaclass and define some methods like `home`, `dashboard`, etc.
+
+Write the code for `SecureMeta` and an example usage of `SecureApp`.";"[ANSWER]
+A
+The correct answer is A because the implementation uses metaclasses to dynamically apply decorators to all non-static methods of a class, ensuring that security logging is automatically handled. This approach leverages Python's powerful metaclass system for code generation and manipulation at runtime."
