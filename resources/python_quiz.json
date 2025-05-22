@@ -551,5 +551,12 @@
     "answer": "**Part 2 (Answer):**\n\nC) The original `__getattribute__` method is preserved and called when accessing attributes.\n\nExplanation:\nThe metaclass `AccessLoggerMeta` correctly modifies the `__getattribute__` method of any class it decorates. It wraps the original `__getattribute__` with a new function that logs access to attributes before delegating to the original method. This ensures that all attribute accesses are logged, and the original behavior is preserved.\n\nOption A is incorrect because no logging occurs on attribute access directly; only method calls log access.\nOption B is incorrect because no `log_access` method is added; instead, `__getattribute__` is modified.\nOption D is incorrect because there is no issue with instantiating `MyClass`; it can be instantiated normally.",
     "timestamp": "2025-05-22 08:02:11",
     "topic": "SSL/TLS and Secure Communication"
+  },
+  "q3_2025-05-22": {
+    "id": "1747929712_3",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nfrom functools import wraps\n\ndef debug(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__} returned {result}\")\n        return result\n    return wrapper\n\nclass Debuggable:\n    def __init__(self, name):\n        self.name = name\n    \n    @debug\n    def greet(self, greeting=\"Hello\"):\n        return f\"{greeting}, {self.name}\"\n\n@debug\ndef add(a, b):\n    return a + b\n\n# Usage\ndebug_instance = Debuggable(\"Alice\")\nprint(debug_instance.greet())\nresult = add(5, 3)\n```\n\nWhen the code above is run, what will be the output?\n\nA) \nCalling __init__ with args: ('Alice',), kwargs: {}\nCalling greet with args: (), kwargs: {}\ngreet returned Hello, Alice\nadd called with args: (5, 3), kwargs: {}\nadd returned 8\n\nB)\nCalling __init__ with args: ('Alice',), kwargs: {}\ngreet returned Hello, Alice\nadd called with args: (5, 3), kwargs: {}\nadd returned 8\n\nC) \nCalling greet with args: (), kwargs: {}\ngreet returned Hello, Alice\nadd returned 8\n\nD)\nadd returned 8\ngreet returned Hello, Alice",
+    "answer": "A) Calling __init__ with args: ('Alice',), kwargs: {}  \nCalling greet with args: (), kwargs: {}  \ngreet returned Hello, Alice  \nadd called with args: (5, 3), kwargs: {}  \nadd returned 8",
+    "timestamp": "2025-05-22 16:01:52",
+    "topic": "Functional Programming Utilities"
   }
 }

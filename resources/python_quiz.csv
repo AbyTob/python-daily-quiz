@@ -3500,3 +3500,63 @@ The metaclass `AccessLoggerMeta` correctly modifies the `__getattribute__` metho
 Option A is incorrect because no logging occurs on attribute access directly; only method calls log access.
 Option B is incorrect because no `log_access` method is added; instead, `__getattribute__` is modified.
 Option D is incorrect because there is no issue with instantiating `MyClass`; it can be instantiated normally."
+"2025-05-22 16:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+from functools import wraps
+
+def debug(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned {result}"")
+        return result
+    return wrapper
+
+class Debuggable:
+    def __init__(self, name):
+        self.name = name
+    
+    @debug
+    def greet(self, greeting=""Hello""):
+        return f""{greeting}, {self.name}""
+
+@debug
+def add(a, b):
+    return a + b
+
+# Usage
+debug_instance = Debuggable(""Alice"")
+print(debug_instance.greet())
+result = add(5, 3)
+```
+
+When the code above is run, what will be the output?
+
+A) 
+Calling __init__ with args: ('Alice',), kwargs: {}
+Calling greet with args: (), kwargs: {}
+greet returned Hello, Alice
+add called with args: (5, 3), kwargs: {}
+add returned 8
+
+B)
+Calling __init__ with args: ('Alice',), kwargs: {}
+greet returned Hello, Alice
+add called with args: (5, 3), kwargs: {}
+add returned 8
+
+C) 
+Calling greet with args: (), kwargs: {}
+greet returned Hello, Alice
+add returned 8
+
+D)
+add returned 8
+greet returned Hello, Alice";"A) Calling __init__ with args: ('Alice',), kwargs: {}  
+Calling greet with args: (), kwargs: {}  
+greet returned Hello, Alice  
+add called with args: (5, 3), kwargs: {}  
+add returned 8"
