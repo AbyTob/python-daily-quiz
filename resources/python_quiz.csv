@@ -3560,3 +3560,59 @@ Calling greet with args: (), kwargs: {}
 greet returned Hello, Alice  
 add called with args: (5, 3), kwargs: {}  
 add returned 8"
+"2025-05-23 00:02";"### Part 1 (Question)
+
+Consider the following code snippet that uses asyncio to create an asynchronous HTTP server:
+
+```python
+import asyncio
+
+async def handle_request(reader, writer):
+    data = await reader.read(100)
+    message = data.decode()
+    addr = writer.get_extra_info('peername')
+
+    print(f""Received {message} from {addr}"")
+
+    response = f'Hello, {message}'
+    writer.write(response.encode())
+    await writer.drain()
+    writer.close()
+
+async def main():
+    server = await asyncio.start_server(handle_request, '127.0.0.1', 8888)
+    addr = server.sockets[0].getsockname()
+    print(f'Serving on {addr}')
+
+    async with server:
+        await server.serve_forever()
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+Which of the following statements about this code is true?
+
+A) The `handle_request` function is executed synchronously.
+
+B) The `asyncio.start_server` function creates a synchronous server that handles requests sequentially.
+
+C) The `writer.write` method blocks until the data is fully sent to the client.
+
+D) The `main` function runs in a separate thread.
+
+### Part 2 (Answer)
+
+**";"** C
+
+**Detailed Explanation:**
+
+- **Option A**: Incorrect. The `handle_request` function is defined as an asynchronous function with the `async def` syntax, which means it will run asynchronously.
+  
+- **Option B**: Incorrect. The `asyncio.start_server` function creates an asynchronous server. It allows handling multiple client connections concurrently without blocking.
+
+- **Option C**: Correct. The `writer.write` method does not block; it schedules data to be sent and returns immediately. The actual sending happens later, which is why we need to call `await writer.drain()` to ensure the data has been fully sent before closing the connection.
+
+- **Option D**: Incorrect. The `main` function runs in the main thread of the asyncio event loop. If you want it to run in a separate thread, you would typically use `threading` or `concurrent.futures`, but that's not related to how this server is set up.
+
+This question tests understanding of how asyncio works for creating non-blocking servers and how methods like `write` and `drain` function in asynchronous programming."
