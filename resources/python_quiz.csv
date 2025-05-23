@@ -3736,3 +3736,39 @@ class RequestProcessor(metaclass=AsyncHandler):
 **Correct Answer: A**
 
 Explanation: The correct answer correctly implements the `AsyncHandler` metaclass to convert methods decorated with `@async_method` into asynchronous coroutines using asyncio. It also demonstrates how to properly define the `update_cache` method as an async method and use it within the `RequestProcessor` class."
+"2025-05-23 16:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def fetch_data(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            return await response.text()
+
+# Usage
+result = fetch_data('https://api.example.com/data')
+print(result)
+```
+
+Which of the following statements about this code is true?
+
+A) The `AsyncDecorator` class does not use any asyncio features.
+
+B) When calling `fetch_data`, it will block the event loop until the data is fetched.
+
+C) The `fetch_data` function is automatically converted into a coroutine when decorated with `@AsyncDecorator`.
+
+D) The decorator correctly handles both synchronous and asynchronous functions seamlessly.";"D) The decorator correctly handles both synchronous and asynchronous functions seamlessly.
+
+Explanation: 
+The `AsyncDecorator` class defines an `__init__` method that stores the original function, and a `__call__` method that uses `asyncio.run()` to execute the decorated function within the asyncio event loop. Since `fetch_data` is defined as an `async def`, it does not need to be made synchronous; it can be directly run using `asyncio.run()`. Therefore, the decorator correctly handles asynchronous functions without interfering with their async nature."
