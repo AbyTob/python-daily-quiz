@@ -3772,3 +3772,53 @@ D) The decorator correctly handles both synchronous and asynchronous functions s
 
 Explanation: 
 The `AsyncDecorator` class defines an `__init__` method that stores the original function, and a `__call__` method that uses `asyncio.run()` to execute the decorated function within the asyncio event loop. Since `fetch_data` is defined as an `async def`, it does not need to be made synchronous; it can be directly run using `asyncio.run()`. Therefore, the decorator correctly handles asynchronous functions without interfering with their async nature."
+"2025-05-24 00:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to automatically log any method call on an instance of a class. The goal is to understand how this works in detail.
+
+```python
+import types
+
+class LogMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = cls.log_method_call(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def log_method_call(func):
+        def wrapper(*args, **kwargs):
+            print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+            result = func(*args, **kwargs)
+            return result
+        return types.MethodType(wrapper, func)
+
+class MyClass(metaclass=LogMeta):
+    def method1(self, a, b):
+        return a + b
+
+    def method2(self, x):
+        return x * 2
+```
+
+Which of the following statements correctly describes how to use and understand the metaclass `LogMeta` in this code?
+
+A) The `MyClass` automatically logs all its methods when called.  
+B) The `log_method_call` static method is applied to each instance method of classes that inherit from `MyClass`.  
+C) The `LogMeta` only works for class attributes and not for instance methods.  
+D) Any class inheriting from `MyClass` can call methods without logging because the metaclass does not affect them.
+
+**Part 2 (Answer):**
+
+A) The `MyClass` automatically logs all its methods when called.
+This statement is incorrect. The metaclass `LogMeta` intercepts and modifies the class definition, adding a log decorator to each callable attribute (methods). However, this change affects the class itself, not individual instances.
+
+B) The `log_method_call` static method is applied to each instance method of classes that inherit from `MyClass`.
+This statement is correct. When a class inherits from `MyClass`, its methods are wrapped by the `log_method_call` decorator during the metaclass's `__new__` method execution. This means every time an instance method of any subclass is called, it will print a log message.
+
+C) The `LogMeta` only works for class attributes and not for instance methods.
+This statement is incorrect. As shown in the code, the metaclass applies to all callable attributes, including instance methods, when defining classes that use it as their metaclass.
+
+D) Any class inheriting from `MyClass` can call methods without logging because the metaclass does not affect them.
+This statement is incorrect. Due to the modification applied by the metaclass during the definition of subclasses, calling any method on an instance of a subclass will automatically include log output."
