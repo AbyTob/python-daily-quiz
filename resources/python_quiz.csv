@@ -3922,3 +3922,51 @@ D) The `LogMeta` class must explicitly call `super().__new__(cls, name, bases, d
 
 Explanation:
 The `LogMeta` metaclass correctly overrides the `__new__` method to print a message whenever a class is instantiated. The metaclass's job is to customize class creation, and in this case, it logs a message before calling the superclass's `__new__` method to actually create the class. When an instance of `MyClass` is created, the `LogMeta` metaclass will be invoked, resulting in the log message ""Instantiating MyClass"" being printed."
+"2025-05-25 08:02";"Part 1 (Question):
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    async def __call__(self, *args, **kwargs):
+        print(""Before calling"")
+        result = await self.func(*args, **kwargs)
+        print(""After calling"")
+        return result
+
+@AsyncDecorator
+async def my_async_function(x):
+    await asyncio.sleep(1)  # Simulate an async operation
+    return x * x
+
+# Example usage
+async def main():
+    result = await my_async_function(3)
+    print(f""Result: {result}"")
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What happens when you run the above code? Select all that apply:
+
+A) It will raise an error because `AsyncDecorator` does not handle non-async functions.
+
+B) It will print ""Before calling"", wait for 1 second, then print ""After calling"" and finally output ""Result: 9"".
+
+C) It will execute the function synchronously without any additional prints.
+
+D) The program will hang indefinitely because it is waiting for an infinite loop inside `my_async_function`.";"Part 2 (Answer):
+A) C
+
+Explanation:
+- The code defines a class decorator `AsyncDecorator` that wraps around an asynchronous function.
+- When `my_async_function` is decorated with `@AsyncDecorator`, the decorator's `__call__` method is invoked when the function is called, not when it’s defined.
+- Inside `AsyncDecorator.__call__`, ""Before calling"" is printed, then the decorated function (`self.func`) is awaited. During this await, control yields back to the event loop, allowing other tasks to run.
+- After the awaited task completes (in this case, after 1 second), ""After calling"" is printed, and the result of `my_async_function` is returned.
+- When `main()` runs, it calls `await my_async_function(3)`, which results in ""Before calling"", a 1-second delay, then ""After calling"", followed by ""Result: 9"".
+- Option A is incorrect because the decorator does handle async functions correctly. Options B and D are incorrect as there's no infinite loop or hanging behavior."
