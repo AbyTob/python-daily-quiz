@@ -4097,3 +4097,37 @@ C) The `functools.wraps` is unnecessary in this context and can be removed witho
 D) The `cached_results` dictionary is not thread-safe, so concurrent calls may lead to incorrect results or errors.";"[ANSWER] A) The `cache` decorator does not handle keyword arguments properly, leading to incorrect cache lookups.
 
 **Explanation:** While using `functools.wraps(func)` is generally a good practice for decorators, the issue in this code arises from how it handles caching. The decorator uses `args` (positionals only) for caching keys without considering `kwargs`. This means that two calls with the same positional arguments but different keyword arguments will not be cached separately, leading to incorrect cache lookups and potential performance issues or wrong results."
+"2025-05-26 16:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to modify class behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct[""add""] = lambda self, x: x + 5
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+result = obj.add(10)
+print(result)
+```
+
+What will be the output of this code?
+
+A) 10  
+B) 15  
+C) 20  
+D) TypeError: 'NoneType' object is not callable
+
+**Part 2 (Answer):**
+
+B) 15
+
+Explanation:
+- The metaclass `Meta` modifies any class it decorates by adding a method `add` that takes an argument and returns the argument incremented by 5.
+- When `MyClass` is defined with `metaclass=Meta`, the metaclass's `__new__` method is called to create the class, and the `add` method is added to the class dictionary.
+- An instance of `MyClass` is created and the `add` method is called on this instance with the argument 10.
+- The output of `obj.add(10)` is therefore `15`, as expected."
