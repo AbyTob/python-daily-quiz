@@ -649,5 +649,12 @@
     "answer": "[A] 10, 20, True  \n[B] 20, 20, False  \n[C] 10, 10, True  \n[D] 20, 10, False",
     "timestamp": "2025-05-27 00:01:21",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q2_2025-05-27": {
+    "id": "1748332891_2",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to create a singleton class:\n\n```python\nclass Singleton(type):\n    _instances = {}\n\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass Database(metaclass=Singleton):\n    pass\n\ndb1 = Database()\ndb2 = Database()\n\nprint(db1 is db2)  # True or False?\n```\n\nWhich of the following statements is true regarding the output of the `print` statement?\n\nA) The code will raise a TypeError because metaclasses cannot be used to create singletons.\n\nB) The print statement will output `False`.\n\nC) The print statement will output `True`.\n\nD) None of the above.",
+    "answer": "C) The print statement will output `True`.\n\nExplanation: The Singleton metaclass overrides the `__call__` method, which is called whenever an instance of a class is created. If an instance already exists for the class, it returns that instance instead of creating a new one. Therefore, when both `db1` and `db2` are instances of the `Database` class, they refer to the same object in memory, resulting in `True`.",
+    "timestamp": "2025-05-27 08:01:31",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
