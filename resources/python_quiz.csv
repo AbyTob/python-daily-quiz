@@ -4191,3 +4191,40 @@ C) The print statement will output `True`.
 D) None of the above.";"C) The print statement will output `True`.
 
 Explanation: The Singleton metaclass overrides the `__call__` method, which is called whenever an instance of a class is created. If an instance already exists for the class, it returns that instance instead of creating a new one. Therefore, when both `db1` and `db2` are instances of the `Database` class, they refer to the same object in memory, resulting in `True`."
+"2025-05-27 16:02";"Part 1 (Question):  
+Consider the following Python code snippet that uses metaclasses and decorators to create a class with automatic property creation based on attribute definitions:
+
+```python
+import inspect
+
+class AutoPropertyMeta(type):
+    def __new__(cls, name, bases, attrs):
+        for attr_name, attr_value in attrs.items():
+            if isinstance(attr_value, int) or isinstance(attr_value, float):
+                attrs[attr_name] = property(lambda self, name=attr_name: self.__dict__.get(name), 
+                                           lambda self, value, name=attr_name: setattr(self, name, value))
+        return super().__new__(cls, name, bases, attrs)
+
+class DataClass(metaclass=AutoPropertyMeta):
+    a: int
+    b: float
+    c: str
+
+# Usage
+data = DataClass()
+data.a = 10
+data.b = 3.14
+```
+
+Which of the following statements about this code is true?
+
+A) The `DataClass` will not have any properties, and an error will occur when trying to access or assign values.
+
+B) Only integer and float attributes in `DataClass` will be automatically converted into properties.
+
+C) All attributes of `DataClass`, regardless of type, will be automatically turned into properties.
+
+D) The `AutoPropertyMeta` metaclass will cause a runtime error because it tries to create properties for attributes that are not integers or floats.";"Part 2 (Answer):  
+B) Only integer and float attributes in `DataClass` will be automatically converted into properties.
+
+Explanation: In the provided code, the metaclass `AutoPropertyMeta` checks if an attribute is of type `int` or `float`. If it is, the attribute is replaced with a property that allows getting and setting the value. However, if an attribute's value is not an integer or float (e.g., a string in this case), it will remain unchanged as an instance variable. Therefore, only the attributes `a` and `b` are automatically converted to properties, while `c` remains an instance variable."
