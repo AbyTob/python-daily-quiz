@@ -642,5 +642,12 @@
     "answer": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a metaclass to modify class behavior:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct[\"add\"] = lambda self, x: x + 5\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\nresult = obj.add(10)\nprint(result)\n```\n\nWhat will be the output of this code?\n\nA) 10  \nB) 15  \nC) 20  \nD) TypeError: 'NoneType' object is not callable\n\n**Part 2 (Answer):**\n\nB) 15\n\nExplanation:\n- The metaclass `Meta` modifies any class it decorates by adding a method `add` that takes an argument and returns the argument incremented by 5.\n- When `MyClass` is defined with `metaclass=Meta`, the metaclass's `__new__` method is called to create the class, and the `add` method is added to the class dictionary.\n- An instance of `MyClass` is created and the `add` method is called on this instance with the argument 10.\n- The output of `obj.add(10)` is therefore `15`, as expected.",
     "timestamp": "2025-05-26 16:01:33",
     "topic": "Advanced Python Programming"
+  },
+  "q1_2025-05-27": {
+    "id": "1748304081_1",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses a metaclass to create a singleton class:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass MyClass(metaclass=SingletonMeta):\n    def __init__(self, value):\n        self.value = value\n\n# Usage\nobj1 = MyClass(10)\nobj2 = MyClass(20)\n\nprint(obj1.value)  # Output: ?\nprint(obj2.value)  # Output: ?\nprint(obj1 is obj2)  # Output: ?",
+    "answer": "[A] 10, 20, True  \n[B] 20, 20, False  \n[C] 10, 10, True  \n[D] 20, 10, False",
+    "timestamp": "2025-05-27 00:01:21",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
