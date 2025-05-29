@@ -4464,3 +4464,69 @@ Therefore, when you create an instance `obj` of `MyClass` and call `obj.my_metho
 3. The post-function call message is printed.
 
 This demonstrates that decorators can indeed modify class methods in Python 3, even when using metaclasses for class instantiation."
+"2025-05-29 16:02";"";"**Part 1: Question**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, delay):
+        self.delay = delay
+    
+    def __call__(self, coro):
+        async def wrapper(*args, **kwargs):
+            await asyncio.sleep(self.delay)
+            return await coro(*args, **kwargs)
+        return wrapper
+
+@AsyncTimer(2)
+async def slow_task():
+    print(""Task started"")
+    await asyncio.sleep(1)
+    print(""Task finished"")
+
+async def main():
+    await slow_task()
+    print(""Main function completed"")
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What will be the output of this script when run?
+
+A) Task started  
+   Task finished  
+   Main function completed
+
+B) Task started  
+   Main function completed  
+   Task finished  
+
+C) Task started  
+   Task finished after 2 seconds  
+   Main function completed
+
+D) Task started  
+   Task finished after 3 seconds  
+   Main function completed
+
+**Part 2: Answer**
+
+A) Task started  
+   Task finished  
+   Main function completed
+
+**Explanation:** 
+
+The `AsyncTimer` class is a decorator that delays the execution of any coroutine it decorates by the specified delay. In this case, `@AsyncTimer(2)` means that any coroutine passed to it will have its execution delayed by 2 seconds before proceeding.
+
+When you call `await slow_task()` in the `main` function, `slow_task` is decorated with `AsyncTimer(2)`. This means that when `slow_task` is called, it first waits for 2 seconds (due to the decorator), and then proceeds with its original execution. The output will therefore be:
+
+1. ""Task started"" (immediately)
+2. Task finishes after an additional 2 seconds (""Task finished"")
+3. Then, after another second (total of 3 seconds), ""Main function completed""
+
+So, option A is the correct answer as it matches the described behavior."
