@@ -4384,3 +4384,33 @@ D) Implement a new method called `async_enter` and `async_exit` and use them ins
 
 Explanation:
 The correct answer is option B. To make the existing `Timer` class work with asynchronous functions, we need to create an `AsyncTimer` class that overrides the context management protocol specifically for use in asynchronous code. This involves implementing methods like `__aenter__` and `__aexit__` instead of the standard `__enter__` and `__exit__`. The existing `__enter__` and `__exit__` methods should be preserved for synchronous use, as they will still work with non-async contexts. By creating a subclass specifically for async usage, we maintain compatibility with both synchronous and asynchronous code without modifying the original class's behavior."
+"2025-05-29 00:01";"[QUESTION]
+Consider the following Python code that attempts to create a metaclass which counts the number of instances created by any class it decorates:
+
+```python
+class InstanceCounter(type):
+    def __new__(cls, name, bases, dct):
+        cls._instance_count = 0
+        return super().__new__(cls, name, bases, dct)
+
+    def __call__(cls, *args, **kwargs):
+        cls._instance_count += 1
+        return super().__call__(*args, **kwargs)
+
+class MyClass(metaclass=InstanceCounter):
+    pass
+
+obj1 = MyClass()
+obj2 = MyClass()
+
+print(MyClass._instance_count)
+```
+
+What will be the output of this code when run?
+
+A) 0  
+B) 1  
+C) 2  
+D) TypeError";"C) 2  
+
+The metaclass `InstanceCounter` increments a class attribute `_instance_count` each time an instance of any class that uses it is created. Since two instances of `MyClass` are created (`obj1` and `obj2`), the output will be 2."

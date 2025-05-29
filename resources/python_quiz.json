@@ -684,5 +684,12 @@
     "answer": "B) Create a separate `AsyncTimer` class that inherits from `Timer` but overrides the context management protocol for async contexts.\n\nExplanation:\nThe correct answer is option B. To make the existing `Timer` class work with asynchronous functions, we need to create an `AsyncTimer` class that overrides the context management protocol specifically for use in asynchronous code. This involves implementing methods like `__aenter__` and `__aexit__` instead of the standard `__enter__` and `__exit__`. The existing `__enter__` and `__exit__` methods should be preserved for synchronous use, as they will still work with non-async contexts. By creating a subclass specifically for async usage, we maintain compatibility with both synchronous and asynchronous code without modifying the original class's behavior.",
     "timestamp": "2025-05-28 16:02:03",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-05-29": {
+    "id": "1748476884_1",
+    "question": "[QUESTION]\nConsider the following Python code that attempts to create a metaclass which counts the number of instances created by any class it decorates:\n\n```python\nclass InstanceCounter(type):\n    def __new__(cls, name, bases, dct):\n        cls._instance_count = 0\n        return super().__new__(cls, name, bases, dct)\n\n    def __call__(cls, *args, **kwargs):\n        cls._instance_count += 1\n        return super().__call__(*args, **kwargs)\n\nclass MyClass(metaclass=InstanceCounter):\n    pass\n\nobj1 = MyClass()\nobj2 = MyClass()\n\nprint(MyClass._instance_count)\n```\n\nWhat will be the output of this code when run?\n\nA) 0  \nB) 1  \nC) 2  \nD) TypeError",
+    "answer": "C) 2  \n\nThe metaclass `InstanceCounter` increments a class attribute `_instance_count` each time an instance of any class that uses it is created. Since two instances of `MyClass` are created (`obj1` and `obj2`), the output will be 2.",
+    "timestamp": "2025-05-29 00:01:24",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }
