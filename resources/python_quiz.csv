@@ -4414,3 +4414,53 @@ C) 2
 D) TypeError";"C) 2  
 
 The metaclass `InstanceCounter` increments a class attribute `_instance_count` each time an instance of any class that uses it is created. Since two instances of `MyClass` are created (`obj1` and `obj2`), the output will be 2."
+"2025-05-29 08:02";"";"**Part 1 (Question):**
+
+Consider the following code:
+
+```python
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        result = func(*args, **kwargs)
+        print(""Something is happening after the function is called."")
+        return result
+    return wrapper
+
+class MyClass:
+    __metaclass__ = type
+    
+    @my_decorator
+    def my_method(self):
+        print(""Hello from my_method"")
+
+# Create an instance of MyClass and call my_method
+obj = MyClass()
+obj.my_method()
+```
+
+What will be the output when you run this code?
+
+A) Something is happening before the function is called. Hello from my_method  
+B) Something is happening after the function is called. Hello from my_method  
+C) Something is happening before the function is called. Something is happening after the function is called. Hello from my_method  
+D) An error will occur because `my_decorator` cannot be applied to methods in Python 3
+
+**Part 2 (Answer):**
+
+The correct answer is C) Something is happening before the function is called. Something is happening after the function is called. Hello from my_method.
+
+Explanation: In Python 3, decorators can indeed be applied to instance methods within a class using metaclasses or by directly applying decorators at method definition. Here's how it works:
+
+- When you apply `@my_decorator` above the method `my_method`, it wraps the method with another function that adds some pre and post-execution behavior.
+- The `__metaclass__ = type` in the class declaration is necessary because, starting from Python 3, classes are first-class objects and need a metaclass to be properly instantiated. If you omit this line, Python will raise an error because it cannot instantiate a class without a valid metaclass.
+
+Therefore, when you create an instance `obj` of `MyClass` and call `obj.my_method()`, the output will be as follows:
+1. The pre-function call message is printed.
+2. The method's code runs, printing ""Hello from my_method"".
+3. The post-function call message is printed.
+
+This demonstrates that decorators can indeed modify class methods in Python 3, even when using metaclasses for class instantiation."
