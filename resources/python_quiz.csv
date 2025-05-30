@@ -4530,3 +4530,30 @@ When you call `await slow_task()` in the `main` function, `slow_task` is decorat
 3. Then, after another second (total of 3 seconds), ""Main function completed""
 
 So, option A is the correct answer as it matches the described behavior."
+"2025-05-30 00:01";"[QUESTION] Consider the following code snippet that uses a decorator to measure execution time of functions:
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+@timing_decorator
+def compute_sum(n):
+    return sum(range(n))
+
+print(compute_sum(1000000))
+```
+
+Which of the following statements about this code is true?
+
+A) The `timing_decorator` modifies the behavior of the `compute_sum` function by wrapping it with additional functionality.
+B) The `wrapper` function is a metaclass used to dynamically change the class at runtime.
+C) The `compute_sum` function will execute synchronously even when decorated with `@timing_decorator`.
+D) The decorator does not capture any arguments passed to the `compute_sum` function.";"A) The `timing_decorator` modifies the behavior of the `compute_sum` function by wrapping it with additional functionality."
