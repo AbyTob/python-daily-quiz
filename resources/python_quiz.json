@@ -712,5 +712,12 @@
     "answer": "A) The `timing_decorator` modifies the behavior of the `compute_sum` function by wrapping it with additional functionality.",
     "timestamp": "2025-05-30 00:01:27",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-05-30": {
+    "id": "1748592092_2",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses a metaclass to modify class behavior:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'x' not in dct:\n            raise TypeError(\"Class must define an 'x' attribute\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    x = 10\n```\n\nIf you attempt to create a subclass of `MyClass` without defining the attribute `x`, the metaclass will raise a `TypeError`. Now, consider this code:\n\n```python\nclass AnotherClass(MyClass):\n    y = 20\n\ntry:\n    another_instance = AnotherClass()\nexcept TypeError as e:\n    print(e)\n```\n\nWhat will be printed when the above code is executed?\n\nA) Class must define an 'x' attribute  \nB) None  \nC) 10  \nD) 20",
+    "answer": "A) Class must define an 'x' attribute  \n\nExplanation: The metaclass `Meta` enforces that any class inheriting from it must define the attribute `x`. Since `AnotherClass` does not define `x`, when we try to create an instance of `AnotherClass`, the metaclass will raise a `TypeError` with the message \"Class must define an 'x' attribute\".",
+    "timestamp": "2025-05-30 08:01:32",
+    "topic": "Object-Oriented Programming"
   }
 }
