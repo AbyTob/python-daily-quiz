@@ -4627,3 +4627,62 @@ A) Calling my_method with args=(5,), kwargs={}
 
 Explanation:
 The `log_calls` decorator wraps the original `my_method` and prints a log statement before calling it. When `my_method` is called on an instance of `MyClass`, the wrapper function logs the arguments `(5,)` and then returns the result of `my_method(5)`, which is `10`."
+"2025-05-31 00:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import threading
+
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+@Singleton
+class ConfigManager:
+    def __init__(self):
+        self.configs = {}
+
+    def set_config(self, key, value):
+        self.configs[key] = value
+
+    def get_config(self, key):
+        return self.configs.get(key, None)
+
+def thread_task(manager, key, value):
+    manager.set_config(key, value)
+    print(f""Thread {threading.current_thread().name}: Config set to {manager.get_config(key)}"")
+
+if __name__ == ""__main__"":
+    config_manager = ConfigManager()
+    
+    threads = []
+    for i in range(5):
+        thread = threading.Thread(target=thread_task, args=(config_manager, f'key_{i}', f'value_{i}'))
+        threads.append(thread)
+        thread.start()
+
+    for thread in threads:
+        thread.join()
+
+    print(f""Final config: {config_manager.get_config('key_0')}"")
+```
+
+What is the expected output of this code? Explain why.
+
+A) Each thread prints its own key-value pair and finally, 'Final config' will be `{'key_0': 'value_0'}`  
+B) All threads print 'None' for the value since they are accessing a shared resource without synchronization. Finally, 'Final config' will be `{'key_0': 'value_4'}`  
+C) A `TypeError` is raised because the `Singleton` metaclass cannot handle multiple arguments in its `__call__` method.  
+D) Each thread prints its own key-value pair and finally, 'Final config' will be `{'key_0': 'value_4'}`";"**Part 2 (Answer):**
+
+A) Each thread prints its own key-value pair and finally, 'Final config' will be `{'key_0': 'value_0'}`  
+
+Explanation:
+- The `Singleton` metaclass ensures that only one instance of the `ConfigManager` class is created.
+- However, since there is no synchronization mechanism in place (e.g., locks), multiple threads can modify the `configs` dictionary simultaneously, leading to race conditions.
+- When a thread writes to `self.configs[key]`, it may not see the most up-to-date value written by another thread due to these race conditions. This explains why the output of each thread printing its own key-value pair but the final config having only one entry (`{'key_0': 'value_4'}`) is possible.
+- The actual final config will depend on the timing and order in which threads complete their operations, so `{'key_0': 'value_0'}` is a plausible output among others."
