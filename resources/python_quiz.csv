@@ -4830,3 +4830,48 @@ A) The program will hang indefinitely.
 B) ""Function run took 0.0000 seconds to execute."" will be printed followed by a hang.
 C) ""Function run took 2.0000 seconds to execute."" will be printed followed by a hang.
 D) An error will occur because the metaclass and decorator do not work together.";"C"
+"2025-06-01 16:01";"";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, timeout):
+        self.timeout = timeout
+        self.result = None
+    
+    async def run(self):
+        await asyncio.sleep(self.timeout)
+        self.result = ""Timer completed""
+    
+    async def get_result(self):
+        return self.result
+
+async def main():
+    timer = AsyncTimer(3)
+    task = asyncio.create_task(timer.run())
+    await asyncio.gather(task)
+    result = await timer.get_result()
+    print(result)
+
+# Run the event loop
+asyncio.run(main())
+```
+
+What is the purpose of using `asyncio` in this code, and what will be printed to the console when the program completes?
+
+A) The code uses `asyncio` for threading; ""Timer completed"" will be printed.
+
+B) The code uses `asyncio` to run asynchronous tasks; ""Timer completed"" will be printed.
+
+C) The code uses `asyncio` for multiprocessing; ""Timer completed"" will be printed.
+
+D) The code uses `asyncio` for memory management; ""Timer completed"" will be printed.
+
+**Part 2 (Answer):**
+
+B) The code uses `asyncio` to run asynchronous tasks; ""Timer completed"" will be printed.
+
+Explanation: In this example, the `AsyncTimer` class defines two asynchronous methods: `run`, which simulates a timer by sleeping for a specified duration, and `get_result`, which retrieves the result of the timer. The `main` function creates an instance of `AsyncTimer`, runs it in a separate task using `asyncio.create_task()`, waits for all tasks to complete with `asyncio.gather()`, and then prints the result. Since the timer completes after 3 seconds, ""Timer completed"" will be printed to the console."
