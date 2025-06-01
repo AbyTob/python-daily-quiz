@@ -754,5 +754,12 @@
     "answer": "A) The decorator does not pass arguments to the decorated function.\n\n**Explanation:**  \nThe provided code has several issues. First and foremost, it does not account for any arguments that might be passed to the decorated function. When `my_function()` is called inside the decorator, it is not aware of any parameters that were passed to it. Additionally, the decorator should ideally handle functions with parameters gracefully by accepting *args and **kwargs so that it can forward these to the actual function call. The other options are either not directly related to the core issue or are less significant compared to the fundamental problem of argument handling in the decorator.",
     "timestamp": "2025-06-01 00:01:42",
     "topic": "Functions and Functional Programming"
+  },
+  "q2_2025-06-01": {
+    "id": "1748764890_2",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {func.__name__} took {end_time - start_time:.4f} seconds to execute.\")\n        return result\n    return wrapper\n\nclass TimerMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'run' in dct:\n            dct['run'] = timer(dct['run'])\n        return super().__new__(cls, name, bases, dct)\n\nclass Timer(metaclass=TimerMeta):\n    def run(self):\n        time.sleep(2)\n\nif __name__ == \"__main__\":\n    t = Timer()\n    t.run()\n```\n\nWhat will be the output of this code when executed?\n\nA) The program will hang indefinitely.\nB) \"Function run took 0.0000 seconds to execute.\" will be printed followed by a hang.\nC) \"Function run took 2.0000 seconds to execute.\" will be printed followed by a hang.\nD) An error will occur because the metaclass and decorator do not work together.",
+    "answer": "C",
+    "timestamp": "2025-06-01 08:01:30",
+    "topic": "Object-Oriented Programming"
   }
 }
