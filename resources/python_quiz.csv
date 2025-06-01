@@ -4768,3 +4768,29 @@ D) As both variables reference different memory locations for their respective o
 B) Due to the use of a metaclass, `SingletonMeta`, which controls how instances are created, ensuring only one instance is ever returned.
 
 This question tests the understanding of Python's metaclasses and their ability to customize class behavior. The correct answer highlights that the `SingletonMeta` metaclass overrides the `__call__` method to control the instantiation process, ensuring that each time an instance of `Database` is created, the same pre-existing instance is returned, thus making `db1` and `db2` the same object."
+"2025-06-01 00:01";"[QUESTION]  
+Consider the following Python code that aims to create a decorator which measures the execution time of any function it decorates. However, there is a critical issue in the implementation. Identify the problem with the provided code.
+
+```python
+import time
+
+def timing_decorator(func):
+    start_time = time.time()
+    func()
+    end_time = time.time()
+    print(f""Execution time: {end_time - start_time} seconds"")
+
+@timing_decorator
+def my_function():
+    time.sleep(2)
+```
+
+Which of the following statements correctly identifies the issue with this implementation?
+
+A) The decorator does not pass arguments to the decorated function.
+B) The decorator does not handle functions with parameters.
+C) The decorator prints the execution time every time it is called, which can be inefficient.
+D) The decorator measures the time from when the decorator is defined, not when the function is called.";"A) The decorator does not pass arguments to the decorated function.
+
+**Explanation:**  
+The provided code has several issues. First and foremost, it does not account for any arguments that might be passed to the decorated function. When `my_function()` is called inside the decorator, it is not aware of any parameters that were passed to it. Additionally, the decorator should ideally handle functions with parameters gracefully by accepting *args and **kwargs so that it can forward these to the actual function call. The other options are either not directly related to the core issue or are less significant compared to the fundamental problem of argument handling in the decorator."
