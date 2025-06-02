@@ -4925,3 +4925,34 @@ The provided code defines an async decorator `async_decorator` that wraps around
 The output shows each ""Before calling function"" print statement five times, followed by ""After calling function"" five times. This indicates that the decorator was called correctly five times, once for each task created in the `main()` function. The actual results of the asynchronous tasks (0*2=0, 1*2=2, 2*2=4, 3*2=6, 4*2=8) are not printed because the decorator is only responsible for printing messages before and after the function call.
 
 The correct answer demonstrates an understanding of how decorators work with asynchronous functions in Python, specifically how they can be used to add behavior (in this case, logging) around the execution of other functions."
+"2025-06-02 08:01";"[QUESTION]  
+Consider the following Python code snippet that uses a metaclass to dynamically modify a class:
+
+```python
+from abc import ABC, abstractmethod
+
+class MyMeta(type):
+    def __new__(cls, name, bases, dct):
+        if not issubclass(name, ABC) and 'abstract_method' not in dct:
+            raise TypeError(""Non-abstract classes must implement an abstract method."")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=MyMeta):
+    @abstractmethod
+    def abstract_method(self):
+        pass
+
+# Attempt to create a class that inherits from MyClass but does not implement the abstract method.
+try:
+    class MyConcreteClass(MyClass):
+        pass
+except TypeError as e:
+    print(e)
+```
+
+What will be printed when running this code?
+
+A) ""Non-abstract classes must implement an abstract method.""  
+B) ""TypeError: 'MyConcreteClass' object has no attribute 'abstract_method'""  
+C) ""No output""  
+D) The program will crash";"A) ""Non-abstract classes must implement an abstract method."""
