@@ -4956,3 +4956,34 @@ A) ""Non-abstract classes must implement an abstract method.""
 B) ""TypeError: 'MyConcreteClass' object has no attribute 'abstract_method'""  
 C) ""No output""  
 D) The program will crash";"A) ""Non-abstract classes must implement an abstract method."""
+"2025-06-02 16:01";"[QUESTION] Consider the following code snippet:
+
+```python
+import asyncio
+
+class AsyncCounter:
+    def __init__(self):
+        self.count = 0
+
+    async def increment(self):
+        await asyncio.sleep(1)
+        self.count += 1
+
+async def main():
+    counter = AsyncCounter()
+    tasks = [counter.increment() for _ in range(5)]
+    await asyncio.gather(*tasks)
+    print(counter.count)
+
+# Run the main function
+asyncio.run(main())
+```
+
+What will be printed when this code is executed, and why?
+
+A) 0  
+B) 1  
+C) 2  
+D) 5";"D) 5  
+
+Explanation: The code uses an asynchronous counter where `increment` increments a count after waiting for 1 second. When `main` is run with five tasks, each task waits 1 second before incrementing the counter. By the time all tasks complete and the final value of `count` is printed, it will have been incremented five times (once by each task), resulting in a final count of 5."

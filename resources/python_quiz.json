@@ -782,5 +782,12 @@
     "answer": "A) \"Non-abstract classes must implement an abstract method.\"",
     "timestamp": "2025-06-02 08:01:23",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-06-02": {
+    "id": "1748880081_3",
+    "question": "[QUESTION] Consider the following code snippet:\n\n```python\nimport asyncio\n\nclass AsyncCounter:\n    def __init__(self):\n        self.count = 0\n\n    async def increment(self):\n        await asyncio.sleep(1)\n        self.count += 1\n\nasync def main():\n    counter = AsyncCounter()\n    tasks = [counter.increment() for _ in range(5)]\n    await asyncio.gather(*tasks)\n    print(counter.count)\n\n# Run the main function\nasyncio.run(main())\n```\n\nWhat will be printed when this code is executed, and why?\n\nA) 0  \nB) 1  \nC) 2  \nD) 5",
+    "answer": "D) 5  \n\nExplanation: The code uses an asynchronous counter where `increment` increments a count after waiting for 1 second. When `main` is run with five tasks, each task waits 1 second before incrementing the counter. By the time all tasks complete and the final value of `count` is printed, it will have been incremented five times (once by each task), resulting in a final count of 5.",
+    "timestamp": "2025-06-02 16:01:21",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
