@@ -5026,3 +5026,41 @@ C) The cache will store results for all arguments passed to `fibonacci`.
 D) The cache will only store results for unique sequences of recursive calls that lead to different outcomes.";"[ANSWER] D) The cache will only store results for unique sequences of recursive calls that lead to different outcomes.
 
 **Explanation**: The `cache_results` decorator is designed to cache the results of function calls based on their arguments. In this case, it caches the results of the Fibonacci sequence calculations. When a call to `fibonacci(n)` is made, the decorator first checks if the result for those arguments is already in the cache. If not, it computes the result using the function (in this case, the Fibonacci calculation), stores it in the cache, and then returns the result. For recursive functions like `fibonacci`, different sequences of calls to reach the same base case will produce different results, leading to unique keys in the cache. Therefore, only those unique sequences of recursive calls will be cached."
+"2025-06-03 08:01";"Part 1 (Question):
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval, callback):
+        self.interval = interval
+        self.callback = callback
+        self.task = None
+
+    async def start(self):
+        self.task = asyncio.create_task(self.run())
+
+    async def run(self):
+        while True:
+            await asyncio.sleep(self.interval)
+            self.callback()
+
+async def on_timer():
+    print(""Timer tick"")
+
+timer = AsyncTimer(1, on_timer)
+await timer.start()
+```
+
+The code creates an `AsyncTimer` class that runs a coroutine in the background at a specified interval. The `on_timer` function is called every second.
+
+What will happen when you run this code?
+
+A) The program will print ""Timer tick"" every second.
+B) An error will be raised because `start` needs to be awaited.
+C) The timer will start but not perform any action.
+D) The program will hang indefinitely without printing anything.";"Part 2 (Answer):
+The correct answer is A) The program will print ""Timer tick"" every second.
+
+Explanation: In the provided code, `AsyncTimer` starts an asynchronous task that runs `run()` method using `asyncio.create_task()`. Inside the `run()` method, there's a loop that sleeps for the specified interval (1 second in this case) and then calls the callback function (`on_timer`). Since we are awaiting `timer.start()` when calling `await timer.start()`, it correctly runs the task in the background. Therefore, ""Timer tick"" will be printed every second as expected."
