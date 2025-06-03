@@ -4987,3 +4987,42 @@ C) 2
 D) 5";"D) 5  
 
 Explanation: The code uses an asynchronous counter where `increment` increments a count after waiting for 1 second. When `main` is run with five tasks, each task waits 1 second before incrementing the counter. By the time all tasks complete and the final value of `count` is printed, it will have been incremented five times (once by each task), resulting in a final count of 5."
+"2025-06-03 00:02";"[QUESTION]
+Consider the following Python code snippet that aims to create a simple caching mechanism using decorators. The goal is to cache the results of function calls based on their arguments.
+
+```python
+from functools import wraps
+
+def cache_results(func):
+    cache = {}
+    @wraps(func)
+    def wrapper(*args):
+        if args in cache:
+            return cache[args]
+        result = func(*args)
+        cache[args] = result
+        return result
+    return wrapper
+
+@cache_results
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+
+# Example usage
+print(fibonacci(5))  # Expected output: 5
+```
+
+Which of the following is a correct statement regarding the `fibonacci` function when using the `cache_results` decorator?
+
+A) The first call to `fibonacci(5)` will compute all previous Fibonacci numbers up to 3.
+
+B) Subsequent calls to `fibonacci(n)` where `n <= 1` will not be cached.
+
+C) The cache will store results for all arguments passed to `fibonacci`.
+
+D) The cache will only store results for unique sequences of recursive calls that lead to different outcomes.";"[ANSWER] D) The cache will only store results for unique sequences of recursive calls that lead to different outcomes.
+
+**Explanation**: The `cache_results` decorator is designed to cache the results of function calls based on their arguments. In this case, it caches the results of the Fibonacci sequence calculations. When a call to `fibonacci(n)` is made, the decorator first checks if the result for those arguments is already in the cache. If not, it computes the result using the function (in this case, the Fibonacci calculation), stores it in the cache, and then returns the result. For recursive functions like `fibonacci`, different sequences of calls to reach the same base case will produce different results, leading to unique keys in the cache. Therefore, only those unique sequences of recursive calls will be cached."
