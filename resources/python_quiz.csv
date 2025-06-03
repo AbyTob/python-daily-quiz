@@ -5064,3 +5064,40 @@ D) The program will hang indefinitely without printing anything.";"Part 2 (Answe
 The correct answer is A) The program will print ""Timer tick"" every second.
 
 Explanation: In the provided code, `AsyncTimer` starts an asynchronous task that runs `run()` method using `asyncio.create_task()`. Inside the `run()` method, there's a loop that sleeps for the specified interval (1 second in this case) and then calls the callback function (`on_timer`). Since we are awaiting `timer.start()` when calling `await timer.start()`, it correctly runs the task in the background. Therefore, ""Timer tick"" will be printed every second as expected."
+"2025-06-03 16:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data(url):
+    print(f""Fetching data from {url}"")
+    await asyncio.sleep(1)  # Simulate a network delay
+    return f""Data from {url}""
+
+async def main():
+    tasks = [fetch_data(f""http://example.com/{i}"") for i in range(5)]
+    results = await asyncio.gather(*tasks)
+    print(results)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What will be the output of this program when run?
+
+A) Fetching data from http://example.com/0, Fetching data from http://example.com/1, Fetching data from http://example.com/2, Fetching data from http://example.com/3, Fetching data from http://example.com/4
+B) Data from http://example.com/0, Data from http://example.com/1, Data from http://example.com/2, Data from http://example.com/3, Data from http://example.com/4
+C) Fetching data from http://example.com/0, Data from http://example.com/0, Fetching data from http://example.com/1, Data from http://example.com/1, Fetching data from http://example.com/2, Data from http://example.com/2, Fetching data from http://example.com/3, Data from http://example.com/3, Fetching data from http://example.com/4, Data from http://example.com/4
+D) Fetching data from http://example.com/0, Fetching data from http://example.com/1, Fetching data from http://example.com/2, Fetching data from http://example.com/3, Fetching data from http://example.com/4, Data from http://example.com/4
+
+**Part 2 (Answer):**
+
+B) Data from http://example.com/0, Data from http://example.com/1, Data from http://example.com/2, Data from http://example.com/3, Data from http://example.com/4
+
+Explanation: The `asyncio.gather` function runs all the coroutines concurrently and waits for all of them to complete. Each coroutine fetches data from a URL in an asynchronous manner. When all coroutines finish, their results are gathered and printed.
+
+Option A is incorrect because it only prints the ""Fetching"" messages before the sleep completes.
+Option C is incorrect because it incorrectly interleaves the fetching and data retrieval steps.
+Option D is incorrect because it prints ""Fetching"" messages first for all URLs and then the data from the last URL.";"Answer format error. Please check the generated content."
