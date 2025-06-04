@@ -810,5 +810,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-06-03 16:02:27",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-06-04": {
+    "id": "1748995312_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a metaclass to dynamically add an attribute to any class it decorates:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['added_attribute'] = 'Hello from metaclass!'\n        return super().__new__(cls, name, bases, dct)\n\n@Meta()\nclass MyClass:\n    pass\n\nobj = MyClass()\nprint(obj.added_attribute)\n```\n\nWhat happens when the `MyClass` is decorated with the `Meta` metaclass? Which of the following statements is true about the resulting behavior?\n\nA) An AttributeError is raised because 'added_attribute' is not defined in the class.\nB) The string \"Hello from metaclass!\" is printed when an instance of MyClass is created and the attribute is accessed.\nC) MyClass does not inherit any attributes, only 'added_attribute'.\nD) None of the above.",
+    "answer": "**Part 2 (Answer):**\n\nThe correct answer is B: The string \"Hello from metaclass!\" is printed when an instance of `MyClass` is created and the attribute is accessed.\n\nExplanation:\n- When a class like `MyClass` is decorated with `Meta`, Python's class creation process invokes the metaclass's `__new__` method.\n- In this case, the metaclass `Meta` modifies the dictionary `dct` that defines the class by adding an entry `'added_attribute': 'Hello from metaclass!'`.\n- The `super().__new__(cls, name, bases, dct)` call in `Meta.__new__()` creates a new class with these modifications.\n- Therefore, when an instance of `MyClass` is created and the attribute `added_attribute` is accessed on that instance, it correctly returns the string 'Hello from metaclass!'.",
+    "timestamp": "2025-06-04 00:01:52",
+    "topic": "Object-Oriented Programming"
   }
 }
