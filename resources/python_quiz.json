@@ -824,5 +824,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-06-04 08:02:16",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-06-04": {
+    "id": "1749052914_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to add a new method to any class it decorates:\n\n```python\nclass AddMethodMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['new_method'] = lambda self: \"Hello from new_method\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=AddMethodMeta):\n    pass\n\nobj = MyClass()\nprint(obj.new_method())\n```\n\nWhich of the following statements about this code is true?\n\nA) The `add_method` method will not be added to any class that does not use `AddMethodMeta`.\nB) When creating an instance of `MyClass`, it immediately calls `new_method` and prints \"Hello from new_method\".\nC) Calling `obj.new_method()` will raise an AttributeError.\nD) The metaclass is used to dynamically add a method to all classes in the application.",
+    "answer": "D) The metaclass is used to dynamically add a method to all classes in the application.\n\nExplanation: In Python, a metaclass is a class that creates and controls other classes. When you define a class with `metaclass=AddMethodMeta`, every instance of that class will have a new method called `new_method`. This is true regardless of whether other classes use the same metaclass or not. The `MyClass` defined in this example is an exception to this rule, as it does not explicitly declare `new_method`, but instances of any class using `AddMethodMeta` will have access to it. Option A is incorrect because only classes explicitly decorated with `AddMethodMeta` will get the new method. Options B and C are incorrect because calling `obj.new_method()` on an instance of a class that does not use `AddMethodMeta` would raise an AttributeError, but since `MyClass` is an exception to this rule, it would not be the case here.",
+    "timestamp": "2025-06-04 16:01:54",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }

@@ -5180,3 +5180,27 @@ Explanation: This is also incorrect. The metaclass only enforces this rule if it
 
 D) It checks that all classes using it as their metaclass have a method named 'decorated'.
 Explanation: Incorrect. The check for the presence of a method does not apply in this scenario; it's checking for a class variable.";"Answer format error. Please check the generated content."
+"2025-06-04 16:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to add a new method to any class it decorates:
+
+```python
+class AddMethodMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['new_method'] = lambda self: ""Hello from new_method""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=AddMethodMeta):
+    pass
+
+obj = MyClass()
+print(obj.new_method())
+```
+
+Which of the following statements about this code is true?
+
+A) The `add_method` method will not be added to any class that does not use `AddMethodMeta`.
+B) When creating an instance of `MyClass`, it immediately calls `new_method` and prints ""Hello from new_method"".
+C) Calling `obj.new_method()` will raise an AttributeError.
+D) The metaclass is used to dynamically add a method to all classes in the application.";"D) The metaclass is used to dynamically add a method to all classes in the application.
+
+Explanation: In Python, a metaclass is a class that creates and controls other classes. When you define a class with `metaclass=AddMethodMeta`, every instance of that class will have a new method called `new_method`. This is true regardless of whether other classes use the same metaclass or not. The `MyClass` defined in this example is an exception to this rule, as it does not explicitly declare `new_method`, but instances of any class using `AddMethodMeta` will have access to it. Option A is incorrect because only classes explicitly decorated with `AddMethodMeta` will get the new method. Options B and C are incorrect because calling `obj.new_method()` on an instance of a class that does not use `AddMethodMeta` would raise an AttributeError, but since `MyClass` is an exception to this rule, it would not be the case here."
