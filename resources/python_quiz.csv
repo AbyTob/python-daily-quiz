@@ -5133,3 +5133,50 @@ Explanation:
 - In this case, the metaclass `Meta` modifies the dictionary `dct` that defines the class by adding an entry `'added_attribute': 'Hello from metaclass!'`.
 - The `super().__new__(cls, name, bases, dct)` call in `Meta.__new__()` creates a new class with these modifications.
 - Therefore, when an instance of `MyClass` is created and the attribute `added_attribute` is accessed on that instance, it correctly returns the string 'Hello from metaclass!'."
+"2025-06-04 08:02";"### Part 1 (Question)
+
+Consider the following Python code snippet that uses both a metaclass and a class decorator:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'decorated' not in dct:
+            raise TypeError(""Class must be decorated"")
+        return super().__new__(cls, name, bases, dct)
+
+def class_decorator(cls):
+    cls.decorated = True
+    return cls
+
+@class_decorator
+class MyClass(metaclass=Meta):
+    pass
+
+try:
+    class UndecoratedClass(metaclass=Meta):
+        pass
+except TypeError as e:
+    print(e)
+```
+
+1. What will happen when `UndecoratedClass` is defined?
+2. Which of the following statements correctly describes the role of `Meta` in this scenario?
+
+A) It enforces that all classes decorated with `class_decorator` must have a class variable named 'decorated'.
+B) It ensures that `MyClass` has an attribute called 'decorated' set to True.
+C) It raises an error if any class is defined without being decorated, regardless of the decorator used.
+D) It checks that all classes using it as their metaclass have a method named 'decorated'.
+
+### Part 2 (Answer)
+
+A) It enforces that all classes decorated with `class_decorator` must have a class variable named 'decorated'.
+Explanation: The metaclass `Meta` checks if the `decorated` attribute is present in the class dictionary during class creation. If it's not found, it raises a `TypeError`. Only `MyClass`, which is decorated with `@class_decorator`, has this attribute set.
+
+B) It ensures that `MyClass` has an attribute called 'decorated' set to True.
+Explanation: This is incorrect because the metaclass itself checks for the presence of the `decorated` attribute, not the class decorator. The actual setting happens in the `class_decorator`.
+
+C) It raises an error if any class is defined without being decorated, regardless of the decorator used.
+Explanation: This is also incorrect. The metaclass only enforces this rule if it is explicitly used with a decorator that sets the `decorated` attribute.
+
+D) It checks that all classes using it as their metaclass have a method named 'decorated'.
+Explanation: Incorrect. The check for the presence of a method does not apply in this scenario; it's checking for a class variable.";"Answer format error. Please check the generated content."
