@@ -831,5 +831,12 @@
     "answer": "D) The metaclass is used to dynamically add a method to all classes in the application.\n\nExplanation: In Python, a metaclass is a class that creates and controls other classes. When you define a class with `metaclass=AddMethodMeta`, every instance of that class will have a new method called `new_method`. This is true regardless of whether other classes use the same metaclass or not. The `MyClass` defined in this example is an exception to this rule, as it does not explicitly declare `new_method`, but instances of any class using `AddMethodMeta` will have access to it. Option A is incorrect because only classes explicitly decorated with `AddMethodMeta` will get the new method. Options B and C are incorrect because calling `obj.new_method()` on an instance of a class that does not use `AddMethodMeta` would raise an AttributeError, but since `MyClass` is an exception to this rule, it would not be the case here.",
     "timestamp": "2025-06-04 16:01:54",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q1_2025-06-05": {
+    "id": "1749081637_1",
+    "question": "",
+    "answer": "",
+    "timestamp": "2025-06-05 00:00:37",
+    "topic": "Advanced Python Programming"
   }
 }
