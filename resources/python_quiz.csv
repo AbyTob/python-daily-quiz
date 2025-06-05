@@ -5205,3 +5205,35 @@ D) The metaclass is used to dynamically add a method to all classes in the appli
 
 Explanation: In Python, a metaclass is a class that creates and controls other classes. When you define a class with `metaclass=AddMethodMeta`, every instance of that class will have a new method called `new_method`. This is true regardless of whether other classes use the same metaclass or not. The `MyClass` defined in this example is an exception to this rule, as it does not explicitly declare `new_method`, but instances of any class using `AddMethodMeta` will have access to it. Option A is incorrect because only classes explicitly decorated with `AddMethodMeta` will get the new method. Options B and C are incorrect because calling `obj.new_method()` on an instance of a class that does not use `AddMethodMeta` would raise an AttributeError, but since `MyClass` is an exception to this rule, it would not be the case here."
 "2025-06-05 00:00";"";""
+"2025-06-05 08:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to ensure all instances of a class have a unique identifier:
+
+```python
+class UniqueMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = {instance: True}
+        elif args or kwargs:
+            raise ValueError(""Cannot create more than one unique instance of this class with different arguments."")
+        return next(iter(cls._instances[cls]))
+    
+class UniqueClass(metaclass=UniqueMeta):
+    def __init__(self, value):
+        self.value = value
+```
+
+1. Which of the following statements about `UniqueClass` and its metaclass `UniqueMeta` is true?
+   A) The class ensures that only one instance can be created.
+   B) The class can have multiple instances if they are created with different arguments.
+   C) The metaclass tracks all instances by their values rather than by their memory address.
+   D) The metaclass raises an exception when trying to create a second instance.
+
+2. What happens if you try to create two instances of `UniqueClass` with the same arguments?
+   A) A new instance is created.
+   B) An exception is raised indicating that an instance already exists.
+   C) One of the instances is overwritten.
+   D) The existing instance is returned again.";"A) The class ensures that only one instance can be created.
+B) The metaclass raises an exception when trying to create a second instance with different arguments."

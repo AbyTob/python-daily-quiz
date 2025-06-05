@@ -838,5 +838,12 @@
     "answer": "",
     "timestamp": "2025-06-05 00:00:37",
     "topic": "Advanced Python Programming"
+  },
+  "q2_2025-06-05": {
+    "id": "1749110503_2",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to ensure all instances of a class have a unique identifier:\n\n```python\nclass UniqueMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = {instance: True}\n        elif args or kwargs:\n            raise ValueError(\"Cannot create more than one unique instance of this class with different arguments.\")\n        return next(iter(cls._instances[cls]))\n    \nclass UniqueClass(metaclass=UniqueMeta):\n    def __init__(self, value):\n        self.value = value\n```\n\n1. Which of the following statements about `UniqueClass` and its metaclass `UniqueMeta` is true?\n   A) The class ensures that only one instance can be created.\n   B) The class can have multiple instances if they are created with different arguments.\n   C) The metaclass tracks all instances by their values rather than by their memory address.\n   D) The metaclass raises an exception when trying to create a second instance.\n\n2. What happens if you try to create two instances of `UniqueClass` with the same arguments?\n   A) A new instance is created.\n   B) An exception is raised indicating that an instance already exists.\n   C) One of the instances is overwritten.\n   D) The existing instance is returned again.",
+    "answer": "A) The class ensures that only one instance can be created.\nB) The metaclass raises an exception when trying to create a second instance with different arguments.",
+    "timestamp": "2025-06-05 08:01:43",
+    "topic": "Object-Oriented Programming"
   }
 }
