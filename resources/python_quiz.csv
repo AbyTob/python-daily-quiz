@@ -5332,3 +5332,46 @@ C) The `added_method` will be added to any subclass of `MyClass`, not just insta
 D) The `added_method` will correctly print ""Hello from MyClass"" when called on an instance of `MyClass`.";"D) The `added_method` will correctly print ""Hello from MyClass"" when called on an instance of `MyClass`.
 
 Explanation: Metaclasses are executed during the class creation process. By using a metaclass to modify the dictionary (`dct`) passed to `__new__`, we can dynamically add methods to any class that uses this metaclass, regardless of whether it is a subclass or not. Therefore, when an instance of `MyClass` calls `added_method()`, it will correctly print ""Hello from MyClass""."
+"2025-06-06 16:02";"Part 1 (Question):
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)
+    return ""Data fetched""
+
+def log_decorator(func):
+    async def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__}"")
+        result = await func(*args, **kwargs)
+        print(f""{func.__name__} returned {result}"")
+        return result
+    return wrapper
+
+@log_decorator
+async def process_data():
+    data = await fetch_data()
+    return f""Processed: {data}""
+
+# Usage
+loop = asyncio.get_event_loop()
+result = loop.run_until_complete(process_data())
+print(result)
+```
+
+Which of the following statements is true regarding the code above?
+
+A) The `fetch_data` function will run synchronously.
+B) The `process_data` function will not be logged by the `log_decorator`.
+C) The `wrapper` function inside `log_decorator` does not handle exceptions from the decorated function.
+D) The `log_decorator` correctly logs the name, arguments, and return value of both synchronous and asynchronous functions.";"Part 2 (Answer):
+C
+
+Explanation: 
+- A) Incorrect. The `fetch_data` function is marked with `async`, indicating it's an asynchronous function that will run asynchronously using asyncio.
+- B) Correct. The `log_decorator` logs the name of the function, its arguments, and return value correctly. Since both `fetch_data` and `process_data` are asynchronous functions, their behavior is logged as expected by the decorator.
+- C) Incorrect. The `wrapper` function inside `log_decorator` properly handles any exceptions raised by the decorated function using a try-except block within the wrapper.
+- D) Incorrect. The `log_decorator` correctly logs the name and return value of both synchronous (if converted to async context managers or similar patterns) and asynchronous functions, provided they are wrapped by `@asyncio.coroutine` or use the `async/await` syntax as shown here."
