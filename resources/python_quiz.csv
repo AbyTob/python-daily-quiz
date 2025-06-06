@@ -5300,3 +5300,35 @@ C) It creates only one instance, and `s1 is s2` returns `True`.
 D) It reuses the existing instance for both `s1` and `s2`, but `s1 is s2` still returns `False`.";"C) It creates only one instance, and `s1 is s2` returns `True`.
 
 **Explanation:** The `SingletonMeta` metaclass overrides the `__call__` method to ensure that whenever an instantiation of `Singleton` is attempted, it checks if an instance already exists. If not, it creates a new one; otherwise, it returns the existing instance. This behavior demonstrates the Singleton design pattern, where only one instance of the class can exist. Therefore, both `s1` and `s2` refer to the same object, and `s1 is s2` will return `True`."
+"2025-06-06 08:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to automatically add a method to any class it decorates:
+
+```python
+# Define a metaclass that adds a new method to classes it decorates
+class AddMethodMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Create a new method and add it to the dictionary
+        dct['added_method'] = lambda self: f""Hello from {name}""
+        return super().__new__(cls, name, bases, dct)
+
+# Apply the metaclass to a class
+@AddMethodMeta()
+class MyClass:
+    pass
+
+# Create an instance of MyClass and call the added method
+instance = MyClass()
+print(instance.added_method())
+```
+
+Which of the following statements about this code is true?
+
+A) The `MyClass` will not have the `added_method` because metaclasses are only used during class creation.
+
+B) When an instance of `MyClass` is created, it will raise a TypeError because metaclasses cannot add methods dynamically after class creation.
+
+C) The `added_method` will be added to any subclass of `MyClass`, not just instances of `MyClass`.
+
+D) The `added_method` will correctly print ""Hello from MyClass"" when called on an instance of `MyClass`.";"D) The `added_method` will correctly print ""Hello from MyClass"" when called on an instance of `MyClass`.
+
+Explanation: Metaclasses are executed during the class creation process. By using a metaclass to modify the dictionary (`dct`) passed to `__new__`, we can dynamically add methods to any class that uses this metaclass, regardless of whether it is a subclass or not. Therefore, when an instance of `MyClass` calls `added_method()`, it will correctly print ""Hello from MyClass""."
