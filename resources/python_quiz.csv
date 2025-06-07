@@ -5424,3 +5424,62 @@ D) The methods are not properly decorated with the `add_lock` function.";"[D] Th
 
 Explanation:
 The provided code attempts to make all callable attributes thread-safe using a metaclass. However, in Python, class methods (like `increment`, `decrement`, and `get_value`) do not automatically inherit the `self` parameter, which is necessary for instance-level operations. Therefore, when `add_lock` decorates these methods, they lose their instance context, leading to incorrect behavior or runtime errors. To fix this issue, each method should be explicitly decorated within the metaclass's `__new__` method after it has been correctly bound to the class instance. This ensures that the lock is applied correctly to every instance method of `ThreadSafeCounter`."
+"2025-06-07 08:02";"**Part 1 (Question):**
+
+Consider the following Python code that attempts to create a simple web server using asyncio:
+
+```python
+import asyncio
+
+class AsyncWebServer:
+    def __init__(self, port):
+        self.port = port
+        self.server = None
+
+    async def start(self):
+        self.server = await asyncio.start_server(self.handle_client, '127.0.0.1', self.port)
+        print(f'Server started on {self.port}')
+        async with self.server:
+            await self.server.serve_forever()
+
+    async def handle_client(self, reader, writer):
+        data = await reader.read(100)
+        message = data.decode().strip()
+        addr = writer.get_extra_info('peername')
+
+        print(f""Received {message!r} from {addr!r}"")
+
+        response = f'Echo: {message}'
+        writer.write(response.encode())
+        await writer.drain()
+
+    async def stop(self):
+        if self.server:
+            self.server.close()
+            await self.server.wait_closed()
+
+async def main():
+    server = AsyncWebServer(8888)
+    try:
+        await server.start()
+    except KeyboardInterrupt:
+        await server.stop()
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+The `AsyncWebServer` class is intended to start a web server that echoes back any received data. However, when you run the script and try to connect to it using a simple client like `telnet`, you encounter an issue where no response is received from the server.
+
+Identify the problem in this code and suggest how to fix it so that the server correctly handles incoming connections and sends responses as expected.
+
+**Part 2 (Answer):**
+
+**A) The problem is with the `handle_client` method not properly handling client disconnections.**
+**B) The issue lies in the `start` method not properly closing the server when stopping.**
+**C) There is no actual error; the server works as intended and handles incoming connections correctly.**
+**D) The server does not have a timeout mechanism to close idle connections, leading to hanging connections.**
+
+**";"A**
+
+**Explanation:** The problem lies in the `handle_client` method. While it sends a response back to the client when data is received, it does not handle the case where the client disconnects unexpectedly (e.g., by closing their connection). This can cause the server to get stuck waiting for more data from the disconnected client, which prevents it from processing other incoming connections. To fix this issue, you could add a check to see if there's any data available before attempting to read from the reader, or use an exception handler within the `handle_client` method to gracefully handle client disconnections."
