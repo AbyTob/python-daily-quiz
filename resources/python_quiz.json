@@ -908,5 +908,12 @@
     "answer": "C) The metaclass will correctly raise an error if a method is missing in any subclass.\n\nThe implementation of `MethodCheckerMeta` checks for the presence of required methods during class creation using `__new__`. If all methods are present, the class is created successfully. However, this implementation does not prevent subclasses from being created without implementing these methods, so option A is incorrect. Option B is also incorrect because it suggests that existing classes cannot be subclassed, which is not a concern of this metaclass. Option D is incorrect as well since methods are not dynamically added to classes; they must be defined at the time of class creation or inheritance. The correct answer is C, as the metaclass raises an error if any required method is missing in any subclass during their creation.",
     "timestamp": "2025-06-08 08:02:03",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-06-08": {
+    "id": "1749398499_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to modify a class dynamically:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['new_attr'] = 'New Attribute'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    existing_attr = 'Existing Attribute'\n\nobj = MyClass()\nprint(obj.new_attr)  # Output: New Attribute\n```\n\nWhich of the following statements is true about the metaclass `Meta` and its effect on `MyClass`?\n\nA) The metaclass adds a new attribute `new_attr` to instances of `MyClass`.\nB) The metaclass adds a new attribute `new_attr` to the class itself.\nC) Instances of `MyClass` do not have access to `new_attr`.\nD) The metaclass has no effect on `MyClass`.",
+    "answer": "B) The metaclass adds a new attribute `new_attr` to the class itself.\n\nExplanation: In Python, when you define a metaclass, it controls how classes are created. By modifying the dictionary (`dct`) passed to the `__new__` method, the metaclass can dynamically add or modify attributes at the class level. In this case, `Meta` adds `new_attr` directly to the `MyClass` dictionary, making it a class attribute rather than an instance attribute. Therefore, instances of `MyClass` do not have access to `new_attr`.",
+    "timestamp": "2025-06-08 16:01:39",
+    "topic": "Object-Oriented Programming"
   }
 }
