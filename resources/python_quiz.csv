@@ -5644,3 +5644,42 @@ C) Instances of `MyClass` do not have access to `new_attr`.
 D) The metaclass has no effect on `MyClass`.";"B) The metaclass adds a new attribute `new_attr` to the class itself.
 
 Explanation: In Python, when you define a metaclass, it controls how classes are created. By modifying the dictionary (`dct`) passed to the `__new__` method, the metaclass can dynamically add or modify attributes at the class level. In this case, `Meta` adds `new_attr` directly to the `MyClass` dictionary, making it a class attribute rather than an instance attribute. Therefore, instances of `MyClass` do not have access to `new_attr`."
+"2025-06-09 00:01";"### Part 1: Question
+
+Consider the following Python code that uses a metaclass to create a class with custom behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name in dir(cls):
+            if attr_name.startswith(""__""):
+                continue
+            dct[f""_{attr_name}""] = property(lambda self: getattr(self, f""__{attr_name}""))
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    def __init__(self, value):
+        self.__value = value
+
+obj = MyClass(10)
+```
+
+What is the output of `print(obj.value)`?
+
+A) 10  
+B) AttributeError  
+C) TypeError  
+D) None  
+
+### Part 2: Answer
+
+B) AttributeError
+
+Explanation:
+The code attempts to create a custom metaclass (`Meta`) that transforms class attributes into properties. The metaclass dynamically renames each attribute by prefixing it with an underscore and creating a property that accesses this new private attribute.
+
+In the `MyClass`, an attribute named `__value` is defined, but due to the metaclass's behavior, there will be no direct access to this attribute from outside the class. Instead, a property named `value` should be created by the metaclass. However, in the provided code, there is no method to handle this transformation correctly.
+
+When you attempt to access `obj.value`, Python looks for an attribute or property with that name on `MyClass`. Since no such property exists due to the incorrect implementation of the metaclass, it raises an `AttributeError`.
+
+The correct behavior would require adding a method in the metaclass to dynamically create and assign properties for each original attribute.";"Answer format error. Please check the generated content."
