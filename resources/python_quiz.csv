@@ -5743,3 +5743,75 @@ Context managers (`DataAdder`) are crucial for managing resources like locks to 
 The `ThreadSafeSingleton` class itself uses a dictionary (`data`) to store data, and the `add_data_to_singleton` function demonstrates how to use the singleton instance within a context manager. The lock ensures that when the 'temp' key is added, it does not interfere with any other thread attempting to access or modify the same key concurrently.
 
 Therefore, after executing the script, the size of the data dictionary will be `1`, indicating that one item has been successfully added through the context manager while maintaining thread safety."
+"2025-06-09 16:03";"";"**Part 1 (Question):**
+
+Imagine you are tasked with creating a system for managing user sessions in an asynchronous web application. You want to ensure that each session has a timeout mechanism, and any session that exceeds this time limit should automatically expire. 
+
+You decide to implement this using Python's `asyncio` library. However, you also want to make sure that the session management logic is easily reusable across different parts of your application without duplicating code.
+
+To achieve this, you consider creating a decorator for sessions that automatically handles the timeout. You then create a metaclass that applies this decorator to any class that represents a session.
+
+Here's an example implementation:
+
+```python
+import asyncio
+
+def session_timeout(timeout):
+    def decorator(cls):
+        async def wrapper(self, *args, **kwargs):
+            loop = asyncio.get_event_loop()
+            task = loop.create_task(self.__aenter__(*args, **kwargs))
+            try:
+                result = await asyncio.wait_for(task, timeout=timeout)
+                return result
+            except asyncio.TimeoutError:
+                task.cancel()
+                raise Exception(""Session timed out"")
+        cls.__aenter__ = wrapper
+        return cls
+    return decorator
+
+class SessionMeta(type):
+    def __new__(mcls, name, bases, dct):
+        if 'session_timeout' in dct:
+            dct['session_timeout'] = session_timeout(dct['session_timeout'])
+        return super().__new__(mcls, name, bases, dct)
+
+class AsyncSession(metaclass=SessionMeta):
+    async def __aenter__(self):
+        pass
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+# Example usage
+class UserSession(AsyncSession):
+    session_timeout = 30  # Timeout in seconds
+
+async def main():
+    async with UserSession() as session:
+        # Simulate work within the session
+        await asyncio.sleep(25)
+        print(""Session is still active"")
+
+# Run the example
+asyncio.run(main())
+```
+
+In this implementation, `session_timeout` is a decorator that adds a timeout mechanism to any class decorated with it. The `SessionMeta` metaclass applies this decorator to any class that has a `session_timeout` attribute.
+
+**Question:** What will happen if an instance of `UserSession` is used without waiting for the session to expire, and how does the `AsyncSession` class structure support this functionality?
+
+A) The session will remain active indefinitely.
+B) The session will expire after 30 seconds due to the timeout mechanism.
+C) An exception will be raised because no timeout was specified.
+D) The session will raise an error when trying to access its methods.
+
+**Part 2 (Answer):**
+
+B) The session will expire after 30 seconds due to the timeout mechanism.
+
+Explanation:
+The `AsyncSession` class uses a metaclass (`SessionMeta`) that applies a decorator (`session_timeout`) to any class it decorates. In this case, `UserSession` has a `session_timeout` attribute set to 30 seconds. When an instance of `UserSession` is used in an asynchronous context manager (i.e., within the `async with` statement), the `__aenter__` method decorated by `@session_timeout(30)` will be invoked. This method runs the session's entry logic and then waits for it to complete, timing out after 30 seconds if it has not already finished. If the session completes within the timeout period, the result is returned; otherwise, an exception is raised indicating that the session timed out.
+
+The `AsyncSession` class structure supports this functionality by defining abstract methods (`__aenter__` and `__aexit__`) for entering and exiting the session context, respectively. These methods can be overridden in subclasses to provide specific behavior when a session begins or ends. The metaclass ensures that any subclass of `AsyncSession` will have its timeout mechanism applied automatically if it includes a `session_timeout` attribute."
