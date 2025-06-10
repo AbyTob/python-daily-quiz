@@ -5815,3 +5815,87 @@ Explanation:
 The `AsyncSession` class uses a metaclass (`SessionMeta`) that applies a decorator (`session_timeout`) to any class it decorates. In this case, `UserSession` has a `session_timeout` attribute set to 30 seconds. When an instance of `UserSession` is used in an asynchronous context manager (i.e., within the `async with` statement), the `__aenter__` method decorated by `@session_timeout(30)` will be invoked. This method runs the session's entry logic and then waits for it to complete, timing out after 30 seconds if it has not already finished. If the session completes within the timeout period, the result is returned; otherwise, an exception is raised indicating that the session timed out.
 
 The `AsyncSession` class structure supports this functionality by defining abstract methods (`__aenter__` and `__aexit__`) for entering and exiting the session context, respectively. These methods can be overridden in subclasses to provide specific behavior when a session begins or ends. The metaclass ensures that any subclass of `AsyncSession` will have its timeout mechanism applied automatically if it includes a `session_timeout` attribute."
+"2025-06-10 00:02";"### Part 1 (Question)
+
+Consider the following Python code snippet that uses decorators, metaclasses, and context managers:
+
+```python
+from functools import wraps
+
+def log_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = log_decorator(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class MyClass:
+    def method1(self):
+        print(""Executing method1"")
+
+    def method2(self, a, b):
+        print(f""Executing method2 with {a} and {b}"")
+
+with MyClass() as obj:
+    obj.method1()
+    obj.method2(3, 4)
+```
+
+What will be the output of this code? Explain why.
+
+A) 
+```
+Calling __init__ with args: (), kwargs: {}
+Calling method1 with args: (), kwargs: {}
+Executing method1
+Calling method2 with args: (3,), kwargs: {'b': 4}
+Executing method2 with 3 and 4
+```
+
+B) 
+```
+Calling method1 with args: (), kwargs: {}
+Executing method1
+Calling method2 with args: (3,), kwargs: {'b': 4}
+Executing method2 with 3 and 4
+```
+
+C) 
+```
+Calling __init__ with args: (), kwargs: {}
+Calling method1 with args: (), kwargs: {}
+Executing method1
+Calling method2 with args: (3,), kwargs: {'b': 4}
+Calling method2 with args: (3,), kwargs: {'b': 4}
+Executing method2 with 3 and 4
+```
+
+D) 
+```
+AttributeError: 'MyClass' object has no attribute '__init__'
+```";"### Part 2 (Answer)
+
+**Correct Answer:** B
+
+**Explanation:** The code uses a metaclass (`Meta`) to automatically decorate all callable attributes of the class it creates with the `log_decorator`. When an instance of `MyClass` is created using the context manager, the `__init__` method is not explicitly defined in the class. Since Python's default behavior for creating instances involves calling `__new__` and then `__init__`, but there's no explicit `__init__`, the metaclass does not add a logging decorator to it.
+
+Therefore, when `obj.method1()` and `obj.method2(3, 4)` are called inside the context manager block:
+- The `method1` is decorated with `log_decorator`, so it logs its call before executing.
+- The `method2` is also decorated with `log_decorator`, logging its call before executing.
+
+This results in the output:
+
+```
+Calling method1 with args: (), kwargs: {}
+Executing method1
+Calling method2 with args: (3,), kwargs: {'b': 4}
+Executing method2 with 3 and 4
+```"
