@@ -964,5 +964,12 @@
     "answer": "B) The `my_method` of `MyClass` returns \"Default method\" when called.\n\nExplanation: The metaclass `Meta` ensures that every class it creates has a method named `my_method`, even if it is not explicitly defined in the class. In this case, since no `my_method` was defined in `MyClass`, the metaclass adds a default implementation that returns \"Default method\". Therefore, when an instance of `MyClass` calls `my_method()`, it correctly executes the lambda function provided by the metaclass, returning \"Default method\".",
     "timestamp": "2025-06-11 00:01:38",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q2_2025-06-11": {
+    "id": "1749628898_2",
+    "question": "[QUESTION]  \nConsider the following Python code using async/await for handling asynchronous operations:\n\n```python\nimport asyncio\n\nasync def fetch_data(url):\n    print(f\"Fetching data from {url}\")\n    await asyncio.sleep(2)\n    return f\"Data from {url}\"\n\nasync def main():\n    tasks = [fetch_data(f\"https://data{i}.com\") for i in range(5)]\n    results = await asyncio.gather(*tasks)\n    print(results)\n\n# Run the async function\nasyncio.run(main())\n```\n\nWhat is the correct order of operations when running this script? \n\nA) Fetch data from 0, Fetch data from 1, ..., Fetch data from 4, [Results printed]\n\nB) [Results printed], Fetch data from 0, Fetch data from 1, ..., Fetch data from 4\n\nC) Fetch data from 0, Fetch data from 1, ..., Fetch data from 4, Results are gathered and printed immediately after starting tasks\n\nD) None of the above",
+    "answer": "A) Fetch data from 0, Fetch data from 1, ..., Fetch data from 4, [Results printed]\n\nThe correct order is A. The script starts by creating a list of tasks to fetch data from multiple URLs concurrently using `asyncio.gather`. Each task runs asynchronously and prints the message indicating that data is being fetched from its respective URL. After all tasks have completed (due to the `await asyncio.sleep(2)` in each task), the results are gathered and printed. Thus, the messages \"Fetching data...\" appear first, followed by the printed results of the tasks.",
+    "timestamp": "2025-06-11 08:01:38",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
