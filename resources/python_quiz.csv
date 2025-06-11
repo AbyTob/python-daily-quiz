@@ -6008,3 +6008,31 @@ C. The caching mechanism correctly handles both synchronous and asynchronous fun
 D. The caching mechanism is flawed because it does not properly invalidate cache entries when inputs change, leading to incorrect results.";"[ANSWER] C. The caching mechanism correctly handles both synchronous and asynchronous functions but may consume more memory due to storing results in a dictionary that grows indefinitely.
 
 Explanation: This statement accurately describes the functionality of the caching mechanisms provided for both synchronous and asynchronous functions. However, it is important to note that using a dictionary for caching can lead to indefinite growth if not properly managed, which could be a limitation depending on the use case. The other options either misstate the capabilities or limitations of the caching mechanism without considering these details."
+"2025-06-11 00:01";"[QUESTION]
+Consider the following code snippet that uses a metaclass to modify class behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'my_method' not in dct:
+            dct['my_method'] = lambda self: ""Default method""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.my_method())
+```
+
+Which of the following statements is true about the behavior of `MyClass` after the metaclass `Meta` has been applied?
+
+A) The class `MyClass` does not have a method named `my_method`.
+
+B) The `my_method` of `MyClass` returns ""Default method"" when called.
+
+C) The class `MyClass` raises an error if `my_method` is called.
+
+D) The metaclass modifies `MyClass` to require additional parameters during instantiation.";"B) The `my_method` of `MyClass` returns ""Default method"" when called.
+
+Explanation: The metaclass `Meta` ensures that every class it creates has a method named `my_method`, even if it is not explicitly defined in the class. In this case, since no `my_method` was defined in `MyClass`, the metaclass adds a default implementation that returns ""Default method"". Therefore, when an instance of `MyClass` calls `my_method()`, it correctly executes the lambda function provided by the metaclass, returning ""Default method""."
