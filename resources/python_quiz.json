@@ -971,5 +971,12 @@
     "answer": "A) Fetch data from 0, Fetch data from 1, ..., Fetch data from 4, [Results printed]\n\nThe correct order is A. The script starts by creating a list of tasks to fetch data from multiple URLs concurrently using `asyncio.gather`. Each task runs asynchronously and prints the message indicating that data is being fetched from its respective URL. After all tasks have completed (due to the `await asyncio.sleep(2)` in each task), the results are gathered and printed. Thus, the messages \"Fetching data...\" appear first, followed by the printed results of the tasks.",
     "timestamp": "2025-06-11 08:01:38",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-06-11": {
+    "id": "1749657694_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that uses a metaclass to control class creation:\n\n```python\nfrom abc import ABC, abstractmethod\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'abstract' in dct:\n            del dct['abstract']\n            return super().__new__(cls, name, bases, dct)\n        else:\n            raise TypeError(f\"{name} must be an abstract class\")\n\nclass Animal(ABC, metaclass=Meta):\n    def speak(self):\n        pass\n\nclass Dog(Animal):\n    def speak(self):\n        print(\"Woof!\")\n\ntry:\n    cat = Animal()\nexcept Exception as e:\n    print(e)\n```\n\nWhat will be the output of this code when run?\n\nA) \"Woof!\"  \nB) TypeError: Animal must be an abstract class  \nC) RuntimeWarning: implicit call to '__init__' in a collection  \nD) SyntaxError: invalid syntax",
+    "answer": "**Part 2 (Answer):**\n\nThe correct answer is B) TypeError: Animal must be an abstract class.\n\nExplanation:\nIn the provided code, the `Meta` metaclass is used to ensure that any subclass of `Animal` must explicitly declare itself as an abstract class by including the key 'abstract' in its dictionary. Since `Animal` does not declare itself as an abstract class and inherits from `ABC`, the metaclass raises a `TypeError` indicating that `Animal` must be an abstract class.",
+    "timestamp": "2025-06-11 16:01:34",
+    "topic": "Object-Oriented Programming"
   }
 }

@@ -6067,3 +6067,43 @@ C) Fetch data from 0, Fetch data from 1, ..., Fetch data from 4, Results are gat
 D) None of the above";"A) Fetch data from 0, Fetch data from 1, ..., Fetch data from 4, [Results printed]
 
 The correct order is A. The script starts by creating a list of tasks to fetch data from multiple URLs concurrently using `asyncio.gather`. Each task runs asynchronously and prints the message indicating that data is being fetched from its respective URL. After all tasks have completed (due to the `await asyncio.sleep(2)` in each task), the results are gathered and printed. Thus, the messages ""Fetching data..."" appear first, followed by the printed results of the tasks."
+"2025-06-11 16:01";"**Part 1 (Question):**
+
+Consider the following Python code that uses a metaclass to control class creation:
+
+```python
+from abc import ABC, abstractmethod
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'abstract' in dct:
+            del dct['abstract']
+            return super().__new__(cls, name, bases, dct)
+        else:
+            raise TypeError(f""{name} must be an abstract class"")
+
+class Animal(ABC, metaclass=Meta):
+    def speak(self):
+        pass
+
+class Dog(Animal):
+    def speak(self):
+        print(""Woof!"")
+
+try:
+    cat = Animal()
+except Exception as e:
+    print(e)
+```
+
+What will be the output of this code when run?
+
+A) ""Woof!""  
+B) TypeError: Animal must be an abstract class  
+C) RuntimeWarning: implicit call to '__init__' in a collection  
+D) SyntaxError: invalid syntax";"**Part 2 (Answer):**
+
+The correct answer is B) TypeError: Animal must be an abstract class.
+
+Explanation:
+In the provided code, the `Meta` metaclass is used to ensure that any subclass of `Animal` must explicitly declare itself as an abstract class by including the key 'abstract' in its dictionary. Since `Animal` does not declare itself as an abstract class and inherits from `ABC`, the metaclass raises a `TypeError` indicating that `Animal` must be an abstract class."
