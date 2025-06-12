@@ -6172,3 +6172,32 @@ C) The `await asyncio.sleep(1)` in `fetch_data` will block the entire program un
 D) The code will not execute because it is missing a decorator or context manager.";"B) The `main` function uses `asyncio.gather` to run multiple asynchronous tasks concurrently and waits for all of them to complete.
 
 Explanation: The code correctly demonstrates the use of asynchronous functions with `await` in an `asyncio` event loop. The `fetch_data` function is defined with `async def`, indicating it's an asynchronous function that performs a non-blocking operation using `await asyncio.sleep(1)`. The `main` function creates a list of tasks by calling `fetch_data` with different URLs and then uses `asyncio.gather(*tasks)` to run all these tasks concurrently. Finally, it waits for all tasks to complete before printing their results. This demonstrates effective use of asynchronous programming in Python to handle multiple I/O-bound operations efficiently."
+"2025-06-12 16:01";"[QUESTION]  
+Consider the following Python code snippet that aims to create a class decorator for logging method calls. The decorator should log the name of the method being called along with its arguments.
+
+```python
+def log_method_calls(cls):
+    for name, value in cls.__dict__.items():
+        if callable(value) and not name.startswith('__'):
+            setattr(cls, name, type(name)(lambda self, *args, **kwargs: 
+                print(f""Calling {name} with args: {args}, kwargs: {kwargs}"") or value(self, *args, **kwargs)))
+    return cls
+
+@log_method_calls
+class Calculator:
+    def add(self, x, y):
+        return x + y
+    
+    def multiply(self, x, y):
+        return x * y
+```
+
+Which of the following statements is true regarding this code?
+
+A) The decorator will successfully log all method calls on instances of `Calculator`.
+
+B) When an instance of `Calculator` is created and methods are called, the original method implementations will not be executed.
+
+C) The decorator does not work because it attempts to replace the method with a new function that logs but fails to preserve the method signature.
+
+D) All methods in the `Calculator` class must be defined using lambda functions for this decorator to work correctly.";"C"

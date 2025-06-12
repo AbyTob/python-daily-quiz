@@ -992,5 +992,12 @@
     "answer": "B) The `main` function uses `asyncio.gather` to run multiple asynchronous tasks concurrently and waits for all of them to complete.\n\nExplanation: The code correctly demonstrates the use of asynchronous functions with `await` in an `asyncio` event loop. The `fetch_data` function is defined with `async def`, indicating it's an asynchronous function that performs a non-blocking operation using `await asyncio.sleep(1)`. The `main` function creates a list of tasks by calling `fetch_data` with different URLs and then uses `asyncio.gather(*tasks)` to run all these tasks concurrently. Finally, it waits for all tasks to complete before printing their results. This demonstrates effective use of asynchronous programming in Python to handle multiple I/O-bound operations efficiently.",
     "timestamp": "2025-06-12 08:01:48",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-06-12": {
+    "id": "1749744087_3",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that aims to create a class decorator for logging method calls. The decorator should log the name of the method being called along with its arguments.\n\n```python\ndef log_method_calls(cls):\n    for name, value in cls.__dict__.items():\n        if callable(value) and not name.startswith('__'):\n            setattr(cls, name, type(name)(lambda self, *args, **kwargs: \n                print(f\"Calling {name} with args: {args}, kwargs: {kwargs}\") or value(self, *args, **kwargs)))\n    return cls\n\n@log_method_calls\nclass Calculator:\n    def add(self, x, y):\n        return x + y\n    \n    def multiply(self, x, y):\n        return x * y\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The decorator will successfully log all method calls on instances of `Calculator`.\n\nB) When an instance of `Calculator` is created and methods are called, the original method implementations will not be executed.\n\nC) The decorator does not work because it attempts to replace the method with a new function that logs but fails to preserve the method signature.\n\nD) All methods in the `Calculator` class must be defined using lambda functions for this decorator to work correctly.",
+    "answer": "C",
+    "timestamp": "2025-06-12 16:01:27",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
