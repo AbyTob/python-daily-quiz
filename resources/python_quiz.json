@@ -985,5 +985,12 @@
     "answer": "A) The `wrapper` function does not store the result of `func(*args, **kwargs)`, leading to incorrect execution time measurements.\n\nThe issue with the current implementation is that while it measures the time taken by the function call and prints it, it does not actually use the returned value. This can lead to confusion if the function's return value is being used elsewhere in the code. To fix this, you should store and return the result of `func(*args, **kwargs)` within the `wrapper` function.",
     "timestamp": "2025-06-12 00:01:44",
     "topic": "Futures and Promise-like Objects"
+  },
+  "q2_2025-06-12": {
+    "id": "1749715308_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def fetch_data(url):\n    print(f\"Fetching data from {url}\")\n    await asyncio.sleep(1)\n    return f\"Data for {url}\"\n\nasync def main():\n    urls = ['http://example.com', 'http://example.org', 'http://example.net']\n    tasks = [fetch_data(url) for url in urls]\n    results = await asyncio.gather(*tasks)\n    print(results)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements is true about the provided code?\n\nA) The `fetch_data` function is a synchronous function that fetches data from the given URL.\nB) The `main` function uses `asyncio.gather` to run multiple asynchronous tasks concurrently and waits for all of them to complete.\nC) The `await asyncio.sleep(1)` in `fetch_data` will block the entire program until 1 second has passed.\nD) The code will not execute because it is missing a decorator or context manager.",
+    "answer": "B) The `main` function uses `asyncio.gather` to run multiple asynchronous tasks concurrently and waits for all of them to complete.\n\nExplanation: The code correctly demonstrates the use of asynchronous functions with `await` in an `asyncio` event loop. The `fetch_data` function is defined with `async def`, indicating it's an asynchronous function that performs a non-blocking operation using `await asyncio.sleep(1)`. The `main` function creates a list of tasks by calling `fetch_data` with different URLs and then uses `asyncio.gather(*tasks)` to run all these tasks concurrently. Finally, it waits for all tasks to complete before printing their results. This demonstrates effective use of asynchronous programming in Python to handle multiple I/O-bound operations efficiently.",
+    "timestamp": "2025-06-12 08:01:48",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
