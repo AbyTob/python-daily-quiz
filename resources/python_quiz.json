@@ -978,5 +978,12 @@
     "answer": "**Part 2 (Answer):**\n\nThe correct answer is B) TypeError: Animal must be an abstract class.\n\nExplanation:\nIn the provided code, the `Meta` metaclass is used to ensure that any subclass of `Animal` must explicitly declare itself as an abstract class by including the key 'abstract' in its dictionary. Since `Animal` does not declare itself as an abstract class and inherits from `ABC`, the metaclass raises a `TypeError` indicating that `Animal` must be an abstract class.",
     "timestamp": "2025-06-11 16:01:34",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-06-12": {
+    "id": "1749686504_1",
+    "question": "[QUESTION]\nConsider the following Python code that attempts to create a decorator to measure execution time:\n\n```python\nimport time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Execution time of {func.__name__}: {end_time - start_time} seconds\")\n        return result\n    return wrapper\n\n@timer\ndef my_function(n):\n    sum = 0\n    for i in range(n):\n        sum += i * i\n    return sum\n\nprint(my_function(10000))\n```\n\nWhat is the issue with this decorator and how can it be fixed to correctly measure execution time?\n\nA) The `wrapper` function does not store the result of `func(*args, **kwargs)`, leading to incorrect execution time measurements.\n\nB) The `timer` decorator should use a class instead of a function for better code organization and potential future enhancements.\n\nC) The `wrapper` function does not release any resources it might acquire during execution, which could lead to resource leaks.\n\nD) None of the above. The decorator is correctly implemented to measure execution time.",
+    "answer": "A) The `wrapper` function does not store the result of `func(*args, **kwargs)`, leading to incorrect execution time measurements.\n\nThe issue with the current implementation is that while it measures the time taken by the function call and prints it, it does not actually use the returned value. This can lead to confusion if the function's return value is being used elsewhere in the code. To fix this, you should store and return the result of `func(*args, **kwargs)` within the `wrapper` function.",
+    "timestamp": "2025-06-12 00:01:44",
+    "topic": "Futures and Promise-like Objects"
   }
 }
