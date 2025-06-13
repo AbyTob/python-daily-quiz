@@ -999,5 +999,12 @@
     "answer": "C",
     "timestamp": "2025-06-12 16:01:27",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q1_2025-06-13": {
+    "id": "1749772878_1",
+    "question": "[QUESTION]\nConsider the following code that uses a decorator to monitor how many times a function has been called:\n\n```python\ndef call_counter(func):\n    def wrapper(*args, **kwargs):\n        wrapper.count += 1\n        return func(*args, **kwargs)\n    wrapper.count = 0\n    return wrapper\n\n@call_counter\ndef my_function():\n    pass\n```\n\nWhich of the following statements about this code is true?\n\nA) Calling `my_function()` directly will increment the count.\nB) The count can be reset to zero by setting `my_function.count` to 0.\nC) The decorator adds a new attribute `count` to the original function.\nD) The `wrapper` function has access to and modifies the non-local variable `count`.",
+    "answer": "A) Calling `my_function()` directly will increment the count.\n\nCorrect. When you call `my_function()`, it is actually calling the `wrapper` function, which increments the `count` attribute of itself each time it's called before invoking the original `func`.",
+    "timestamp": "2025-06-13 00:01:18",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }
