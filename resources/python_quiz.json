@@ -1006,5 +1006,12 @@
     "answer": "A) Calling `my_function()` directly will increment the count.\n\nCorrect. When you call `my_function()`, it is actually calling the `wrapper` function, which increments the `count` attribute of itself each time it's called before invoking the original `func`.",
     "timestamp": "2025-06-13 00:01:18",
     "topic": "Counter Objects and Frequency Analysis"
+  },
+  "q2_2025-06-13": {
+    "id": "1749801718_2",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code that uses metaclasses to add a method to all classes dynamically:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['new_method'] = lambda self: 'This is a new method'\n        return super().__new__(cls, name, bases, dct)\n\nclass Base(metaclass=Meta):\n    pass\n\nclass Derived(Base):\n    pass\n\ndef test_metaclass():\n    obj = Derived()\n    assert obj.new_method() == 'This is a new method'\n```\n\nWhich of the following statements about this code is true?\n\nA) The `new_method` will only be added to the `Derived` class, not `Base`.\n\nB) When `Derived` inherits from `Base`, no methods are added because metaclasses cannot modify existing classes.\n\nC) The `new_method` will be available on all instances of any subclass of `Base`, including `Derived`.\n\nD) The `new_method` is only accessible if the class is instantiated directly with `Meta()`, not through inheritance.\n\n**Part 2 (Answer):**\n\n**Correct Answer:** C\n\n**Explanation:**\nIn Python, metaclasses control how a class is created. When a new class is defined, the metaclass's `__new__` method is called with the class name, its base classes, and a dictionary of attributes. The code in the question demonstrates that the metaclass adds a method to all classes derived from it.\n\nIn this case, when `Derived` inherits from `Base`, the `Meta.__new__` method is invoked for both `Base` and `Derived`. This means that `new_method` is added not just to `Derived` but also to any class that inherits from `Base`. Therefore, when an instance of `Derived` or any other subclass of `Base` is created, it will have access to the `new_method`.\n\nThis example shows how metaclasses can be used to add functionality across all subclasses dynamically, making them a powerful tool for advanced Python development.",
+    "timestamp": "2025-06-13 08:01:58",
+    "topic": "Advanced Python Programming"
   }
 }
