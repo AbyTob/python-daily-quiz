@@ -1027,5 +1027,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-06-14 00:02:17",
     "topic": "Function and Method Decorators"
+  },
+  "q2_2025-06-14": {
+    "id": "1749888124_2",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n\n    async def __call__(self, *args, **kwargs):\n        print(\"Before function call\")\n        result = await self.func(*args, **kwargs)\n        print(\"After function call\")\n        return result\n\n@AsyncDecorator\nasync def fetch_data():\n    await asyncio.sleep(1)  # Simulate network request\n    return \"Data fetched\"\n\nasync def main():\n    data = await fetch_data()\n    print(data)\n\n# Run the main function to see the output\n# asyncio.run(main())\n```\n\nWhat will be the output of this code if you uncomment and run `asyncio.run(main())`? Explain your reasoning.\n\nA) Before function call  \nData fetched  \nAfter function call  \n\nB) Data fetched  \nBefore function call  \nAfter function call  \n\nC) Error: 'fetch_data' is not an awaitable object  \n\nD) None",
+    "answer": "**Part 2 (Answer):**\n\nThe correct answer is A) Before function call  \nData fetched  \nAfter function call  \n\nExplanation:\n\n- The `@AsyncDecorator` decorator is applied to the `fetch_data` coroutine.\n- When `asyncio.run(main())` is called, it starts the event loop and schedules the execution of `main()`.\n- Inside `main()`, `await fetch_data()` is encountered. This triggers the `__call__` method of the `AsyncDecorator` class.\n- The decorator prints \"Before function call\" before calling `self.func(*args, **kwargs)`, which is `fetch_data()`.\n- The execution of `fetch_data()` is paused, and control returns to the event loop to process other tasks (in this case, there are no other tasks).\n- After 1 second, the simulated network request completes, and `fetch_data()` resumes, returning \"Data fetched\".\n- The decorator then prints \"After function call\" and returns the result.\n- Finally, `main()` receives the result of `fetch_data()`, which is printed as \"Data fetched\".\n\nTherefore, the output will be:\n\n```\nBefore function call\nData fetched\nAfter function call\n```",
+    "timestamp": "2025-06-14 08:02:04",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

@@ -6385,3 +6385,69 @@ D) Applying the `timer` decorator increases memory usage due to additional funct
 **D) Applying the `timer` decorator increases memory usage due to additional function calls.**
 
 **Explanation:** This statement is partially correct. While applying a decorator does introduce additional function calls, which can affect performance and potentially increase memory usage slightly, the impact is generally minimal for most use cases. More significant changes would be expected in terms of execution time rather than memory usage.";"Answer format error. Please check the generated content."
+"2025-06-14 08:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    async def __call__(self, *args, **kwargs):
+        print(""Before function call"")
+        result = await self.func(*args, **kwargs)
+        print(""After function call"")
+        return result
+
+@AsyncDecorator
+async def fetch_data():
+    await asyncio.sleep(1)  # Simulate network request
+    return ""Data fetched""
+
+async def main():
+    data = await fetch_data()
+    print(data)
+
+# Run the main function to see the output
+# asyncio.run(main())
+```
+
+What will be the output of this code if you uncomment and run `asyncio.run(main())`? Explain your reasoning.
+
+A) Before function call  
+Data fetched  
+After function call  
+
+B) Data fetched  
+Before function call  
+After function call  
+
+C) Error: 'fetch_data' is not an awaitable object  
+
+D) None";"**Part 2 (Answer):**
+
+The correct answer is A) Before function call  
+Data fetched  
+After function call  
+
+Explanation:
+
+- The `@AsyncDecorator` decorator is applied to the `fetch_data` coroutine.
+- When `asyncio.run(main())` is called, it starts the event loop and schedules the execution of `main()`.
+- Inside `main()`, `await fetch_data()` is encountered. This triggers the `__call__` method of the `AsyncDecorator` class.
+- The decorator prints ""Before function call"" before calling `self.func(*args, **kwargs)`, which is `fetch_data()`.
+- The execution of `fetch_data()` is paused, and control returns to the event loop to process other tasks (in this case, there are no other tasks).
+- After 1 second, the simulated network request completes, and `fetch_data()` resumes, returning ""Data fetched"".
+- The decorator then prints ""After function call"" and returns the result.
+- Finally, `main()` receives the result of `fetch_data()`, which is printed as ""Data fetched"".
+
+Therefore, the output will be:
+
+```
+Before function call
+Data fetched
+After function call
+```"
