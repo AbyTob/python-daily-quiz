@@ -6482,3 +6482,36 @@ D) All instance variables of the class will be set to zero when calling `reset`.
 C) Using a metaclass in this way can lead to unintended side effects, such as modifying classes defined in other modules.
 
 **Explanation**: The metaclass `AutoResetMeta` automatically adds a `reset` method to any class it decorates. This method sets all non-callable attributes (excluding magic methods like `__init__`) to zero when called. While this might be useful for certain scenarios, it can have unintended side effects if used on classes that are defined in other modules or are part of larger systems where such modifications could cause issues. Additionally, while the implementation does reset all non-method attributes to zero, not just integer ones, option A is close but not entirely accurate because it implies a type check which isn't present."
+"2025-06-15 00:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to modify class behavior. The metaclass `LoggingMeta` is designed to log when an instance of a class is created.
+
+```python
+class LoggingMeta(type):
+    def __new__(cls, name, bases, dct):
+        original_init = dct.get('__init__')
+
+        def new_init(self, *args, **kwargs):
+            print(f""Instance {self} created"")
+            if original_init:
+                return original_init(self, *args, **kwargs)
+        
+        dct['__init__'] = new_init
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=LoggingMeta):
+    def __init__(self, value):
+        self.value = value
+
+# Usage example:
+obj = MyClass(10)  # This will print: Instance <__main__.MyClass object at 0x...> created
+```
+
+Which of the following statements correctly describes the behavior of `LoggingMeta`?
+
+A) It logs every method call on instances of classes it decorates.
+
+B) It modifies the `__init__` method to add logging when an instance is created.
+
+C) It adds a new class attribute called `log_count` each time an instance is created.
+
+D) It replaces all methods in the decorated class with logging versions.";"[ANSWER] B) It modifies the `__init__` method to add logging when an instance is created."

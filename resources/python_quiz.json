@@ -1041,5 +1041,12 @@
     "answer": "[ANSWER]\nC) Using a metaclass in this way can lead to unintended side effects, such as modifying classes defined in other modules.\n\n**Explanation**: The metaclass `AutoResetMeta` automatically adds a `reset` method to any class it decorates. This method sets all non-callable attributes (excluding magic methods like `__init__`) to zero when called. While this might be useful for certain scenarios, it can have unintended side effects if used on classes that are defined in other modules or are part of larger systems where such modifications could cause issues. Additionally, while the implementation does reset all non-method attributes to zero, not just integer ones, option A is close but not entirely accurate because it implies a type check which isn't present.",
     "timestamp": "2025-06-14 16:01:59",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q1_2025-06-15": {
+    "id": "1749945696_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to modify class behavior. The metaclass `LoggingMeta` is designed to log when an instance of a class is created.\n\n```python\nclass LoggingMeta(type):\n    def __new__(cls, name, bases, dct):\n        original_init = dct.get('__init__')\n\n        def new_init(self, *args, **kwargs):\n            print(f\"Instance {self} created\")\n            if original_init:\n                return original_init(self, *args, **kwargs)\n        \n        dct['__init__'] = new_init\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=LoggingMeta):\n    def __init__(self, value):\n        self.value = value\n\n# Usage example:\nobj = MyClass(10)  # This will print: Instance <__main__.MyClass object at 0x...> created\n```\n\nWhich of the following statements correctly describes the behavior of `LoggingMeta`?\n\nA) It logs every method call on instances of classes it decorates.\n\nB) It modifies the `__init__` method to add logging when an instance is created.\n\nC) It adds a new class attribute called `log_count` each time an instance is created.\n\nD) It replaces all methods in the decorated class with logging versions.",
+    "answer": "[ANSWER] B) It modifies the `__init__` method to add logging when an instance is created.",
+    "timestamp": "2025-06-15 00:01:36",
+    "topic": "Advanced Logging Configuration"
   }
 }
