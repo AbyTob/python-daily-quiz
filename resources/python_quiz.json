@@ -1048,5 +1048,12 @@
     "answer": "[ANSWER] B) It modifies the `__init__` method to add logging when an instance is created.",
     "timestamp": "2025-06-15 00:01:36",
     "topic": "Advanced Logging Configuration"
+  },
+  "q2_2025-06-15": {
+    "id": "1749974490_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that utilizes a metaclass to modify class behavior:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'my_method' not in dct:\n            raise TypeError(\"Class must implement my_method\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\n# This should work without error\nclass CorrectImplementation(MyClass):\n    def my_method(self):\n        print(\"Method implemented\")\n\n# This should raise a TypeError\ntry:\n    class IncorrectImplementation(MyClass):\n        pass\nexcept TypeError as e:\n    print(e)\n```\n\nWhat will be the output of the code when run?\n\nA) \"Method implemented\"  \nB) TypeError: Class must implement my_method  \nC) No output, but an exception will occur in the background  \nD) The program will not run due to syntax errors",
+    "answer": "B) TypeError: Class must implement my_method\n\nExplanation:\nThe metaclass `Meta` checks if 'my_method' is implemented in any class it tries to create. In the case of `CorrectImplementation`, 'my_method' is implemented, so no error occurs. However, for `IncorrectImplementation`, since 'my_method' is not defined, a TypeError will be raised with the message \"Class must implement my_method\".",
+    "timestamp": "2025-06-15 08:01:30",
+    "topic": "Object-Oriented Programming"
   }
 }
