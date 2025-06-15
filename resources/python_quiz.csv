@@ -6550,3 +6550,37 @@ D) The program will not run due to syntax errors";"B) TypeError: Class must impl
 
 Explanation:
 The metaclass `Meta` checks if 'my_method' is implemented in any class it tries to create. In the case of `CorrectImplementation`, 'my_method' is implemented, so no error occurs. However, for `IncorrectImplementation`, since 'my_method' is not defined, a TypeError will be raised with the message ""Class must implement my_method""."
+"2025-06-15 16:01";"Part 1: Question
+
+Consider the following Python code that uses metaclasses:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'my_attr' not in dct:
+            dct['my_attr'] = ""Default value""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.my_attr)
+```
+
+What will be the output of this code?
+
+A) Error
+B) Default value
+C) None
+D) ""my_attr not defined""
+
+Part 2: Answer
+
+Answer: B) Default value
+
+Explanation:
+
+In the provided Python code, a metaclass `Meta` is defined that inherits from `type`. The `__new__` method of the metaclass checks if the class dictionary (`dct`) does not contain the key `'my_attr'`, and if so, it adds it with a default value of `""Default value""`. 
+
+When `MyClass` is instantiated as `obj = MyClass()`, the `Meta.__new__` method is automatically called because `MyClass` specifies `metaclass=Meta`. The condition inside `Meta.__new__` checks that `'my_attr'` is not in `dct`, and since it's empty, it adds this key with its default value. Therefore, when `obj.my_attr` is accessed, it returns `""Default value""`.";"Answer format error. Please check the generated content."
