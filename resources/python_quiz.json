@@ -1062,5 +1062,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-06-15 16:01:33",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-06-16": {
+    "id": "1750032104_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that utilizes a decorator to measure execution time:\n\n```python\nimport time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Executing {func.__name__} took {end_time - start_time:.4f} seconds.\")\n        return result\n    return wrapper\n\n@timer\ndef compute_sum(n):\n    return sum(range(n))\n\nresult = compute_sum(1000000)\n```\n\nWhich of the following statements about this code is true?\n\nA) The `timer` decorator will not affect the execution time of the `compute_sum` function.\nB) When `compute_sum` is called with an argument, it executes synchronously and the decorator measures its execution time accurately.\nC) The `wrapper` function inside `timer` does not modify any of the arguments passed to `func`.\nD) The `result` variable will hold the value `None`, as the decorator does not return the result of `compute_sum`.",
+    "answer": "B) When `compute_sum` is called with an argument, it executes synchronously and the decorator measures its execution time accurately.\n\nExplanation:\n- The `timer` decorator wraps the `compute_sum` function. It captures the start time before calling `func`, computes the sum, and then records the end time to calculate the duration. This allows the decorator to measure the actual execution time of `compute_sum`.\n- The decorator does not modify the arguments passed to `func`; it merely uses them as is.\n- The `result` variable will hold the value returned by `compute_sum`, which is `sum(range(n))`.",
+    "timestamp": "2025-06-16 00:01:44",
+    "topic": "Functions and Functional Programming"
   }
 }

@@ -6584,3 +6584,36 @@ Explanation:
 In the provided Python code, a metaclass `Meta` is defined that inherits from `type`. The `__new__` method of the metaclass checks if the class dictionary (`dct`) does not contain the key `'my_attr'`, and if so, it adds it with a default value of `""Default value""`. 
 
 When `MyClass` is instantiated as `obj = MyClass()`, the `Meta.__new__` method is automatically called because `MyClass` specifies `metaclass=Meta`. The condition inside `Meta.__new__` checks that `'my_attr'` is not in `dct`, and since it's empty, it adds this key with its default value. Therefore, when `obj.my_attr` is accessed, it returns `""Default value""`.";"Answer format error. Please check the generated content."
+"2025-06-16 00:01";"[QUESTION]
+Consider the following Python code snippet that utilizes a decorator to measure execution time:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Executing {func.__name__} took {end_time - start_time:.4f} seconds."")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    return sum(range(n))
+
+result = compute_sum(1000000)
+```
+
+Which of the following statements about this code is true?
+
+A) The `timer` decorator will not affect the execution time of the `compute_sum` function.
+B) When `compute_sum` is called with an argument, it executes synchronously and the decorator measures its execution time accurately.
+C) The `wrapper` function inside `timer` does not modify any of the arguments passed to `func`.
+D) The `result` variable will hold the value `None`, as the decorator does not return the result of `compute_sum`.";"B) When `compute_sum` is called with an argument, it executes synchronously and the decorator measures its execution time accurately.
+
+Explanation:
+- The `timer` decorator wraps the `compute_sum` function. It captures the start time before calling `func`, computes the sum, and then records the end time to calculate the duration. This allows the decorator to measure the actual execution time of `compute_sum`.
+- The decorator does not modify the arguments passed to `func`; it merely uses them as is.
+- The `result` variable will hold the value returned by `compute_sum`, which is `sum(range(n))`."
