@@ -1076,5 +1076,12 @@
     "answer": "[C] Multiple instances can be created by passing different arguments to `DatabaseConnection`.",
     "timestamp": "2025-06-16 08:01:12",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q3_2025-06-16": {
+    "id": "1750089725_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that uses a metaclass to ensure that all subclasses of `BaseClass` have a specific method `execute`. The intention is to enforce that every subclass implements this method.\n\n```python\nclass EnforcerMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'execute' not in dct:\n            raise TypeError(f\"Subclass {name} must implement the execute method.\")\n        return super().__new__(cls, name, bases, dct)\n\nclass BaseClass(metaclass=EnforcerMeta):\n    pass\n\nclass SubClass(BaseClass):\n    def execute(self):\n        print(\"Executing...\")\n\n# Attempt to create an instance of SubClass\nsub_instance = SubClass()\n\n# Attempt to create an instance of a subclass that does not implement the execute method\ntry:\n    class BadSubClass(BaseClass):\n        pass\nexcept TypeError as e:\n    print(e)\n```\n\nWhich of the following statements is true regarding the given code?\n\nA) The `execute` method in `SubClass` will not be called when creating an instance of `BaseClass`.\n\nB) When trying to create an instance of `BadSubClass`, a `TypeError` will be raised because `BadSubClass` does not implement the `execute` method.\n\nC) The metaclass `EnforcerMeta` ensures that every subclass of `BaseClass` must have an `__init__` method.\n\nD) When creating an instance of `SubClass`, the output \"Executing...\" will not be printed to the console because the method is never called.\n\n**Part 2 (Answer):**\n\nB) When trying to create an instance of `BadSubClass`, a `TypeError` will be raised because `BadSubClass` does not implement the `execute` method.\n\nExplanation: The metaclass `EnforcerMeta` overrides the `__new__` method to check if the subclass dictionary includes the `execute` key. If it does not, a `TypeError` is raised with a message indicating that the subclass must implement the `execute` method. In this case, when attempting to create an instance of `BadSubClass`, which does not define the `execute` method, a `TypeError` will be raised as expected.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-06-16 16:02:05",
+    "topic": "Object-Oriented Programming"
   }
 }
