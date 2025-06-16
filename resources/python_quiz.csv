@@ -6617,3 +6617,30 @@ Explanation:
 - The `timer` decorator wraps the `compute_sum` function. It captures the start time before calling `func`, computes the sum, and then records the end time to calculate the duration. This allows the decorator to measure the actual execution time of `compute_sum`.
 - The decorator does not modify the arguments passed to `func`; it merely uses them as is.
 - The `result` variable will hold the value returned by `compute_sum`, which is `sum(range(n))`."
+"2025-06-16 08:01";"[QUESTION] 
+Consider the following Python code snippet that aims to create a singleton class using decorators:
+
+```python
+def singleton(cls):
+    instances = {}
+    def get_instance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return get_instance
+
+@singleton
+class DatabaseConnection:
+    def __init__(self, db_url):
+        self.db_url = db_url
+```
+
+What is the primary issue with this implementation of a singleton class using a decorator?
+
+A) The `instances` dictionary is not thread-safe.
+
+B) The `get_instance` function does not handle exceptions properly.
+
+C) Multiple instances can be created by passing different arguments to `DatabaseConnection`.
+
+D) The `singleton` decorator does not allow subclassing the decorated class.";"[C] Multiple instances can be created by passing different arguments to `DatabaseConnection`."
