@@ -6775,3 +6775,82 @@ D) The `result` variable will contain the string ""Processed result: Data fetche
 - **Statement D is incorrect**: The value of `result` will be the data returned by `fetch_data()`, which is ""Data fetched"". Therefore, `result` will not contain ""Processed result: Data fetched""; it will simply contain ""Data fetched"".
 
 This question tests the understanding of asynchronous programming in Python, specifically the use of coroutines and context managers for resource management."
+"2025-06-17 16:02";"[QUESTION]
+You are tasked with creating a custom logging system that automatically prefixes each log message with the current timestamp. This system should be implemented as a decorator for any function that needs logging capabilities.
+
+1. Create a decorator `log_with_timestamp` that can be applied to any function.
+2. The decorator should prepend the current timestamp (formatted as ""YYYY-MM-DD HH:MM:SS"") to each log message.
+3. Ensure that the original function is still callable after decoration.
+
+Here is an example of how you might use this decorator:
+
+```python
+from datetime import datetime
+
+def log_with_timestamp(func):
+    def wrapper(*args, **kwargs):
+        # Your implementation here
+        pass
+    return wrapper
+
+@log_with_timestamp
+def my_function():
+    print(""This is a test log message."")
+
+my_function()
+```
+
+Which of the following snippets correctly implements the `log_with_timestamp` decorator?
+
+A) 
+```python
+from datetime import datetime
+
+def log_with_timestamp(func):
+    def wrapper(*args, **kwargs):
+        timestamp = datetime.now().strftime(""%Y-%m-%d %H:%M:%S"")
+        print(f""{timestamp} - {func.__name__} called with args: {args}, kwargs: {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+```
+
+B) 
+```python
+from datetime import datetime
+
+def log_with_timestamp(func):
+    def wrapper(*args, **kwargs):
+        timestamp = datetime.now().strftime(""%Y-%m-%d %H:%M:%S"")
+        print(f""{timestamp} - {func.__name__}"")
+        return func(*args, **kwargs)
+    return wrapper
+```
+
+C) 
+```python
+from datetime import datetime
+
+def log_with_timestamp(func):
+    def wrapper(*args, **kwargs):
+        timestamp = datetime.now().strftime(""%Y-%m-%d %H:%M:%S"")
+        print(f""{timestamp} - {func.__name__}"")
+        return func()
+    return wrapper
+```
+
+D) 
+```python
+from datetime import datetime
+
+def log_with_timestamp(func):
+    def wrapper(*args, **kwargs):
+        timestamp = datetime.now().strftime(""%Y-%m-%d %H:%M:%S"")
+        print(f""{timestamp} - {func.__name__}"")
+    return wrapper
+```";"A) Correct. This implementation correctly logs the timestamp and function call details while allowing the original function to execute.
+
+B) Incorrect. The decorator does not capture the arguments passed to the function, which is necessary for a more comprehensive log message.
+
+C) Incorrect. Calling `func()` without passing any arguments will result in an error if the function requires arguments.
+
+D) Incorrect. This implementation only logs the timestamp and function name, but does not pass any arguments or execute the original function."
