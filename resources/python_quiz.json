@@ -1083,5 +1083,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-06-16 16:02:05",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-06-17": {
+    "id": "1750118505_1",
+    "question": "[QUESTION]\nConsider the following Python code that attempts to implement a simple web server using asyncio. The goal is to create an asynchronous HTTP server that can handle multiple requests concurrently.\n\n```python\nimport asyncio\nfrom aiohttp import web\n\nasync def handle_request(request):\n    return web.Response(text=\"Hello, World!\")\n\nasync def main():\n    app = web.Application()\n    app.router.add_get('/', handle_request)\n    runner = web.AppRunner(app)\n    await runner.setup()\n    site = web.TCPSite(runner, 'localhost', 8080)\n    await site.start()\n    print(\"Server started at http://localhost:8080\")\n    while True:\n        await asyncio.sleep(3600)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following is a potential issue with this server implementation that could lead to unexpected behavior or resource leaks?\n\nA) The use of `asyncio.sleep(3600)` in an infinite loop might prevent the event loop from processing other tasks.\n\nB) There's no mechanism for stopping the server gracefully, which could lead to hanging threads if not handled properly.\n\nC) The server does not handle exceptions that may occur within request handlers like `handle_request`.\n\nD) None of the above; the provided code is correct and does not have any issues.",
+    "answer": "B) There's no mechanism for stopping the server gracefully, which could lead to hanging threads if not handled properly.\n\nExplanation: The current implementation lacks a way to stop or shut down the server. Without proper shutdown procedures, calling `asyncio.run(main())` in the main block will keep the event loop running indefinitely, potentially leading to hanging threads when the program is terminated unexpectedly or manually.",
+    "timestamp": "2025-06-17 00:01:45",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
