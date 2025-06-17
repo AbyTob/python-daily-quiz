@@ -6724,3 +6724,54 @@ C) The server does not handle exceptions that may occur within request handlers 
 D) None of the above; the provided code is correct and does not have any issues.";"B) There's no mechanism for stopping the server gracefully, which could lead to hanging threads if not handled properly.
 
 Explanation: The current implementation lacks a way to stop or shut down the server. Without proper shutdown procedures, calling `asyncio.run(main())` in the main block will keep the event loop running indefinitely, potentially leading to hanging threads when the program is terminated unexpectedly or manually."
+"2025-06-17 08:02";"### Part 1 (Question)
+Consider the following code snippet:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)  # Simulate a delay
+    return ""Data fetched""
+
+class AsyncLogger:
+    async def __aenter__(self):
+        print(""Logging started"")
+        return self
+    
+    async def log(self, message):
+        print(f""Log: {message}"")
+    
+    async def __aexit__(self, exc_type, exc, tb):
+        print(""Logging ended"")
+
+async def process_data():
+    async with AsyncLogger() as logger:
+        data = await fetch_data()
+        await logger.log(data)
+        return data
+
+# Usage
+result = asyncio.run(process_data())
+print(f""Processed result: {result}"")
+```
+
+Which of the following statements is true about the above code?
+
+A) The `fetch_data` function will run synchronously because it uses `async def`.
+
+B) The `process_data` function will execute the `fetch_data` and `log` methods concurrently.
+
+C) The `AsyncLogger` class implements asynchronous context management using `__aenter__`, `log`, and `__aexit__`.
+
+D) The `result` variable will contain the string ""Processed result: Data fetched"".";"### Part 2 (Answer)
+**Correct Answer:** C
+
+**Detailed Explanation:** 
+- **Statement A is incorrect**: While `fetch_data` is defined with `async def`, it does not execute asynchronously unless called within an asynchronous context. The coroutine nature of `fetch_data` means it can pause execution at the `await asyncio.sleep(2)` line, but it won't run until scheduled in an event loop.
+- **Statement B is incorrect**: Asynchronous operations like calling a coroutine (e.g., `fetch_data()`) will not execute concurrently within a single thread unless explicitly managed using features like `asyncio.create_task` or scheduling them in different tasks. In the given code, `await fetch_data()` and `await logger.log(data)` are sequential, not concurrent.
+- **Statement C is correct**: The `AsyncLogger` class correctly implements asynchronous context management by defining the methods `__aenter__`, `log`, and `__aexit__`. This allows the class to manage resources asynchronously when used with `async with`.
+- **Statement D is incorrect**: The value of `result` will be the data returned by `fetch_data()`, which is ""Data fetched"". Therefore, `result` will not contain ""Processed result: Data fetched""; it will simply contain ""Data fetched"".
+
+This question tests the understanding of asynchronous programming in Python, specifically the use of coroutines and context managers for resource management."
