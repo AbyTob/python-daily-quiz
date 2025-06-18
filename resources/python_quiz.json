@@ -1104,5 +1104,12 @@
     "answer": "A) Correct. This implementation correctly logs the timestamp and function call details while allowing the original function to execute.\n\nB) Incorrect. The decorator does not capture the arguments passed to the function, which is necessary for a more comprehensive log message.\n\nC) Incorrect. Calling `func()` without passing any arguments will result in an error if the function requires arguments.\n\nD) Incorrect. This implementation only logs the timestamp and function name, but does not pass any arguments or execute the original function.",
     "timestamp": "2025-06-17 16:02:24",
     "topic": "Task Management and Scheduling"
+  },
+  "q1_2025-06-18": {
+    "id": "1750204901_1",
+    "question": "",
+    "answer": "**Part 1: Question**\n\nConsider the following Python code snippet that uses a metaclass to create a class attribute counter. The goal is to count how many instances of the class have been created.\n\n```python\nclass InstanceCounter(type):\n    _instance_count = 0\n\n    def __call__(cls, *args, **kwargs):\n        cls._instance_count += 1\n        return super().__call__(*args, **kwargs)\n\n    @classmethod\n    def get_instance_count(cls):\n        return cls._instance_count\n\nclass MyClass(metaclass=InstanceCounter):\n    pass\n```\n\nNow, if you create multiple instances of `MyClass` and then call the class method `get_instance_count`, which value will it return?\n\nA) 0  \nB) The number of times `MyClass` was subclassed  \nC) The number of instances of `MyClass` created  \nD) None of the above\n\n**Part 2: Answer**\n\nC) The number of instances of `MyClass` created\n\nExplanation:\n- The metaclass `InstanceCounter` is defined to count the number of instances created by any class that uses it as a metaclass.\n- In the `__call__` method, each time an instance of a class using this metaclass is created, `_instance_count` is incremented by 1.\n- The `get_instance_count` class method returns the current value of `_instance_count`, which reflects how many instances of classes using `InstanceCounter` have been created.\n\nThus, if you create multiple instances of `MyClass`, calling `MyClass.get_instance_count()` will return the correct number of instances created.",
+    "timestamp": "2025-06-18 00:01:41",
+    "topic": "Advanced Python Programming"
   }
 }
