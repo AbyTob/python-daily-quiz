@@ -7139,3 +7139,36 @@ D) Neither A nor B
 B) ""Class MyOtherClass has attribute x""
 
 Explanation: The metaclass `Meta` checks if the class dictionary contains an attribute named 'x' during the creation of a new class. In this case, `MyClass` does not have any attributes, so no message is printed. However, `MyOtherClass` defines an attribute `x`, so when it is created, the metaclass outputs ""Class MyOtherClass has attribute x"".";"Answer format error. Please check the generated content."
+"2025-06-19 16:01";"[QUESTION]
+Consider the following Python code that uses a metaclass and class decoration to create a singleton pattern. The goal is to ensure that only one instance of `Singleton` can be created, regardless of how many times it is instantiated.
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(SingletonMeta, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+def singleton(cls):
+    class Wrapper(cls):
+        __metaclass__ = SingletonMeta
+    return Wrapper
+
+@singleton
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+
+# Example usage
+obj1 = MyClass(10)
+obj2 = MyClass(20)
+
+print(obj1 is obj2)  # True or False?
+```
+
+What will be the output of `print(obj1 is obj2)`?
+
+A) True  
+B) False";"C"

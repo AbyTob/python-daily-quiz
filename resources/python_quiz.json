@@ -1139,5 +1139,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-06-19 08:01:26",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-06-19": {
+    "id": "1750348877_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass and class decoration to create a singleton pattern. The goal is to ensure that only one instance of `Singleton` can be created, regardless of how many times it is instantiated.\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super(SingletonMeta, cls).__call__(*args, **kwargs)\n        return cls._instances[cls]\n\ndef singleton(cls):\n    class Wrapper(cls):\n        __metaclass__ = SingletonMeta\n    return Wrapper\n\n@singleton\nclass MyClass:\n    def __init__(self, value):\n        self.value = value\n\n# Example usage\nobj1 = MyClass(10)\nobj2 = MyClass(20)\n\nprint(obj1 is obj2)  # True or False?\n```\n\nWhat will be the output of `print(obj1 is obj2)`?\n\nA) True  \nB) False",
+    "answer": "C",
+    "timestamp": "2025-06-19 16:01:17",
+    "topic": "Class Decorators and Class Modification"
   }
 }
