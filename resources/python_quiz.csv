@@ -7107,3 +7107,35 @@ B) is true. The metaclass adds a new method `new_method` to instances of classes
 C) is partially correct but incomplete. The decorator does modify only the `__init__` method of the decorated class, but it does not affect other methods defined in the original class.
 
 D) is false. The `new_method` added by the metaclass can be accessed on instances of `MyClass`.";"The correct answer is B) The metaclass adds a new method `new_method` to every class that uses it."
+"2025-06-19 08:01";"[ANSWER_SEPARATOR]
+**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'x' in dct:
+            print(f""Class {name} has attribute x"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+class MyOtherClass(metaclass=Meta):
+    x = 10
+```
+
+What will be printed to the console when `MyClass` and `MyOtherClass` are defined?
+
+A) ""Class MyClass has attribute x""  
+B) ""Class MyOtherClass has attribute x""  
+C) Both A and B  
+D) Neither A nor B  
+
+[ANSWER_SEPARATOR]
+**Part 2 (Answer):**
+
+B) ""Class MyOtherClass has attribute x""
+
+Explanation: The metaclass `Meta` checks if the class dictionary contains an attribute named 'x' during the creation of a new class. In this case, `MyClass` does not have any attributes, so no message is printed. However, `MyOtherClass` defines an attribute `x`, so when it is created, the metaclass outputs ""Class MyOtherClass has attribute x"".";"Answer format error. Please check the generated content."

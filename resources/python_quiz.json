@@ -1132,5 +1132,12 @@
     "answer": "The correct answer is B) The metaclass adds a new method `new_method` to every class that uses it.",
     "timestamp": "2025-06-19 00:02:03",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q2_2025-06-19": {
+    "id": "1750320086_2",
+    "question": "[ANSWER_SEPARATOR]\n**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'x' in dct:\n            print(f\"Class {name} has attribute x\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nclass MyOtherClass(metaclass=Meta):\n    x = 10\n```\n\nWhat will be printed to the console when `MyClass` and `MyOtherClass` are defined?\n\nA) \"Class MyClass has attribute x\"  \nB) \"Class MyOtherClass has attribute x\"  \nC) Both A and B  \nD) Neither A nor B  \n\n[ANSWER_SEPARATOR]\n**Part 2 (Answer):**\n\nB) \"Class MyOtherClass has attribute x\"\n\nExplanation: The metaclass `Meta` checks if the class dictionary contains an attribute named 'x' during the creation of a new class. In this case, `MyClass` does not have any attributes, so no message is printed. However, `MyOtherClass` defines an attribute `x`, so when it is created, the metaclass outputs \"Class MyOtherClass has attribute x\".",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-06-19 08:01:26",
+    "topic": "Object-Oriented Programming"
   }
 }
