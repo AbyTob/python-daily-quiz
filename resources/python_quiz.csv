@@ -7258,3 +7258,61 @@ Explanation:
 - The `AsyncMeta` metaclass dynamically decorates all methods in the subclass with `async_decorator`, but since `_run` already has a method named `_run`, it does not get affected by the decorator.
 - When an instance of `AsyncClass` is created, the `_run` coroutine is decorated and can be called asynchronously using `await`.
 - The code will run without errors, and when you call `_run()` on the instance within the `asyncio.run(instance._run())`, it will execute in a separate task, demonstrating asynchronous behavior."
+"2025-06-20 16:02";"[QUESTION]
+Consider the following Python code snippet that aims to create a custom decorator to measure the execution time of functions:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} executed in {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    total = 0
+    for i in range(n):
+        total += i
+    return total
+```
+
+Which of the following modifications to the `compute_sum` function would correctly handle the case where the function is called with no arguments?
+
+A) Change the decorator to accept default parameters.
+
+B) Modify the `timer` decorator to ensure it handles functions without arguments gracefully.
+
+C) Add a conditional inside the `wrapper` function to check if `args` and `kwargs` are empty.
+
+D) None of the above. The current implementation is correct and robust.";"B) Modify the `timer` decorator to ensure it handles functions without arguments gracefully.
+
+Explanation: The current implementation of the `timer` decorator assumes that there will always be at least one argument (`func`) passed to it. If a function decorated with `@timer` does not accept any arguments, calling this function will result in a TypeError because the wrapper will not receive any positional or keyword arguments other than those intended for the wrapped function itself.
+
+To fix this issue, we need to ensure that our decorator can handle functions without arguments correctly. One way to do this is by modifying the `timer` decorator to check if `args` and `kwargs` are empty within the wrapper function and adjust its behavior accordingly. For example:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} executed in {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n=1000):  # Added default argument to make the function callable without arguments
+    total = 0
+    for i in range(n):
+        total += i
+    return total
+```
+
+This modification ensures that the `compute_sum` function can be called with or without an argument, and the `timer` decorator will still work correctly."
