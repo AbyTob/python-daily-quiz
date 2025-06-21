@@ -7391,3 +7391,66 @@ C) The `print_time` function will run indefinitely but will not print anything b
 D) The code will raise a `TypeError` because asyncio coroutines cannot be decorated with non-coroutine functions.";"A) The `AsyncTimer` class is a decorator that can be applied to any coroutine function. When applied, it prints the current time every 2 seconds.
 
 Explanation: In this solution, the `AsyncTimer` class is designed as a decorator for asyncio coroutines. It uses a call method to wrap the coroutine and run it in an infinite loop with a sleep interval of 2 seconds between executions. This allows the coroutine `print_time` to be executed repeatedly at fixed intervals, printing the current time each time. Therefore, statement A accurately describes the behavior of the code."
+"2025-06-21 16:02";"[QUESTION]
+Consider the following Python code snippet that attempts to implement a simple memoization decorator for functions:
+
+```python
+from functools import wraps
+
+def memoize(func):
+    cache = {}
+    @wraps(func)
+    def wrapper(*args):
+        if args in cache:
+            return cache[args]
+        else:
+            result = func(*args)
+            cache[args] = result
+            return result
+    return wrapper
+
+@memoize
+def fibonacci(n):
+    if n < 2:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+```
+
+However, this implementation has a critical flaw that affects its performance. What is the flaw and how can it be corrected?
+
+A) The `cache` dictionary will grow indefinitely because there's no limit to the number of unique arguments that could be passed to the `fibonacci` function.
+
+B) The decorator does not handle the case where the function might be called with non-hashable arguments, causing a TypeError.
+
+C) The `cache` dictionary is being created inside the decorator, leading to each decorated function having its own separate cache. This can be corrected by moving the `cache` outside the decorator.
+
+D) The decorator does not support keyword arguments, which would lead to issues when calling functions with keyword parameters.";"C) The `cache` dictionary is being created inside the decorator, leading to each decorated function having its own separate cache. This can be corrected by moving the `cache` outside the decorator.
+
+The issue with the current implementation is that the `cache` dictionary is recreated every time the `memoize` decorator is applied to a function, resulting in each function having its own independent cache. This not only increases memory usage but also makes the memoization mechanism less effective because it does not share cached results between different instances of decorated functions.
+
+To correct this, we need to move the `cache` dictionary outside the decorator so that it is shared across all decorated functions:
+
+```python
+from functools import wraps
+
+cache = {}
+
+def memoize(func):
+    @wraps(func)
+    def wrapper(*args):
+        if args in cache:
+            return cache[args]
+        else:
+            result = func(*args)
+            cache[args] = result
+            return result
+    return wrapper
+
+@memoize
+def fibonacci(n):
+    if n < 2:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+```
+
+With this change, the `cache` dictionary is shared across all instances of decorated functions, and memoization will work correctly for the `fibonacci` function."
