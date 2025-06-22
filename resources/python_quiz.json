@@ -1195,5 +1195,12 @@
     "answer": "Part 2 (Answer):\nA) This statement is incorrect because while the decorator itself works to measure execution time, it does not account for I/O operations if they are performed within the function. If `compute_sum` involves expensive I/O operations, their time would not be included in the measurement.\n\nB) Correct. The `wrapper` function correctly captures and passes all arguments (`*args, **kwargs`) to the original function, ensuring that the decorator does not alter how functions are called.\n\nC) True. Decorators are applied sequentially from top to bottom. If another decorator like `@memoize` is added above `@timer`, its effects would be isolated from the timing measurement by `timer`.\n\nD) Incorrect. Asyncio can be used with decorators, and the timing would still correctly measure the CPU-bound time taken by the function, ignoring other asyncio-related tasks or I/O wait times that might not include in a simple timing measurement.",
     "timestamp": "2025-06-22 00:01:58",
     "topic": "Asynchronous Programming Concepts"
+  },
+  "q2_2025-06-22": {
+    "id": "1750579291_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that attempts to use a metaclass to add a new method dynamically to an existing class:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, attrs):\n        attrs['dynamic_method'] = lambda self: \"This is a dynamic method\"\n        return super().__new__(cls, name, bases, attrs)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\nprint(obj.dynamic_method())\n```\n\nWhich of the following statements about this code are correct?\n\nA) The `dynamic_method` will be added to `MyClass` and can be called on instances of `MyClass`.\nB) A TypeError will be raised because metaclasses cannot add new methods after class creation.\nC) The `dynamic_method` will not be added to `MyClass`, so calling it on an instance of `MyClass` will result in an AttributeError.\nD) The behavior of the code is undefined and could lead to unpredictable results.",
+    "answer": "A) The `dynamic_method` will be added to `MyClass` and can be called on instances of `MyClass`.\n\n**Explanation:** The metaclass method `__new__` is called when a class is being created. In this case, the `Meta` metaclass adds a new method `dynamic_method` to any class it decorates (`MyClass`). This method can then be accessed and called on instances of `MyClass`.",
+    "timestamp": "2025-06-22 08:01:31",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
