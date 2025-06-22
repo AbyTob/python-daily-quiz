@@ -7454,3 +7454,39 @@ def fibonacci(n):
 ```
 
 With this change, the `cache` dictionary is shared across all instances of decorated functions, and memoization will work correctly for the `fibonacci` function."
+"2025-06-22 00:01";"Part 1 (Question):
+Consider the following Python code snippet that aims to create a decorator to measure the execution time of functions:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time} seconds"")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    return sum(range(n))
+```
+
+Which of the following statements is true regarding the use and functionality of this decorator?
+
+A) The `timer` decorator will correctly measure the execution time of any function it decorates, including `compute_sum`.
+
+B) The `wrapper` function inside `timer` captures all arguments and keyword arguments passed to the decorated function and passes them along.
+
+C) If another decorator is added above `@timer`, such as `@memoize`, it will not affect the execution time measurement by `timer`.
+
+D) The `timer` decorator can be used with asynchronous functions without modification, but the output will not include any meaningful timing information.";"Part 2 (Answer):
+A) This statement is incorrect because while the decorator itself works to measure execution time, it does not account for I/O operations if they are performed within the function. If `compute_sum` involves expensive I/O operations, their time would not be included in the measurement.
+
+B) Correct. The `wrapper` function correctly captures and passes all arguments (`*args, **kwargs`) to the original function, ensuring that the decorator does not alter how functions are called.
+
+C) True. Decorators are applied sequentially from top to bottom. If another decorator like `@memoize` is added above `@timer`, its effects would be isolated from the timing measurement by `timer`.
+
+D) Incorrect. Asyncio can be used with decorators, and the timing would still correctly measure the CPU-bound time taken by the function, ignoring other asyncio-related tasks or I/O wait times that might not include in a simple timing measurement."
