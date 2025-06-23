@@ -1223,5 +1223,12 @@
     "answer": "D) The class cannot be instantiated as it lacks an implementation for the required method.\n\n**Explanation:** The code defines a metaclass `CacheMeta` that adds a caching mechanism to any class using it. However, the `get` method is not properly defined in the `CachedClass`. The metaclass checks for the presence of a `get` method during class creation and raises a `TypeError` if it's missing. Since `CachedClass` does not define a `get` method, attempting to instantiate it will result in a `TypeError`.",
     "timestamp": "2025-06-23 08:02:12",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-06-23": {
+    "id": "1750694507_3",
+    "question": "[QUESTION]\nConsider the following code snippet which uses both metaclasses and class decorators:\n\n```python\ndef my_decorator(cls):\n    original_new = cls.__new__\n\n    def new_new(cls, *args, **kwargs):\n        print(\"Decorator is called\")\n        return original_new(cls, *args, **kwargs)\n\n    cls.__new__ = new_new\n    return cls\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'x' in dct:\n            print(f\"Metaclass added attribute: {dct['x']}\")\n        return super().__new__(cls, name, bases, dct)\n\n@my_decorator\nclass MyClass(metaclass=Meta):\n    x = 5\n\n    def __init__(self, y):\n        self.y = y\n\n# Create an instance of MyClass\nobj = MyClass(10)\n```\n\nWhat will be the output when running this code? \n\nA) Decorator is called  \nB) Metaclass added attribute: 5  \nC) Both A and B  \nD) Neither A nor B",
+    "answer": "C) Both A and B  \n\nExplanation:\n- The `my_decorator` function modifies the `__new__` method of the class to print \"Decorator is called\" whenever an instance of `MyClass` is created.\n- The metaclass `Meta` checks if the dictionary `dct` contains a key 'x'. If it does, it prints a message indicating that it added the attribute. In this case, since `MyClass` has an attribute `x = 5`, the metaclass will print \"Metaclass added attribute: 5\".\n- When creating an instance of `MyClass`, both the decorator and the metaclass are invoked, hence both messages will be printed in the given order.",
+    "timestamp": "2025-06-23 16:01:47",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
