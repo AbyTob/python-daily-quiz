@@ -7551,3 +7551,46 @@ Explanation:
 - When using `asyncio.gather`, all tasks are scheduled concurrently by asyncio's event loop. The tasks start immediately upon being passed to `asyncio.gather`.
 - Each task runs in parallel as long as it is waiting for I/O operations (like `await asyncio.sleep(delay)`). Since these tasks involve sleeping, they do not block the event loop, allowing other tasks to run concurrently.
 - Therefore, all tasks will start immediately and complete concurrently, with each waiting for its specified delay. This behavior demonstrates how asyncio manages asynchronous tasks effectively without being constrained by the GIL in I/O-bound scenarios."
+"2025-06-23 00:01";"**Part 1 (Question):**
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)
+    return ""Data fetched""
+
+class AsyncContextManager:
+    async def __aenter__(self):
+        print(""Entering context"")
+    
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        print(""Exiting context"")
+
+async def main():
+    async with AsyncContextManager() as cm:
+        data = await fetch_data()
+        print(data)
+
+# Running the main function
+asyncio.run(main())
+```
+
+What will be the output of this code when executed?
+
+A) Fetching data... Exiting context Data fetched  
+B) Entering context Fetching data... Exiting context Data fetched  
+C) Fetching data... Data fetched Exiting context  
+D) Entering context Data fetched Exiting context";"**Part 2 (Answer):**
+The correct answer is B) Entering context Fetching data... Exiting context Data fetched.
+
+Explanation:
+- The `async with` statement is used to create an asynchronous context manager.
+- When the `main` function runs, it enters the `AsyncContextManager` by calling its `__aenter__` method, which prints ""Entering context"".
+- Next, it awaits the `fetch_data` coroutine, which prints ""Fetching data..."" and then waits for 2 seconds before returning ""Data fetched"".
+- After `fetch_data` completes, the `main` function continues to print the returned data.
+- The `async with` statement also calls the `__aexit__` method of the context manager, which prints ""Exiting context"".
+
+The order of execution is clearly visible in the output, demonstrating how `__aenter__`, `await fetch_data()`, and `__aexit__` are executed in sequence."
