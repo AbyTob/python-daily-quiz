@@ -7683,3 +7683,38 @@ Explanation:
 - The `my_decorator` function modifies the `__new__` method of the class to print ""Decorator is called"" whenever an instance of `MyClass` is created.
 - The metaclass `Meta` checks if the dictionary `dct` contains a key 'x'. If it does, it prints a message indicating that it added the attribute. In this case, since `MyClass` has an attribute `x = 5`, the metaclass will print ""Metaclass added attribute: 5"".
 - When creating an instance of `MyClass`, both the decorator and the metaclass are invoked, hence both messages will be printed in the given order."
+"2025-06-24 00:01";"[QUESTION]
+Consider the following Python code snippet that utilizes a metaclass to create a singleton pattern. The goal is to ensure that only one instance of `Singleton` can be created throughout the application.
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super(SingletonMeta, cls).__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Singleton(metaclass=SingletonMeta):
+    def __init__(self):
+        self.value = 0
+
+s1 = Singleton()
+s2 = Singleton()
+
+print(s1 is s2)  # True
+```
+
+Which of the following statements about the above code is true?
+
+A) The `Singleton` class can be subclassed without any changes.
+B) When an instance of `Singleton` is created, its `__init__` method will always be called.
+C) The `_instances` dictionary stores instances based on their class names.
+D) Subsequent calls to create another `Singleton` object using the same metaclass do not reinitialize the existing instance.";"[C] The `_instances` dictionary stores instances based on their class names.
+
+Explanation:
+- Option A is incorrect because subclassing `Singleton` would still utilize the same metaclass, and thus there would still be a singleton constraint.
+- Option B is incorrect because the `__init__` method of the `Singleton` class will only be called once when the first instance is created. Subsequent creations through the same metaclass will return the existing instance without reinitializing it.
+- Option C is correct; the `_instances` dictionary uses the class (`cls`) as the key, which ensures that each subclass (if any) would have its own separate instance stored in the dictionary.
+- Option D is incorrect because when an existing instance of `Singleton` is accessed through the same metaclass, it does not reinitialize the instance; instead, it returns the already created instance."
