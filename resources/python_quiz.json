@@ -1244,5 +1244,12 @@
     "answer": "B) It raises an AttributeError because the metaclass enforces the presence of a 'name' attribute, which is missing in the `Person` class.",
     "timestamp": "2025-06-24 08:01:27",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-06-24": {
+    "id": "1750780905_3",
+    "question": "[QUESTION]\nConsider the following code snippet that uses a metaclass to ensure that any class inheriting from `BaseClass` has a specific method signature:\n\n```python\nclass MethodSignatureMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'my_method' not in dct or not callable(dct['my_method']):\n            raise TypeError(\"Classes derived from BaseClass must have a callable my_method\")\n        return super().__new__(cls, name, bases, dct)\n\nclass BaseClass(metaclass=MethodSignatureMeta):\n    pass\n\nclass MySubClass(BaseClass):\n    def my_method(self, arg1, arg2):\n        print(f\"Arguments received: {arg1}, {arg2}\")\n```\n\nWhich of the following code snippets will successfully create a class that adheres to the requirements set by `BaseClass`?\n\nA) \n```python\nclass AnotherSubClass(BaseClass):\n    def my_method(self, arg1, arg2):\n        print(f\"Arguments received: {arg1}, {arg2}\")\n```\n\nB) \n```python\nclass YetAnotherSubClass(BaseClass):\n    def my_method(self, arg1):\n        print(f\"Argument received: {arg1}\")\n```\n\nC) \n```python\nclass InvalidSubClass(BaseClass):\n    pass\n```\n\nD) \n```python\nclass ValidSubClass(BaseClass):\n    def my_method(self, arg1, arg2):\n        return \"Method signature is correct\"\n```",
+    "answer": "[ANSWER] A\n\nExplanation: The `AnotherSubClass` correctly defines a method named `my_method` that takes two arguments as specified by the metaclass requirement. Therefore, it adheres to the requirements set by `BaseClass`.",
+    "timestamp": "2025-06-24 16:01:45",
+    "topic": "Object-Oriented Programming"
   }
 }
