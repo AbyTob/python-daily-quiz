@@ -7718,3 +7718,31 @@ Explanation:
 - Option B is incorrect because the `__init__` method of the `Singleton` class will only be called once when the first instance is created. Subsequent creations through the same metaclass will return the existing instance without reinitializing it.
 - Option C is correct; the `_instances` dictionary uses the class (`cls`) as the key, which ensures that each subclass (if any) would have its own separate instance stored in the dictionary.
 - Option D is incorrect because when an existing instance of `Singleton` is accessed through the same metaclass, it does not reinitialize the instance; instead, it returns the already created instance."
+"2025-06-24 08:01";"[QUESTION] Consider the following code snippet that uses a metaclass to enforce a class attribute:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'name' not in dct:
+            raise AttributeError(""Class must have a 'name' attribute"")
+        return super().__new__(cls, name, bases, dct)
+
+class Person(metaclass=Meta):
+    pass
+
+# This will raise an AttributeError
+person = Person()
+
+# Correct way to instantiate the class
+class Student(Person):
+    name = ""John""
+
+student = Student()
+```
+
+Which of the following statements correctly explains what happens when `Person()` is called?
+
+A) It successfully creates an instance of `Person` because it inherits from a base class that defines the necessary attribute.
+B) It raises an AttributeError because the metaclass enforces the presence of a 'name' attribute, which is missing in the `Person` class.
+C) It returns `None` because no attribute enforcement happens due to some internal Python behavior.
+D) It raises a TypeError because metaclasses cannot be applied directly to instance creation.";"B) It raises an AttributeError because the metaclass enforces the presence of a 'name' attribute, which is missing in the `Person` class."

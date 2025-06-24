@@ -1237,5 +1237,12 @@
     "answer": "[C] The `_instances` dictionary stores instances based on their class names.\n\nExplanation:\n- Option A is incorrect because subclassing `Singleton` would still utilize the same metaclass, and thus there would still be a singleton constraint.\n- Option B is incorrect because the `__init__` method of the `Singleton` class will only be called once when the first instance is created. Subsequent creations through the same metaclass will return the existing instance without reinitializing it.\n- Option C is correct; the `_instances` dictionary uses the class (`cls`) as the key, which ensures that each subclass (if any) would have its own separate instance stored in the dictionary.\n- Option D is incorrect because when an existing instance of `Singleton` is accessed through the same metaclass, it does not reinitialize the instance; instead, it returns the already created instance.",
     "timestamp": "2025-06-24 00:01:58",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q2_2025-06-24": {
+    "id": "1750752087_2",
+    "question": "[QUESTION] Consider the following code snippet that uses a metaclass to enforce a class attribute:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'name' not in dct:\n            raise AttributeError(\"Class must have a 'name' attribute\")\n        return super().__new__(cls, name, bases, dct)\n\nclass Person(metaclass=Meta):\n    pass\n\n# This will raise an AttributeError\nperson = Person()\n\n# Correct way to instantiate the class\nclass Student(Person):\n    name = \"John\"\n\nstudent = Student()\n```\n\nWhich of the following statements correctly explains what happens when `Person()` is called?\n\nA) It successfully creates an instance of `Person` because it inherits from a base class that defines the necessary attribute.\nB) It raises an AttributeError because the metaclass enforces the presence of a 'name' attribute, which is missing in the `Person` class.\nC) It returns `None` because no attribute enforcement happens due to some internal Python behavior.\nD) It raises a TypeError because metaclasses cannot be applied directly to instance creation.",
+    "answer": "B) It raises an AttributeError because the metaclass enforces the presence of a 'name' attribute, which is missing in the `Person` class.",
+    "timestamp": "2025-06-24 08:01:27",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
