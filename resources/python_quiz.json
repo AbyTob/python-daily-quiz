@@ -1265,5 +1265,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-06-25 08:03:04",
     "topic": "Task Management and Scheduling"
+  },
+  "q3_2025-06-25": {
+    "id": "1750867289_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def task(name):\n    print(f\"Task {name} started\")\n    await asyncio.sleep(1)\n    print(f\"Task {name} completed\")\n\nasync def main():\n    tasks = [task(i) for i in range(3)]\n    await asyncio.gather(*tasks)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements is true about this code?\n\nA) The program will print \"Task 0 started\" before printing \"Task 1 started\".\nB) The tasks are executed concurrently, but their completion order is not guaranteed.\nC) All tasks must be completed in the order they were created.\nD) The program will raise an error because asyncio.sleep() does not work with async functions.",
+    "answer": "B) The tasks are executed concurrently, but their completion order is not guaranteed.\n\nExplanation:\nThe code demonstrates the use of asyncio to execute multiple tasks concurrently. When `asyncio.gather` is used with multiple awaitable objects (in this case, asynchronous functions), it runs them all at the same time and waits for all to complete. The order in which the tasks start executing can be determined by Python's event loop scheduler, but there is no guarantee about their completion order. This makes option B correct while options A, C, and D are incorrect.",
+    "timestamp": "2025-06-25 16:01:29",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
