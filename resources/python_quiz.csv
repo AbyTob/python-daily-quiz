@@ -7794,3 +7794,49 @@ class ValidSubClass(BaseClass):
 ```";"[ANSWER] A
 
 Explanation: The `AnotherSubClass` correctly defines a method named `my_method` that takes two arguments as specified by the metaclass requirement. Therefore, it adheres to the requirements set by `BaseClass`."
+"2025-06-25 00:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self.running = False
+
+    async def start(self):
+        while self.running:
+            await asyncio.sleep(self.interval)
+            print(f""Timer tick: {self.interval} seconds"")
+
+def timer_decorator(func):
+    def wrapper(*args, **kwargs):
+        loop = asyncio.get_event_loop()
+        timer = AsyncTimer(interval=1)
+        timer.running = True
+        asyncio.ensure_future(timer.start())
+        return func(*args, **kwargs)
+    return wrapper
+
+@timer_decorator
+async def async_task():
+    print(""Task is running"")
+
+# Usage
+async def main():
+    await async_task()
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What will be printed to the console when you run this code?
+
+A) Task is running  
+B) Timer tick: 1 seconds Task is running  
+C) Task is running Timer tick: 1 seconds  
+D) The program will hang forever";"Correct answer: B) Timer tick: 1 seconds Task is running
+
+Explanation:
+The `AsyncTimer` class creates a simple timer that prints ""Timer tick"" every second when the `start` method is called. The `timer_decorator` is applied to the `async_task` function, which starts the timer before calling `async_task`. When you run this code, it will first print ""Timer tick: 1 seconds"" (from the `AsyncTimer`) and then ""Task is running"" (from the `async_task`)."

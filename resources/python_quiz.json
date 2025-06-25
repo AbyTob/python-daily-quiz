@@ -1251,5 +1251,12 @@
     "answer": "[ANSWER] A\n\nExplanation: The `AnotherSubClass` correctly defines a method named `my_method` that takes two arguments as specified by the metaclass requirement. Therefore, it adheres to the requirements set by `BaseClass`.",
     "timestamp": "2025-06-24 16:01:45",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-06-25": {
+    "id": "1750809701_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncTimer:\n    def __init__(self, interval):\n        self.interval = interval\n        self.running = False\n\n    async def start(self):\n        while self.running:\n            await asyncio.sleep(self.interval)\n            print(f\"Timer tick: {self.interval} seconds\")\n\ndef timer_decorator(func):\n    def wrapper(*args, **kwargs):\n        loop = asyncio.get_event_loop()\n        timer = AsyncTimer(interval=1)\n        timer.running = True\n        asyncio.ensure_future(timer.start())\n        return func(*args, **kwargs)\n    return wrapper\n\n@timer_decorator\nasync def async_task():\n    print(\"Task is running\")\n\n# Usage\nasync def main():\n    await async_task()\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhat will be printed to the console when you run this code?\n\nA) Task is running  \nB) Timer tick: 1 seconds Task is running  \nC) Task is running Timer tick: 1 seconds  \nD) The program will hang forever",
+    "answer": "Correct answer: B) Timer tick: 1 seconds Task is running\n\nExplanation:\nThe `AsyncTimer` class creates a simple timer that prints \"Timer tick\" every second when the `start` method is called. The `timer_decorator` is applied to the `async_task` function, which starts the timer before calling `async_task`. When you run this code, it will first print \"Timer tick: 1 seconds\" (from the `AsyncTimer`) and then \"Task is running\" (from the `async_task`).",
+    "timestamp": "2025-06-25 00:01:41",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
