@@ -8064,3 +8064,34 @@ def async_execution_time(func):
 
 Explanation:
 The correct implementation of the `async_execution_time` decorator is provided in option D. It uses `loop.time()` to measure the execution time correctly within an asynchronous context. The decorator wraps the original function and measures the time before and after the execution of the async function using the event loop's timing method, ensuring that the timing is accurate even when running inside an asyncio event loop."
+"2025-06-26 08:01";"[QUESTION]
+Consider the following Python code snippet that attempts to create a decorator which logs function calls with their arguments:
+
+```python
+import functools
+
+def log_function_call(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__}({args}, {kwargs})"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_function_call
+def add(a, b):
+    return a + b
+
+print(add(3, 4))
+```
+
+Which of the following statements about this code is true?
+
+A) The decorator will correctly log the function calls as expected.
+
+B) The decorator will cause a runtime error because `functools.wraps` is not used.
+
+C) The decorator will work but the logged arguments will be incorrect due to how `*args` and `**kwargs` are handled.
+
+D) None of the above";"A) The decorator will correctly log the function calls as expected.
+
+Explanation: This statement is true. The `functools.wraps` decorator is used correctly to preserve the metadata of the original function, including its name, docstring, and other attributes. Therefore, when the `add` function is called with arguments `(3, 4)`, it will print ""Calling add((3, 4), {})"" as expected. The use of `*args` and `**kwargs` in both the wrapper and the original function ensures that all positional and keyword arguments are correctly passed through."
