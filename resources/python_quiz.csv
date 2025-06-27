@@ -8140,3 +8140,43 @@ Explanation:
 - This means that all methods in classes defined with `Meta` as their metaclass will have logging capabilities added, not just those explicitly in `Calculator`.
 - When an instance of a class using `Meta` is created, the `__init__` method of the metaclass's generated class is called. However, it does not modify the `__init__` method itself; it wraps any callable attributes to add logging.
 - Calling `add(2, 3)` on an instance of `Calculator` will indeed print ""Calling add with args: (2, 3), kwargs: {}"" and then return 5, demonstrating that the decorator has been applied."
+"2025-06-27 00:02";"Part 1 (Question):
+Consider the following Python code snippet that uses a metaclass to add a method to all subclasses:
+
+```python
+# Define a metaclass
+class AutoAddMethodMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Add a method to all subclasses dynamically
+        dct['auto_method'] = lambda self: f""Hello from {self.__class__.__name__}""
+        return super().__new__(cls, name, bases, dct)
+
+# Base class using the metaclass
+class Base(metaclass=AutoAddMethodMeta):
+    pass
+
+# Subclasses of Base
+class SubClass1(Base):
+    pass
+
+class SubClass2(Base):
+    pass
+```
+
+Which of the following statements about this code is true?
+
+A) When an instance of `SubClass1` or `SubClass2` calls `auto_method()`, it will return ""Hello from SubClass1"" and ""Hello from SubClass2"" respectively.
+
+B) The method `auto_method()` is added to all subclasses dynamically at runtime using the metaclass.
+
+C) The `AutoAddMethodMeta` metaclass can only be used with classes that inherit directly from `Base`.
+
+D) When an instance of any subclass calls `auto_method()`, it will always return ""Hello from Base"" because `Base` is the top-level class and defines the method.";"Part 2 (Answer):
+B) The method `auto_method()` is added to all subclasses dynamically at runtime using the metaclass.
+
+Explanation: 
+The metaclass `AutoAddMethodMeta` is defined such that it adds a new method `auto_method` to any class that uses this metaclass, including its subclasses. This method returns a string indicating the name of the class where it was called from. Therefore, when an instance of either `SubClass1` or `SubClass2` calls `auto_method()`, it will correctly return ""Hello from SubClass1"" and ""Hello from SubClass2"", respectively.
+
+Option A is incorrect because it incorrectly states what the method returns.
+Option C is incorrect because there's no restriction on which classes can use this metaclass; any class defined with `metaclass=AutoAddMethodMeta` will have the method added.
+Option D is incorrect because each subclass receives its own copy of the method, and it correctly reflects the class name where it was called."
