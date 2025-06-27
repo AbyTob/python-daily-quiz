@@ -8220,3 +8220,75 @@ Explanation:
 - The `debug_method` decorator wraps any callable (method, function) with additional debugging print statements.
 - The `DebugMeta` metaclass uses `__prepare__` and `__new__` to apply the `debug_method` decorator to all callable items in the class dictionary before the class is fully created. This includes both methods (`method1` and `method2`) as well as any other callable attributes that might be added later.
 - Therefore, when an instance of `MyClass` is created, calling either `method1` or `method2` will indeed include additional debug prints before the actual method execution, making option C true. However, since all callables are affected, option A and D are incorrect because they only apply to methods. Option B accurately describes the behavior of the metaclass."
+"2025-06-27 16:02";"[QUESTION]
+Consider the following Python code snippet that uses decorators and metaclasses:
+
+```python
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        result = func(*args, **kwargs)
+        print(""Something is happening after the function is called."")
+        return result
+    return wrapper
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = my_decorator(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    def method1(self):
+        print(""Executing method1."")
+
+    def method2(self):
+        print(""Executing method2."")
+```
+
+What will be the output if an instance of `MyClass` is created and both its methods are called?
+
+A) 
+```
+Something is happening before the function is called.
+Executing method1.
+Something is happening after the function is called.
+Something is happening before the function is called.
+Executing method2.
+Something is happening after the function is called.
+```
+
+B) 
+```
+Executing method1.
+Something is happening before the function is called.
+Something is happening after the function is called.
+Executing method2.
+Something is happening before the function is called.
+Something is happening after the function is called.
+```
+
+C) 
+```
+Something is happening before the function is called.
+Executing method1.
+Executing method2.
+Something is happening after the function is called.
+Something is happening after the function is called.
+```
+
+D) 
+```
+Executing method1.
+Something is happening before the function is called.
+Something is happening after the function is called.
+Something is happening before the function is called.
+Something is happening after the function is called.
+Executing method2.
+```";"A
+
+**Explanation:** The `Meta` metaclass decorates all callable attributes of any class instantiated with it using the `my_decorator`. When an instance of `MyClass` is created, both `method1` and `method2` are automatically wrapped by `my_decorator`, which adds pre- and post-function call print statements. Thus, when calling these methods on an instance of `MyClass`, the decorator's behavior is triggered before and after each method execution."
