@@ -8412,3 +8412,35 @@ Explanation:
 - The `singleton` decorator uses a dictionary to store instances of the class, ensuring that any subsequent instantiation returns the same instance.
 - The `SingletonMeta` metaclass overrides the `__call__` method to achieve similar singleton behavior by storing instances in a class-level dictionary `_instances`.
 - Therefore, both implementations prevent the creation of multiple instances of their respective classes."
+"2025-06-28 16:01";"[QUESTION] Consider the following Python code snippet that attempts to create a decorator which measures execution time of a function. However, it does not work as expected when applied to asynchronous functions.
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time} seconds to execute"")
+        return result
+    return wrapper
+
+@timing_decorator
+async def async_function():
+    await asyncio.sleep(1)
+
+asyncio.run(async_function())
+```
+
+Which of the following statements is true regarding this code snippet?
+
+A) The decorator `timing_decorator` will correctly measure the execution time of the `async_function`.
+
+B) The decorator `timing_decorator` will raise an error because it does not support asynchronous functions.
+
+C) The decorator `timing_decorator` will work but will only print the time taken for the function to run up to the point where it is paused in the async operation.
+
+D) The decorator `timing_decorator` will complete successfully but will not output any execution time information because the asynchronous operation completes immediately and does not block the main thread.";"[B] The decorator `timing_decorator` will raise an error because it does not support asynchronous functions.
+
+Explanation: The provided decorator uses `time.time()` which returns the current CPU time, not the actual elapsed wall-clock time. When applied to an asynchronous function, the execution of the async function is not blocking the main thread, so `time.time()` before and after the call will return approximately the same value, leading to a zero execution time being printed. Additionally, since the decorator does not handle coroutines correctly, calling it with an `async` function will result in an error because the decorator expects synchronous functions."
