@@ -1349,5 +1349,12 @@
     "answer": "**Part 2 (Answer):**\n\nB) When an instance of `DataProcessor` calls a method, it will automatically print out the execution time.\n\nExplanation:\n- The `timing_decorator` measures the execution time of any callable (methods or functions).\n- By using the metaclass `TimeMeta`, we ensure that all methods in the `DataProcessor` class are wrapped with the `timing_decorator`.\n- Therefore, when an instance of `DataProcessor` calls a method like `process_data`, it will automatically print out the execution time before returning the result.\n- The fact that `process_data` is an asynchronous method does not prevent the decorator from measuring its execution time. The decorator applies to all methods regardless of their async nature.",
     "timestamp": "2025-06-29 08:02:16",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-06-29": {
+    "id": "1751212864_3",
+    "question": "[QUESTION]  \nConsider the following code snippet that utilizes a metaclass and class decoration to modify behavior dynamically:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['hello'] = 'world'\n        return super().__new__(cls, name, bases, dct)\n\n@Meta\nclass MyClass:\n    pass\n\ndef greet(cls):\n    print(f\"Hello from {cls.__name__}!\")\n    return cls\n\ngreet(MyClass)\n```\n\nWhat will be printed when the `greet` function is called with `MyClass` as its argument?\n\nA) Hello from MyClass!\nB) world\nC) Error: 'hello' attribute not defined in MyClass\nD) None",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-06-29 16:01:04",
+    "topic": "Class Decorators and Class Modification"
   }
 }
