@@ -8444,3 +8444,48 @@ C) The decorator `timing_decorator` will work but will only print the time taken
 D) The decorator `timing_decorator` will complete successfully but will not output any execution time information because the asynchronous operation completes immediately and does not block the main thread.";"[B] The decorator `timing_decorator` will raise an error because it does not support asynchronous functions.
 
 Explanation: The provided decorator uses `time.time()` which returns the current CPU time, not the actual elapsed wall-clock time. When applied to an asynchronous function, the execution of the async function is not blocking the main thread, so `time.time()` before and after the call will return approximately the same value, leading to a zero execution time being printed. Additionally, since the decorator does not handle coroutines correctly, calling it with an `async` function will result in an error because the decorator expects synchronous functions."
+"2025-06-29 00:02";"";"Part 1 (Question):
+Consider the following Python code snippet that demonstrates a custom metaclass designed to enhance a class by adding a method `log_access` that logs every attribute access:
+
+```python
+class LoggingMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name in dct:
+            if callable(dct[attr_name]):
+                setattr(dct, attr_name, cls.log_access(attr_name, dct[attr_name]))
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def log_access(method_name, method):
+        def wrapper(*args, **kwargs):
+            print(f""Accessing {method_name}"")
+            return method(*args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=LoggingMeta):
+    def __init__(self):
+        self.value = 42
+
+    def display(self):
+        print(self.value)
+
+# Usage
+obj = MyClass()
+obj.display()  # Should output: Accessing display
+               #         42
+```
+
+Which of the following statements about this code is true?
+
+A) The `LoggingMeta` metaclass automatically logs all attribute accesses for any method in a class it decorates.
+
+B) The `log_access` static method transforms every callable (method or function) in a decorated class into a version that logs its access before executing.
+
+C) When an instance of `MyClass` is created, the `__init__` method does not log its execution because it is not a callable.
+
+D) Using this metaclass, all attribute accesses within any class using it would be logged, but only if they are explicitly defined in the `__dict__`.
+
+Part 2 (Answer):
+B) The `log_access` static method transforms every callable (method or function) in a decorated class into a version that logs its access before executing.
+
+This statement is correct. The `LoggingMeta` metaclass uses ` setattr(dct, attr_name, cls.log_access(attr_name, dct[attr_name]))` to replace each method with a wrapped version of itself that logs access before calling the original method. Therefore, every callable attribute in a class decorated with `LoggingMeta` will log its access when called, not just methods explicitly defined in the `__dict__`."
