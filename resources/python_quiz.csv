@@ -8571,3 +8571,59 @@ A) Hello from MyClass!
 B) world
 C) Error: 'hello' attribute not defined in MyClass
 D) None";"Answer format error. Please check the generated content."
+"2025-06-30 00:02";"";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import time
+
+class Timer:
+    def __init__(self):
+        self.start_time = None
+    
+    def start(self):
+        self.start_time = time.time()
+    
+    def stop(self):
+        if self.start_time is not None:
+            end_time = time.time()
+            print(f""Elapsed time: {end_time - self.start_time} seconds"")
+            return end_time - self.start_time
+        else:
+            raise ValueError(""Timer has not been started"")
+
+def measure_time(func):
+    def wrapper(*args, **kwargs):
+        timer = Timer()
+        timer.start()
+        result = func(*args, **kwargs)
+        timer.stop()
+        return result
+    return wrapper
+
+@measure_time
+def compute_sum(n):
+    return sum(range(1, n+1))
+
+compute_sum(1000000)
+```
+
+This code defines a `Timer` class to measure execution time and a decorator `measure_time` to wrap functions with timing functionality. The function `compute_sum` calculates the sum of numbers from 1 to `n`. 
+
+**Question:**  
+What is the output when running the provided code? Why does this occur?
+
+A) It prints the elapsed time followed by the sum of numbers from 1 to 1,000,000.  
+B) It only prints the sum of numbers from 1 to 1,000,000.  
+C) It raises an error because `measure_time` does not handle exceptions.  
+D) It measures and prints the execution time but fails to return any value.
+
+**Part 2 (Answer):**
+
+The correct answer is **A**.
+
+Explanation:  
+When you decorate a function with `@measure_time`, it wraps the original function (`compute_sum`) in a new function that starts a timer, calls the original function, measures the elapsed time, and then prints this time. The decorator returns the result of the original function, which is also returned by the wrapper. Therefore, running the code will print both the execution time (which is a positive number) followed by the sum of numbers from 1 to 1,000,000.
+
+Options B and C are incorrect because there are no exceptions being raised or not handled correctly in this case. Option D is also incorrect because the function does return a value, which is the result of `compute_sum(1000000)`."
