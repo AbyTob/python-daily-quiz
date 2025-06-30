@@ -8666,3 +8666,49 @@ C) The `wrapper` function does not need the `@wraps(func)` decorator because it'
 D) The caching mechanism can be improved by making the cache thread-safe.";"[ANSWER] D
 
 **Explanation:** The caching mechanism implemented in the code is correct, but the caching itself is not thread-safe. Multiple threads could potentially write to and read from the `cache` dictionary simultaneously without proper synchronization, which could lead to data corruption or race conditions. By using a thread-safe dictionary or implementing locks within the decorator, this issue can be resolved."
+"2025-06-30 16:02";"### Part 1 (Question):
+Consider the following Python code snippet that aims to create a metaclass which modifies the behavior of class methods:
+
+```python
+class MethodDecorator(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr in dct.items():
+            if callable(attr) and not attr_name.startswith('__'):
+                dct[attr_name] = cls.method_decorator(attr)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def method_decorator(func):
+        def wrapper(*args, **kwargs):
+            print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+            result = func(*args, **kwargs)
+            print(f""{func.__name__} returned: {result}"")
+            return result
+        return wrapper
+
+class MyClass(metaclass=MethodDecorator):
+    def method1(self, x):
+        return x + 1
+    
+    def method2(self, y):
+        return y * 2
+```
+
+Which of the following statements correctly describes the behavior of `MyClass` when its methods are called?
+
+A) When `method1(5)` is called, it prints ""Calling method1 with args: (5,), kwargs: {}"" and then returns 6.
+B) When `method2(3)` is called, it returns 6 without any additional output.
+C) The metaclass changes the behavior of all methods in `MyClass` to print debug information before and after the method call.
+D) The metaclass does not modify the behavior of any methods, and calling `method1(5)` or `method2(3)` will produce the same results as without the metaclass.";"### Part 2 (Answer):
+C) The metaclass changes the behavior of all methods in `MyClass` to print debug information before and after the method call.
+
+Explanation:
+The `MethodDecorator` metaclass iterates over all attributes of the class being defined. If an attribute is callable (i.e., a function or method) and does not start with double underscores, it wraps that function using the `method_decorator`. The decorator adds print statements to both the beginning and end of the function, allowing for debugging purposes without altering the original functionality of the method.
+
+When methods `method1` and `method2` are called on an instance of `MyClass`, the metaclass's modifications ensure that they first print debug information about their call, then execute normally, and finally print the result. This behavior is observed in the provided code snippet where calling `MyClass().method1(5)` results in:
+
+```
+Calling method1 with args: (5,), kwargs: {}
+method1 returned: 6
+6
+```"
