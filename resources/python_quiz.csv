@@ -8830,3 +8830,48 @@ def time_int_method(method):
         return result
     return wrapper
 ```";"A) Using a class-based decorator is correct because it properly handles the creation of a new class with the decorated methods, ensuring that only integer-returning methods are timed and validated. The function-based decorators in options B, C, and D incorrectly check whether the method is an instance of `int`, which will never be true since methods are not instances of integers."
+"2025-07-01 08:01";"**Part 1 (Question):**
+
+Consider the following Python code that uses decorators and metaclasses together:
+
+```python
+from functools import wraps
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+def my_decorator(cls):
+    @wraps(cls)
+    def wrapper(*args, **kwargs):
+        print(""Decorator called"")
+        return cls(*args, **kwargs)
+    return type(cls.__name__, (), dict(cls.__dict__, __init__=wrapper))
+
+@my_decorator
+class MyClass(metaclass=Meta):
+    def __init__(self, value):
+        self.value = value
+
+if __name__ == ""__main__"":
+    obj = MyClass(10)
+```
+
+What will be the output of this code when run?
+
+A) Creating class MyClass  
+Decorator called  
+B) Decorator called  
+Creating class MyClass  
+C) Decorator called  
+D) Error: metaclass conflict
+
+**Part 2 (Answer):**
+
+A) Creating class MyClass  
+Decorator called  
+
+**Explanation:** 
+
+The `MyClass` is decorated with `my_decorator`, and the metaclass of `MyClass` is `Meta`. The `__new__` method of the metaclass `Meta` gets called when `MyClass` is created, printing ""Creating class MyClass"". Then, the decorator `my_decorator` wraps the `__init__` method of `MyClass`, printing ""Decorator called"" every time an instance of `MyClass` is created. The order of operations here is first the metaclass creation and then the decoration, so the correct output is ""Creating class MyClass"" followed by ""Decorator called"".";"Answer format error. Please check the generated content."
