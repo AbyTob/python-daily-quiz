@@ -8941,3 +8941,36 @@ try:
 except Exception as e:
     print(e)  # This will print ""An error occurred""
 ```"
+"2025-07-02 00:01";"**Part 1 (Question):**
+
+Consider the following Python code that uses a metaclass to modify a class method:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'my_method' in dct:
+            original = dct['my_method']
+            dct['my_method'] = lambda self: f""Wrapped: {original(self)}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    def my_method(self):
+        return ""Original""
+
+obj = MyClass()
+print(obj.my_method())
+```
+
+What will be the output when `MyClass()` is instantiated and `my_method` is called?
+
+A) Original  
+B) Wrapped: Original  
+C) TypeError  
+D) None";"**Part 2 (Answer):**
+
+B) Wrapped: Original
+
+Explanation:
+- The metaclass `Meta` checks if the class being defined has a method named `my_method`.
+- If it does, it replaces this method with a new lambda function that prefixes the output of the original method with ""Wrapped:"".
+- When `MyClass()` is instantiated and `my_method` is called, it now returns ""Wrapped: Original"" instead of just ""Original""."
