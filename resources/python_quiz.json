@@ -1405,5 +1405,12 @@
     "answer": "**Part 2 (Answer):**\n\nB) Wrapped: Original\n\nExplanation:\n- The metaclass `Meta` checks if the class being defined has a method named `my_method`.\n- If it does, it replaces this method with a new lambda function that prefixes the output of the original method with \"Wrapped:\".\n- When `MyClass()` is instantiated and `my_method` is called, it now returns \"Wrapped: Original\" instead of just \"Original\".",
     "timestamp": "2025-07-02 00:01:27",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q2_2025-07-02": {
+    "id": "1751443277_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses decorators to enhance a class method:\n\n```python\ndef log_method_calls(func):\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__}\")\n        return func(*args, **kwargs)\n    return wrapper\n\nclass MyClass:\n    @log_method_calls\n    def my_method(self, x):\n        return x * 2\n```\n\nWhat is the output of `MyClass().my_method(3)` when run in a Python environment?\n\nA) \"Calling my_method\" followed by 6  \nB) 6  \nC) TypeError  \nD) SyntaxError",
+    "answer": "A) \"Calling my_method\" followed by 6\n\nExplanation: The decorator `log_method_calls` is applied to the method `my_method`. When `MyClass().my_method(3)` is called, it first prints \"Calling my_method\" due to the wrapper function inside the decorator. Then, it calls the original `my_method`, which returns `3 * 2 = 6`.",
+    "timestamp": "2025-07-02 08:01:17",
+    "topic": "Function and Method Decorators"
   }
 }

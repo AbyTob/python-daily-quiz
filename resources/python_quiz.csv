@@ -8974,3 +8974,27 @@ Explanation:
 - The metaclass `Meta` checks if the class being defined has a method named `my_method`.
 - If it does, it replaces this method with a new lambda function that prefixes the output of the original method with ""Wrapped:"".
 - When `MyClass()` is instantiated and `my_method` is called, it now returns ""Wrapped: Original"" instead of just ""Original""."
+"2025-07-02 08:01";"[QUESTION]
+Consider the following Python code snippet that uses decorators to enhance a class method:
+
+```python
+def log_method_calls(func):
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+class MyClass:
+    @log_method_calls
+    def my_method(self, x):
+        return x * 2
+```
+
+What is the output of `MyClass().my_method(3)` when run in a Python environment?
+
+A) ""Calling my_method"" followed by 6  
+B) 6  
+C) TypeError  
+D) SyntaxError";"A) ""Calling my_method"" followed by 6
+
+Explanation: The decorator `log_method_calls` is applied to the method `my_method`. When `MyClass().my_method(3)` is called, it first prints ""Calling my_method"" due to the wrapper function inside the decorator. Then, it calls the original `my_method`, which returns `3 * 2 = 6`."
