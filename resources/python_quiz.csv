@@ -9070,3 +9070,35 @@ D) This statement is false. The `Resource` class does not release its resources 
 - **C)** This statement misinterprets the role of the metaclass constraint. If the `resource_name` is missing, the subclass will not be created due to the error raised by `ResourceMeta`.
 
 - **D)** Garbage collection in Python is designed to reclaim memory automatically when objects are no longer referenced. The `Resource` class provides a way to explicitly release resources, but it does not rely on garbage collection for resource management."
+"2025-07-03 00:01";"### Part 1 (Question)
+
+Consider the following Python code that uses a metaclass to dynamically add a method to any class it decorates. The goal is to understand how this mechanism works, especially in terms of when and how the method is added.
+
+```python
+class DynamicMethodMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Add a dynamic method to the class at decoration time
+        def dynamic_method(self):
+            return ""Dynamic Method Called""
+        
+        dct['dynamic_method'] = dynamic_method
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=DynamicMethodMeta):
+    pass
+
+# Usage
+obj = MyClass()
+result = obj.dynamic_method()  # This should call the dynamically added method
+```
+
+Which of the following statements is true regarding how and when `dynamic_method` is added to `MyClass`?
+
+A) The method is added at runtime when an instance of `MyClass` is created.
+B) The method is added at class definition time due to the metaclass's `__new__` method.
+C) The method is added when an instance of a subclass of `MyClass` is created.
+D) The method is not added, and `dynamic_method` will raise an AttributeError.";"### Part 2 (Answer)
+
+B) The method is added at class definition time due to the metaclass's `__new__` method.
+
+Explanation: In Python, when a class is defined using a metaclass, the metaclass’s `__new__` method is invoked to create the class object. In this case, the `DynamicMethodMeta.__new__` method adds the `dynamic_method` function directly to the dictionary of the class being created (`dct`). This happens before any instances of `MyClass` are created, ensuring that all instances and subclasses of `MyClass` will have access to the dynamically added method."
