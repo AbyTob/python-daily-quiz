@@ -9102,3 +9102,70 @@ D) The method is not added, and `dynamic_method` will raise an AttributeError.";
 B) The method is added at class definition time due to the metaclass's `__new__` method.
 
 Explanation: In Python, when a class is defined using a metaclass, the metaclass’s `__new__` method is invoked to create the class object. In this case, the `DynamicMethodMeta.__new__` method adds the `dynamic_method` function directly to the dictionary of the class being created (`dct`). This happens before any instances of `MyClass` are created, ensuring that all instances and subclasses of `MyClass` will have access to the dynamically added method."
+"2025-07-03 08:02";"[ANSWER_SEPARATOR]  
+**Part 1 (Question):**
+
+Consider the following Python code that uses a decorator and metaclass together:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'greet' not in dct:
+            raise TypeError(f""{name} must implement greet method"")
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class Greeter(metaclass=Meta):
+    def greet(self):
+        print(""Hello"")
+
+class FriendlyGreeter(Greeter):
+    pass
+
+def greet_decorator(cls):
+    original_greet = cls.greet
+    
+    def new_greet(self):
+        print(""Greetings!"")
+        original_greet(self)
+    
+    cls.greet = new_greet
+    return cls
+
+@Meta
+@greet_decorator
+class WelcomeGreeter(Greeter):
+    def greet(self):
+        print(""Welcome!"")
+
+f1 = Greeter()
+f2 = FriendlyGreeter()
+w = WelcomeGreeter()
+
+# What will be the output of the following code?
+print(f1.greet())
+print(f2.greet())
+print(w.greet())
+```
+
+What is the output of the above code? Select all that apply.
+
+A) AttributeError: 'FriendlyGreeter' object has no attribute 'greet'
+
+B) Greetings! Hello
+
+C) Welcome!
+
+D) TypeError: Greeter must implement greet method
+
+[ANSWER_SEPARATOR]  
+**Part 2 (Answer):**
+
+D) TypeError: Greeter must implement greet method
+
+Explanation:
+
+- The `Meta` metaclass checks if the `greet` method is implemented in any class that uses it. Since `Greeter` and `FriendlyGreeter` do not have a `greet` method, they would raise a `TypeError`. However, due to the decorator `@greet_decorator`, `Greeter` gets an additional `greet` method that prints ""Greetings!"" before calling the original `greet` method.
+- The `WelcomeGreeter` class uses both the metaclass and the decorator. When `WelcomeGreeter` is instantiated, the `Meta` metaclass checks for the presence of a `greet` method, which does not exist in this case. Therefore, it raises a `TypeError`.
+- Since the metaclass check fails before the decorator can be applied to `WelcomeGreeter`, option B and C cannot be correct.
+- Option A is incorrect because all classes have the `greet` method due to the decorator.";"Answer format error. Please check the generated content."
