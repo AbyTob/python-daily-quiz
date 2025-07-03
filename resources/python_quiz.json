@@ -1433,5 +1433,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-07-03 08:02:13",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-07-03": {
+    "id": "1751558514_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncHandlerMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'handle' in dct:\n            dct['async_handle'] = staticmethod(dct['handle'])\n        return super().__new__(cls, name, bases, dct)\n\nclass AsyncHandler(metaclass=AsyncHandlerMeta):\n    async def handle(self, data):\n        print(f\"Handling {data} asynchronously\")\n\nasync def main():\n    handler = AsyncHandler()\n    await handler.async_handle(\"task1\")\n    await asyncio.sleep(0.5)\n    await handler.async_handle(\"task2\")\n\n# Uncomment the following line to run\n# asyncio.run(main())\n```\n\nWhich of the following statements is true regarding the behavior of this code when executed?\n\nA) The `handle` method will be called synchronously, and it will block other tasks.\n\nB) The `async_handle` method will be called asynchronously, but it will still block other tasks due to the use of `print`.\n\nC) The `async_handle` method will run concurrently with other tasks thanks to asyncio's event loop.\n\nD) The code will raise an error because `handle` cannot be made asynchronous using this metaclass.",
+    "answer": "**Part 2 (Answer):**\n\n**Correct Answer: C) The `async_handle` method will run concurrently with other tasks thanks to asyncio's event loop.**\n\n**Explanation:** \nThe use of a metaclass (`AsyncHandlerMeta`) that converts an instance method `handle` into a static method `async_handle` is crucial here. This allows the original `handle` method, which was designed to be asynchronous (using `await`), to be called without needing to instantiate the class first. The metaclass transformation enables `async_handle` to be used as a regular coroutine within `main`, allowing other tasks (`task2`) to run concurrently due to asyncio's non-blocking nature. This demonstrates a practical use of metaclasses in enhancing the usability and flexibility of asynchronous methods.",
+    "timestamp": "2025-07-03 16:01:54",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
