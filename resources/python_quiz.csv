@@ -9351,3 +9351,67 @@ D) The code is correct as it already ensures that all instances have unique name
 B) A dictionary key collision might occur if two classes with the same name but different module names are created.
 
 **Explanation**: The provided metaclass `UniqueNameMeta` uses the class's `__name__` attribute to store instances in a class variable `_instances`. This approach will cause a collision if two classes with the same name exist in different modules. For example, if you have `MyClass` in both `module1.py` and `module2.py`, they would be considered the same class by the metaclass, leading to incorrect behavior where instances of these ""same"" classes overwrite each other in the `_instances` dictionary."
+"2025-07-05 00:02";"**Part 1 (Question):**
+
+Consider the following code snippet:
+
+```python
+import asyncio
+
+async def fetch_data():
+    await asyncio.sleep(1)
+    return ""Data fetched""
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    async def __call__(self, *args, **kwargs):
+        result = await self.func(*args, **kwargs)
+        return f""Processed: {result}""
+
+@AsyncDecorator
+async def process_data():
+    data = await fetch_data()
+    return data
+
+async def main():
+    processed_data = await process_data()
+    print(processed_data)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What will be the output of this script when executed?
+
+A) `Processed: Data fetched`
+B) `Data fetched`
+C) The program will hang indefinitely
+D) An error will be thrown";"**Part 2 (Answer):**
+
+The correct answer is A) `Processed: Data fetched`.
+
+Explanation:
+
+1. **Async Function `fetch_data`:**
+   - This function simulates an asynchronous operation using `asyncio.sleep(1)` which suspends the execution for 1 second and then returns a string ""Data fetched"".
+
+2. **Class `AsyncDecorator`:**
+   - This class is designed to be used as a decorator to modify the behavior of async functions.
+   - The `__init__` method takes an async function (`func`) as an argument and stores it.
+   - The `__call__` method is defined to accept any number of positional arguments (`*args`) and keyword arguments (`**kwargs`).
+   - Inside the `__call__` method, the async function is awaited, and then a string ""Processed: "" is prepended to the result.
+
+3. **Decorator Application:**
+   - The `@AsyncDecorator` decorator is applied to the `process_data` coroutine.
+   - When `process_data` is called inside the `main` coroutine, it passes through the `AsyncDecorator`, which awaits the original `fetch_data` function and prepends ""Processed: "" to its result.
+
+4. **Execution of `main`:**
+   - The `asyncio.run(main())` statement runs the `main` coroutine, which in turn calls `process_data`.
+   - Since `process_data` is decorated with `AsyncDecorator`, it first processes the data by prepending ""Processed: "" and then prints the result.
+
+Therefore, the output of the script will be:
+```
+Processed: Data fetched
+```"
