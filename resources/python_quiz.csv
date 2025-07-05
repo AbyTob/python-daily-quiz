@@ -9463,3 +9463,38 @@ The correct answer is A. The provided solution uses a metaclass to ensure that t
 To achieve this, you would define a `CacheMetaclass` as a subclass of `type`, which is used to create new types (classes). The `cache` decorator is then defined to handle caching logic. When applied to a function or method using the `@cache` syntax, it will store results based on the function's arguments and return cached results when the same inputs occur again.
 
 The example usage demonstrates that the cache works correctly for both standalone functions and methods within a class, storing and returning computed values without recomputation when called with the same arguments."
+"2025-07-05 16:02";"### Part 1: Question
+
+Consider the following Python code that uses a metaclass to create a custom class with a specific behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        # Add a new method 'greet' to any subclass using this metaclass
+        dct['greet'] = lambda self: f""Hello from {self.__class__.__name__}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+class AnotherClass(Meta, MyClass):
+    pass
+```
+
+Which of the following statements is true regarding this code?
+
+A) The `greet` method will be added to both `MyClass` and `AnotherClass`, but not to any subclass of `AnotherClass`.
+
+B) The `greet` method will be added only to `MyClass` and not to `AnotherClass` or any subclasses.
+
+C) The `greet` method will be added to all classes that inherit from `AnotherClass`, including `MyClass`.
+
+D) The `greet` method will be added to `MyClass` but not to `AnotherClass`, unless explicitly defined in `AnotherClass`.";"### Part 2: Answer
+
+A) The `greet` method will be added to both `MyClass` and `AnotherClass`, but not to any subclass of `AnotherClass`.
+
+Explanation:
+- In Python, metaclasses are used to create classes, and they can modify the class being created. In this case, the `Meta` metaclass adds a `greet` method to any class that uses it as their metaclass.
+- When `MyClass` is defined with `metaclass=Meta`, the metaclass `Meta` modifies `MyClass` by adding the `greet` method.
+- Similarly, when `AnotherClass` inherits from both `Meta` and `MyClass`, it also inherits the `greet` method because `MyClass` already has it due to being modified by `Meta`.
+- However, any subclass of `AnotherClass` will not have the `greet` method unless explicitly defined in that subclass. This is because `AnotherClass` does not inherit from a metaclass that adds `greet`, only from `MyClass`."
