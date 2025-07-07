@@ -1503,5 +1503,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-07-06 16:01:42",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-07-07": {
+    "id": "1751846512_1",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    print(\"Fetching data...\")\n    await asyncio.sleep(2)\n    return \"Data fetched\"\n\nclass AsyncCache:\n    _cache = {}\n\n    @classmethod\n    async def cache(cls, func):\n        async def wrapper(*args, **kwargs):\n            if args in cls._cache:\n                return cls._cache[args]\n            result = await func(*args, **kwargs)\n            cls._cache[args] = result\n            return result\n        return wrapper\n\n@AsyncCache.cache\nasync def expensive_query(query):\n    print(\"Executing query...\")\n    await asyncio.sleep(2)\n    return f\"Result for {query}\"\n\nasync def main():\n    data1 = await expensive_query(\"SELECT * FROM users\")\n    data2 = await expensive_query(\"SELECT * FROM users\")\n    print(data1, data2)\n\n# Uncomment to run\n# asyncio.run(main())\n```\n\nWhat is the expected output when `main` is called and how does it demonstrate the use of a decorator with class context?\n\nA) Fetching data... Executing query... Result for SELECT * FROM users Result for SELECT * FROM users  \nB) Fetching data... Result for SELECT * FROM users Fetching data... Result for SELECT * FROM users  \nC) Only \"Fetching data...\" is printed because the cache works  \nD) It will raise an error due to incorrect decorator usage\n\n**Part 2 (Answer):**\n\nA) Fetching data... Executing query... Result for SELECT * FROM users Result for SELECT * FROM users  \n\nThe correct output demonstrates how the `AsyncCache.cache` decorator is applied to `expensive_query`, which uses a class-level cache `_cache`. The first call to `expensive_query(\"SELECT * FROM users\")` executes and stores its result in the cache. The second call retrieves the result from the cache, thus avoiding the need for execution again.",
+    "timestamp": "2025-07-07 00:01:52",
+    "topic": "Advanced Python Programming"
   }
 }

@@ -9604,3 +9604,55 @@ B) The `AsyncDecorator` does not handle asynchronous functions correctly.
 The issue lies in how the `AsyncDecorator` is applied to an asynchronous function. When a function is marked as async, it returns a coroutine object that must be awaited to execute. However, the current implementation of the decorator tries to run the coroutine using `run_until_complete`, which blocks the event loop rather than allowing other tasks to run concurrently.
 
 To correct this, you should either modify the decorator to return the coroutine directly and let the caller decide when to run it, or refactor the code to use async/await more effectively.";"Answer format error. Please check the generated content."
+"2025-07-07 00:01";"";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)
+    return ""Data fetched""
+
+class AsyncCache:
+    _cache = {}
+
+    @classmethod
+    async def cache(cls, func):
+        async def wrapper(*args, **kwargs):
+            if args in cls._cache:
+                return cls._cache[args]
+            result = await func(*args, **kwargs)
+            cls._cache[args] = result
+            return result
+        return wrapper
+
+@AsyncCache.cache
+async def expensive_query(query):
+    print(""Executing query..."")
+    await asyncio.sleep(2)
+    return f""Result for {query}""
+
+async def main():
+    data1 = await expensive_query(""SELECT * FROM users"")
+    data2 = await expensive_query(""SELECT * FROM users"")
+    print(data1, data2)
+
+# Uncomment to run
+# asyncio.run(main())
+```
+
+What is the expected output when `main` is called and how does it demonstrate the use of a decorator with class context?
+
+A) Fetching data... Executing query... Result for SELECT * FROM users Result for SELECT * FROM users  
+B) Fetching data... Result for SELECT * FROM users Fetching data... Result for SELECT * FROM users  
+C) Only ""Fetching data..."" is printed because the cache works  
+D) It will raise an error due to incorrect decorator usage
+
+**Part 2 (Answer):**
+
+A) Fetching data... Executing query... Result for SELECT * FROM users Result for SELECT * FROM users  
+
+The correct output demonstrates how the `AsyncCache.cache` decorator is applied to `expensive_query`, which uses a class-level cache `_cache`. The first call to `expensive_query(""SELECT * FROM users"")` executes and stores its result in the cache. The second call retrieves the result from the cache, thus avoiding the need for execution again."
