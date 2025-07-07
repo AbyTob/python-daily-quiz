@@ -1517,5 +1517,12 @@
     "answer": "Part 2 (Answer):\nA) It will print numbers 0-9 three times, each time by a different thread.\n\nExplanation: The `thread_decorator` is applied to `my_function`, which creates and starts a new thread for each call. Therefore, when you run the script, it spawns three threads that each execute `my_function`. Each thread prints numbers 0-9, but since they are running concurrently, the output order will be interleaved.",
     "timestamp": "2025-07-07 08:01:30",
     "topic": "Threading and Concurrent Execution"
+  },
+  "q3_2025-07-07": {
+    "id": "1751904111_3",
+    "question": "Part 1 (Question): \nConsider the following Python code using asyncio and decorators to create a simple task manager. Your task is to identify what will be printed when `run_tasks()` is called.\n\n```python\nimport asyncio\n\ndef timed_task(func):\n    async def wrapper(*args, **kwargs):\n        start = time.time()\n        result = await func(*args, **kwargs)\n        end = time.time()\n        print(f\"Task {func.__name__} took {end - start:.4f} seconds\")\n        return result\n    return wrapper\n\n@timed_task\nasync def task1():\n    await asyncio.sleep(2)\n\n@timed_task\nasync def task2():\n    await asyncio.sleep(1)\n\nasync def run_tasks():\n    tasks = [task1(), task2()]\n    await asyncio.gather(*tasks)\n\nif __name__ == \"__main__\":\n    import time\n    asyncio.run(run_tasks())\n```\n\nA) Task 1 took 0.0000 seconds, Task 2 took 3.0000 seconds  \nB) Task 1 took 2.0000 seconds, Task 2 took 1.0000 seconds  \nC) Task 1 took 3.0000 seconds, Task 2 took 2.0000 seconds  \nD) Task 1 took 2.0000 seconds, Task 2 took 0.0000 seconds",
+    "answer": "Part 2 (Answer):\nB) Task 1 took 2.0000 seconds, Task 2 took 1.0000 seconds  \n\nExplanation: The `timed_task` decorator is applied to both `task1` and `task2`, which measure the execution time of their respective tasks. Since `task1` sleeps for 2 seconds and `task2` sleeps for 1 second, the output reflects these durations accurately.",
+    "timestamp": "2025-07-07 16:01:51",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
