@@ -1538,5 +1538,12 @@
     "answer": "### Part 2 (Answer)\n\n**A) The metaclass is not correctly adding the attribute because it is being called before any attributes are defined in the class.**\n\nThis option is incorrect because the metaclass is actually trying to add `new_attr` when no other attributes exist, which is its intended behavior.\n\n**B) The metaclass is incorrectly overriding an existing attribute with the same name, but there isn't one.**\n\nThis option is also incorrect for the same reason as A; there is no conflicting attribute in this case.\n\n**C) The attribute assignment should happen during the initialization of each instance instead of during the class creation.**\n\nThis option is correct. The issue arises because the metaclass adds `new_attr` when the class is created, but if an instance-specific value needs to be set, it must be done during the initialization of that instance.\n\n**D) There is no issue; `obj.new_attr` will be set to `\"default_value\"` after running this code.**\n\nThis option is incorrect because, as explained in option C, the attribute assignment should happen during instance creation, not class creation.\n\nThe correct fix involves ensuring that any additional attributes are assigned within an `__init__` method if they need to vary per instance or conditionally.",
     "timestamp": "2025-07-08 08:02:19",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-07-08": {
+    "id": "1751990479_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to create a class with a custom behavior:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'x' not in dct:\n            dct['x'] = 0\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    y = 1\n\nclass SubClass(MyClass):\n    pass\n\n# What will be the output of the following code?\nprint(SubClass.x)\n```\n\nA) 0  \nB) 1  \nC) AttributeError: 'SubClass' object has no attribute 'x'  \nD) TypeError: __new__() missing 1 required positional argument: 'dct'",
+    "answer": "A) 0\n\nThe metaclass `Meta` ensures that any class created with it will have an attribute `x` initialized to 0. When `SubClass` is defined, it inherits from `MyClass`, which uses the `Meta` metaclass. Therefore, `SubClass` will also have the attribute `x` set to 0.",
+    "timestamp": "2025-07-08 16:01:19",
+    "topic": "Object-Oriented Programming"
   }
 }

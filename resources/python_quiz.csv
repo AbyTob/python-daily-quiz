@@ -9803,3 +9803,29 @@ This option is correct. The issue arises because the metaclass adds `new_attr` w
 This option is incorrect because, as explained in option C, the attribute assignment should happen during instance creation, not class creation.
 
 The correct fix involves ensuring that any additional attributes are assigned within an `__init__` method if they need to vary per instance or conditionally."
+"2025-07-08 16:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to create a class with a custom behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'x' not in dct:
+            dct['x'] = 0
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    y = 1
+
+class SubClass(MyClass):
+    pass
+
+# What will be the output of the following code?
+print(SubClass.x)
+```
+
+A) 0  
+B) 1  
+C) AttributeError: 'SubClass' object has no attribute 'x'  
+D) TypeError: __new__() missing 1 required positional argument: 'dct'";"A) 0
+
+The metaclass `Meta` ensures that any class created with it will have an attribute `x` initialized to 0. When `SubClass` is defined, it inherits from `MyClass`, which uses the `Meta` metaclass. Therefore, `SubClass` will also have the attribute `x` set to 0."
