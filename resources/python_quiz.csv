@@ -9758,3 +9758,48 @@ C) The code will run without any errors, but `a.value` will not be accessible.
 D) An `AttributeError` will be raised because `value` cannot be deleted from the `Immutable` class.";"A) An `AttributeError` will be raised because `value` cannot be set on the `Immutable` class.
 
 Explanation: When an object of the `Immutable` class is created, any attempt to set an attribute (like `a.value = 10`) triggers the `__setattr__` method defined in the metaclass `ImmutableMeta`. This method raises an `AttributeError`, preventing the attribute from being added to the instance."
+"2025-07-08 08:02";"### Part 1 (Question)
+
+Consider the following Python code that uses a metaclass to add a new attribute `new_attr` to any class it decorates. However, there's a twist in how this is intended to work.
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'new_attr' not in dct:
+            dct['new_attr'] = ""default_value""
+        return super().__new__(cls, name, bases, dct)
+
+@Meta()
+class MyClass:
+    pass
+
+obj = MyClass()
+print(obj.new_attr)
+```
+
+This code attempts to automatically add an attribute `new_attr` with a default value of `""default_value""` to any class decorated by the metaclass `Meta`. However, it's not working as expected.
+
+**Question:** Why is `obj.new_attr` not being set to `""default_value""` as intended? What can be done to fix this issue?
+
+A) The metaclass is not correctly adding the attribute because it is being called before any attributes are defined in the class.
+B) The metaclass is incorrectly overriding an existing attribute with the same name, but there isn't one.
+C) The attribute assignment should happen during the initialization of each instance instead of during the class creation.
+D) There is no issue; `obj.new_attr` will be set to `""default_value""` after running this code.";"### Part 2 (Answer)
+
+**A) The metaclass is not correctly adding the attribute because it is being called before any attributes are defined in the class.**
+
+This option is incorrect because the metaclass is actually trying to add `new_attr` when no other attributes exist, which is its intended behavior.
+
+**B) The metaclass is incorrectly overriding an existing attribute with the same name, but there isn't one.**
+
+This option is also incorrect for the same reason as A; there is no conflicting attribute in this case.
+
+**C) The attribute assignment should happen during the initialization of each instance instead of during the class creation.**
+
+This option is correct. The issue arises because the metaclass adds `new_attr` when the class is created, but if an instance-specific value needs to be set, it must be done during the initialization of that instance.
+
+**D) There is no issue; `obj.new_attr` will be set to `""default_value""` after running this code.**
+
+This option is incorrect because, as explained in option C, the attribute assignment should happen during instance creation, not class creation.
+
+The correct fix involves ensuring that any additional attributes are assigned within an `__init__` method if they need to vary per instance or conditionally."
