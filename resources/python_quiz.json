@@ -1524,5 +1524,12 @@
     "answer": "Part 2 (Answer):\nB) Task 1 took 2.0000 seconds, Task 2 took 1.0000 seconds  \n\nExplanation: The `timed_task` decorator is applied to both `task1` and `task2`, which measure the execution time of their respective tasks. Since `task1` sleeps for 2 seconds and `task2` sleeps for 1 second, the output reflects these durations accurately.",
     "timestamp": "2025-07-07 16:01:51",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-07-08": {
+    "id": "1751932898_1",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to create an immutable class. The goal is to prevent any attribute from being added, modified, or deleted after the object's creation.\n\n```python\nclass ImmutableMeta(type):\n    def __setattr__(cls, name, value):\n        raise AttributeError(f\"Cannot set {name} on {cls.__name__}\")\n\n    def __delattr__(cls, name):\n        raise AttributeError(f\"Cannot delete {name} from {cls.__name__}\")\n\nclass Immutable(metaclass=ImmutableMeta):\n    pass\n\n# Usage\na = Immutable()\na.value = 10\n```\n\nWhat will happen when the above code is executed?\n\nA) An `AttributeError` will be raised because `value` cannot be set on the `Immutable` class.\n\nB) The value `10` will be successfully assigned to the attribute `value`, and no error will occur.\n\nC) The code will run without any errors, but `a.value` will not be accessible.\n\nD) An `AttributeError` will be raised because `value` cannot be deleted from the `Immutable` class.",
+    "answer": "A) An `AttributeError` will be raised because `value` cannot be set on the `Immutable` class.\n\nExplanation: When an object of the `Immutable` class is created, any attempt to set an attribute (like `a.value = 10`) triggers the `__setattr__` method defined in the metaclass `ImmutableMeta`. This method raises an `AttributeError`, preventing the attribute from being added to the instance.",
+    "timestamp": "2025-07-08 00:01:38",
+    "topic": "Object-Oriented Programming"
   }
 }

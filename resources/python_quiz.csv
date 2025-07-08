@@ -9728,3 +9728,33 @@ D) Task 1 took 2.0000 seconds, Task 2 took 0.0000 seconds";"Part 2 (Answer):
 B) Task 1 took 2.0000 seconds, Task 2 took 1.0000 seconds  
 
 Explanation: The `timed_task` decorator is applied to both `task1` and `task2`, which measure the execution time of their respective tasks. Since `task1` sleeps for 2 seconds and `task2` sleeps for 1 second, the output reflects these durations accurately."
+"2025-07-08 00:01";"[QUESTION]  
+Consider the following Python code that uses a metaclass to create an immutable class. The goal is to prevent any attribute from being added, modified, or deleted after the object's creation.
+
+```python
+class ImmutableMeta(type):
+    def __setattr__(cls, name, value):
+        raise AttributeError(f""Cannot set {name} on {cls.__name__}"")
+
+    def __delattr__(cls, name):
+        raise AttributeError(f""Cannot delete {name} from {cls.__name__}"")
+
+class Immutable(metaclass=ImmutableMeta):
+    pass
+
+# Usage
+a = Immutable()
+a.value = 10
+```
+
+What will happen when the above code is executed?
+
+A) An `AttributeError` will be raised because `value` cannot be set on the `Immutable` class.
+
+B) The value `10` will be successfully assigned to the attribute `value`, and no error will occur.
+
+C) The code will run without any errors, but `a.value` will not be accessible.
+
+D) An `AttributeError` will be raised because `value` cannot be deleted from the `Immutable` class.";"A) An `AttributeError` will be raised because `value` cannot be set on the `Immutable` class.
+
+Explanation: When an object of the `Immutable` class is created, any attempt to set an attribute (like `a.value = 10`) triggers the `__setattr__` method defined in the metaclass `ImmutableMeta`. This method raises an `AttributeError`, preventing the attribute from being added to the instance."
