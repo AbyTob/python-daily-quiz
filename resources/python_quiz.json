@@ -1545,5 +1545,12 @@
     "answer": "A) 0\n\nThe metaclass `Meta` ensures that any class created with it will have an attribute `x` initialized to 0. When `SubClass` is defined, it inherits from `MyClass`, which uses the `Meta` metaclass. Therefore, `SubClass` will also have the attribute `x` set to 0.",
     "timestamp": "2025-07-08 16:01:19",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-07-09": {
+    "id": "1752019305_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to modify class attributes dynamically. The goal is to create a new class `EnhancedClass` that, when instantiated, outputs \"Hello, Enhanced!\" before calling its original constructor.\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['greet'] = lambda self: print(\"Hello, Enhanced!\")\n        return super().__new__(cls, name, bases, dct)\n\nclass OriginalClass(metaclass=Meta):\n    def __init__(self, *args, **kwargs):\n        pass\n\n# Your task is to create an instance of `EnhancedClass` and verify that it outputs \"Hello, Enhanced!\" when instantiated.",
+    "answer": "[A] \n```python\ninstance = OriginalClass()\ninstance.greet()  # This will not print anything because `greet` is not part of `OriginalClass`.\n```\n\n[B] \n```python\nclass EnhancedClass(OriginalClass):\n    pass\n\ninstance = EnhancedClass()\ninstance.greet()  # This will output \"Hello, Enhanced!\"\n```\n\n[C] \n```python\nclass ExtendedMeta(Meta):\n    def __new__(cls, name, bases, dct):\n        super().__new__(cls, name, bases, dct)\n        return type(name, bases, dct)\n\nclass EnhancedClass(OriginalClass, metaclass=ExtendedMeta):\n    pass\n\ninstance = EnhancedClass()\ninstance.greet()  # This will not output \"Hello, Enhanced!\" because `greet` is not part of `EnhancedClass`.\n```\n\n[D] \n```python\ninstance = OriginalClass()\nprint(\"Hello, Enhanced!\")  # This will not use metaclass functionality and directly print the string.\n```\n\n[ANSWER]\nB",
+    "timestamp": "2025-07-09 00:01:45",
+    "topic": "Task Management and Scheduling"
   }
 }

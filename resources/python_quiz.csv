@@ -9829,3 +9829,53 @@ C) AttributeError: 'SubClass' object has no attribute 'x'
 D) TypeError: __new__() missing 1 required positional argument: 'dct'";"A) 0
 
 The metaclass `Meta` ensures that any class created with it will have an attribute `x` initialized to 0. When `SubClass` is defined, it inherits from `MyClass`, which uses the `Meta` metaclass. Therefore, `SubClass` will also have the attribute `x` set to 0."
+"2025-07-09 00:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to modify class attributes dynamically. The goal is to create a new class `EnhancedClass` that, when instantiated, outputs ""Hello, Enhanced!"" before calling its original constructor.
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['greet'] = lambda self: print(""Hello, Enhanced!"")
+        return super().__new__(cls, name, bases, dct)
+
+class OriginalClass(metaclass=Meta):
+    def __init__(self, *args, **kwargs):
+        pass
+
+# Your task is to create an instance of `EnhancedClass` and verify that it outputs ""Hello, Enhanced!"" when instantiated.";"[A] 
+```python
+instance = OriginalClass()
+instance.greet()  # This will not print anything because `greet` is not part of `OriginalClass`.
+```
+
+[B] 
+```python
+class EnhancedClass(OriginalClass):
+    pass
+
+instance = EnhancedClass()
+instance.greet()  # This will output ""Hello, Enhanced!""
+```
+
+[C] 
+```python
+class ExtendedMeta(Meta):
+    def __new__(cls, name, bases, dct):
+        super().__new__(cls, name, bases, dct)
+        return type(name, bases, dct)
+
+class EnhancedClass(OriginalClass, metaclass=ExtendedMeta):
+    pass
+
+instance = EnhancedClass()
+instance.greet()  # This will not output ""Hello, Enhanced!"" because `greet` is not part of `EnhancedClass`.
+```
+
+[D] 
+```python
+instance = OriginalClass()
+print(""Hello, Enhanced!"")  # This will not use metaclass functionality and directly print the string.
+```
+
+[ANSWER]
+B"
