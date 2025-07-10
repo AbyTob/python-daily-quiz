@@ -10073,3 +10073,38 @@ Option A is incorrect because `__new__` should not be used in this context as it
 Option C is generally considered bad practice and can lead to memory leaks or other issues.
 
 Option D is not relevant to ensuring singularity of a class; it's more about object copying, which doesn't affect the singleton pattern directly."
+"2025-07-10 16:01";"[QUESTION]
+Consider the following code snippet that uses a custom decorator to log function calls:
+
+```python
+from functools import wraps
+
+def log_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        return result
+    return wrapper
+
+@log_calls
+def add(a, b):
+    return a + b
+
+class Calculator:
+    def __init__(self):
+        self.result = 0
+
+    @add(2)  # This should log the call to add with args (2, None)
+    def add_to_result(self, value):
+        self.result += value
+```
+
+What will be printed when the `Calculator` instance's `add_to_result` method is called with an argument of 3?
+
+A. Calling add_to_result with args: (3,), kwargs: {}
+B. Calling add with args: (2,), kwargs: {value: 3}
+C. Calling add with args: (3,), kwargs: {value: None}
+D. Error";"B. Calling add with args: (2,), kwargs: {value: 3}
+
+Explanation: The decorator `@add(2)` attempts to log the call to the `add` function with the provided arguments. However, since the method `add_to_result` is decorated and does not have explicit positional or keyword parameters, the argument `2` passed to `@add(2)` does not directly affect how `add` is called within `add_to_result`. The actual call to `add` from `add_to_result` uses the default value of `None` for its second parameter because no arguments were explicitly passed. Thus, the logging statement reflects this behavior."
