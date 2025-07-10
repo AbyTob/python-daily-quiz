@@ -10006,3 +10006,70 @@ C) The class decorator does not properly inherit from the original class, causin
 D) The lambda function inside the `wrapper` can be moved outside as it doesn't depend on any instance-specific data.";"C) The class decorator does not properly inherit from the original class, causing a failure when trying to add the `greet` method.
 
 Explanation: In the given code, the `wrapper` function returns an instance of the new class type created by `type(cls.__name__, (cls,), {})`, which is essentially a subclass of the original class. However, it does not properly inherit from the original class in the way that decorators are supposed to work. The correct approach would be to use the `greet_decorator` function directly on the class definition and ensure that the original class methods are preserved."
+"2025-07-10 08:02";"Part 1 (Question):
+Consider the following Python code that uses a metaclass to create a singleton class. However, it doesn't fully prevent multiple instances from being created when used in certain ways. Your task is to modify the metaclass or add another mechanism to ensure true singularity.
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Singleton(metaclass=SingletonMeta):
+    pass
+
+# Example usage
+s1 = Singleton()
+s2 = Singleton()
+
+print(s1 is s2)  # Should ideally print True but might not due to certain issues with metaclasses
+```
+
+What could be improved in the `SingletonMeta` class or an additional approach that would ensure true singularity of the `Singleton` class?
+
+A) Ensure that `__new__` is overridden instead of `__call__`.
+
+B) Use a lock to synchronize access to `_instances` dictionary.
+
+C) Store instances in a global dictionary outside the metaclass.
+
+D) Implement `__copy__` and `__deepcopy__` methods to prevent copying of singleton instances.";"Part 2 (Answer):
+B) Use a lock to synchronize access to `_instances` dictionary.
+
+Explanation:
+The current implementation of the `SingletonMeta` class uses `__call__`, which can lead to race conditions when multiple threads try to create an instance simultaneously. By using a lock, we ensure that only one thread can execute the creation logic at a time, thus preventing the creation of multiple instances even in multi-threaded environments.
+
+Here's how you could modify the code:
+
+```python
+import threading
+
+class SingletonMeta(type):
+    _instances = {}
+    _lock = threading.Lock()
+
+    def __call__(cls, *args, **kwargs):
+        with cls._lock:
+            if cls not in cls._instances:
+                instance = super().__call__(*args, **kwargs)
+                cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Singleton(metaclass=SingletonMeta):
+    pass
+
+s1 = Singleton()
+s2 = Singleton()
+
+print(s1 is s2)  # This will correctly print True
+```
+
+Option A is incorrect because `__new__` should not be used in this context as it bypasses the `__call__` mechanism which is crucial for metaclass-based singletons.
+
+Option C is generally considered bad practice and can lead to memory leaks or other issues.
+
+Option D is not relevant to ensuring singularity of a class; it's more about object copying, which doesn't affect the singleton pattern directly."
