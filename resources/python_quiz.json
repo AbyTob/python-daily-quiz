@@ -1566,5 +1566,12 @@
     "answer": "C) Resource released\n\nExplanation: When `use_resource()` is called, it enters a context manager by using the `with` statement. The `managed_resource` decorator wraps around the generator function `acquire_resource`, which yields \"resource\". When control leaves the `with` block, the context manager's `__exit__` method is called, which in turn calls `release_resource(resource)`. Therefore, \"Resource released\" will be printed after \"Using resource\". The generator itself does not contribute to any output outside of its yield statement.",
     "timestamp": "2025-07-09 16:01:28",
     "topic": "Function and Method Decorators"
+  },
+  "q1_2025-07-10": {
+    "id": "1752105708_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that attempts to create a class decorator to add a method `greet` to any class it decorates:\n\n```python\nimport functools\n\ndef greet_decorator(cls):\n    @functools.wraps(cls)\n    def wrapper(*args, **kwargs):\n        instance = cls(*args, **kwargs)\n        instance.greet = lambda self: print(f\"Hello from {self.__class__.__name__}!\")\n        return instance\n    return type(cls.__name__, (cls,), {})\n\n@greet_decorator\nclass Person:\n    pass\n\nperson = Person()\nperson.greet()  # Expected to print \"Hello from Person!\"\n```\n\nUpon running the code, an error is raised. What is the issue with this approach and how can it be fixed?\n\nA) The decorator is not correctly applying the `greet` method to instances of `Person`.\nB) The use of `functools.wraps` in the wrapper function is unnecessary.\nC) The class decorator does not properly inherit from the original class, causing a failure when trying to add the `greet` method.\nD) The lambda function inside the `wrapper` can be moved outside as it doesn't depend on any instance-specific data.",
+    "answer": "C) The class decorator does not properly inherit from the original class, causing a failure when trying to add the `greet` method.\n\nExplanation: In the given code, the `wrapper` function returns an instance of the new class type created by `type(cls.__name__, (cls,), {})`, which is essentially a subclass of the original class. However, it does not properly inherit from the original class in the way that decorators are supposed to work. The correct approach would be to use the `greet_decorator` function directly on the class definition and ensure that the original class methods are preserved.",
+    "timestamp": "2025-07-10 00:01:48",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
