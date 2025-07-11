@@ -1594,5 +1594,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-07-11 00:01:26",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-07-11": {
+    "id": "1752220919_2",
+    "question": "",
+    "answer": "Part 1 (Question):\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncTimer:\n    def __init__(self, duration):\n        self.duration = duration\n        self.start_time = None\n\n    async def __aenter__(self):\n        self.start_time = asyncio.get_running_loop().time()\n        return self\n\n    async def __aexit__(self, exc_type, exc_val, exc_tb):\n        elapsed_time = asyncio.get_running_loop().time() - self.start_time\n        print(f\"Timer ended in {elapsed_time:.2f} seconds\")\n\nasync def main():\n    async with AsyncTimer(2) as timer:\n        await asyncio.sleep(1)\n        print(\"One second has passed\")\n        await asyncio.sleep(1)\n\nasyncio.run(main())\n```\n\nWhat will be the output of the code when executed?\n\nA) One second has passed\nB) Timer ended in 0.5 seconds\nC) Timer ended in 2.0 seconds\nD) Timer ended in 3.0 seconds\n\nPart 2 (Answer):\nThe correct answer is D) Timer ended in 3.0 seconds.\n\nExplanation:\nWhen the `AsyncTimer` context manager is entered, it records the start time using `asyncio.get_running_loop().time()`. The coroutine inside the `with` block then sleeps for 1 second twice, totaling 2 seconds of sleep. However, the total execution time from when the context manager is entered to when it's exited includes these sleep durations plus the time taken by the `__aexit__` method to calculate and print the elapsed time.\n\nThe `__aexit__` method calculates the elapsed time as follows:\n- Start time: Recorded at the beginning of the context manager.\n- End time: When the coroutine inside the block finishes executing.\n- Elapsed time: Difference between end time and start time, which is 2 seconds (sleep durations) plus the negligible time taken by `__aexit__` itself.\n\nThus, when the output is printed, it shows \"Timer ended in 3.0 seconds,\" indicating that the total execution time includes both sleep durations.",
+    "timestamp": "2025-07-11 08:01:59",
+    "topic": "Advanced Python Programming"
   }
 }

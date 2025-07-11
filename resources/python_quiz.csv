@@ -10144,3 +10144,50 @@ D) None
 B) An error indicating that `my_async_function` is not an async function  
 
 Explanation: The decorator `async_decorator` wraps the `my_async_function` but does not preserve its asynchronous nature. By using the decorator, you lose the ability to use `await` within the function, which makes it no longer an asynchronous function. When attempting to run this function with `loop.run_until_complete()`, Python will raise a `TypeError` stating that the object is not callable as an async function.";"Answer format error. Please check the generated content."
+"2025-07-11 08:01";"";"Part 1 (Question):
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, duration):
+        self.duration = duration
+        self.start_time = None
+
+    async def __aenter__(self):
+        self.start_time = asyncio.get_running_loop().time()
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        elapsed_time = asyncio.get_running_loop().time() - self.start_time
+        print(f""Timer ended in {elapsed_time:.2f} seconds"")
+
+async def main():
+    async with AsyncTimer(2) as timer:
+        await asyncio.sleep(1)
+        print(""One second has passed"")
+        await asyncio.sleep(1)
+
+asyncio.run(main())
+```
+
+What will be the output of the code when executed?
+
+A) One second has passed
+B) Timer ended in 0.5 seconds
+C) Timer ended in 2.0 seconds
+D) Timer ended in 3.0 seconds
+
+Part 2 (Answer):
+The correct answer is D) Timer ended in 3.0 seconds.
+
+Explanation:
+When the `AsyncTimer` context manager is entered, it records the start time using `asyncio.get_running_loop().time()`. The coroutine inside the `with` block then sleeps for 1 second twice, totaling 2 seconds of sleep. However, the total execution time from when the context manager is entered to when it's exited includes these sleep durations plus the time taken by the `__aexit__` method to calculate and print the elapsed time.
+
+The `__aexit__` method calculates the elapsed time as follows:
+- Start time: Recorded at the beginning of the context manager.
+- End time: When the coroutine inside the block finishes executing.
+- Elapsed time: Difference between end time and start time, which is 2 seconds (sleep durations) plus the negligible time taken by `__aexit__` itself.
+
+Thus, when the output is printed, it shows ""Timer ended in 3.0 seconds,"" indicating that the total execution time includes both sleep durations."
