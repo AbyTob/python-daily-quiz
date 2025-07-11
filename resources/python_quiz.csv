@@ -10108,3 +10108,39 @@ C. Calling add with args: (3,), kwargs: {value: None}
 D. Error";"B. Calling add with args: (2,), kwargs: {value: 3}
 
 Explanation: The decorator `@add(2)` attempts to log the call to the `add` function with the provided arguments. However, since the method `add_to_result` is decorated and does not have explicit positional or keyword parameters, the argument `2` passed to `@add(2)` does not directly affect how `add` is called within `add_to_result`. The actual call to `add` from `add_to_result` uses the default value of `None` for its second parameter because no arguments were explicitly passed. Thus, the logging statement reflects this behavior."
+"2025-07-11 00:01";"[ANSWER_SEPARATOR]  
+**Part 1: Question**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+def async_decorator(func):
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+
+@async_decorator
+async def my_async_function():
+    await asyncio.sleep(2)
+    return ""Hello, world!""
+
+loop = asyncio.get_event_loop()
+result = loop.run_until_complete(my_async_function())
+print(result)
+```
+
+What will be the output of this code when executed?
+
+A) ""Hello, world!""  
+B) An error indicating that `my_async_function` is not an async function  
+C) A hang because `asyncio.sleep(2)` blocks the event loop  
+D) None
+
+[ANSWER_SEPARATOR]  
+**Part 2: Answer**
+
+B) An error indicating that `my_async_function` is not an async function  
+
+Explanation: The decorator `async_decorator` wraps the `my_async_function` but does not preserve its asynchronous nature. By using the decorator, you lose the ability to use `await` within the function, which makes it no longer an asynchronous function. When attempting to run this function with `loop.run_until_complete()`, Python will raise a `TypeError` stating that the object is not callable as an async function.";"Answer format error. Please check the generated content."

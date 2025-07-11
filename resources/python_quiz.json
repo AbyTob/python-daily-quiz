@@ -1587,5 +1587,12 @@
     "answer": "B. Calling add with args: (2,), kwargs: {value: 3}\n\nExplanation: The decorator `@add(2)` attempts to log the call to the `add` function with the provided arguments. However, since the method `add_to_result` is decorated and does not have explicit positional or keyword parameters, the argument `2` passed to `@add(2)` does not directly affect how `add` is called within `add_to_result`. The actual call to `add` from `add_to_result` uses the default value of `None` for its second parameter because no arguments were explicitly passed. Thus, the logging statement reflects this behavior.",
     "timestamp": "2025-07-10 16:01:47",
     "topic": "Functional Programming Utilities"
+  },
+  "q1_2025-07-11": {
+    "id": "1752192086_1",
+    "question": "[ANSWER_SEPARATOR]  \n**Part 1: Question**\n\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\ndef async_decorator(func):\n    def wrapper(*args, **kwargs):\n        return func(*args, **kwargs)\n    return wrapper\n\n@async_decorator\nasync def my_async_function():\n    await asyncio.sleep(2)\n    return \"Hello, world!\"\n\nloop = asyncio.get_event_loop()\nresult = loop.run_until_complete(my_async_function())\nprint(result)\n```\n\nWhat will be the output of this code when executed?\n\nA) \"Hello, world!\"  \nB) An error indicating that `my_async_function` is not an async function  \nC) A hang because `asyncio.sleep(2)` blocks the event loop  \nD) None\n\n[ANSWER_SEPARATOR]  \n**Part 2: Answer**\n\nB) An error indicating that `my_async_function` is not an async function  \n\nExplanation: The decorator `async_decorator` wraps the `my_async_function` but does not preserve its asynchronous nature. By using the decorator, you lose the ability to use `await` within the function, which makes it no longer an asynchronous function. When attempting to run this function with `loop.run_until_complete()`, Python will raise a `TypeError` stating that the object is not callable as an async function.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-07-11 00:01:26",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
