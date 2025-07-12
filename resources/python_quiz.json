@@ -1608,5 +1608,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-07-11 16:01:42",
     "topic": "Locks, Semaphores, and Synchronization"
+  },
+  "q1_2025-07-12": {
+    "id": "1752278527_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to ensure a class has a method `validate_data`:\n\n```python\nclass ValidateMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'validate_data' not in dct:\n            raise TypeError(f\"Class {name} must implement validate_data method.\")\n        return super().__new__(cls, name, bases, dct)\n\nclass DataModel(metaclass=ValidateMeta):\n    pass\n\nclass User(DataModel):\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def validate_data(self):\n        if not isinstance(self.name, str):\n            raise ValueError(\"Name must be a string\")\n        if not (18 <= self.age < 100):\n            raise ValueError(\"Age must be between 18 and 99\")\n\n# Example usage\ntry:\n    user = User(123, \"John\")  # This should raise an error\nexcept TypeError as e:\n    print(e)\n```\n\nWhat happens when you try to create an instance of the `User` class with invalid data?\n\nA) The metaclass will raise a `TypeError`, preventing the creation of the instance.\nB) The `validate_data` method will be called, but no errors will be raised.\nC) The metaclass will raise a `ValueError` during the instance creation process.\nD) The instance will be created successfully with invalid data.",
+    "answer": "A) The metaclass will raise a `TypeError`, preventing the creation of the instance.\n\nExplanation:\nWhen you attempt to create an instance of the `User` class with invalid data, the metaclass `ValidateMeta` checks if the subclass implements the `validate_data` method during the class creation. Since the `User` class does implement this method and the validation logic correctly raises a `ValueError`, the metaclass does not raise any errors. However, when an instance of `User` is created with invalid data (non-string name or age outside the valid range), the `validate_data` method will indeed raise a `ValueError`. But since this error occurs at runtime during the initialization of the instance, the `TypeError` from the metaclass is raised before reaching the `validate_data` call. Therefore, option A correctly describes the behavior in this scenario.",
+    "timestamp": "2025-07-12 00:02:07",
+    "topic": "Object-Oriented Programming"
   }
 }
