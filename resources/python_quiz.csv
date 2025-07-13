@@ -10390,3 +10390,46 @@ B) The `__call__` method in `UniqueMeta` checks if an instance already exists an
 
 Explanation:
 The code defines a metaclass `UniqueMeta` that overrides the `__call__` method. This method is responsible for creating new instances of classes. If an instance of a class already exists in `_instances`, it returns that instance instead of creating a new one. Therefore, all instances of `MyClass` are indeed unique based on their class type. Option A is incorrect because it suggests uniqueness based on the object's identity rather than its class. Option C is not directly supported by this pattern, as it only ensures per-class uniqueness. Option D is false because `obj1.value` will return the value of the first instance created, not the last one."
+"2025-07-13 08:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import threading
+
+class Singleton:
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            with cls._lock:
+                if not cls._instance:
+                    cls._instance = super(Singleton, cls).__new__(cls)
+        return cls._instance
+
+def thread_task(singleton_instance):
+    print(id(singleton_instance))
+
+if __name__ == ""__main__"":
+    singleton = Singleton()
+    threads = []
+    for _ in range(10):
+        t = threading.Thread(target=thread_task, args=(singleton,))
+        threads.append(t)
+        t.start()
+
+    for t in threads:
+        t.join()
+```
+
+What is the output of this code when run? Explain why.
+
+A) The same thread ID will be printed 10 times.
+B) Different thread IDs will be printed 10 times.
+C) The program will raise an exception due to a threading error.
+D) The program will hang indefinitely because of a deadlock.";"Answer: A
+
+Explanation: 
+The Singleton class is designed to ensure that only one instance of the class can exist. In this implementation, the `__new__` method uses a lock to synchronize access, ensuring thread safety when creating instances. When multiple threads attempt to create an instance simultaneously, only one will succeed due to the lock.
+
+In the main block, a single instance of `Singleton` is created and then passed to 10 threads, each of which calls `thread_task`. Since all threads are passed the same instance of `Singleton`, they will print the same memory address (ID) for this instance. Therefore, the output will be the same thread ID printed 10 times."
