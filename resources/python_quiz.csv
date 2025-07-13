@@ -10355,3 +10355,38 @@ C) The code contains a race condition due to concurrent access to the `base` att
 D) Running this script multiple times will always produce the same output.";"D) Running this script multiple times will always produce the same output.
 
 Explanation: In Python's asyncio, tasks are scheduled and executed by an event loop. The `asyncio.gather` function waits for all the tasks to complete before proceeding, which means it ensures that all asynchronous operations have finished executing before printing the results. Since the calculations in this code do not depend on any mutable state or external factors that could change between runs, the output will always be consistent and match the expected result of `[15, 13, 12]`."
+"2025-07-13 00:02";"Part 1 (Question):
+Consider the following Python code snippet that uses a metaclass to ensure all instances of a class have a unique attribute:
+
+```python
+class UniqueMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=UniqueMeta):
+    def __init__(self, value):
+        self.value = value
+
+# Usage
+obj1 = MyClass(10)
+obj2 = MyClass(20)
+
+print(obj1 is obj2)  # Output: True
+print(obj1.value, obj2.value)  # Output: 10 20
+```
+
+Which of the following statements about the code above is correct?
+
+A) The `UniqueMeta` metaclass ensures that all instances of `MyClass` are unique based on their class type.
+B) The `__call__` method in `UniqueMeta` checks if an instance already exists and returns it if it does, ensuring uniqueness.
+C) This pattern can be used to create a pool of objects where each object is uniquely identified by its class.
+D) The `obj1.value` attribute will always return the value of the last created instance.";"Part 2 (Answer):
+B) The `__call__` method in `UniqueMeta` checks if an instance already exists and returns it if it does, ensuring uniqueness.
+
+Explanation:
+The code defines a metaclass `UniqueMeta` that overrides the `__call__` method. This method is responsible for creating new instances of classes. If an instance of a class already exists in `_instances`, it returns that instance instead of creating a new one. Therefore, all instances of `MyClass` are indeed unique based on their class type. Option A is incorrect because it suggests uniqueness based on the object's identity rather than its class. Option C is not directly supported by this pattern, as it only ensures per-class uniqueness. Option D is false because `obj1.value` will return the value of the first instance created, not the last one."
