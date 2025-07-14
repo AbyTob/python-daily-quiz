@@ -10502,3 +10502,56 @@ C) `None` - Shows that metaclasses do not modify existing classes but rather cre
 D) Memory error due to excessive memory usage during class creation.";"**Part 2 (Answer):**
 
 A) `Hello from MyClass!` - Demonstrates that metaclasses can dynamically add methods to classes."
+"2025-07-14 08:02";"Part 1 (Question):
+
+You are tasked with creating a context manager that measures the execution time of any block of code within its `with` statement. Your goal is to ensure that the context manager properly handles exceptions thrown within the block, without allowing them to propagate outside the context manager.
+
+Below is a partial implementation of such a context manager using a decorator and a context manager:
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Execution took {end_time - start_time} seconds"")
+        return result
+    return wrapper
+
+class TimingContextManager:
+    def __enter__(self):
+        self.start_time = time.time()
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end_time = time.time()
+        print(f""Execution took {end_time - self.start_time} seconds"")
+```
+
+However, this implementation does not handle exceptions thrown within the `with` block correctly. Your task is to modify the `__exit__` method of the `TimingContextManager` class so that it properly handles any exceptions thrown within the `with` block.
+
+Which of the following modifications should be made to the `__exit__` method to achieve the desired behavior?
+
+A) Remove the print statement inside the `__exit__` method
+
+B) Call `super().__exit__(exc_type, exc_val, exc_tb)` at the beginning of the `__exit__` method
+
+C) Check if `exc_type` is `None`, and if not, re-raise the exception using `raise exc_val from None`
+
+D) Add a finally block that handles any exceptions thrown within the block";"Part 2 (Answer):
+
+A) Remove the print statement inside the `__exit__` method
+This option would remove the functionality of printing the execution time, but it does not address the handling of exceptions.
+
+B) Call `super().__exit__(exc_type, exc_val, exc_tb)` at the beginning of the `__exit__` method
+This option is incorrect because there is no superclass for a context manager in Python, and calling `super().__exit__()` would result in an AttributeError.
+
+C) Check if `exc_type` is `None`, and if not, re-raise the exception using `raise exc_val from None`
+This option correctly handles exceptions thrown within the `with` block. If an exception occurs, it will be re-raised after printing the execution time, preserving the original traceback information.
+
+D) Add a finally block that handles any exceptions thrown within the block
+Adding a finally block would not address the issue of handling exceptions properly. The finally block is executed regardless of whether an exception occurred or not, so it cannot be used to catch and handle exceptions that occur within the `with` block.
+
+Therefore, the correct answer is C) Check if `exc_type` is `None`, and if not, re-raise the exception using `raise exc_val from None`."
