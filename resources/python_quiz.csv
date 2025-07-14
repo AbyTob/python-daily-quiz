@@ -10473,3 +10473,32 @@ Explanation:
 - The original `timer` decorator wraps a function and prints its execution time. To track how many times the function has been called, we need a way to keep track of this count separately for each function.
 - A closure (an inner function that captures variables from an enclosing scope) allows us to maintain state between function calls without using global variables or classes.
 - By creating a counter inside the `wrapper` function and incrementing it every time the function is called, we can achieve our goal of tracking both execution time and call count. This approach ensures that each decorated function maintains its own independent count of how many times it has been invoked."
+"2025-07-14 00:01";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to add a method `greet` to any class it decorates. The goal is to understand how this works under the hood and what implications it might have on memory management.
+
+```python
+class Greeter(type):
+    def __new__(cls, name, bases, dct):
+        dct['greet'] = lambda self: f""Hello from {self.__class__.__name__}!""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Greeter):
+    pass
+
+# Usage
+obj = MyClass()
+print(obj.greet())
+```
+
+What is the output of this code, and what does it demonstrate about how metaclasses interact with class creation?
+
+A) `Hello from MyClass!` - Demonstrates that metaclasses can dynamically add methods to classes.
+
+B) `AttributeError` - Indicates that adding a method dynamically via a metaclass is not possible in Python.
+
+C) `None` - Shows that metaclasses do not modify existing classes but rather create new ones.
+
+D) Memory error due to excessive memory usage during class creation.";"**Part 2 (Answer):**
+
+A) `Hello from MyClass!` - Demonstrates that metaclasses can dynamically add methods to classes."

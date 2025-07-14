@@ -1650,5 +1650,12 @@
     "answer": "### Part 2 (Answer):\n**B)** Use a closure to maintain a separate counter for each decorated function.\n\nExplanation:\n- The original `timer` decorator wraps a function and prints its execution time. To track how many times the function has been called, we need a way to keep track of this count separately for each function.\n- A closure (an inner function that captures variables from an enclosing scope) allows us to maintain state between function calls without using global variables or classes.\n- By creating a counter inside the `wrapper` function and incrementing it every time the function is called, we can achieve our goal of tracking both execution time and call count. This approach ensures that each decorated function maintains its own independent count of how many times it has been invoked.",
     "timestamp": "2025-07-13 16:01:52",
     "topic": "Task Management and Scheduling"
+  },
+  "q1_2025-07-14": {
+    "id": "1752451288_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a metaclass to add a method `greet` to any class it decorates. The goal is to understand how this works under the hood and what implications it might have on memory management.\n\n```python\nclass Greeter(type):\n    def __new__(cls, name, bases, dct):\n        dct['greet'] = lambda self: f\"Hello from {self.__class__.__name__}!\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Greeter):\n    pass\n\n# Usage\nobj = MyClass()\nprint(obj.greet())\n```\n\nWhat is the output of this code, and what does it demonstrate about how metaclasses interact with class creation?\n\nA) `Hello from MyClass!` - Demonstrates that metaclasses can dynamically add methods to classes.\n\nB) `AttributeError` - Indicates that adding a method dynamically via a metaclass is not possible in Python.\n\nC) `None` - Shows that metaclasses do not modify existing classes but rather create new ones.\n\nD) Memory error due to excessive memory usage during class creation.",
+    "answer": "**Part 2 (Answer):**\n\nA) `Hello from MyClass!` - Demonstrates that metaclasses can dynamically add methods to classes.",
+    "timestamp": "2025-07-14 00:01:28",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
