@@ -10629,3 +10629,60 @@ C) This statement is correct. The `thread_safe` decorator modifies the `__init__
 D) Since option C is correct, this statement is incorrect.
 
 Therefore, the correct answer is C: The `thread_safe` decorator modifies the class `Counter` to include a lock for each instance, not just the class."
+"2025-07-15 08:02";"**Part 1 (Question):**
+
+Consider the following code snippet:
+
+```python
+import asyncio
+
+class MyTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self.task = None
+
+    async def run(self):
+        while True:
+            await asyncio.sleep(self.interval)
+            print(f""Timer ticked at {asyncio.get_event_loop().time()}"")
+
+    async def start(self):
+        self.task = asyncio.create_task(self.run())
+
+    async def stop(self):
+        if self.task:
+            self.task.cancel()
+            try:
+                await self.task
+            except asyncio.CancelledError:
+                pass
+
+# Usage example
+async def main():
+    timer = MyTimer(5)
+    await timer.start()
+    await asyncio.sleep(20)
+    await timer.stop()
+
+asyncio.run(main())
+```
+
+Which of the following statements is true about the `MyTimer` class and its usage?
+
+A) The `MyTimer` class can only be used once per instance.
+
+B) The `start` method will raise an exception if it's called more than once on the same instance.
+
+C) The `stop` method will ensure that the timer coroutine is fully cancelled and no further ticks are printed even if called multiple times.
+
+D) The `run` method runs indefinitely until manually stopped, but calling `start` multiple times creates new timers without cancelling existing ones.";"**Part 2 (Answer):**
+
+C) The `stop` method will ensure that the timer coroutine is fully cancelled and no further ticks are printed even if called multiple times.
+
+Explanation:
+- In the provided code, the `MyTimer` class has an asynchronous method `run` that prints a tick every interval.
+- The `start` method creates a new task to run this coroutine in the background.
+- The `stop` method cancels the task using `self.task.cancel()`, and it handles the cancellation by catching `asyncio.CancelledError`. This ensures that any remaining ticks are not printed, making the timer fully stopped.
+- Option A is incorrect because instances of `MyTimer` can be reused multiple times without issues.
+- Option B is incorrect because calling `start` more than once will indeed create new tasks without cancelling existing ones, which means there could be multiple timers running concurrently.
+- Option D is partly correct in that the coroutine runs indefinitely until stopped, but it doesn't handle multiple start calls or ensure full cancellation of the timer as described in option C."
