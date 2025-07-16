@@ -1692,5 +1692,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-07-15 16:02:16",
     "topic": "Property Decorators and Attribute Management"
+  },
+  "q1_2025-07-16": {
+    "id": "1752624109_1",
+    "question": "[QUESTION]\nYou are tasked with creating a Python context manager that logs both the entry and exit of a block, but also measures the time taken for execution. The logger should be able to handle any block of code wrapped within it.\n\nHere's a partial implementation of such a context manager:\n\n```python\nimport time\n\nclass TimedContextManager:\n    def __enter__(self):\n        self.start_time = time.time()\n        # BEGIN SOLUTION\n        return \"Entry logged\"\n        # END SOLUTION\n    \n    def __exit__(self, exc_type, exc_value, traceback):\n        end_time = time.time()\n        print(f\"Exit logged. Total time: {end_time - self.start_time:.2f} seconds\")\n        return False  # Propagate exceptions\n\n# Example usage:\nwith TimedContextManager() as entry_message:\n    print(entry_message)\n    time.sleep(1)  # Simulate some work\n```\n\nWhat should go in the `__enter__` method to ensure that both the entry and exit logging are handled correctly?\n\nA) `return \"Entry logged\"`<br>\nB) `print(\"Entry logged\")`<br>\nC) `raise Exception(\"Entry logged\")`<br>\nD) `yield \"Entry logged\"`",
+    "answer": "[ANSWER] B)<br>\n\n**Explanation**: The correct answer is `print(\"Entry logged\")`. This ensures that when the context manager's block of code enters, it logs a message to indicate entry. However, the example usage expects the result of `__enter__` to be returned as the value of the variable used in the `with` statement. Therefore, simply logging \"Entry\" is insufficient; we need to print it, but not return it from `__enter__`. Options A, C, and D either fail to log correctly or handle exceptions incorrectly, making them incorrect choices.",
+    "timestamp": "2025-07-16 00:01:49",
+    "topic": "Task Management and Scheduling"
   }
 }

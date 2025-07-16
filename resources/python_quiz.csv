@@ -10736,3 +10736,37 @@ D) It uses a static method to register each instance when it is created and chec
 C) It overrides the `__call__` method to check if an instance with the same identifier already exists; if so, it returns the existing instance, otherwise, it creates a new one.
 
 Explanation: The `UniqueIdentifierMeta` metaclass overrides the `__call__` method. This special method is called when an instance of the metaclass is invoked as a function (i.e., when a class is instantiated). The `__call__` method checks if there's already an instance with the same identifier in the `_instances` dictionary. If such an instance exists, it returns that existing instance instead of creating a new one. This ensures that all instances of subclasses of `UniqueID` have unique identifiers, as required by the abstract method `identifier`.";"Answer format error. Please check the generated content."
+"2025-07-16 00:01";"[QUESTION]
+You are tasked with creating a Python context manager that logs both the entry and exit of a block, but also measures the time taken for execution. The logger should be able to handle any block of code wrapped within it.
+
+Here's a partial implementation of such a context manager:
+
+```python
+import time
+
+class TimedContextManager:
+    def __enter__(self):
+        self.start_time = time.time()
+        # BEGIN SOLUTION
+        return ""Entry logged""
+        # END SOLUTION
+    
+    def __exit__(self, exc_type, exc_value, traceback):
+        end_time = time.time()
+        print(f""Exit logged. Total time: {end_time - self.start_time:.2f} seconds"")
+        return False  # Propagate exceptions
+
+# Example usage:
+with TimedContextManager() as entry_message:
+    print(entry_message)
+    time.sleep(1)  # Simulate some work
+```
+
+What should go in the `__enter__` method to ensure that both the entry and exit logging are handled correctly?
+
+A) `return ""Entry logged""`<br>
+B) `print(""Entry logged"")`<br>
+C) `raise Exception(""Entry logged"")`<br>
+D) `yield ""Entry logged""`";"[ANSWER] B)<br>
+
+**Explanation**: The correct answer is `print(""Entry logged"")`. This ensures that when the context manager's block of code enters, it logs a message to indicate entry. However, the example usage expects the result of `__enter__` to be returned as the value of the variable used in the `with` statement. Therefore, simply logging ""Entry"" is insufficient; we need to print it, but not return it from `__enter__`. Options A, C, and D either fail to log correctly or handle exceptions incorrectly, making them incorrect choices."
