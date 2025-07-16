@@ -10770,3 +10770,40 @@ C) `raise Exception(""Entry logged"")`<br>
 D) `yield ""Entry logged""`";"[ANSWER] B)<br>
 
 **Explanation**: The correct answer is `print(""Entry logged"")`. This ensures that when the context manager's block of code enters, it logs a message to indicate entry. However, the example usage expects the result of `__enter__` to be returned as the value of the variable used in the `with` statement. Therefore, simply logging ""Entry"" is insufficient; we need to print it, but not return it from `__enter__`. Options A, C, and D either fail to log correctly or handle exceptions incorrectly, making them incorrect choices."
+"2025-07-16 08:01";"Part 1 (Question):
+Consider the following Python code that uses decorators to enhance a function's behavior by adding logging before and after its execution. The decorator also attempts to measure the execution time of the function.
+
+```python
+import time
+
+def log_and_time(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to run."")
+        return result
+    return wrapper
+
+@log_and_time
+def my_function(x):
+    sum = 0
+    for i in range(1, x + 1):
+        sum += i
+    return sum
+
+print(my_function(10000))
+```
+
+Which of the following statements about this code is true?
+
+A) The decorator `log_and_time` correctly measures and logs the execution time of `my_function`.
+
+B) The decorator `log_and_time` will fail to execute if `my_function` raises an exception.
+
+C) The decorator `log_and_time` can be used with any function, regardless of its return type or parameters.
+
+D) The decorator `log_and_time` modifies the behavior of `my_function` by changing its signature.";"Part 2 (Answer):
+B) The decorator `log_and_time` will fail to execute if `my_function` raises an exception.
+
+Explanation: While the decorator does correctly log the execution time for a successful call, it fails to handle exceptions raised within the function. If `my_function` throws an exception during its execution, the code inside the `wrapper` function following the call to `func(*args, **kwargs)` will not execute, meaning the time taken to run the function will not be logged and the program will terminate without completing the decorator's logging functionality. Therefore, option B is correct as it accurately reflects a limitation of the provided decorator implementation."
