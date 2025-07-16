@@ -10807,3 +10807,42 @@ D) The decorator `log_and_time` modifies the behavior of `my_function` by changi
 B) The decorator `log_and_time` will fail to execute if `my_function` raises an exception.
 
 Explanation: While the decorator does correctly log the execution time for a successful call, it fails to handle exceptions raised within the function. If `my_function` throws an exception during its execution, the code inside the `wrapper` function following the call to `func(*args, **kwargs)` will not execute, meaning the time taken to run the function will not be logged and the program will terminate without completing the decorator's logging functionality. Therefore, option B is correct as it accurately reflects a limitation of the provided decorator implementation."
+"2025-07-16 16:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to add an attribute to all classes defined in a module:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['added_attribute'] = 'Hello from metaclass'
+        return super().__new__(cls, name, bases, dct)
+
+# Apply the metaclass to a module dynamically
+def apply_metaclass_to_module(module_name):
+    module = __import__(module_name)
+    for name in dir(module):
+        obj = getattr(module, name)
+        if inspect.isclass(obj) and not issubclass(obj, Meta):
+            obj.__class__ = Meta
+
+apply_metaclass_to_module('my_module')
+```
+
+In the `my_module.py` file, there is a class defined as follows:
+
+```python
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+```
+
+What will be the output of the following code snippet when run in the same environment?
+
+```python
+obj = MyClass(10)
+print(obj.added_attribute)
+```
+
+A) `None`
+B) `'Hello from metaclass'`
+C) An error because `added_attribute` is not defined in `MyClass`
+D) The code will raise a `TypeError`";"Answer format error. Please check the generated content."

@@ -1706,5 +1706,12 @@
     "answer": "Part 2 (Answer):\nB) The decorator `log_and_time` will fail to execute if `my_function` raises an exception.\n\nExplanation: While the decorator does correctly log the execution time for a successful call, it fails to handle exceptions raised within the function. If `my_function` throws an exception during its execution, the code inside the `wrapper` function following the call to `func(*args, **kwargs)` will not execute, meaning the time taken to run the function will not be logged and the program will terminate without completing the decorator's logging functionality. Therefore, option B is correct as it accurately reflects a limitation of the provided decorator implementation.",
     "timestamp": "2025-07-16 08:01:53",
     "topic": "Function and Method Decorators"
+  },
+  "q3_2025-07-16": {
+    "id": "1752681688_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to add an attribute to all classes defined in a module:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['added_attribute'] = 'Hello from metaclass'\n        return super().__new__(cls, name, bases, dct)\n\n# Apply the metaclass to a module dynamically\ndef apply_metaclass_to_module(module_name):\n    module = __import__(module_name)\n    for name in dir(module):\n        obj = getattr(module, name)\n        if inspect.isclass(obj) and not issubclass(obj, Meta):\n            obj.__class__ = Meta\n\napply_metaclass_to_module('my_module')\n```\n\nIn the `my_module.py` file, there is a class defined as follows:\n\n```python\nclass MyClass:\n    def __init__(self, value):\n        self.value = value\n```\n\nWhat will be the output of the following code snippet when run in the same environment?\n\n```python\nobj = MyClass(10)\nprint(obj.added_attribute)\n```\n\nA) `None`\nB) `'Hello from metaclass'`\nC) An error because `added_attribute` is not defined in `MyClass`\nD) The code will raise a `TypeError`",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-07-16 16:01:28",
+    "topic": "Object-Oriented Programming"
   }
 }
