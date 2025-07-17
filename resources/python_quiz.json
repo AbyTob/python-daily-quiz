@@ -1720,5 +1720,12 @@
     "answer": "### Answer\nB) Fetching data... Waiting for data to be fetched... Processing data... Processed Data\n\n**Explanation:**\nThe code creates a task to fetch data using `asyncio.create_task(fetch_data())`. The main function then enters a loop where it prints \"Waiting for data to be fetched...\" every 0.5 seconds until the task is done. Once the task completes, fetching the data, the main function proceeds to process the data by calling `await process_data(data)`, which results in \"Processing data... Processed Data\". The correct order of output reflects that the loop checks for completion periodically and eventually prints the processed data after both tasks complete.",
     "timestamp": "2025-07-17 00:01:52",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-07-17": {
+    "id": "1752739289_2",
+    "question": "[QUESTION]\nConsider the following code snippet:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n\n    def __call__(self, *args, **kwargs):\n        async def wrapper(*args, **kwargs):\n            return await self.func(*args, **kwargs)\n        return wrapper\n\n@AsyncDecorator\nasync def fetch_data():\n    print(\"Fetching data...\")\n    await asyncio.sleep(1)  # Simulating an async operation\n    return \"Data fetched\"\n\nasync def main():\n    result = await fetch_data()\n    print(result)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhat is the correct way to call `fetch_data` as a coroutine from within another function?\n\nA) Directly calling `fetch_data()` without awaiting it\n\nB) Using `await fetch_data()`\n\nC) Creating an instance of `AsyncDecorator` and calling its `__call__` method with `fetch_data` as the argument\n\nD) None of the above",
+    "answer": "B) Using `await fetch_data()`\n\nExplanation: To call an async function from within another function, you need to use the `await` keyword. The other options either do not handle the asynchronous nature of the function (A and C) or are incorrect ways to apply decorators in Python (D).",
+    "timestamp": "2025-07-17 08:01:29",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
