@@ -1713,5 +1713,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-07-16 16:01:28",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-07-17": {
+    "id": "1752710512_1",
+    "question": "### Question\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    print(\"Fetching data...\")\n    await asyncio.sleep(2)  # Simulate a network request\n    return \"Data\"\n\nasync def process_data(data):\n    print(\"Processing data...\")\n    await asyncio.sleep(1)\n    return f\"Processed {data}\"\n\nasync def main():\n    task = asyncio.create_task(fetch_data())\n    while not task.done():\n        await asyncio.sleep(0.5)  # Check every 0.5 seconds\n        print(\"Waiting for data to be fetched...\")\n    \n    data = await task\n    processed_data = await process_data(data)\n    print(processed_data)\n\n# Run the main function\nasyncio.run(main())\n```\n\nWhat is the output of this code when run, and why? (Choose the correct option)\n\nA) Fetching data... Processing data... Processed Data  \nB) Fetching data... Waiting for data to be fetched... Processing data... Processed Data  \nC) Fetching data... Waiting for data to be fetched... Waiting for data to be fetched... Processing data... Processed Data  \nD) It will enter an infinite loop and never complete",
+    "answer": "### Answer\nB) Fetching data... Waiting for data to be fetched... Processing data... Processed Data\n\n**Explanation:**\nThe code creates a task to fetch data using `asyncio.create_task(fetch_data())`. The main function then enters a loop where it prints \"Waiting for data to be fetched...\" every 0.5 seconds until the task is done. Once the task completes, fetching the data, the main function proceeds to process the data by calling `await process_data(data)`, which results in \"Processing data... Processed Data\". The correct order of output reflects that the loop checks for completion periodically and eventually prints the processed data after both tasks complete.",
+    "timestamp": "2025-07-17 00:01:52",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
