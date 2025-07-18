@@ -10956,3 +10956,66 @@ A) The `Timer` class is a metaclass that modifies classes at creation.
 B) When `my_function()` is called, it measures and prints the execution time of itself.
 C) The `@Timer` decorator is applied to the `Timer` class itself, not to `my_function`.
 D) Using `time.sleep(2)` inside `my_function` makes it impossible for `my_function` to be used in an asynchronous context.";"B) When `my_function()` is called, it measures and prints the execution time of itself."
+"2025-07-18 00:01";"";"**Part 1: Question**
+
+Consider the following Python code snippet:
+
+```python
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        result = func(*args, **kwargs)
+        print(""Something is happening after the function is called."")
+        return result
+    return wrapper
+
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+
+    @my_decorator
+    def my_method(self):
+        print(f""Value: {self.value}"")
+
+# Usage
+obj = MyClass(10)
+obj.my_method()
+```
+
+What will be the output of this code when `obj.my_method()` is called? Explain your reasoning.
+
+A) 
+```
+Something is happening before the function is called.
+Value: 10
+Something is happening after the function is called.
+```
+
+B) 
+```
+Something is happening before the function is called.
+Value: 10
+```
+
+C) 
+```
+Something is happening before the function is called.
+Something is happening after the function is called.
+```
+
+D) An error will occur because decorators cannot be applied to class methods.
+
+**Part 2: Answer**
+
+A) 
+```
+Something is happening before the function is called.
+Value: 10
+Something is happening after the function is called.
+```
+
+**Explanation:**  
+The decorator `my_decorator` is applied to the method `my_method` of the class `MyClass`. When you call `obj.my_method()`, it first goes through the `wrapper` function defined inside the decorator. The `wrapper` function prints a message before calling the original method `my_method`, then prints another message after the original method has executed. Therefore, the expected output is option A."

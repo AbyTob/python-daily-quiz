@@ -1734,5 +1734,12 @@
     "answer": "B) When `my_function()` is called, it measures and prints the execution time of itself.",
     "timestamp": "2025-07-17 16:01:23",
     "topic": "Asynchronous Programming Concepts"
+  },
+  "q1_2025-07-18": {
+    "id": "1752796911_1",
+    "question": "",
+    "answer": "**Part 1: Question**\n\nConsider the following Python code snippet:\n\n```python\nfrom functools import wraps\n\ndef my_decorator(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(\"Something is happening before the function is called.\")\n        result = func(*args, **kwargs)\n        print(\"Something is happening after the function is called.\")\n        return result\n    return wrapper\n\nclass MyClass:\n    def __init__(self, value):\n        self.value = value\n\n    @my_decorator\n    def my_method(self):\n        print(f\"Value: {self.value}\")\n\n# Usage\nobj = MyClass(10)\nobj.my_method()\n```\n\nWhat will be the output of this code when `obj.my_method()` is called? Explain your reasoning.\n\nA) \n```\nSomething is happening before the function is called.\nValue: 10\nSomething is happening after the function is called.\n```\n\nB) \n```\nSomething is happening before the function is called.\nValue: 10\n```\n\nC) \n```\nSomething is happening before the function is called.\nSomething is happening after the function is called.\n```\n\nD) An error will occur because decorators cannot be applied to class methods.\n\n**Part 2: Answer**\n\nA) \n```\nSomething is happening before the function is called.\nValue: 10\nSomething is happening after the function is called.\n```\n\n**Explanation:**  \nThe decorator `my_decorator` is applied to the method `my_method` of the class `MyClass`. When you call `obj.my_method()`, it first goes through the `wrapper` function defined inside the decorator. The `wrapper` function prints a message before calling the original method `my_method`, then prints another message after the original method has executed. Therefore, the expected output is option A.",
+    "timestamp": "2025-07-18 00:01:51",
+    "topic": "Advanced Python Programming"
   }
 }
