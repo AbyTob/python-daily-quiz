@@ -1748,5 +1748,12 @@
     "answer": "B) 10, 10\n\n**Explanation:** The `Meta` metaclass is designed as a singleton, meaning it ensures that only one instance of any class using this metaclass can be created. In the provided code, when `s1 = Singleton(10)` is executed, an instance with value 10 is created and stored in `_instances`. When `s2 = Singleton(20)` is executed, since the `Singleton` class uses the `Meta` metaclass, it checks if an instance already exists. Since one does exist, it returns the existing instance instead of creating a new one. Therefore, both `s1.value` and `s2.value` will be 10.",
     "timestamp": "2025-07-18 08:01:43",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q3_2025-07-18": {
+    "id": "1752854499_3",
+    "question": "Part 1 (Question):\n\nConsider the following Python code that uses a decorator along with a metaclass:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'method' not in dct:\n            raise TypeError(\"Class must implement method\")\n        return super().__new__(cls, name, bases, dct)\n\ndef class_decorator(cls):\n    original_method = cls.method\n\n    def new_method(self):\n        print(\"Decorated!\")\n        return original_method(self)\n    \n    cls.method = new_method\n    return cls\n\n@Meta\n@class_decorator\nclass MyClass:\n    def method(self):\n        return \"Original method\"\n\nobj = MyClass()\nprint(obj.method())\n```\n\nWhat will be the output when `MyClass().method()` is called?\n\nA) TypeError: Class must implement method  \nB) Original method  \nC) Decorated! Original method  \nD) Decorated!",
+    "answer": "Part 2 (Answer):\n\n**Answer:** C) Decorated! Original method\n\n**Explanation:** The code defines a metaclass `Meta` that checks if the class it's applied to has a method named `method`. If not, it raises a TypeError. The decorator `class_decorator` wraps the original method with an additional print statement. When we instantiate `MyClass()`, the metaclass ensures that `MyClass` implements `method`, and then the decorator modifies this method to include a decoration message before calling the original method. Therefore, when `obj.method()` is called, it outputs \"Decorated!\" followed by the output of the original method, which is \"Original method\".",
+    "timestamp": "2025-07-18 16:01:39",
+    "topic": "Object-Oriented Programming"
   }
 }
