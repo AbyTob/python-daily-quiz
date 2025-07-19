@@ -11093,3 +11093,39 @@ D) Decorated!";"Part 2 (Answer):
 **Answer:** C) Decorated! Original method
 
 **Explanation:** The code defines a metaclass `Meta` that checks if the class it's applied to has a method named `method`. If not, it raises a TypeError. The decorator `class_decorator` wraps the original method with an additional print statement. When we instantiate `MyClass()`, the metaclass ensures that `MyClass` implements `method`, and then the decorator modifies this method to include a decoration message before calling the original method. Therefore, when `obj.method()` is called, it outputs ""Decorated!"" followed by the output of the original method, which is ""Original method""."
+"2025-07-19 00:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to create a class decorator. The goal is to add a method to any class decorated by this metaclass that prints ""Hello, World!"" when called.
+
+```python
+class Meta(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        cls.greet = lambda self: print(""Hello, World!"")
+
+@Meta()
+class MyClass:
+    pass
+
+# Usage
+my_instance = MyClass()
+my_instance.greet()  # Expected output: Hello, World!
+```
+
+Which of the following statements is true about the code above?
+
+A) The `greet` method is added to `MyClass` dynamically at runtime.
+
+B) The `Meta` metaclass does not modify `MyClass` in any way.
+
+C) Calling `my_instance.greet()` will raise an AttributeError because `greet` is not defined in `MyClass`.
+
+D) The code will not run because there is a syntax error in the `Meta` class definition.";"A) The `greet` method is added to `MyClass` dynamically at runtime.
+
+Explanation: 
+- When `MyClass` is decorated with `@Meta()`, the metaclass `Meta` is invoked. 
+- In the `__init__` method of `Meta`, a new method `greet` is added to the class `cls` being initialized (which in this case is `MyClass`).
+- This allows instances of `MyClass` to call the `greet` method, which prints ""Hello, World!"".
+- The other options are incorrect because:
+  - Option B is false because the metaclass does add a method to the class.
+  - Option C is false because the `greet` method is defined and can be called.
+  - Option D is false as there are no syntax errors in the provided code."

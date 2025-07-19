@@ -1755,5 +1755,12 @@
     "answer": "Part 2 (Answer):\n\n**Answer:** C) Decorated! Original method\n\n**Explanation:** The code defines a metaclass `Meta` that checks if the class it's applied to has a method named `method`. If not, it raises a TypeError. The decorator `class_decorator` wraps the original method with an additional print statement. When we instantiate `MyClass()`, the metaclass ensures that `MyClass` implements `method`, and then the decorator modifies this method to include a decoration message before calling the original method. Therefore, when `obj.method()` is called, it outputs \"Decorated!\" followed by the output of the original method, which is \"Original method\".",
     "timestamp": "2025-07-18 16:01:39",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-07-19": {
+    "id": "1752883314_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to create a class decorator. The goal is to add a method to any class decorated by this metaclass that prints \"Hello, World!\" when called.\n\n```python\nclass Meta(type):\n    def __init__(cls, name, bases, dct):\n        super().__init__(name, bases, dct)\n        cls.greet = lambda self: print(\"Hello, World!\")\n\n@Meta()\nclass MyClass:\n    pass\n\n# Usage\nmy_instance = MyClass()\nmy_instance.greet()  # Expected output: Hello, World!\n```\n\nWhich of the following statements is true about the code above?\n\nA) The `greet` method is added to `MyClass` dynamically at runtime.\n\nB) The `Meta` metaclass does not modify `MyClass` in any way.\n\nC) Calling `my_instance.greet()` will raise an AttributeError because `greet` is not defined in `MyClass`.\n\nD) The code will not run because there is a syntax error in the `Meta` class definition.",
+    "answer": "A) The `greet` method is added to `MyClass` dynamically at runtime.\n\nExplanation: \n- When `MyClass` is decorated with `@Meta()`, the metaclass `Meta` is invoked. \n- In the `__init__` method of `Meta`, a new method `greet` is added to the class `cls` being initialized (which in this case is `MyClass`).\n- This allows instances of `MyClass` to call the `greet` method, which prints \"Hello, World!\".\n- The other options are incorrect because:\n  - Option B is false because the metaclass does add a method to the class.\n  - Option C is false because the `greet` method is defined and can be called.\n  - Option D is false as there are no syntax errors in the provided code.",
+    "timestamp": "2025-07-19 00:01:54",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
