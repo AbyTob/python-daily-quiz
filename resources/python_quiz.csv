@@ -11130,3 +11130,29 @@ Explanation:
   - Option C is false because the `greet` method is defined and can be called.
   - Option D is false as there are no syntax errors in the provided code."
 "2025-07-19 08:00";"";""
+"2025-07-19 16:01";"[QUESTION]  
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data():
+    await asyncio.sleep(1)
+    return ""Data fetched""
+
+class DataLoader:
+    async def load(self):
+        data = await fetch_data()
+        print(f""Loading {data}"")
+
+# Usage
+loop = asyncio.get_event_loop()
+task = loop.create_task(DataLoader().load())
+loop.run_until_complete(task)
+```
+
+Which of the following statements about this code is true?  
+A) The `fetch_data` function runs in a separate thread.  
+B) The `DataLoader.load` method will complete after exactly 1 second.  
+C) The event loop must be explicitly started with `asyncio.run()` instead of manually creating it with `get_event_loop()`.  
+D) The `async def fetch_data():` line defines a regular function, not an asynchronous one.";"B) The `DataLoader.load` method will complete after exactly 1 second."

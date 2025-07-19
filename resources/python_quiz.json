@@ -1769,5 +1769,12 @@
     "answer": "",
     "timestamp": "2025-07-19 08:00:37",
     "topic": "Advanced Python Programming"
+  },
+  "q3_2025-07-19": {
+    "id": "1752940875_3",
+    "question": "[QUESTION]  \nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data fetched\"\n\nclass DataLoader:\n    async def load(self):\n        data = await fetch_data()\n        print(f\"Loading {data}\")\n\n# Usage\nloop = asyncio.get_event_loop()\ntask = loop.create_task(DataLoader().load())\nloop.run_until_complete(task)\n```\n\nWhich of the following statements about this code is true?  \nA) The `fetch_data` function runs in a separate thread.  \nB) The `DataLoader.load` method will complete after exactly 1 second.  \nC) The event loop must be explicitly started with `asyncio.run()` instead of manually creating it with `get_event_loop()`.  \nD) The `async def fetch_data():` line defines a regular function, not an asynchronous one.",
+    "answer": "B) The `DataLoader.load` method will complete after exactly 1 second.",
+    "timestamp": "2025-07-19 16:01:15",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
