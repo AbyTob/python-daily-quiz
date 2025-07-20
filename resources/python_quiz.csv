@@ -11255,3 +11255,30 @@ B) Correct. The `async_task` inside the `AsyncTimer` context manager will not me
 C) Incorrect. Although both `sync_function` and `async_task` are decorated with their respective timers, the async task inside `AsyncTimer` will not measure its execution time correctly due to the non-awaited nature of the task within the context manager.
 
 D) Incorrect. The `timer` decorator can be used to measure the execution time of asynchronous functions like `async_task`, but it requires proper handling outside a context manager or by awaiting it properly if inside a decorator."
+"2025-07-20 16:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to enhance class behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+print(""Finished creating MyClass"")
+```
+
+What happens when you run this code? Choose the correct sequence of outputs from the following options:
+
+A) Creating MyClass
+   Finished creating MyClass
+
+B) Finished creating MyClass
+   Creating MyClass
+
+C) An error is raised because metaclasses cannot be used with new-style classes.
+
+D) Nothing happens; the output depends on other Python settings.";"A) Creating MyClass
+   Finished creating MyClass"
