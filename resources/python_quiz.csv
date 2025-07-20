@@ -11197,3 +11197,61 @@ Explanation:
 - The `AsyncMeta` metaclass uses the `__new__` method to add a new method named `async_method` to any class that uses it as a metaclass. This method is then available on all instances of `MyClass`.
 - When calling `obj.async_method()`, it will indeed print ""Instance <__main__.MyClass object at 0x...> has been created"", where `<__main__.MyClass object at 0x...>` represents the memory address of the instance.
 - The `my_async_function` is defined as an async method, which means it returns a coroutine when called. Calling `await obj.my_async_function()` will not block the event loop; instead, it schedules the coroutine to run and waits for its completion, allowing other tasks in the event loop to execute concurrently."
+"2025-07-20 08:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to run"")
+        return result
+    return wrapper
+
+class AsyncTimer:
+    def __enter__(self):
+        self.start_time = time.time()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end_time = time.time()
+        print(f""Async operation took {end_time - self.start_time:.4f} seconds"")
+
+async def async_task():
+    await asyncio.sleep(2)
+    print(""Async task completed"")
+
+# Using the decorator
+@timer
+def sync_function():
+    time.sleep(1)
+    print(""Sync function completed"")
+
+# Using the context manager
+with AsyncTimer() as timer:
+    asyncio.run(async_task())
+```
+
+Given this setup, which of the following statements is true about the performance measurement?
+
+A) The `sync_function` will measure its execution time correctly when called.
+
+B) The `async_task` inside the `AsyncTimer` context manager will not measure the correct execution time because it's asynchronous and not awaited properly.
+
+C) Both `sync_function` and `async_task` are measured accurately due to the use of their respective decorators and context managers.
+
+D) The `timer` decorator cannot be used to measure the execution time of asynchronous functions like `async_task`.
+
+**Part 2 (Answer):**
+
+A) Incorrect. While the `sync_function` is decorated with `@timer`, it measures its execution time correctly because it runs synchronously and completes before the timer ends.
+
+B) Correct. The `async_task` inside the `AsyncTimer` context manager will not measure the correct execution time because it's asynchronous and not awaited properly. As a result, the end_time in `__exit__` is taken immediately after starting the timer, leading to an incorrect measurement of 0 seconds.
+
+C) Incorrect. Although both `sync_function` and `async_task` are decorated with their respective timers, the async task inside `AsyncTimer` will not measure its execution time correctly due to the non-awaited nature of the task within the context manager.
+
+D) Incorrect. The `timer` decorator can be used to measure the execution time of asynchronous functions like `async_task`, but it requires proper handling outside a context manager or by awaiting it properly if inside a decorator."
