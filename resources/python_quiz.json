@@ -1776,5 +1776,12 @@
     "answer": "B) The `DataLoader.load` method will complete after exactly 1 second.",
     "timestamp": "2025-07-19 16:01:15",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-07-20": {
+    "id": "1752969728_1",
+    "question": "[QUESTION]\nConsider the following code snippet that uses a combination of decorators, metaclasses, and async/await:\n\n```python\nimport asyncio\n\nclass AsyncMeta(type):\n    def __new__(cls, name, bases, dct):\n        # Create an instance of the class with a custom method\n        dct['async_method'] = lambda self: print(f\"Instance {self} has been created\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=AsyncMeta):\n    def __init__(self, value):\n        self.value = value\n\n    async def my_async_function(self):\n        await asyncio.sleep(1)\n        print(f\"Value: {self.value}\")\n\nasync def main():\n    obj = MyClass(\"test\")\n    obj.async_method()\n    await obj.my_async_function()\n\n# Run the event loop\nloop = asyncio.get_event_loop()\nloop.run_until_complete(main())\n```\n\nWhich of the following statements is true about this code?\n\nA) The `AsyncMeta` metaclass adds a new method to instances of `MyClass`.\nB) When calling `obj.async_method()`, it will print \"Instance <__main__.MyClass object at 0x...> has been created\".\nC) The `my_async_function` is executed synchronously and will block the event loop.\nD) All of the above.",
+    "answer": "A) The `AsyncMeta` metaclass adds a new method to instances of `MyClass`.\n\nExplanation:\n- The `AsyncMeta` metaclass uses the `__new__` method to add a new method named `async_method` to any class that uses it as a metaclass. This method is then available on all instances of `MyClass`.\n- When calling `obj.async_method()`, it will indeed print \"Instance <__main__.MyClass object at 0x...> has been created\", where `<__main__.MyClass object at 0x...>` represents the memory address of the instance.\n- The `my_async_function` is defined as an async method, which means it returns a coroutine when called. Calling `await obj.my_async_function()` will not block the event loop; instead, it schedules the coroutine to run and waits for its completion, allowing other tasks in the event loop to execute concurrently.",
+    "timestamp": "2025-07-20 00:02:08",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
