@@ -11341,3 +11341,67 @@ Part 2 (Answer):
 B) The decorator uses a dictionary named `cache` to store function results based on their arguments.
 
 Explanation: The correct answer is B. The decorator defines an internal dictionary `cache` within the wrapper function to store the results of the function calls. This dictionary keys on a combination of positional and keyword arguments (`key = args + tuple(kwargs.items())`) to ensure that different sets of arguments lead to distinct cache entries."
+"2025-07-21 08:02";"### Part 1 (Question)
+
+**Question:**  
+Consider the following code snippet that uses a decorator to modify the behavior of class methods. The goal is to log the arguments with which each method was called. However, the current implementation logs all arguments regardless of whether they are public or private. How can you modify this decorator so that it only logs public (non-private) method calls?
+
+```python
+def log_args(func):
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+class MyClass:
+    @log_args
+    def public_method(self, a, b):
+        return a + b
+    
+    @log_args
+    def _private_method(self, x):
+        return x * 2
+
+# Example usage
+my_instance = MyClass()
+my_instance.public_method(1, 2)
+my_instance._private_method(3)
+```
+
+**Options:**
+A) Change the decorator to filter out private methods  
+B) Use a class variable to track which methods are public  
+C) Modify the wrapper to check if the method name starts with an underscore  
+D) Implement a metaclass that applies different decorators based on method visibility";"### Part 2 (Answer)
+
+**Correct Answer: C**
+
+**Explanation:**  
+The decorator can be modified to log only public method calls by checking if the method name does not start with an underscore. This is because in Python, names starting with underscores are intended for internal use and should be treated as non-public. 
+
+Here's how you can modify the `log_args` decorator to achieve this:
+
+```python
+def log_args(func):
+    def wrapper(*args, **kwargs):
+        if not func.__name__.startswith('_'):
+            print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+class MyClass:
+    @log_args
+    def public_method(self, a, b):
+        return a + b
+    
+    @log_args
+    def _private_method(self, x):
+        return x * 2
+
+# Example usage
+my_instance = MyClass()
+my_instance.public_method(1, 2)  # This will print the log
+my_instance._private_method(3)   # This will not print the log
+```
+
+This modification ensures that only public method calls are logged, as indicated by the check for non-private method names."
