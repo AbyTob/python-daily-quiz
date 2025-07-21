@@ -11405,3 +11405,51 @@ my_instance._private_method(3)   # This will not print the log
 ```
 
 This modification ensures that only public method calls are logged, as indicated by the check for non-private method names."
+"2025-07-21 16:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses decorators and metaclasses together:
+
+```python
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        return func(*args, **kwargs)
+    return wrapper
+
+class MyMeta(type):
+    def __new__(cls, name, bases, dct):
+        if 'my_method' in dct:
+            orig_my_method = dct['my_method']
+            
+            @wraps(orig_my_method)
+            def new_my_method(self, *args, **kwargs):
+                print(""Something is happening before my_method is called."")
+                return orig_my_method(self, *args, **kwargs)
+            dct['my_method'] = new_my_method
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=MyMeta):
+    def my_method(self):
+        print(""my_method has been called."")
+
+@my_decorator
+def my_function():
+    print(""Function has been called."")
+```
+
+Which of the following statements is true about the behavior of the `MyClass` and `my_function` when they are invoked?
+
+A) When an instance of `MyClass` is created, ""Something is happening before the function is called."" will be printed.
+B) When an instance of `MyClass` calls `my_method`, ""Something is happening before my_method is called."" will be printed.
+C) When `my_function` is called, ""Function has been called."" will be printed first, followed by ""Something is happening before the function is called.""
+D) None of the above.";"**Part 2 (Answer):**
+
+B) When an instance of `MyClass` calls `my_method`, ""Something is happening before my_method is called."" will be printed.
+
+Explanation:
+- The `MyMeta` metaclass intercepts class creation and checks if `my_method` exists in the class dictionary. If it does, it wraps the method with additional functionality that prints a message.
+- The `my_decorator` decorator wraps any function it decorates with an additional print statement.
+- When an instance of `MyClass` calls `my_method`, due to metaclass intervention, ""Something is happening before my_method is called."" is printed first. Then, the original `my_method` functionality (""my_method has been called."") is executed."
