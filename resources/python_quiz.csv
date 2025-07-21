@@ -11282,3 +11282,62 @@ C) An error is raised because metaclasses cannot be used with new-style classes.
 
 D) Nothing happens; the output depends on other Python settings.";"A) Creating MyClass
    Finished creating MyClass"
+"2025-07-21 00:02";"";"Part 1 (Question):
+You are tasked with creating a caching mechanism in Python that can be applied to any function. The cache should store the results of the function calls based on their arguments and return those results when the same arguments are used again, thus avoiding redundant computations.
+
+Consider the following interface for such a caching decorator:
+```python
+def cache_results(func):
+    """"""
+    Decorator to cache results of a function based on its arguments.
+    
+    Args:
+    func (callable): The function whose results need to be cached.
+    
+    Returns:
+    callable: A wrapper function that caches and returns the result.
+    """"""
+    # Your implementation here
+    
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        key = args + tuple(kwargs.items())
+        if key not in cache:
+            cache[key] = func(*args, **kwargs)
+        return cache[key]
+    
+    return wrapper
+
+# Example usage
+@cache_results
+def fibonacci(n):
+    """"""
+    Calculates the nth Fibonacci number.
+    
+    Args:
+    n (int): The position in the Fibonacci sequence.
+    
+    Returns:
+    int: The nth Fibonacci number.
+    """"""
+    if n < 2:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+
+# Test the implementation
+print(fibonacci(5))  # Expected output: 5
+print(fibonacci(10))  # Expected output: 55
+```
+
+Which of the following statements about the `cache_results` decorator is true?
+
+A) The decorator will cache results for all function calls, regardless of their arguments.
+B) The decorator uses a dictionary named `cache` to store function results based on their arguments.
+C) The decorator checks if the result for the current arguments is in a global variable `cached_values`.
+D) The decorator does not use any additional variables or storage beyond what is necessary to cache function results.
+
+Part 2 (Answer):
+B) The decorator uses a dictionary named `cache` to store function results based on their arguments.
+
+Explanation: The correct answer is B. The decorator defines an internal dictionary `cache` within the wrapper function to store the results of the function calls. This dictionary keys on a combination of positional and keyword arguments (`key = args + tuple(kwargs.items())`) to ensure that different sets of arguments lead to distinct cache entries."
