@@ -1832,5 +1832,12 @@
     "answer": "A) It correctly implements an asynchronous context manager and handles exceptions properly.",
     "timestamp": "2025-07-22 08:01:33",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-07-22": {
+    "id": "1753200118_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses decorators to modify class behavior. The goal is to create a decorator `@log_methods` that logs the method names as they are called on instances of any decorated class. However, there's a subtle issue in the implementation that causes it to not work correctly with asynchronous methods.\n\n```python\ndef log_methods(cls):\n    for attr_name, attr_value in cls.__dict__.items():\n        if callable(attr_value) and not attr_name.startswith(\"__\"):\n            setattr(cls, attr_name, wrap_method_with_log(attr_value))\n    return cls\n\ndef wrap_method_with_log(method):\n    def wrapper(*args, **kwargs):\n        print(f\"Calling method: {method.__name__}\")\n        return method(*args, **kwargs)\n    return wrapper\n\n@log_methods\nclass MyClass:\n    async def my_async_method(self):\n        pass\n\n    def my_sync_method(self):\n        pass\n```\n\nWhen an instance of `MyClass` is created and both methods are called, the output should include log statements for both. However, only the synchronous method call logs correctly. Why does the asynchronous method not log its name?\n\nA) The decorator does not handle asynchronous methods correctly  \nB) The logging function is not properly defined inside the decorator  \nC) There's a naming conflict with Python’s built-in `log` function  \nD) The instance method is incorrectly referenced inside the wrapper",
+    "answer": "[ANSWER] A) The decorator does not handle asynchronous methods correctly\n\nExplanation: The issue lies in how the decorator is trying to wrap both synchronous and asynchronous methods. The current implementation uses a simple `def wrapper(*args, **kwargs)` which assumes that the method is synchronous. As a result, when the asynchronous method (`my_async_method`) is called, it raises an error because the wrapper does not await the coroutine.\n\nTo fix this issue, you would need to modify the `wrap_method_with_log` function to check if the method is asynchronous and use `await method(*args, **kwargs)` instead of just calling it. This ensures that asynchronous methods are properly awaited and their names are logged correctly.",
+    "timestamp": "2025-07-22 16:01:58",
+    "topic": "Function and Method Decorators"
   }
 }
