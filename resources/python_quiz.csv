@@ -11737,3 +11737,28 @@ Explanation: The `AddMethod` metaclass defines a `__new__` method that takes thr
 Option A is incorrect because 'new_method' has been added to the class, so calling `obj.new_method()` will not raise an AttributeError.
 Option C is incorrect because there are no arguments required for the lambda function we added.
 Option D is incorrect because calling a method does not return its memory address; it executes the code and returns the result if any."
+"2025-07-23 16:01";"[QUESTION] Consider the following Python code snippet that uses a decorator to measure execution time of functions. Your task is to identify what would be printed if the `calculate_sum` function is called with arguments (1, 2, 3).
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time} seconds"")
+        return result
+    return wrapper
+
+@timer
+def calculate_sum(a, b, c):
+    return a + b + c
+
+print(calculate_sum(1, 2, 3))
+```
+
+A) Execution time: x seconds  
+B) 6  
+C) Error - decorator is incorrectly used  
+D) None of the above";"B) 6"
