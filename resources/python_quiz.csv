@@ -11595,3 +11595,116 @@ D) The instance method is incorrectly referenced inside the wrapper";"[ANSWER] A
 Explanation: The issue lies in how the decorator is trying to wrap both synchronous and asynchronous methods. The current implementation uses a simple `def wrapper(*args, **kwargs)` which assumes that the method is synchronous. As a result, when the asynchronous method (`my_async_method`) is called, it raises an error because the wrapper does not await the coroutine.
 
 To fix this issue, you would need to modify the `wrap_method_with_log` function to check if the method is asynchronous and use `await method(*args, **kwargs)` instead of just calling it. This ensures that asynchronous methods are properly awaited and their names are logged correctly."
+"2025-07-23 00:02";"[QUESTION]
+Consider the following Python code snippet that uses a combination of metaclasses, decorators, and context managers:
+
+```python
+from abc import ABC, abstractmethod
+
+class BaseMeta(type):
+    def __new__(cls, name, bases, dct):
+        if 'abstract_methods' in dct:
+            for method_name in dct['abstract_methods']:
+                if not callable(dct.get(method_name)):
+                    raise TypeError(f""{method_name} must be a method"")
+        return super().__new__(cls, name, bases, dct)
+
+class BaseClass(metaclass=BaseMeta):
+    abstract_methods = ['start', 'stop']
+
+@BaseClass.register
+class MyService:
+    def __init__(self):
+        self.running = False
+
+    async def start(self):
+        if not self.running:
+            self.running = True
+            print(""Service started"")
+        else:
+            raise RuntimeError(""Service is already running"")
+
+    async def stop(self):
+        if self.running:
+            self.running = False
+            print(""Service stopped"")
+        else:
+            raise RuntimeError(""Service is not running"")
+
+    async def check_status(self):
+        if self.running:
+            return ""Running""
+        else:
+            return ""Stopped""
+
+class ServiceManager:
+    def __init__(self, service_class):
+        self.service = service_class()
+
+    async def manage_service(self):
+        await self.service.start()
+        status = await self.service.check_status()
+        print(f""Current Status: {status}"")
+        await self.service.stop()
+        status = await self.service.check_status()
+        print(f""Final Status: {status}"")
+
+# Usage
+async def main():
+    manager = ServiceManager(MyService)
+    await manager.manage_service()
+
+import asyncio
+asyncio.run(main())
+```
+
+What will be the output of this code when executed? Explain each step in detail.
+
+A) 
+```
+Service started
+Current Status: Running
+Service stopped
+Final Status: Stopped
+```
+
+B) 
+```
+Service started
+Current Status: Running
+RuntimeError: Service is not running
+```
+
+C)
+```
+RuntimeError: Service is already running
+Current Status: Running
+Service stopped
+Final Status: Stopped
+```
+
+D)
+```
+Service started
+Current Status: Running
+Final Status: Stopped
+RuntimeError: Service is already running
+``)
+
+[ANSWER]
+A) 
+```
+Service started
+Current Status: Running
+Service stopped
+Final Status: Stopped
+```
+
+Explanation:
+1. When `ServiceManager` is instantiated with `MyService`, the `__init__` method of `ServiceManager` creates an instance of `MyService`.
+2. The `manage_service` coroutine in `ServiceManager` calls the `start` method on `self.service`. Since `MyService` implements a non-blocking `start` method, it successfully sets `self.running` to `True` and prints ""Service started"".
+3. It then calls `check_status`, which returns ""Running"" because `self.running` is `True`.
+4. After that, it calls the `stop` method on `self.service`. This method sets `self.running` back to `False` and prints ""Service stopped"".
+5. Finally, it checks the status again with `check_status`, which now returns ""Stopped"" as `self.running` is `False`.
+
+The correct output matches option A.";"Answer format error. Please check the generated content."
