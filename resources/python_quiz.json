@@ -1846,5 +1846,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-07-23 00:02:50",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2025-07-23": {
+    "id": "1753257713_2",
+    "question": "Part 1 (Question): \nConsider the following Python code snippet that uses a metaclass to add a method to any class it decorates:\n\n```python\nclass AddMethod(type):\n    def __new__(cls, name, bases, dct):\n        dct['new_method'] = lambda self: 'New Method'\n        return super().__new__(cls, name, bases, dct)\n\n@AddMethod\nclass MyClass:\n    pass\n\nobj = MyClass()\n```\n\nWhat does calling `obj.new_method()` do? Explain why and provide the output.\n\nA) It raises an AttributeError because new_method is not defined in MyClass  \nB) It returns 'New Method' because AddMethod adds the method dynamically at class creation time  \nC) It throws a TypeError because new_method expects arguments  \nD) It outputs the memory address of obj.new_method",
+    "answer": "Part 2 (Answer): \nThe correct answer is B: It returns 'New Method' because AddMethod adds the method dynamically at class creation time.\n\nExplanation: The `AddMethod` metaclass defines a `__new__` method that takes three parameters: the metaclass itself (`cls`), the name of the new class (`name`), and a dictionary representing the namespace of the class (`dct`). Inside the `__new__` method, a lambda function is added to the `dct` under the key 'new_method'. This lambda function returns the string 'New Method' when called. Since this method is added during the creation of any class that uses `AddMethod`, it becomes available on instances of those classes as well.\n\nOption A is incorrect because 'new_method' has been added to the class, so calling `obj.new_method()` will not raise an AttributeError.\nOption C is incorrect because there are no arguments required for the lambda function we added.\nOption D is incorrect because calling a method does not return its memory address; it executes the code and returns the result if any.",
+    "timestamp": "2025-07-23 08:01:53",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
