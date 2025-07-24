@@ -1860,5 +1860,12 @@
     "answer": "B) 6",
     "timestamp": "2025-07-23 16:01:14",
     "topic": "Task Management and Scheduling"
+  },
+  "q1_2025-07-24": {
+    "id": "1753315280_1",
+    "question": "Part 1 (Question):\nConsider the following Python code that uses a metaclass to create a class with a custom attribute:\n```python\nclass CustomMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['custom_attr'] = 'Hello, World!'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=CustomMeta):\n    pass\n\ninstance = MyClass()\nprint(instance.custom_attr)\n```\nWhat does the above code print when run?\n\nA) TypeError: __new__() takes 3 positional arguments but 4 were given\nB) AttributeError: 'MyClass' object has no attribute 'custom_attr'\nC) Hello, World!\nD) None",
+    "answer": "Part 2 (Answer):\nC) Hello, World!\n\nThe correct answer is C. The `CustomMeta` metaclass adds a new attribute `custom_attr` to the class it creates with the value 'Hello, World!'. When an instance of `MyClass` is created and its `custom_attr` accessed, it correctly prints 'Hello, World!'.",
+    "timestamp": "2025-07-24 00:01:20",
+    "topic": "Object-Oriented Programming"
   }
 }
