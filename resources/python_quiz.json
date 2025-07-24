@@ -1874,5 +1874,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-07-24 08:02:15",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-07-24": {
+    "id": "1753372901_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet that utilizes a metaclass to modify a class's behavior. The goal is to ensure that any class created with this metaclass will have its `__init__` method automatically decorated with a logging decorator that logs when an instance of the class is initialized.\n\n```python\nfrom functools import wraps\n\ndef log_init(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Initializing {func.__name__}\")\n        return func(*args, **kwargs)\n    return wrapper\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if '__init__' in dct:\n            dct['__init__'] = log_init(dct['__init__'])\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    def __init__(self, value):\n        self.value = value\n\n# Example usage\nobj = MyClass(10)\n```\n\nWhich of the following statements is true regarding the use of this metaclass and its impact on `MyClass`?\n\nA) The `__init__` method of `MyClass` will not be executed because it's been replaced by the logging decorator.\nB) When an instance of `MyClass` is created, the `__init__` method will automatically log that it is being initialized with a value of 10.\nC) The metaclass modifies `MyClass` so that any other methods added to it in the future will also be decorated by `log_init`.\nD) The logging decorator will only work if `MyClass` is instantiated using keyword arguments.",
+    "answer": "B",
+    "timestamp": "2025-07-24 16:01:41",
+    "topic": "Futures and Promise-like Objects"
   }
 }
