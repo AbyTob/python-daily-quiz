@@ -11869,3 +11869,42 @@ A) The `__init__` method of `MyClass` will not be executed because it's been rep
 B) When an instance of `MyClass` is created, the `__init__` method will automatically log that it is being initialized with a value of 10.
 C) The metaclass modifies `MyClass` so that any other methods added to it in the future will also be decorated by `log_init`.
 D) The logging decorator will only work if `MyClass` is instantiated using keyword arguments.";"B"
+"2025-07-25 00:01";"";"Part 1 (Question):
+Consider the following Python code snippet which uses a metaclass to enhance class behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'log' not in dct:
+            dct['log'] = lambda self: f""{self} is logging""
+        return super().__new__(cls, name, bases, dct)
+
+class BaseClass(metaclass=Meta):
+    pass
+
+class ChildClass(BaseClass):
+    def log(self):
+        return ""Custom log message""
+
+def get_log(obj):
+    return obj.log()
+
+# Example usage
+child = ChildClass()
+print(get_log(child))
+```
+
+What will be the output of `get_log(child)` when executed?
+
+A) `<__main__.ChildClass object at 0x...> is logging`
+B) `Custom log message`
+C) An error, as 'log' method in BaseClass cannot be overridden
+D) None
+
+Part 2 (Answer):
+B) `Custom log message`
+
+Explanation:
+- The metaclass `Meta` defines a new class attribute `log` if it doesn't already exist. This attribute is set to a lambda function that returns a default logging string.
+- When `ChildClass` is defined, the metaclass `Meta` checks if 'log' is in the dictionary of `ChildClass`. Since `ChildClass` explicitly defines its own `log` method, it overrides the one added by the metaclass.
+- Therefore, when `get_log(child)` is called, it calls the overridden `log` method from `ChildClass`, which returns ""Custom log message""."

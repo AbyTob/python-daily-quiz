@@ -1881,5 +1881,12 @@
     "answer": "B",
     "timestamp": "2025-07-24 16:01:41",
     "topic": "Futures and Promise-like Objects"
+  },
+  "q1_2025-07-25": {
+    "id": "1753401700_1",
+    "question": "",
+    "answer": "Part 1 (Question):\nConsider the following Python code snippet which uses a metaclass to enhance class behavior:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'log' not in dct:\n            dct['log'] = lambda self: f\"{self} is logging\"\n        return super().__new__(cls, name, bases, dct)\n\nclass BaseClass(metaclass=Meta):\n    pass\n\nclass ChildClass(BaseClass):\n    def log(self):\n        return \"Custom log message\"\n\ndef get_log(obj):\n    return obj.log()\n\n# Example usage\nchild = ChildClass()\nprint(get_log(child))\n```\n\nWhat will be the output of `get_log(child)` when executed?\n\nA) `<__main__.ChildClass object at 0x...> is logging`\nB) `Custom log message`\nC) An error, as 'log' method in BaseClass cannot be overridden\nD) None\n\nPart 2 (Answer):\nB) `Custom log message`\n\nExplanation:\n- The metaclass `Meta` defines a new class attribute `log` if it doesn't already exist. This attribute is set to a lambda function that returns a default logging string.\n- When `ChildClass` is defined, the metaclass `Meta` checks if 'log' is in the dictionary of `ChildClass`. Since `ChildClass` explicitly defines its own `log` method, it overrides the one added by the metaclass.\n- Therefore, when `get_log(child)` is called, it calls the overridden `log` method from `ChildClass`, which returns \"Custom log message\".",
+    "timestamp": "2025-07-25 00:01:40",
+    "topic": "Advanced Python Programming"
   }
 }
