@@ -12063,3 +12063,31 @@ Explanation:
 - Therefore, when you create an instance of `MyClass`, it will print ""Class MyClass is being created"" first. Then, because `AnotherClass` registers itself with `MyClass`, it prints ""Class AnotherClass is being registered"".
 
 This question tests the understanding of metaclass behavior and the interaction between class creation and registration in Python."
+"2025-07-26 16:01";"[QUESTION]  
+Consider the following code snippet that attempts to create a class decorator that modifies a class's methods to print ""Hello, World!"" before their execution:
+
+```python
+def greet_decorator(cls):
+    for name, value in cls.__dict__.items():
+        if callable(value) and not name.startswith(""__""):
+            setattr(cls, name, lambda self: ""Hello, World!\n"" + value(self))
+    return cls
+
+@greet_decorator
+class Greeter:
+    def say_hello(self):
+        print(""Goodbye, World!"")
+
+g = Greeter()
+g.say_hello()
+```
+
+What will be the output when `g.say_hello()` is called?
+
+A) Hello, World!  
+B) Goodbye, World!  
+C) Hello, World!\nGoodbye, World!  
+D) An error";"**Answer: C) Hello, World!\nGoodbye, World!**
+
+**Explanation:**  
+The `greet_decorator` is intended to prepend ""Hello, World!"" to the output of any callable method in the class it decorates. However, when the lambda function captures `value`, it does so by reference rather than by value. As a result, all lambda functions point to the same `value`, which is the last method in the class (`say_hello`), because the loop continues until the last method's `value` is captured. When you call `g.say_hello()`, it executes the `say_hello` method, prints ""Goodbye, World!"", and then the lambda function (which now points to `say_hello`) adds ""Hello, World!"" to its output. Therefore, the correct output is ""Hello, World!\nGoodbye, World!""."
