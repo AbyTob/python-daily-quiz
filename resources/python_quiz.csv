@@ -12022,3 +12022,44 @@ Explanation:
 - The metaclass `MethodAdderMeta` is used to dynamically add a method `add_method` to any class that uses it as its metaclass.
 - This method allows adding new attributes to instances of the decorated class.
 - Therefore, when you create an instance of `DerivedClass`, you can call `instance.add_method(value)` and then access this value through the attribute `new_attr`."
+"2025-07-26 08:01";"";"**Part 1 (Question):**
+
+Consider the following code snippet:
+
+```python
+class Meta(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        print(f""Class {name} is being created"")
+
+class MyClass(metaclass=Meta):
+    pass
+
+@MyClass.register
+class AnotherClass:
+    pass
+```
+
+What will be the output of running this code and explain why?
+
+A) Class MyClass is being created  
+   Class AnotherClass is being registered  
+
+B) Class MyClass is being created  
+
+C) Class MyClass is being created  
+   Class AnotherClass is being created  
+
+D) Class AnotherClass is being created  
+
+**Part 2 (Answer):**
+
+A) Class MyClass is being created  
+   Class AnotherClass is being registered  
+
+Explanation:
+- When a class `MyClass` is defined with a metaclass `Meta`, the metaclass's `__init__` method gets called immediately upon class creation.
+- The `@MyClass.register` decorator adds `AnotherClass` to the set of classes managed by `MyClass`. However, this registration happens after the `__init__` method of `Meta` has already executed for `MyClass`.
+- Therefore, when you create an instance of `MyClass`, it will print ""Class MyClass is being created"" first. Then, because `AnotherClass` registers itself with `MyClass`, it prints ""Class AnotherClass is being registered"".
+
+This question tests the understanding of metaclass behavior and the interaction between class creation and registration in Python."
