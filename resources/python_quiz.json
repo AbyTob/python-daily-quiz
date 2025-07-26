@@ -1902,5 +1902,12 @@
     "answer": "C) Both method calls will be logged with their arguments and return values.\n\nExplanation: When you create an instance of `MyClass`, the metaclass `AutoLogMeta` is invoked to modify the class definition. It searches for callable attributes (methods) in the class dictionary and wraps each one with a logging wrapper function defined by `log_method`. This wrapper prints method calls, arguments, and return values every time a decorated method is called on any instance of `MyClass`. Therefore, when you call both `method1` and `method2` on an instance of `MyClass`, the logs for both methods will be printed as specified in option C.",
     "timestamp": "2025-07-25 16:01:56",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-07-26": {
+    "id": "1753488104_1",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a metaclass to add a method to any class it decorates:\n\n```python\nfrom abc import ABC, abstractmethod\n\nclass MethodAdderMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['add_method'] = lambda self, value: setattr(self, 'new_attr', value)\n        return super().__new__(cls, name, bases, dct)\n\nclass BaseClass(metaclass=MethodAdderMeta):\n    pass\n\nclass DerivedClass(BaseClass):\n    pass\n```\n\nWhich of the following statements correctly describes the behavior of this code?\n\nA) `DerivedClass` will have a method named `add_method`, but it won't be callable.\nB) Instances of `DerivedClass` can call `add_method` to add an attribute, and this attribute will be accessible through `new_attr`.\nC) The metaclass does not work as intended because it only modifies the `BaseClass`.\nD) The code will raise a `TypeError` when trying to define `DerivedClass`.\n\n**Part 2 (Answer):**\n\nB) Instances of `DerivedClass` can call `add_method` to add an attribute, and this attribute will be accessible through `new_attr`.\n\nExplanation:\n- The metaclass `MethodAdderMeta` is used to dynamically add a method `add_method` to any class that uses it as its metaclass.\n- This method allows adding new attributes to instances of the decorated class.\n- Therefore, when you create an instance of `DerivedClass`, you can call `instance.add_method(value)` and then access this value through the attribute `new_attr`.",
+    "timestamp": "2025-07-26 00:01:44",
+    "topic": "Advanced Python Programming"
   }
 }

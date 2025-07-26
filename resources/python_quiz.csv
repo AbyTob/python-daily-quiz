@@ -11988,3 +11988,37 @@ C) Both method calls will be logged with their arguments and return values.
 D) The class instantiation itself will be logged.";"C) Both method calls will be logged with their arguments and return values.
 
 Explanation: When you create an instance of `MyClass`, the metaclass `AutoLogMeta` is invoked to modify the class definition. It searches for callable attributes (methods) in the class dictionary and wraps each one with a logging wrapper function defined by `log_method`. This wrapper prints method calls, arguments, and return values every time a decorated method is called on any instance of `MyClass`. Therefore, when you call both `method1` and `method2` on an instance of `MyClass`, the logs for both methods will be printed as specified in option C."
+"2025-07-26 00:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to add a method to any class it decorates:
+
+```python
+from abc import ABC, abstractmethod
+
+class MethodAdderMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['add_method'] = lambda self, value: setattr(self, 'new_attr', value)
+        return super().__new__(cls, name, bases, dct)
+
+class BaseClass(metaclass=MethodAdderMeta):
+    pass
+
+class DerivedClass(BaseClass):
+    pass
+```
+
+Which of the following statements correctly describes the behavior of this code?
+
+A) `DerivedClass` will have a method named `add_method`, but it won't be callable.
+B) Instances of `DerivedClass` can call `add_method` to add an attribute, and this attribute will be accessible through `new_attr`.
+C) The metaclass does not work as intended because it only modifies the `BaseClass`.
+D) The code will raise a `TypeError` when trying to define `DerivedClass`.
+
+**Part 2 (Answer):**
+
+B) Instances of `DerivedClass` can call `add_method` to add an attribute, and this attribute will be accessible through `new_attr`.
+
+Explanation:
+- The metaclass `MethodAdderMeta` is used to dynamically add a method `add_method` to any class that uses it as its metaclass.
+- This method allows adding new attributes to instances of the decorated class.
+- Therefore, when you create an instance of `DerivedClass`, you can call `instance.add_method(value)` and then access this value through the attribute `new_attr`."
