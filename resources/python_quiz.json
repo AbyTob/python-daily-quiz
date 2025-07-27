@@ -1923,5 +1923,12 @@
     "answer": "**Answer: C) Hello, World!\\nGoodbye, World!**\n\n**Explanation:**  \nThe `greet_decorator` is intended to prepend \"Hello, World!\" to the output of any callable method in the class it decorates. However, when the lambda function captures `value`, it does so by reference rather than by value. As a result, all lambda functions point to the same `value`, which is the last method in the class (`say_hello`), because the loop continues until the last method's `value` is captured. When you call `g.say_hello()`, it executes the `say_hello` method, prints \"Goodbye, World!\", and then the lambda function (which now points to `say_hello`) adds \"Hello, World!\" to its output. Therefore, the correct output is \"Hello, World!\\nGoodbye, World!\".",
     "timestamp": "2025-07-26 16:01:41",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q1_2025-07-27": {
+    "id": "1753574482_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a decorator to log function calls with their arguments:\n\n```python\nimport functools\n\ndef log_calls(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args={args}, kwargs={kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_calls\ndef add(a, b):\n    return a + b\n```\n\nWhat will be the output of the following code when executed?\n\n```python\nresult = add(3, 5)\nprint(f\"Result: {result}\")\n```\n\nA) \nCalling add with args=(3,), kwargs={}\nResult: 8\n\nB) \nadd(3, 5)\nResult: 8\n\nC) \nCalling add with args=(3, 5), kwargs={}\nResult: 8\n\nD) \nCalling add with args=(3,), kwargs={'b': 5}\nResult: 8",
+    "answer": "C) Calling add with args=(3, 5), kwargs={} Result: 8",
+    "timestamp": "2025-07-27 00:01:22",
+    "topic": "Functional Programming Utilities"
   }
 }
