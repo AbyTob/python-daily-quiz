@@ -12131,3 +12131,73 @@ Result: 8
 D) 
 Calling add with args=(3,), kwargs={'b': 5}
 Result: 8";"C) Calling add with args=(3, 5), kwargs={} Result: 8"
+"2025-07-27 08:02";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import threading
+
+def thread_safety(func):
+    def wrapper(*args, **kwargs):
+        lock = threading.Lock()
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+@thread_safety
+def increment_counter():
+    global counter
+    counter += 1
+
+counter = 0
+
+threads = []
+for _ in range(1000):
+    t = threading.Thread(target=increment_counter)
+    threads.append(t)
+    t.start()
+
+for t in threads:
+    t.join()
+```
+
+What is the issue with this code, and what is a potential solution to ensure thread safety?
+
+A) The `thread_safety` decorator does not work as intended because it reuses the same lock for all invocations.
+B) The global variable `counter` is not properly declared as `global` inside the decorated function.
+C) There is no need for a lock since Python's Global Interpreter Lock (GIL) prevents threads from running at the same time.
+D) The decorator is correctly implemented, and it will ensure that `increment_counter` runs safely in multiple threads.";"A) The correct answer is A. The issue with this code is that the `thread_safety` decorator does not work as intended because it reuses the same lock for all invocations. Each call to `increment_counter` should have its own lock, or the lock should be thread-local.
+
+A potential solution is to use a lock per instance or to create a new lock each time the function is called:
+
+```python
+import threading
+
+def thread_safety(func):
+    def wrapper(*args, **kwargs):
+        lock = threading.Lock()
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+class ThreadSafeCounter:
+    def __init__(self):
+        self.counter = 0
+
+    @thread_safety
+    def increment(self):
+        self.counter += 1
+
+counter = ThreadSafeCounter()
+
+threads = []
+for _ in range(1000):
+    t = threading.Thread(target=counter.increment)
+    threads.append(t)
+    t.start()
+
+for t in threads:
+    t.join()
+```
+
+In this modified version, each instance of `ThreadSafeCounter` has its own lock, ensuring thread safety."
