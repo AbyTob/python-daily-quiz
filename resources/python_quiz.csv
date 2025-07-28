@@ -12248,3 +12248,45 @@ C) To prevent memory leaks by ensuring proper deallocation of resources when obj
 D) To improve performance by allowing multiple threads to read and write concurrently.";"A) To ensure that only one thread can access the dictionary at a time, preventing race conditions.
 
 Explanation: The primary purpose of using a lock in the `ThreadSafeDict` class is to prevent race conditions. Race conditions occur when two or more threads try to modify shared data simultaneously, leading to unpredictable and incorrect results. By acquiring a lock before accessing or modifying the dictionary, the `ThreadSafeDict` ensures that only one thread can enter the critical section of code at a time. This prevents multiple threads from interfering with each other's operations on the dictionary, ensuring its integrity and correctness."
+"2025-07-28 00:01";"Part 1 (Question):  
+Consider the following code snippet that uses decorators and metaclasses together:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'method' not in dct:
+            raise TypeError(f""Class {name} must have a method."")
+        return super().__new__(cls, name, bases, dct)
+
+def decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator called"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@Meta
+class MyClass:
+    @decorator
+    def method(self):
+        print(""Method called"")
+
+obj = MyClass()
+obj.method()
+```
+
+What will be the output when the `method` of `MyClass` is called?
+
+A) Decorator called  
+   Method called  
+
+B) Method called  
+   Decorator called  
+
+C) TypeError: Class MyClass must have a method  
+
+D) AttributeError: 'MyClass' object has no attribute 'method'";"Part 2 (Answer):  
+A) Decorator called  
+   Method called  
+
+Explanation:  
+The `decorator` is applied to the `method` before the `Meta` metaclass is invoked. Therefore, when `obj.method()` is called, it first executes the decorator, printing ""Decorator called"", and then proceeds to call the original method, printing ""Method called"". The metaclass `Meta` checks that the class has a method named 'method', which exists in this case, so no errors are raised during its execution."

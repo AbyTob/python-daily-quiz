@@ -1944,5 +1944,12 @@
     "answer": "A) To ensure that only one thread can access the dictionary at a time, preventing race conditions.\n\nExplanation: The primary purpose of using a lock in the `ThreadSafeDict` class is to prevent race conditions. Race conditions occur when two or more threads try to modify shared data simultaneously, leading to unpredictable and incorrect results. By acquiring a lock before accessing or modifying the dictionary, the `ThreadSafeDict` ensures that only one thread can enter the critical section of code at a time. This prevents multiple threads from interfering with each other's operations on the dictionary, ensuring its integrity and correctness.",
     "timestamp": "2025-07-27 16:01:56",
     "topic": "Threading and Concurrent Execution"
+  },
+  "q1_2025-07-28": {
+    "id": "1753660896_1",
+    "question": "Part 1 (Question):  \nConsider the following code snippet that uses decorators and metaclasses together:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'method' not in dct:\n            raise TypeError(f\"Class {name} must have a method.\")\n        return super().__new__(cls, name, bases, dct)\n\ndef decorator(func):\n    def wrapper(*args, **kwargs):\n        print(\"Decorator called\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@Meta\nclass MyClass:\n    @decorator\n    def method(self):\n        print(\"Method called\")\n\nobj = MyClass()\nobj.method()\n```\n\nWhat will be the output when the `method` of `MyClass` is called?\n\nA) Decorator called  \n   Method called  \n\nB) Method called  \n   Decorator called  \n\nC) TypeError: Class MyClass must have a method  \n\nD) AttributeError: 'MyClass' object has no attribute 'method'",
+    "answer": "Part 2 (Answer):  \nA) Decorator called  \n   Method called  \n\nExplanation:  \nThe `decorator` is applied to the `method` before the `Meta` metaclass is invoked. Therefore, when `obj.method()` is called, it first executes the decorator, printing \"Decorator called\", and then proceeds to call the original method, printing \"Method called\". The metaclass `Meta` checks that the class has a method named 'method', which exists in this case, so no errors are raised during its execution.",
+    "timestamp": "2025-07-28 00:01:36",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
