@@ -12360,3 +12360,79 @@ D) The `singleton` function can be used on functions as well as classes, and it 
 B) When creating an instance of `DatabaseConnection`, the singleton decorator ensures that only one instance exists for any given class.
 
 This is because the `singleton` decorator checks if an instance of the decorated class already exists in the `instances` dictionary. If it does, it returns that instance; otherwise, it creates a new instance and stores it in the dictionary. This pattern guarantees that no matter how many times you attempt to create an instance of `DatabaseConnection`, only one instance will be created and reused.";"Answer format error. Please check the generated content."
+"2025-07-29 00:02";"[ANSWER_SEPARATOR]
+Part 1 (Question):
+You are tasked with optimizing the performance of a function that calculates the nth Fibonacci number. The current implementation uses recursion, which is highly inefficient for large values of n due to repeated calculations. Your goal is to rewrite this function using an advanced Python concept to ensure it runs efficiently even for large inputs.
+
+```python
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+```
+
+Which of the following options correctly implements a more efficient Fibonacci function?
+
+A) Using memoization with a decorator:
+
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+```
+
+B) Using a generator:
+
+```python
+def fibonacci_gen():
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+fibonacci = lambda n: list(fibonacci_gen())[n]
+```
+
+C) Using an iterative approach:
+
+```python
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+```
+
+D) Using multiprocessing to parallelize the calculation:
+
+```python
+from multiprocessing import Pool
+
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        with Pool(processes=2) as pool:
+            result = pool.apply_async(fibonacci, args=(n-1,))
+            return result.get() + pool.apply_async(fibonacci, args=(n-2,)).get()
+```
+
+[ANSWER_SEPARATOR]
+Part 2 (Answer):
+C) Using an iterative approach:
+
+```python
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+```
+
+Explanation: The correct answer is C) using an iterative approach. This method has linear time complexity (O(n)) and constant space complexity (O(1)), making it highly efficient for calculating large Fibonacci numbers. It avoids the exponential time complexity (O(2^n)) associated with naive recursive solutions and eliminates the risk of stack overflow that could occur with deep recursion.";"Answer format error. Please check the generated content."

@@ -1965,5 +1965,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-07-28 16:01:38",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q1_2025-07-29": {
+    "id": "1753747334_1",
+    "question": "[ANSWER_SEPARATOR]\nPart 1 (Question):\nYou are tasked with optimizing the performance of a function that calculates the nth Fibonacci number. The current implementation uses recursion, which is highly inefficient for large values of n due to repeated calculations. Your goal is to rewrite this function using an advanced Python concept to ensure it runs efficiently even for large inputs.\n\n```python\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n```\n\nWhich of the following options correctly implements a more efficient Fibonacci function?\n\nA) Using memoization with a decorator:\n\n```python\nfrom functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n```\n\nB) Using a generator:\n\n```python\ndef fibonacci_gen():\n    a, b = 0, 1\n    while True:\n        yield a\n        a, b = b, a + b\n\nfibonacci = lambda n: list(fibonacci_gen())[n]\n```\n\nC) Using an iterative approach:\n\n```python\ndef fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\n```\n\nD) Using multiprocessing to parallelize the calculation:\n\n```python\nfrom multiprocessing import Pool\n\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        with Pool(processes=2) as pool:\n            result = pool.apply_async(fibonacci, args=(n-1,))\n            return result.get() + pool.apply_async(fibonacci, args=(n-2,)).get()\n```\n\n[ANSWER_SEPARATOR]\nPart 2 (Answer):\nC) Using an iterative approach:\n\n```python\ndef fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\n```\n\nExplanation: The correct answer is C) using an iterative approach. This method has linear time complexity (O(n)) and constant space complexity (O(1)), making it highly efficient for calculating large Fibonacci numbers. It avoids the exponential time complexity (O(2^n)) associated with naive recursive solutions and eliminates the risk of stack overflow that could occur with deep recursion.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-07-29 00:02:14",
+    "topic": "Task Management and Scheduling"
   }
 }
