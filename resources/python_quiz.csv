@@ -12665,3 +12665,55 @@ Part 2 (Answer):
 A) The decorator `log_calls` will log all method calls made to instances of `MyClass`, and the context manager will ensure that no instances are left behind.
 
 Explanation: The `log_calls` decorator wraps each callable attribute of an instance, printing its name and arguments when called. Since it's applied via a metaclass, it effectively decorates all methods defined in any class created with this metaclass. Additionally, if a context manager is implemented correctly (which is not provided here), it would handle the creation and cleanup of instances properly."
+"2025-07-30 16:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a decorator and a metaclass:
+
+```python
+# Define a decorator
+def my_decorator(func):
+    def wrapper():
+        print(""Something is happening before the function is called."")
+        func()
+        print(""Something is happening after the function is called."")
+    return wrapper
+
+# Define a metaclass
+class MyMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['my_method'] = my_decorator(dct.get('my_method', lambda: None))
+        return super().__new__(cls, name, bases, dct)
+
+# Create a class using the metaclass
+class MyClass(metaclass=MyMeta):
+    def my_method(self):
+        print(""This is the original method."")
+
+# Usage
+obj = MyClass()
+obj.my_method()
+```
+
+What will be printed to the console when you run this code?
+
+A) Something is happening before the function is called. This is the original method. Something is happening after the function is called.
+
+B) Something is happening before the function is called. None Something is happening after the function is called.
+
+C) Error: my_method is not callable
+
+D) Something is happening before the function is called. This is the original method.";"**Part 2 (Answer):**
+
+A) Something is happening before the function is called. This is the original method. Something is happening after the function is called.
+
+**Explanation:**
+
+In this code, `MyMeta` is a metaclass that modifies any class it's applied to by wrapping its `my_method` with a decorator (`my_decorator`). The decorator adds print statements before and after calling the method.
+
+When an instance of `MyClass` is created and `my_method` is called on that instance, the output should be:
+
+1. ""Something is happening before the function is called.""
+2. ""This is the original method.""
+3. ""Something is happening after the function is called.""
+
+The decorator ensures that these print statements are added to the call to `my_method`, making option A the correct answer."
