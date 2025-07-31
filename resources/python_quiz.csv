@@ -12771,3 +12771,46 @@ D) None of the above.";"B) The `extra_method` will print 'New method added!' whe
 
 Explanation: 
 When you define a metaclass and override its `__new__` method, this method is responsible for creating new class objects. In the provided code, the `MethodAdder` metaclass adds an `extra_method` lambda function to the dictionary of any class that uses it as a metaclass. Therefore, when we create an instance of `MyClass`, it has access to the `extra_method` and calling it will produce the expected output 'New method added!'."
+"2025-07-31 16:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to add an additional method `log_method_call` to any class it decorates. The method logs every call made to any instance method of the decorated class.
+
+```python
+class LogMethodsMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value) and not attr_name.startswith('__'):
+                dct[attr_name] = cls._add_logging(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def _add_logging(func):
+        def wrapper(*args, **kwargs):
+            print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+            result = func(*args, **kwargs)
+            return result
+        return wrapper
+
+class MyClass(metaclass=LogMethodsMeta):
+    def method1(self, a):
+        return a * 2
+
+    def method2(self, b):
+        return b + 3
+```
+
+Which of the following statements is true about this code?
+
+A) When an instance of `MyClass` calls `method1(5)`, it will print ""Calling method1 with args: (5,), kwargs: {}"" and then return 10.
+
+B) The `LogMethodsMeta` metaclass dynamically adds a logging method to any callable attribute in the class that is not a special method (e.g., `__init__`).
+
+C) The `wrapper` function created by `_add_logging` captures all local variables within the scope of `method1` and `method2`.
+
+D) When an instance of `MyClass` calls `method2(2)`, it will print ""Calling method2 with args: (2,), kwargs: {}"" and then return 5.
+
+**Part 2 (Answer):**
+
+B) The `LogMethodsMeta` metaclass dynamically adds a logging method to any callable attribute in the class that is not a special method (e.g., `__init__`).
+
+This answer correctly identifies that the metaclass `LogMethodsMeta` is designed to add a logging wrapper to all non-special methods of any class it decorates. When an instance calls one of these decorated methods, the log message is printed before the actual method execution."
