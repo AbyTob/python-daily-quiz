@@ -12747,3 +12747,27 @@ B) The decorator `log_execution_time` will not be applied because it is not impo
 C) The function `compute_sum` will raise an error because it is decorated with a non-callable object.
 D) The execution time of the function will not be logged due to improper use of decorators.";"[A]  
 The decorator `log_execution_time` correctly logs the execution time of the `compute_sum` function when it is called. When you run this code, it will output a line indicating how long the computation took, confirming that the decorator has been applied and is working as expected."
+"2025-07-31 08:01";"[QUESTION] Consider the following Python code that uses a metaclass to add a method to all classes inheriting from it:
+
+```python
+class MethodAdder(type):
+    def __new__(cls, name, bases, dct):
+        dct['extra_method'] = lambda self: 'New method added!'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=MethodAdder):
+    pass
+
+obj = MyClass()
+print(obj.extra_method())
+```
+
+Which of the following statements is true about the behavior of this code when executed?
+
+A) The `extra_method` will not be added to `MyClass`.
+B) The `extra_method` will print 'New method added!' when called.
+C) It will raise a TypeError because metaclasses cannot add methods.
+D) None of the above.";"B) The `extra_method` will print 'New method added!' when called.
+
+Explanation: 
+When you define a metaclass and override its `__new__` method, this method is responsible for creating new class objects. In the provided code, the `MethodAdder` metaclass adds an `extra_method` lambda function to the dictionary of any class that uses it as a metaclass. Therefore, when we create an instance of `MyClass`, it has access to the `extra_method` and calling it will produce the expected output 'New method added!'."
