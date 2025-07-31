@@ -2007,5 +2007,12 @@
     "answer": "**Part 2 (Answer):**\n\nA) Something is happening before the function is called. This is the original method. Something is happening after the function is called.\n\n**Explanation:**\n\nIn this code, `MyMeta` is a metaclass that modifies any class it's applied to by wrapping its `my_method` with a decorator (`my_decorator`). The decorator adds print statements before and after calling the method.\n\nWhen an instance of `MyClass` is created and `my_method` is called on that instance, the output should be:\n\n1. \"Something is happening before the function is called.\"\n2. \"This is the original method.\"\n3. \"Something is happening after the function is called.\"\n\nThe decorator ensures that these print statements are added to the call to `my_method`, making option A the correct answer.",
     "timestamp": "2025-07-30 16:02:11",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q1_2025-07-31": {
+    "id": "1753920105_1",
+    "question": "[QUESTION]  \nConsider the following code snippet that uses a decorator to log the execution time of a function:\n\n```python\nimport time\n\ndef log_execution_time(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"{func.__name__} executed in {end_time - start_time:.4f} seconds\")\n        return result\n    return wrapper\n\n@log_execution_time\ndef compute_sum(n):\n    return sum(range(1, n + 1))\n\n# Compute the sum of numbers from 1 to 1000\nresult = compute_sum(1000)\n```\n\nWhich of the following statements is true regarding the behavior of the `compute_sum` function when it is called with an argument of 1000?\n\nA) The function will output \"compute_sum executed in x.yz seconds\" where x.yz represents the time taken to compute the sum.\nB) The decorator `log_execution_time` will not be applied because it is not imported.\nC) The function `compute_sum` will raise an error because it is decorated with a non-callable object.\nD) The execution time of the function will not be logged due to improper use of decorators.",
+    "answer": "[A]  \nThe decorator `log_execution_time` correctly logs the execution time of the `compute_sum` function when it is called. When you run this code, it will output a line indicating how long the computation took, confirming that the decorator has been applied and is working as expected.",
+    "timestamp": "2025-07-31 00:01:45",
+    "topic": "Function and Method Decorators"
   }
 }
