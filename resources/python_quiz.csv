@@ -12958,3 +12958,47 @@ B) The metaclass `Meta` dynamically adds methods to `MyClass` based on its attri
 
 Explanation:  
 The `Meta` metaclass defines a `__new__` method that iterates through all attributes of `cls` (which in this case is `MyClass`). For each non-special attribute, it creates a new method using the `create_method` static method. This method simply prints the name of the method when called. Therefore, any instance of `MyClass` will have access to these dynamically created methods, and calling them will print the respective method names as expected."
+"2025-08-01 16:01";"Part 1 (Question):  
+Consider the following Python code snippet that uses a combination of decorators, metaclasses, and asyncio:
+
+```python
+from functools import wraps
+import asyncio
+
+def coroutine_decorator(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        return await func(*args, **kwargs)
+    return wrapper
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = coroutine_decorator(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class MyCoroutineClass(metaclass=Meta):
+    async def do_something(self):
+        await asyncio.sleep(1)
+        print(""Something done"")
+
+# Usage
+async def main():
+    obj = MyCoroutineClass()
+    await obj.do_something()
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What is the purpose of using a metaclass in this scenario, and how does it affect the methods defined in `MyCoroutineClass`?
+
+A) The metaclass ensures that all callable attributes within `MyCoroutineClass` are converted to coroutines.  
+B) The metaclass adds threading capabilities to `MyCoroutineClass`.  
+C) The metaclass implements garbage collection for instances of `MyCoroutineClass`.  
+D) The metaclass provides a custom constructor for `MyCoroutineClass`.";"Part 2 (Answer):  
+A) The metaclass ensures that all callable attributes within `MyCoroutineClass` are converted to coroutines.
+
+Explanation: 
+The metaclass `Meta` dynamically modifies any callable attribute (methods, functions) in the class it decorates. By wrapping these methods with the `coroutine_decorator`, it turns them into async functions using the `@wraps(func)` decorator to preserve their original properties. When an instance of `MyCoroutineClass` is created and its methods are called, they will execute asynchronously due to being wrapped by the coroutine decorator. This is crucial for maintaining asynchronous behavior throughout the class without explicitly decorating each method in the subclass."
