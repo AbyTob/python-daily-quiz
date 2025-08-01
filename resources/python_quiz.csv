@@ -12917,3 +12917,44 @@ def create_objects(data_list):
 [EXPLANATION] The correct answer is B. Implementing a descriptor to manage the pool effectively allows you to reuse `MyObject` instances, thus reducing the overhead associated with their creation and destruction. The descriptor approach provides a way to control attribute access for class instances, making it suitable for managing resources like memory pools.
 
 Option A uses a metaclass, which is less suitable here because metaclasses are used for creating classes rather than managing objects after their creation. Option C attempts to use a decorator, but decorators modify function calls and cannot manage object instantiation directly. Option D uses a context manager, which is not applicable in this scenario as it does not allow reusing the same instance across multiple function calls."
+"2025-08-01 08:01";"";"**Part 1 (Question):**
+
+Consider the following Python code that uses a metaclass to dynamically create a class with multiple methods:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, attrs):
+        for method_name in dir(cls):
+            if not method_name.startswith('__'):
+                attrs[method_name] = cls.create_method(method_name)
+        return super().__new__(cls, name, bases, attrs)
+
+    @staticmethod
+    def create_method(name):
+        def method(self):
+            print(f""Executing {name} method"")
+        return method
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+obj.some_method()
+```
+
+Which of the following statements accurately describes the behavior of the code above?
+
+A) When `MyClass` is instantiated, it will automatically create a new method named `some_method` for each instance.
+
+B) The metaclass `Meta` dynamically adds methods to `MyClass` based on its attributes during class creation. These methods print the name of the method being executed when called.
+
+C) All instances of `MyClass` will share the same `some_method`.
+
+D) When `obj.some_method()` is called, it will raise an AttributeError because `some_method` does not exist in `MyClass`.
+
+**Part 2 (Answer):**
+
+B) The metaclass `Meta` dynamically adds methods to `MyClass` based on its attributes during class creation. These methods print the name of the method being executed when called.
+
+Explanation:  
+The `Meta` metaclass defines a `__new__` method that iterates through all attributes of `cls` (which in this case is `MyClass`). For each non-special attribute, it creates a new method using the `create_method` static method. This method simply prints the name of the method when called. Therefore, any instance of `MyClass` will have access to these dynamically created methods, and calling them will print the respective method names as expected."
