@@ -2084,5 +2084,12 @@
     "answer": "Part 2 (Answer):\nA) meta_attribute: set by metaclass, decorated_attribute: set by decorator\n\nExplanation:\n- The `Meta` metaclass is invoked during the creation of `MyClass`. It adds an attribute `meta_attribute` to the class with the value 'set by metaclass'.\n- The `my_decorator` function is applied to `MyClass` after its creation. This function adds another attribute `decorated_attribute` to `MyClass` with the value 'set by decorator'.\n\nThus, both attributes are successfully added to `MyClass`, and accessing them through `print(MyClass.meta_attribute)` and `print(MyClass.decorated_attribute)` will output their respective values.",
     "timestamp": "2025-08-03 08:01:38",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-08-03": {
+    "id": "1754236889_3",
+    "question": "Part 1 (Question):\nConsider the following code:\n\n```python\nimport asyncio\n\ndef async_decorator(func):\n    def wrapper(*args, **kwargs):\n        return asyncio.run(func(*args, **kwargs))\n    return wrapper\n\n@async_decorator\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data fetched\"\n\nasync def main():\n    result = fetch_data()\n    print(result)\n\n# Run the program using asyncio.run(main())\n```\n\nWhich of the following statements is true about the `fetch_data` function when decorated with `@async_decorator`?\n\nA) It returns a coroutine directly.\nB) The decorator converts it into a synchronous function.\nC) It executes synchronously and blocks while waiting for the sleep to complete.\nD) It runs asynchronously and completes in 1 second.",
+    "answer": "Part 2 (Answer):\nC) It executes synchronously and blocks while waiting for the sleep to complete.\n\nExplanation:\nWhen `fetch_data` is decorated with `@async_decorator`, it is wrapped by a function that schedules its execution using `asyncio.run(func(*args, **kwargs))`. This means that calling `fetch_data()` directly will not return a coroutine but will instead block until the asynchronous operation completes. The correct behavior here is synchronous execution due to the decorator, making option C the only accurate statement about the decorated function's behavior.",
+    "timestamp": "2025-08-03 16:01:29",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
