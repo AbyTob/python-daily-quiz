@@ -13286,3 +13286,43 @@ C) It executes synchronously and blocks while waiting for the sleep to complete.
 
 Explanation:
 When `fetch_data` is decorated with `@async_decorator`, it is wrapped by a function that schedules its execution using `asyncio.run(func(*args, **kwargs))`. This means that calling `fetch_data()` directly will not return a coroutine but will instead block until the asynchronous operation completes. The correct behavior here is synchronous execution due to the decorator, making option C the only accurate statement about the decorated function's behavior."
+"2025-08-04 00:01";"### Part 1 (Question)
+Consider the following Python code snippet:
+
+```python
+from contextlib import ContextManager
+
+class MyContext(ContextManager):
+    def __enter__(self):
+        print(""Entering context"")
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print(""Exiting context"")
+
+@MyContext()
+def my_function():
+    print(""Inside the function"")
+
+my_function()
+```
+
+What will be printed when `my_function` is called?
+
+A) Entering context  
+   Inside the function  
+   Exiting context
+
+B) Inside the function  
+   Entering context  
+   Exiting context
+
+C) Only ""Inside the function"" will be printed
+
+D) An error will occur";"### Part 2 (Answer)
+**Correct Answer: A) Entering context  
+   Inside the function  
+   Exiting context**
+
+**Explanation:**  
+The `MyContext` class is a custom context manager. When `my_function` is called, it uses the `@MyContext()` decorator to enter the context before executing its body. This triggers the `__enter__` method of the `MyContext` class, which prints ""Entering context"". After `my_function` executes, the `__exit__` method is called by the decorator, printing ""Exiting context"". Therefore, the output will be as described in option A."

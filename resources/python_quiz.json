@@ -2091,5 +2091,12 @@
     "answer": "Part 2 (Answer):\nC) It executes synchronously and blocks while waiting for the sleep to complete.\n\nExplanation:\nWhen `fetch_data` is decorated with `@async_decorator`, it is wrapped by a function that schedules its execution using `asyncio.run(func(*args, **kwargs))`. This means that calling `fetch_data()` directly will not return a coroutine but will instead block until the asynchronous operation completes. The correct behavior here is synchronous execution due to the decorator, making option C the only accurate statement about the decorated function's behavior.",
     "timestamp": "2025-08-03 16:01:29",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-08-04": {
+    "id": "1754265690_1",
+    "question": "### Part 1 (Question)\nConsider the following Python code snippet:\n\n```python\nfrom contextlib import ContextManager\n\nclass MyContext(ContextManager):\n    def __enter__(self):\n        print(\"Entering context\")\n        return self\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        print(\"Exiting context\")\n\n@MyContext()\ndef my_function():\n    print(\"Inside the function\")\n\nmy_function()\n```\n\nWhat will be printed when `my_function` is called?\n\nA) Entering context  \n   Inside the function  \n   Exiting context\n\nB) Inside the function  \n   Entering context  \n   Exiting context\n\nC) Only \"Inside the function\" will be printed\n\nD) An error will occur",
+    "answer": "### Part 2 (Answer)\n**Correct Answer: A) Entering context  \n   Inside the function  \n   Exiting context**\n\n**Explanation:**  \nThe `MyContext` class is a custom context manager. When `my_function` is called, it uses the `@MyContext()` decorator to enter the context before executing its body. This triggers the `__enter__` method of the `MyContext` class, which prints \"Entering context\". After `my_function` executes, the `__exit__` method is called by the decorator, printing \"Exiting context\". Therefore, the output will be as described in option A.",
+    "timestamp": "2025-08-04 00:01:30",
+    "topic": "Context Management Utilities"
   }
 }
