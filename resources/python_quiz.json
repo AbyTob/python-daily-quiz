@@ -2098,5 +2098,12 @@
     "answer": "### Part 2 (Answer)\n**Correct Answer: A) Entering context  \n   Inside the function  \n   Exiting context**\n\n**Explanation:**  \nThe `MyContext` class is a custom context manager. When `my_function` is called, it uses the `@MyContext()` decorator to enter the context before executing its body. This triggers the `__enter__` method of the `MyContext` class, which prints \"Entering context\". After `my_function` executes, the `__exit__` method is called by the decorator, printing \"Exiting context\". Therefore, the output will be as described in option A.",
     "timestamp": "2025-08-04 00:01:30",
     "topic": "Context Management Utilities"
+  },
+  "q2_2025-08-04": {
+    "id": "1754294488_2",
+    "question": "[ANSWER_SEPARATOR]  \n**Part 1 (Question):**\n\nConsider the following Python code that uses a metaclass and a decorator to modify class behavior:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'method' in dct:\n            dct['method'] = lambda self: \"Overridden\"\n        return super().__new__(cls, name, bases, dct)\n\ndef override_method(func):\n    def wrapper(*args, **kwargs):\n        print(\"Function called\")\n        return func(*args, **kwargs)\n    return wrapper\n\nclass MyClass(metaclass=Meta):\n    @override_method\n    def method(self):\n        return \"Original\"\n```\n\nWhat will be the output when creating an instance of `MyClass` and calling its `method`?\n\nA) Original  \nB) Overridden  \nC) Function called Original  \nD) Function called Overridden\n\n[ANSWER_SEPARATOR]  \n**Part 2 (Answer):**\n\nB) Overridden\n\nExplanation: The metaclass `Meta` overrides the method if it exists in the class definition. Therefore, when we create an instance of `MyClass` and call its `method`, it will return \"Overridden\" because the decorator `@override_method` is not applied to the overridden method in the metaclass.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-08-04 08:01:28",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }

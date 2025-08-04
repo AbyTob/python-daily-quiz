@@ -13326,3 +13326,40 @@ D) An error will occur";"### Part 2 (Answer)
 
 **Explanation:**  
 The `MyContext` class is a custom context manager. When `my_function` is called, it uses the `@MyContext()` decorator to enter the context before executing its body. This triggers the `__enter__` method of the `MyContext` class, which prints ""Entering context"". After `my_function` executes, the `__exit__` method is called by the decorator, printing ""Exiting context"". Therefore, the output will be as described in option A."
+"2025-08-04 08:01";"[ANSWER_SEPARATOR]  
+**Part 1 (Question):**
+
+Consider the following Python code that uses a metaclass and a decorator to modify class behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'method' in dct:
+            dct['method'] = lambda self: ""Overridden""
+        return super().__new__(cls, name, bases, dct)
+
+def override_method(func):
+    def wrapper(*args, **kwargs):
+        print(""Function called"")
+        return func(*args, **kwargs)
+    return wrapper
+
+class MyClass(metaclass=Meta):
+    @override_method
+    def method(self):
+        return ""Original""
+```
+
+What will be the output when creating an instance of `MyClass` and calling its `method`?
+
+A) Original  
+B) Overridden  
+C) Function called Original  
+D) Function called Overridden
+
+[ANSWER_SEPARATOR]  
+**Part 2 (Answer):**
+
+B) Overridden
+
+Explanation: The metaclass `Meta` overrides the method if it exists in the class definition. Therefore, when we create an instance of `MyClass` and call its `method`, it will return ""Overridden"" because the decorator `@override_method` is not applied to the overridden method in the metaclass.";"Answer format error. Please check the generated content."
