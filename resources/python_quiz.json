@@ -2105,5 +2105,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-08-04 08:01:28",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q3_2025-08-04": {
+    "id": "1754323313_3",
+    "question": "**Part 1 (Question):**\n\nImplement a Python decorator that measures the execution time of a function. However, this decorator should only execute if the function has been called at least `n` times before it starts timing its execution. If the function is called less than `n` times, it should return immediately without executing the function.\n\nWrite the decorator and demonstrate its usage with an example function that calculates the factorial of a number.\n\n```python\ndef time_if_called_n_times(n):\n    # Your implementation here\n\n@time_if_called_n_times(3)\ndef factorial(num):\n    if num == 0:\n        return 1\n    else:\n        return num * factorial(num - 1)\n\n# Example usage and testing\nprint(factorial(5))  # Should call the function and print the result\nprint(factorial(4))  # Should call the function and print the result\nprint(factorial(3))  # Should not start timing, just return immediately\n```\n\n**Part 2 (Answer):**\n\nA B D\n\nThe correct answer is A.\n\nExplanation:\n- **Option A:** Correct. The decorator `time_if_called_n_times` checks if a function has been called at least `n` times before it starts measuring its execution time. It uses a closure to keep track of the number of calls and only applies the timing functionality if the condition is met.\n  \n- **Option B:** Incorrect. This option would imply that the decorator should work for any function, which contradicts the requirement of not starting timing until the function has been called at least `n` times.\n\n- **Option D:** Incorrect. This option suggests that the decorator should always call the function and measure its execution time, regardless of how many times it has been called. This is incorrect because it does not meet the requirement of not starting timing before `n` calls have been made.\n\nThis question tests the ability to understand and implement decorators with conditional behavior, as well as closure usage in Python.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-08-04 16:01:53",
+    "topic": "Function and Method Decorators"
   }
 }
