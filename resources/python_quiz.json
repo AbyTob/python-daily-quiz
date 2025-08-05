@@ -2126,5 +2126,12 @@
     "answer": "Part 2 (Answer):\nA) `__enter__` should record the start time, and `__exit__` should calculate and return the elapsed time. The exception handling can be done by simply returning `False` in the `__exit__` method to suppress exceptions.\n\n```python\nimport time\n\nclass Timer:\n    def __enter__(self):\n        self.start_time = time.time()\n    \n    def __exit__(self, exc_type, exc_value, traceback):\n        elapsed_time = time.time() - self.start_time\n        print(f\"Elapsed time: {elapsed_time} seconds\")\n        return False  # Suppress exceptions\n\n# Example usage:\nwith Timer() as t:\n    result = [i * i for i in range(10000)]\n```\n\nThis solution demonstrates how to create a context manager that measures execution time, handles exceptions gracefully, and is easy to use.",
     "timestamp": "2025-08-05 08:01:48",
     "topic": "Task Management and Scheduling"
+  },
+  "q3_2025-08-05": {
+    "id": "1754409689_3",
+    "question": "Part 1 (Question):\nConsider the following Python code snippet that uses a metaclass to create a singleton pattern:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass Database(metaclass=SingletonMeta):\n    def connect(self):\n        print(\"Connecting to the database...\")\n\n# Usage\ndb1 = Database()\ndb2 = Database()\n\nprint(db1 is db2)  # Output: ?\n```\n\nWhat will be printed when you run this code? Explain why.\n\nA. True  \nB. False  \nC. Error  \nD. None",
+    "answer": "Part 2 (Answer):\nA. True  \n\nExplanation:\nThe correct answer is True, meaning that `db1` and `db2` are indeed the same instance of the `Database` class. This is because the metaclass `SingletonMeta` ensures that only one instance of any class derived from it is created, no matter how many times the class is instantiated. In this case, both `db1` and `db2` refer to the same singleton instance, so their identity (`is`) will return True.",
+    "timestamp": "2025-08-05 16:01:29",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
