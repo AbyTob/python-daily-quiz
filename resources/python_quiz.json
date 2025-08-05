@@ -2119,5 +2119,12 @@
     "answer": "[D] The `TimingDecorator` can be used to measure both synchronous and asynchronous operations.",
     "timestamp": "2025-08-05 00:01:29",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-08-05": {
+    "id": "1754380908_2",
+    "question": "Part 1 (Question):\nYou are tasked with creating a context manager that measures the execution time of any code block it decorates. The context manager should return the elapsed time in seconds as a float. However, you need to ensure that the context manager handles exceptions gracefully and does not raise an error if the code block raises one.\n\nWrite a Python class `Timer` that meets the above requirements. Your implementation should use the `time` module for timing.\n\n```python\nimport time\n\nclass Timer:\n    def __enter__(self):\n        # Start timing\n        pass\n    \n    def __exit__(self, exc_type, exc_value, traceback):\n        # Stop timing and return elapsed time\n        pass\n\n# Example usage:\nwith Timer() as t:\n    result = [i * i for i in range(10000)]\nprint(f\"Elapsed time: {t} seconds\")\n```",
+    "answer": "Part 2 (Answer):\nA) `__enter__` should record the start time, and `__exit__` should calculate and return the elapsed time. The exception handling can be done by simply returning `False` in the `__exit__` method to suppress exceptions.\n\n```python\nimport time\n\nclass Timer:\n    def __enter__(self):\n        self.start_time = time.time()\n    \n    def __exit__(self, exc_type, exc_value, traceback):\n        elapsed_time = time.time() - self.start_time\n        print(f\"Elapsed time: {elapsed_time} seconds\")\n        return False  # Suppress exceptions\n\n# Example usage:\nwith Timer() as t:\n    result = [i * i for i in range(10000)]\n```\n\nThis solution demonstrates how to create a context manager that measures execution time, handles exceptions gracefully, and is easy to use.",
+    "timestamp": "2025-08-05 08:01:48",
+    "topic": "Task Management and Scheduling"
   }
 }
