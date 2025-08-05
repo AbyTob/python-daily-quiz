@@ -2112,5 +2112,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-08-04 16:01:53",
     "topic": "Function and Method Decorators"
+  },
+  "q1_2025-08-05": {
+    "id": "1754352089_1",
+    "question": "[QUESTION]\nConsider the following code snippet:\n\n```python\nimport time\n\nclass TimingDecorator:\n    def __init__(self, func):\n        self.func = func\n\n    async def __call__(self, *args, **kwargs):\n        start_time = time.time()\n        result = await self.func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"{self.func.__name__} took {end_time - start_time:.4f} seconds to run.\")\n        return result\n\n@TimingDecorator\nasync def async_task(n):\n    await asyncio.sleep(1)  # Simulate an asynchronous operation\n    return n * n\n\nasync def main():\n    task = async_task(5)\n    print(await task)\n\n# Run the main function using asyncio.run()\nasyncio.run(main())\n```\n\nWhich of the following statements is true regarding this code?\n\nA. The `TimingDecorator` does not support asynchronous functions.\n\nB. When `main()` is called, it will block for 1 second before printing the result.\n\nC. The `async_task` function will complete its execution in less than 0.5 seconds when run by itself.\n\nD. The `TimingDecorator` can be used to measure both synchronous and asynchronous operations.",
+    "answer": "[D] The `TimingDecorator` can be used to measure both synchronous and asynchronous operations.",
+    "timestamp": "2025-08-05 00:01:29",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
