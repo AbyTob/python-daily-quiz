@@ -13632,3 +13632,44 @@ B) This is incorrect because the `debug_decorator` is applied to `SingletonClass
 C) This is partially correct as it shows that both `obj1` and `obj2` are the same instance (`True`). However, the output of the resource management part is missing a step where the resource is returned or used. The output should end with ""Releasing resource"".
 
 D) This is incorrect because the return value of the context manager is not printed in the expected format. It should print ""Using Resource"" followed by the result returned from the `yield` statement, which is ""Resource"".";"Answer format error. Please check the generated content."
+"2025-08-06 16:02";"[QUESTION]
+Consider the following Python code snippet that uses both a decorator and a metaclass to control class behavior. The goal is to ensure that any instance of the class `Example` can only be instantiated if it has an attribute `value` set to a positive integer. Otherwise, instantiation should raise an error.
+
+```python
+def positive_value_decorator(cls):
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, 'value') or cls.value <= 0:
+            raise ValueError(""Instance must have a positive value attribute"")
+        return super().__new__(cls)
+    cls.__new__ = __new__
+    return cls
+
+class Meta(type):
+    def __call__(cls, *args, **kwargs):
+        if not hasattr(cls, 'value') or cls.value <= 0:
+            raise ValueError(""Class must have a positive value attribute"")
+        return super().__call__(*args, **kwargs)
+
+@positive_value_decorator
+class Example(metaclass=Meta):
+    def __init__(self, value):
+        self.value = value
+
+# Usage
+try:
+    obj = Example(-1)  # This should raise an error
+except ValueError as e:
+    print(e)
+```
+
+Which of the following modifications is necessary to ensure that the `Example` class can only be instantiated with a positive integer value?
+
+A. Remove the `positive_value_decorator` decorator and modify the metaclass to check for the attribute in the class instead of instances.
+
+B. Modify both the decorator and the metaclass to check if any subclass has the `value` attribute set before allowing instantiation.
+
+C. Change the metaclass to use a different method (`__init_subclass__`) instead of `__call__`.
+
+D. Add a default value to the constructor that ensures `value` is always positive.";"[B] Modify both the decorator and the metaclass to check if any subclass has the `value` attribute set before allowing instantiation.
+
+Explanation: Both the decorator and the metaclass are currently checking whether an instance or class has a `value` attribute and ensuring it's positive. However, this approach only enforces the condition at the time of instantiation. To ensure that any subclass also adheres to this rule, we need to modify both the decorator and the metaclass to check for the presence of the `value` attribute in subclasses during their creation. This is achieved by overriding the `__init_subclass__` method in the metaclass or ensuring that both mechanisms check if the subclass has the attribute before allowing it to be instantiated."
