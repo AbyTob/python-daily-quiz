@@ -2133,5 +2133,12 @@
     "answer": "Part 2 (Answer):\nA. True  \n\nExplanation:\nThe correct answer is True, meaning that `db1` and `db2` are indeed the same instance of the `Database` class. This is because the metaclass `SingletonMeta` ensures that only one instance of any class derived from it is created, no matter how many times the class is instantiated. In this case, both `db1` and `db2` refer to the same singleton instance, so their identity (`is`) will return True.",
     "timestamp": "2025-08-05 16:01:29",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q1_2025-08-06": {
+    "id": "1754438493_1",
+    "question": "Part 1 (Question):  \nConsider the following Python code snippet that uses a decorator to modify a class's method:\n\n```python\nimport time\n\ndef timing_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {func.__name__} took {end_time - start_time:.4f} seconds to run\")\n        return result\n    return wrapper\n\n@timing_decorator\ndef my_function(n):\n    return sum(range(n))\n\n# Usage\nmy_function(1000000)\n```\n\nWhich of the following statements correctly describes what happens when `my_function` is decorated with `@timing_decorator`?\n\nA) The original `my_function` is replaced by a new function that includes timing logic but does not modify its behavior.\n\nB) The original `my_function` is preserved, and an additional method is added to the class to handle the timing.\n\nC) The decorator modifies `my_function` in place, changing its functionality to include both calculation and timing without any extra methods.\n\nD) The decorator raises an error because decorators can only be applied to functions, not classes or methods.",
+    "answer": "Part 2 (Answer):  \nA) The original `my_function` is replaced by a new function that includes timing logic but does not modify its behavior.",
+    "timestamp": "2025-08-06 00:01:33",
+    "topic": "Function and Method Decorators"
   }
 }
