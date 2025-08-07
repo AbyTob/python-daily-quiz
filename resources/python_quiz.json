@@ -2161,5 +2161,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-08-07 00:02:29",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2025-08-07": {
+    "id": "1754553704_2",
+    "question": "**Part 1 (Question):**\n\nConsider the following code snippet:\n\n```python\nimport asyncio\n\nclass AsyncCounter:\n    def __init__(self):\n        self.count = 0\n    \n    async def increment(self):\n        await asyncio.sleep(1)\n        self.count += 1\n        return self.count\n\nasync def main():\n    counter = AsyncCounter()\n    \n    task1 = asyncio.create_task(counter.increment())\n    task2 = asyncio.create_task(counter.increment())\n\n    result = await asyncio.gather(task1, task2)\n    print(result)\n\nasyncio.run(main())\n```\n\nWhat will be the output of this code when executed?\n\nA) [0, 0]  \nB) [1, 1]  \nC) [0, 1]  \nD) [1, 2]",
+    "answer": "**Part 2 (Answer):**\n\nThe correct answer is B) [1, 1].\n\nExplanation:\n\n- The `AsyncCounter` class has an `increment` method that increments a counter after simulating some asynchronous work with `asyncio.sleep(1)`.\n- In the `main` function, two tasks (`task1` and `task2`) are created to run the `increment` method concurrently.\n- Since both tasks start almost immediately and their sleep times overlap only briefly (due to the short duration of `await asyncio.sleep(1)`), both tasks will successfully complete before the main coroutine finishes.\n- The final count after both tasks have completed is 2, but each task individually returns its own value of the counter. Therefore, the output `[1, 1]` reflects that each task returned the same count (the last value set by `self.count`) before it was incremented again.",
+    "timestamp": "2025-08-07 08:01:44",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
