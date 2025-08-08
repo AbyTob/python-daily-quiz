@@ -2189,5 +2189,12 @@
     "answer": "**Part 2 (Answer):**\n\nA) `Calling add with args: (3, 4), kwargs: {}; add returned: 7`\n\nThis is the correct answer. The `log_method_calls` decorator dynamically wraps all callable methods in the `Calculator` class with a logging wrapper. When `add(3, 4)` is called, it prints the method call and return value as specified.\n\nThe other options are incorrect because they either miss parameters or have incorrect formatting of the print statements.",
     "timestamp": "2025-08-08 08:01:56",
     "topic": "Advanced Logging Configuration"
+  },
+  "q3_2025-08-08": {
+    "id": "1754668909_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that aims to create a decorator for async functions which measures their execution time:\n\n```python\nimport asyncio\nfrom functools import wraps\n\ndef measure_time(func):\n    @wraps(func)\n    async def wrapper(*args, **kwargs):\n        start = asyncio.get_event_loop().time()\n        result = await func(*args, **kwargs)\n        end = asyncio.get_event_loop().time()\n        print(f\"{func.__name__} took {end - start:.4f} seconds to execute\")\n        return result\n    return wrapper\n\n@measure_time\nasync def async_task():\n    await asyncio.sleep(2)\n```\n\nWhen running `asyncio.run(async_task())`, the expected output is:\n\nA) \"async_task took 0.0000 seconds to execute\"  \nB) \"async_task took 2.0000 seconds to execute\"  \nC) The program raises an exception because decorators do not support async functions  \nD) The execution time cannot be measured accurately for async functions",
+    "answer": "**Part 2 (Answer):**\n\nB) \"async_task took 2.0000 seconds to execute\"\n\nExplanation: The `measure_time` decorator is correctly implemented for async functions using the `@wraps(func)` decorator from the `functools` module, which preserves the metadata of the original function. When applied to an async function like `async_task`, it measures the execution time accurately by capturing the start and end times within the async context provided by `asyncio.get_event_loop().time()`. Therefore, when `asyncio.run(async_task())` is called, it should print \"async_task took 2.0000 seconds to execute\", as the function `async_task` suspends for 2 seconds using `await asyncio.sleep(2)`.",
+    "timestamp": "2025-08-08 16:01:49",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
