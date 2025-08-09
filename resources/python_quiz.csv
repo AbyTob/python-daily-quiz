@@ -14010,3 +14010,19 @@ D) The `additional_method` is only available in the class `Base`, not its subcla
 B) The `additional_method` is added to all subclasses of `Base` that use `AddMethodMeta`.
 
 Explanation: The metaclass `AddMethodMeta` dynamically adds an `additional_method` to any class it decorates. Since `Base` uses `AddMethodMeta`, `SubClass`, as a subclass of `Base`, will also have the `additional_method`. This demonstrates how metaclasses can be used to modify or enhance classes at definition time, providing powerful capabilities for code reuse and dynamic behavior.";"Answer format error. Please check the generated content."
+"2025-08-09 16:01";"[QUESTION]
+You are tasked with creating a decorator that can be applied to any function to measure its execution time. However, this decorator should also work seamlessly when used with asyncio coroutines, without altering their behavior. Implement the `time_it_async` decorator that measures the execution time of both regular functions and asyncio coroutines.
+
+Example usage:
+```python
+@time_it_async
+def sync_function():
+    time.sleep(1)
+
+@time_it_async
+async def async_function():
+    await asyncio.sleep(1)
+```
+
+Which of the following implementations correctly achieves the desired behavior?";"[ANSWER]
+A"

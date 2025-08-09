@@ -2210,5 +2210,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-08-09 08:01:49",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-08-09": {
+    "id": "1754755260_3",
+    "question": "[QUESTION]\nYou are tasked with creating a decorator that can be applied to any function to measure its execution time. However, this decorator should also work seamlessly when used with asyncio coroutines, without altering their behavior. Implement the `time_it_async` decorator that measures the execution time of both regular functions and asyncio coroutines.\n\nExample usage:\n```python\n@time_it_async\ndef sync_function():\n    time.sleep(1)\n\n@time_it_async\nasync def async_function():\n    await asyncio.sleep(1)\n```\n\nWhich of the following implementations correctly achieves the desired behavior?",
+    "answer": "[ANSWER]\nA",
+    "timestamp": "2025-08-09 16:01:00",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
