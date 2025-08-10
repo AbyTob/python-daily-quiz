@@ -14129,3 +14129,63 @@ B) Correct
 C) Incorrect. Threads do not guarantee an order of execution; thus, it's incorrect to assume they will complete before the result is printed.
 
 D) Incorrect. Python has a Global Interpreter Lock (GIL), which prevents true parallelism in CPU-bound tasks using threads. Multiprocessing would be needed for fully concurrent execution."
+"2025-08-10 16:02";"[QUESTION]
+You are tasked with creating a Python library that needs to ensure the correct initialization of resources before their use and proper cleanup afterward, regardless of how many times the resource is used or when the program exits. You decide to implement this functionality using context managers.
+
+Write a context manager class named `ResourceGuard` that ensures a resource (simulated by opening a file) is properly opened at the beginning and closed after all operations within its block are completed. The class should handle exceptions gracefully, ensuring that the resource is always cleaned up if an error occurs during the use of the resource.
+
+Your implementation should include:
+1. An `__enter__` method that opens the file and returns a file object.
+2. An `__exit__` method that handles exceptions and ensures the file is closed properly.
+
+Here's a starting point for your implementation:
+
+```python
+class ResourceGuard:
+    def __init__(self, filename):
+        self.filename = filename
+
+    def __enter__(self):
+        # Open the file here and return the file object
+        pass
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # Handle exceptions and close the file here
+        pass
+```
+
+Implement the `ResourceGuard` class according to the requirements.";"[ANSWER] A
+
+The correct implementation of the `ResourceGuard` context manager is as follows:
+
+```python
+class ResourceGuard:
+    def __init__(self, filename):
+        self.filename = filename
+
+    def __enter__(self):
+        # Open the file here and return the file object
+        self.file = open(self.filename, 'w')
+        return self.file
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # Handle exceptions and close the file here
+        if exc_type is not None:
+            print(f""An error occurred: {exc_val}"")
+        self.file.close()
+```
+
+Explanation:
+
+- The `__enter__` method opens the file in write mode (`'w'`) and returns the file object. This ensures that the file is opened when entering the context.
+  
+- The `__exit__` method takes three arguments: `exc_type`, `exc_val`, and `exc_tb`. These represent the exception type, value, and traceback if an exception occurred within the context block. If an exception did occur, it prints the error message. Regardless of whether an exception occurred, it always closes the file to ensure proper cleanup.
+
+This implementation ensures that the resource is always cleaned up properly, even if an error occurs during its use. The `ResourceGuard` class can be used as follows:
+
+```python
+with ResourceGuard('example.txt') as f:
+    f.write('Hello, world!')
+```
+
+This will correctly handle file opening and closing, ensuring that the file is closed after writing to it, even if an error occurs during the write operation."
