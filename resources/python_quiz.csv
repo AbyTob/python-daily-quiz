@@ -14264,3 +14264,41 @@ C) Modify `Tracker._count` to increment each time any method in any subclass is 
 D) The current implementation already tracks how many times `my_method` has been called on all instances of `MyClass`. No changes are necessary.";"Part 2 (Answer): A) The `@log_calls` decorator should be applied directly on the `my_method` inside the class.
 
 Explanation: The given code uses a metaclass to track the number of times each method is called across all instances. However, it does not ensure that every time `my_method` is called, it logs how many times it has been called in total across all instances. To achieve this, the decorator should be applied directly on the `my_method`. This ensures that every time `my_method` is called, it increments its count and prints the total number of calls made to it across all instances. The metaclass correctly tracks the number of times each method is called but does not log or display this information in a way that meets the requirement specified in the question."
+"2025-08-11 16:01";"[QUESTION] 
+Consider the following Python code:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+class TimerMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value) and not attr_name.startswith(""__""):
+                dct[attr_name] = timer(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class TimerClass(metaclass=TimerMeta):
+    def sleep(self, seconds):
+        time.sleep(seconds)
+
+    def add(self, a, b):
+        return a + b
+```
+
+Which of the following statements is true about the `TimerClass`? 
+
+A) The `sleep` and `add` methods are not decorated with the `timer` decorator.
+B) The `sleep` method is decorated with the `timer` decorator, but not the `add` method.
+C) Both the `sleep` and `add` methods are decorated with the `timer` decorator.
+D) Neither the `sleep` nor the `add` methods are decorated with the `timer` decorator.";"[ANSWER] C) Both the `sleep` and `add` methods are decorated with the `timer` decorator.
+
+Explanation: The `TimerMeta` metaclass dynamically wraps all callable attributes (methods) of any class defined with this metaclass in a `timer` decorator, which measures and prints the execution time of these methods. Since both `sleep` and `add` are callable and not special methods (those starting or ending with double underscores), they will be decorated by the `TimerMeta`."
