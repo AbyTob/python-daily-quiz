@@ -14428,3 +14428,109 @@ Something is happening after the function is called.
 ```
 
 This demonstrates how to create a decorator that can accept parameters and use them within its wrapper function."
+"2025-08-12 08:03";"[QUESTION]  
+You are tasked with creating a decorator that can be used to measure the execution time of any function it decorates. The decorator should also handle asynchronous functions correctly. Here is an initial implementation:
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds to run."")
+        return result
+    return wrapper
+
+@timing_decorator
+async def async_task():
+    await asyncio.sleep(1)  # Simulate an asynchronous task
+    return ""Task completed""
+```
+
+The code above works for synchronous functions but fails when used with asynchronous functions. Modify the `timing_decorator` so that it can correctly measure and print the execution time of both synchronous and asynchronous functions.
+
+A) 
+```python
+import asyncio
+
+def timing_decorator(func):
+    async def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = await func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds to run."")
+        return result
+    return wrapper
+```
+
+B) 
+```python
+import asyncio
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        if asyncio.iscoroutinefunction(func):
+            return asyncio.run(func(*args, **kwargs))
+        else:
+            start_time = time.time()
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            print(f""{func.__name__} took {end_time - start_time:.4f} seconds to run."")
+            return result
+    return wrapper
+```
+
+C) 
+```python
+import asyncio
+
+def timing_decorator(func):
+    async def wrapper(*args, **kwargs):
+        if asyncio.iscoroutinefunction(func):
+            start_time = time.time()
+            result = await func(*args, **kwargs)
+            end_time = time.time()
+            print(f""{func.__name__} took {end_time - start_time:.4f} seconds to run."")
+            return result
+        else:
+            return func(*args, **kwargs)
+    return wrapper
+```
+
+D) 
+```python
+import asyncio
+
+def timing_decorator(func):
+    async def wrapper(*args, **kwargs):
+        if asyncio.iscoroutinefunction(func):
+            start_time = time.time()
+            result = await func(*args, **kwargs)
+            end_time = time.time()
+            print(f""{func.__name__} took {end_time - start_time:.4f} seconds to run."")
+        else:
+            return func(*args, **kwargs)
+    return wrapper
+```
+
+[ANSWER]  
+B) 
+```python
+import asyncio
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        if asyncio.iscoroutinefunction(func):
+            return asyncio.run(func(*args, **kwargs))
+        else:
+            start_time = time.time()
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            print(f""{func.__name__} took {end_time - start_time:.4f} seconds to run."")
+            return result
+    return wrapper
+```
+
+**Explanation**: The correct answer is B. The original decorator does not handle asynchronous functions correctly because it assumes that all decorated functions are synchronous. By using `asyncio.iscoroutinefunction` to check if the function is a coroutine, we can differentiate between synchronous and asynchronous functions. For synchronous functions, we proceed as before by measuring and printing the execution time. For asynchronous functions, we use `asyncio.run` to run the coroutine and then measure the execution time before printing it. This approach ensures that the decorator works correctly for both types of functions.";"Answer format error. Please check the generated content."
