@@ -14712,3 +14712,38 @@ my_function()
 **C) is incorrect.** There is a missing definition for `*args` and `**kwargs` within the `__call__` method, causing an error when calling the decorated function.
 
 **D) is incorrect.** The decorator application syntax is incorrect; the method should be directly used with parentheses rather than being called as a property."
+"2025-08-13 08:01";"[QUESTION] Consider the following code snippet:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)
+    return ""Data fetched""
+
+class AsyncCache:
+    _cache = {}
+
+    @classmethod
+    async def get(cls, key):
+        if key not in cls._cache:
+            cls._cache[key] = await fetch_data()
+        return cls._cache[key]
+
+async def main():
+    data1 = await AsyncCache.get(""data1"")
+    print(f""Data 1: {data1}"")
+    data2 = await AsyncCache.get(""data1"")
+    print(f""Data 2: {data2}"")
+
+# Run the main function
+asyncio.run(main())
+```
+
+Which of the following best describes what happens in this code?
+
+A) The `fetch_data` function is called twice, and each time it takes 2 seconds to execute.
+B) The `fetch_data` function is only called once, and the result is cached for subsequent calls.
+C) The code raises an exception because the `_cache` attribute is not properly initialized as a class variable.
+D) The code does not run at all because of an error in the usage of the `async/await` syntax.";"B) The `fetch_data` function is only called once, and the result is cached for subsequent calls."
