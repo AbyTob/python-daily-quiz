@@ -2294,5 +2294,12 @@
     "answer": "B) The `fetch_data` function is only called once, and the result is cached for subsequent calls.",
     "timestamp": "2025-08-13 08:01:29",
     "topic": "Class Methods and Static Methods"
+  },
+  "q3_2025-08-13": {
+    "id": "1755100914_3",
+    "question": "### Question:\n\nConsider the following Python code snippet which aims to create a simple timer context manager that measures the execution time of a block of code. However, it contains a critical flaw that prevents it from working as intended.\n\n```python\nimport time\n\nclass TimerContextManager:\n    def __init__(self):\n        self.start_time = None\n\n    async def __aenter__(self):\n        self.start_time = time.time()\n        return self\n\n    def __exit__(self, exc_type, exc_value, traceback):\n        elapsed_time = time.time() - self.start_time\n        print(f\"Elapsed time: {elapsed_time} seconds\")\n\nasync def test_timer():\n    async with TimerContextManager() as timer:\n        await asyncio.sleep(2)  # Simulate some async operation\n\n# Example usage\nimport asyncio\nasyncio.run(test_timer())\n```\n\nWhich of the following is the correct description of the flaw in the `TimerContextManager` class?\n\nA) The `__aenter__` method should be defined as a coroutine using `async def`.\n\nB) The `__exit__` method does not handle asynchronous exceptions properly.\n\nC) The `__enter__` method is missing an `await` keyword when calling `time.time()`.\n\nD) The context manager does not support both synchronous and asynchronous use without additional checks.",
+    "answer": "### Answer:\n\n**A) The `__aenter__` method should be defined as a coroutine using `async def`.**\n\nExplanation: In the provided code, the `TimerContextManager` is intended to work with an async context manager (`async with`). However, its `__aenter__` method is not properly declared as an asynchronous method, which can lead to issues when used within an `async with` block. The correct declaration should be `async def __aenter__(self):`. This ensures that the `time.time()` call inside `__aenter__` is correctly awaited, allowing for proper timing of async operations.",
+    "timestamp": "2025-08-13 16:01:54",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
