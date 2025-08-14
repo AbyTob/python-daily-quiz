@@ -14788,3 +14788,45 @@ D) The context manager does not support both synchronous and asynchronous use wi
 **A) The `__aenter__` method should be defined as a coroutine using `async def`.**
 
 Explanation: In the provided code, the `TimerContextManager` is intended to work with an async context manager (`async with`). However, its `__aenter__` method is not properly declared as an asynchronous method, which can lead to issues when used within an `async with` block. The correct declaration should be `async def __aenter__(self):`. This ensures that the `time.time()` call inside `__aenter__` is correctly awaited, allowing for proper timing of async operations."
+"2025-08-14 00:01";"[QUESTION]  
+Consider the following code snippet that uses a metaclass to enhance class behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(""Creating class:"", name)
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+# Creating an instance of MyClass
+my_instance = MyClass()
+```
+
+When you run the code, it prints ""Creating class: MyClass"". Now, modify `MyClass` so that it also adds a method `greet` to any subclass when created using this metaclass. The method should print ""Hello from MyClass"" whenever called.
+
+A) Modify `Meta.__new__()` to add the method after creating the class  
+B) Use a descriptor to dynamically add the method  
+C) Override `MyClass.__init_subclass__()` to add the method in subclasses  
+D) None of the above";"A) Modify `Meta.__new__()` to add the method after creating the class  
+
+Explanation: The correct answer is A. You need to modify the metaclass's `__new__` method to include the additional behavior (adding a new method `greet`). Here’s how you can do it:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(""Creating class:"", name)
+        # Add greet method dynamically
+        dct['greet'] = lambda self: ""Hello from MyClass""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+# Creating an instance of MyClass and calling greet
+my_instance = MyClass()
+print(my_instance.greet())
+```
+
+When you run this modified code, it will print both ""Creating class: MyClass"" followed by ""Hello from MyClass"". This demonstrates how metaclasses can be used to dynamically alter class behavior."
