@@ -14906,3 +14906,43 @@ class TimeBlock:
 The correct answer is C. 
 
 Explanation: The `TimeBlock` context manager should log errors using Python's built-in `logging` module instead of printing them to the console. However, in the provided options, only option C correctly handles exceptions by logging them as errors and then re-raising them for further processing. Option A does not handle exceptions properly, while option B suppresses exceptions without proper error handling. Option D incorrectly returns `True` from the `__exit__` method, which suppresses exceptions instead of allowing them to propagate."
+"2025-08-14 16:01";"### Part 1 (Question)
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncCounter:
+    def __init__(self):
+        self.count = 0
+
+    async def increment(self):
+        await asyncio.sleep(1)
+        self.count += 1
+        print(f""Count is now {self.count}"")
+
+async def main():
+    counter = AsyncCounter()
+    
+    tasks = [counter.increment() for _ in range(5)]
+    await asyncio.gather(*tasks)
+
+asyncio.run(main())
+```
+
+Which of the following statements correctly describes what happens when you run this code?
+
+A) The count is incremented by 1 every second, and after 5 seconds, the final value of `count` will be 5.
+
+B) The count is incremented by 1 immediately for all tasks, making `count` equal to 5 at the end.
+
+C) The count is never incremented because each call to `increment` is made before the previous one has completed.
+
+D) An error occurs because `asyncio.sleep` cannot be used in a non-async function.
+
+### Part 2 (Answer)
+
+**A)**
+
+The code correctly demonstrates asynchronous execution using asyncio. Each call to `counter.increment()` is awaited, meaning it will pause for 1 second before incrementing the count. After 5 seconds, the final value of `count` will be 5 because each task has its own sleep interval.";"Answer format error. Please check the generated content."
