@@ -14830,3 +14830,79 @@ print(my_instance.greet())
 ```
 
 When you run this modified code, it will print both ""Creating class: MyClass"" followed by ""Hello from MyClass"". This demonstrates how metaclasses can be used to dynamically alter class behavior."
+"2025-08-14 08:02";"[QUESTION]
+You are tasked with creating a context manager that measures the execution time of a block of code. The context manager should handle exceptions by logging them as errors instead of allowing them to propagate.
+
+Design a Python context manager named `TimeBlock` that meets these requirements. Your solution should include handling exceptions and logging error messages using Python's built-in `logging` module.";"A) 
+```python
+import time
+
+class TimeBlock:
+    def __enter__(self):
+        self.start_time = time.time()
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end_time = time.time()
+        print(f""Execution time: {end_time - self.start_time} seconds"")
+```
+
+B) 
+```python
+import time
+
+class TimeBlock:
+    def __enter__(self):
+        self.start_time = time.time()
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end_time = time.time()
+        if exc_type:
+            print(f""Error: {exc_val}"")
+        return False  # Propagate exceptions
+
+@contextmanager
+def TimeBlock():
+    start_time = time.time()
+    try:
+        yield
+    except Exception as e:
+        print(f""Error: {e}"")
+    finally:
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time} seconds"")
+```
+
+C) 
+```python
+import time
+
+@contextmanager
+def TimeBlock():
+    start_time = time.time()
+    try:
+        yield
+    except Exception as e:
+        print(f""Error: {e}"")
+    finally:
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time} seconds"")
+```
+
+D) 
+```python
+import time
+
+class TimeBlock:
+    def __enter__(self):
+        self.start_time = time.time()
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end_time = time.time()
+        if exc_type:
+            print(f""Error: {exc_val}"")
+        return True  # Suppress exceptions
+```
+
+The correct answer is C. 
+
+Explanation: The `TimeBlock` context manager should log errors using Python's built-in `logging` module instead of printing them to the console. However, in the provided options, only option C correctly handles exceptions by logging them as errors and then re-raising them for further processing. Option A does not handle exceptions properly, while option B suppresses exceptions without proper error handling. Option D incorrectly returns `True` from the `__exit__` method, which suppresses exceptions instead of allowing them to propagate."
