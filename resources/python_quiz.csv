@@ -14987,3 +14987,34 @@ D) None of the above.
 B) The context manager should prepend a timestamp at the start of the file and handle file opening/closing within `__enter__` and `__exit__`.
 
 Explanation: A correct implementation of this context manager would open the file in append mode (`'a'`) if it does not exist or create a new one. Inside the `__enter__` method, it should check if the file is already at the end of the file to determine whether to write the timestamp. The timestamp should be written before any other content added to the file during the context manager's block. In the `__exit__` method, it should close the file properly. This ensures that every time a file is accessed through this context manager, it automatically prepends a line with the current date and time."
+"2025-08-15 08:01";"[QUESTION] Consider the following code snippet that attempts to implement a thread-safe counter using a decorator:
+
+```python
+from functools import wraps
+import threading
+
+def thread_safe(func):
+    lock = threading.Lock()
+    
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        with lock:
+            return func(*args, **kwargs)
+    
+    return wrapper
+
+@thread_safe
+class Counter:
+    def __init__(self):
+        self.value = 0
+    
+    def increment(self):
+        self.value += 1
+```
+
+Which of the following statements correctly describes a potential issue with this implementation and how to fix it?
+
+A) The use of `wraps` is unnecessary in this context.
+B) The lock will be acquired on every method call, which can lead to performance issues. This can be fixed by acquiring the lock only when necessary.
+C) The `thread_safe` decorator should be applied at the class level rather than the method level.
+D) There is no issue with the current implementation; it properly ensures thread safety.";"D) There is no issue with the current implementation; it properly ensures thread safety."
