@@ -15018,3 +15018,40 @@ A) The use of `wraps` is unnecessary in this context.
 B) The lock will be acquired on every method call, which can lead to performance issues. This can be fixed by acquiring the lock only when necessary.
 C) The `thread_safe` decorator should be applied at the class level rather than the method level.
 D) There is no issue with the current implementation; it properly ensures thread safety.";"D) There is no issue with the current implementation; it properly ensures thread safety."
+"2025-08-15 16:01";"[QUESTION]
+Consider the following code snippet:
+
+```python
+from threading import Thread, Lock
+
+class SafeCounter:
+    def __init__(self):
+        self.value = 0
+        self.lock = Lock()
+
+    def increment(self):
+        with self.lock:
+            self.value += 1
+
+def worker(counter):
+    for _ in range(100000):
+        counter.increment()
+
+if __name__ == ""__main__"":
+    counter = SafeCounter()
+    threads = [Thread(target=worker, args=(counter,)) for _ in range(10)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    print(f""Final value: {counter.value}"")
+```
+
+Which of the following statements is true regarding this code?
+
+A) The final printed value will always be 1000000.
+B) The final printed value might not be 1000000 due to race conditions.
+C) The use of a Lock ensures that the counter is incremented correctly without race conditions.
+D) The Lock class in threading is not necessary for this scenario.";"C) The use of a Lock ensures that the counter is incremented correctly without race conditions.
+
+Explanation: In the provided code, the `SafeCounter` class uses a lock to ensure that only one thread can execute the `increment` method at a time. This prevents multiple threads from reading and writing to the shared `value` variable simultaneously, which could lead to race conditions where the final value is less than expected. Therefore, option C correctly identifies that the Lock ensures correct incrementing of the counter, while options A and B are incorrect because they suggest an outcome that does not account for potential race conditions caused by concurrent access to the shared resource. Option D is incorrect because it states that a Lock is unnecessary, which contradicts the intended use of the `SafeCounter` class in this context."

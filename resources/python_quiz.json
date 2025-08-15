@@ -2336,5 +2336,12 @@
     "answer": "D) There is no issue with the current implementation; it properly ensures thread safety.",
     "timestamp": "2025-08-15 08:01:20",
     "topic": "Threading and Concurrent Execution"
+  },
+  "q3_2025-08-15": {
+    "id": "1755273711_3",
+    "question": "[QUESTION]\nConsider the following code snippet:\n\n```python\nfrom threading import Thread, Lock\n\nclass SafeCounter:\n    def __init__(self):\n        self.value = 0\n        self.lock = Lock()\n\n    def increment(self):\n        with self.lock:\n            self.value += 1\n\ndef worker(counter):\n    for _ in range(100000):\n        counter.increment()\n\nif __name__ == \"__main__\":\n    counter = SafeCounter()\n    threads = [Thread(target=worker, args=(counter,)) for _ in range(10)]\n    for thread in threads:\n        thread.start()\n    for thread in threads:\n        thread.join()\n    print(f\"Final value: {counter.value}\")\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The final printed value will always be 1000000.\nB) The final printed value might not be 1000000 due to race conditions.\nC) The use of a Lock ensures that the counter is incremented correctly without race conditions.\nD) The Lock class in threading is not necessary for this scenario.",
+    "answer": "C) The use of a Lock ensures that the counter is incremented correctly without race conditions.\n\nExplanation: In the provided code, the `SafeCounter` class uses a lock to ensure that only one thread can execute the `increment` method at a time. This prevents multiple threads from reading and writing to the shared `value` variable simultaneously, which could lead to race conditions where the final value is less than expected. Therefore, option C correctly identifies that the Lock ensures correct incrementing of the counter, while options A and B are incorrect because they suggest an outcome that does not account for potential race conditions caused by concurrent access to the shared resource. Option D is incorrect because it states that a Lock is unnecessary, which contradicts the intended use of the `SafeCounter` class in this context.",
+    "timestamp": "2025-08-15 16:01:51",
+    "topic": "Threading and Concurrent Execution"
   }
 }
