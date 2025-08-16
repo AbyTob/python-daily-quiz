@@ -15084,3 +15084,38 @@ Explanation:
 - The `BaseMeta` metaclass is used to ensure that every class derived from `BaseClass` has a method named `method_to_add`.
 - Since `DerivedClass` inherits from `BaseClass`, it automatically gains the `method_to_add` method.
 - Therefore, calling `method_to_add()` on an instance of `DerivedClass` will return ""Method Added"", making option A correct."
+"2025-08-16 08:01";"Part 1 (Question):
+Consider the following code snippet that uses both metaclasses and class decorators:
+
+```python
+def decorator(cls):
+    cls.new_attr = ""Added by decorator""
+    return cls
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['from_meta'] = ""Added by metaclass""
+        return super().__new__(cls, name, bases, dct)
+
+@decorator
+class MyClass(metaclass=Meta):
+    pass
+```
+
+What will be the output of the following code?
+
+```python
+print(MyClass.new_attr)
+print(MyClass.from_meta)
+```
+
+A) ""Added by decorator"" and ""None""
+B) ""Added by decorator"" and ""Added by metaclass""
+C) ""None"" and ""Added by metaclass""
+D) ""None"" and ""None""";"Part 2 (Answer):
+The correct answer is B) ""Added by decorator"" and ""Added by metaclass"".
+
+Explanation:
+- The `decorator` function is applied to the `MyClass`, which adds a new attribute `new_attr` to the class.
+- The `Meta` metaclass also modifies the class by adding another attribute `from_meta`.
+- When we print these attributes, they are correctly set and returned as expected."

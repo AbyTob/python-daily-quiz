@@ -2350,5 +2350,12 @@
     "answer": "[A] `DerivedClass.method_to_add()` returns \"Method Added\"\n\nExplanation:\n- The `BaseMeta` metaclass is used to ensure that every class derived from `BaseClass` has a method named `method_to_add`.\n- Since `DerivedClass` inherits from `BaseClass`, it automatically gains the `method_to_add` method.\n- Therefore, calling `method_to_add()` on an instance of `DerivedClass` will return \"Method Added\", making option A correct.",
     "timestamp": "2025-08-16 00:01:37",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q2_2025-08-16": {
+    "id": "1755331287_2",
+    "question": "Part 1 (Question):\nConsider the following code snippet that uses both metaclasses and class decorators:\n\n```python\ndef decorator(cls):\n    cls.new_attr = \"Added by decorator\"\n    return cls\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['from_meta'] = \"Added by metaclass\"\n        return super().__new__(cls, name, bases, dct)\n\n@decorator\nclass MyClass(metaclass=Meta):\n    pass\n```\n\nWhat will be the output of the following code?\n\n```python\nprint(MyClass.new_attr)\nprint(MyClass.from_meta)\n```\n\nA) \"Added by decorator\" and \"None\"\nB) \"Added by decorator\" and \"Added by metaclass\"\nC) \"None\" and \"Added by metaclass\"\nD) \"None\" and \"None\"",
+    "answer": "Part 2 (Answer):\nThe correct answer is B) \"Added by decorator\" and \"Added by metaclass\".\n\nExplanation:\n- The `decorator` function is applied to the `MyClass`, which adds a new attribute `new_attr` to the class.\n- The `Meta` metaclass also modifies the class by adding another attribute `from_meta`.\n- When we print these attributes, they are correctly set and returned as expected.",
+    "timestamp": "2025-08-16 08:01:27",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
