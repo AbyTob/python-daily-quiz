@@ -2343,5 +2343,12 @@
     "answer": "C) The use of a Lock ensures that the counter is incremented correctly without race conditions.\n\nExplanation: In the provided code, the `SafeCounter` class uses a lock to ensure that only one thread can execute the `increment` method at a time. This prevents multiple threads from reading and writing to the shared `value` variable simultaneously, which could lead to race conditions where the final value is less than expected. Therefore, option C correctly identifies that the Lock ensures correct incrementing of the counter, while options A and B are incorrect because they suggest an outcome that does not account for potential race conditions caused by concurrent access to the shared resource. Option D is incorrect because it states that a Lock is unnecessary, which contradicts the intended use of the `SafeCounter` class in this context.",
     "timestamp": "2025-08-15 16:01:51",
     "topic": "Threading and Concurrent Execution"
+  },
+  "q1_2025-08-16": {
+    "id": "1755302497_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to add a method to all classes derived from `BaseClass`:\n\n```python\nclass BaseMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'method_to_add' not in dct:\n            dct['method_to_add'] = lambda self: \"Method Added\"\n        return super().__new__(cls, name, bases, dct)\n\nclass BaseClass(metaclass=BaseMeta):\n    pass\n\nclass DerivedClass(BaseClass):\n    def __init__(self, value):\n        self.value = value\n```\n\nGiven this setup, which of the following statements is true about `DerivedClass`?\n\nA) `DerivedClass.method_to_add()` returns \"Method Added\"\nB) Calling `method_to_add()` on an instance of `DerivedClass` raises a `TypeError`\nC) Instances of `DerivedClass` cannot call `method_to_add()`\nD) The `BaseMeta` metaclass does not affect the behavior of `DerivedClass`",
+    "answer": "[A] `DerivedClass.method_to_add()` returns \"Method Added\"\n\nExplanation:\n- The `BaseMeta` metaclass is used to ensure that every class derived from `BaseClass` has a method named `method_to_add`.\n- Since `DerivedClass` inherits from `BaseClass`, it automatically gains the `method_to_add` method.\n- Therefore, calling `method_to_add()` on an instance of `DerivedClass` will return \"Method Added\", making option A correct.",
+    "timestamp": "2025-08-16 00:01:37",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }

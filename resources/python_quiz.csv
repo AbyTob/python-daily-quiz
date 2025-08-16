@@ -15055,3 +15055,32 @@ C) The use of a Lock ensures that the counter is incremented correctly without r
 D) The Lock class in threading is not necessary for this scenario.";"C) The use of a Lock ensures that the counter is incremented correctly without race conditions.
 
 Explanation: In the provided code, the `SafeCounter` class uses a lock to ensure that only one thread can execute the `increment` method at a time. This prevents multiple threads from reading and writing to the shared `value` variable simultaneously, which could lead to race conditions where the final value is less than expected. Therefore, option C correctly identifies that the Lock ensures correct incrementing of the counter, while options A and B are incorrect because they suggest an outcome that does not account for potential race conditions caused by concurrent access to the shared resource. Option D is incorrect because it states that a Lock is unnecessary, which contradicts the intended use of the `SafeCounter` class in this context."
+"2025-08-16 00:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to add a method to all classes derived from `BaseClass`:
+
+```python
+class BaseMeta(type):
+    def __new__(cls, name, bases, dct):
+        if 'method_to_add' not in dct:
+            dct['method_to_add'] = lambda self: ""Method Added""
+        return super().__new__(cls, name, bases, dct)
+
+class BaseClass(metaclass=BaseMeta):
+    pass
+
+class DerivedClass(BaseClass):
+    def __init__(self, value):
+        self.value = value
+```
+
+Given this setup, which of the following statements is true about `DerivedClass`?
+
+A) `DerivedClass.method_to_add()` returns ""Method Added""
+B) Calling `method_to_add()` on an instance of `DerivedClass` raises a `TypeError`
+C) Instances of `DerivedClass` cannot call `method_to_add()`
+D) The `BaseMeta` metaclass does not affect the behavior of `DerivedClass`";"[A] `DerivedClass.method_to_add()` returns ""Method Added""
+
+Explanation:
+- The `BaseMeta` metaclass is used to ensure that every class derived from `BaseClass` has a method named `method_to_add`.
+- Since `DerivedClass` inherits from `BaseClass`, it automatically gains the `method_to_add` method.
+- Therefore, calling `method_to_add()` on an instance of `DerivedClass` will return ""Method Added"", making option A correct."
