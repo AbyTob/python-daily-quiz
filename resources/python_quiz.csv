@@ -15227,3 +15227,80 @@ Part 2 (Answer):
 A) The `call_counter` decorator will correctly count how many times `my_function` has been called.
 
 Explanation: The `@wraps(func)` decorator from `functools` is used to preserve the metadata of the original function (`my_function`). This means that accessing `my_function.__name__`, `my_function.__doc__`, etc., will return the same values as before the decoration. Additionally, since `wrapper.call_count` is initialized outside the wrapper function and then incremented each time the decorated function is called, it correctly counts how many times `my_function()` has been invoked."
+"2025-08-17 16:01";"[QUESTION]
+Consider the following Python code that uses a decorator and a metaclass:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class Base(metaclass=Meta):
+    pass
+
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator is called"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@my_decorator
+class MyClass(Base):
+    def __init__(self, value):
+        self.value = value
+
+    @classmethod
+    def class_method(cls):
+        print(f""Class method of {cls.__name__}"")
+
+obj = MyClass(10)
+MyClass.class_method()
+```
+
+What will be the output when the code is executed?
+
+A) 
+```
+Creating class Base
+Decorator is called
+Creating class MyClass
+10
+Class method of MyClass
+```
+
+B)
+```
+Decorator is called
+Creating class MyClass
+10
+Class method of MyClass
+```
+
+C) 
+```
+Creating class Base
+Decorator is called
+Creating class MyClass
+Decorator is called
+10
+Class method of MyClass
+```
+
+D) 
+```
+Creating class Base
+Decorator is called
+Creating class MyClass
+10
+Error: my_decorator cannot be applied to class methods
+```";"C) 
+```
+Creating class Base
+Decorator is called
+Creating class MyClass
+Decorator is called
+10
+Class method of MyClass
+```"
