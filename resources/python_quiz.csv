@@ -15159,3 +15159,41 @@ D) A TypeError is raised because `@async_time_logger` cannot be used with synchr
 **A) The `example_coroutine` will run and print the execution time.**
 
 **Explanation:** The decorator `async_time_logger` correctly wraps the asynchronous function `example_coroutine`. Inside the wrapper, it accurately measures the start and end times using `asyncio.get_event_loop().time()`, calculates the execution time, and prints it before returning the result of the original coroutine. When you run this code, it will execute the `example_coroutine` and print its execution time to the console."
+"2025-08-17 00:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to create a singleton pattern:
+
+```python
+from functools import wraps
+
+def singleton(cls):
+    instances = {}
+    
+    @wraps(cls)
+    def get_instance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    
+    return get_instance
+
+@singleton
+class DatabaseConnection:
+    def __init__(self, db_name):
+        self.db_name = db_name
+
+# Usage
+conn1 = DatabaseConnection(""my_database"")
+conn2 = DatabaseConnection(""my_database"")
+
+print(conn1 is conn2)  # Output: ?
+```
+
+What will be the output of `print(conn1 is conn2)`?
+
+A. False  
+B. True  
+C. Error  
+D. None";"B. True
+
+Explanation:
+The `singleton` decorator is used to ensure that only one instance of `DatabaseConnection` can be created, regardless of how many times it is instantiated. When `conn1 = DatabaseConnection(""my_database"")` and `conn2 = DatabaseConnection(""my_database"")` are executed, the metaclass checks if an instance of `DatabaseConnection` already exists in its `instances` dictionary. Since it does not, a new instance is created and stored in the dictionary. The next time an instance is requested, the existing instance is returned, resulting in `conn1 is conn2` being `True`."
