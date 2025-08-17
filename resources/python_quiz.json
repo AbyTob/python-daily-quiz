@@ -2371,5 +2371,12 @@
     "answer": "B. True\n\nExplanation:\nThe `singleton` decorator is used to ensure that only one instance of `DatabaseConnection` can be created, regardless of how many times it is instantiated. When `conn1 = DatabaseConnection(\"my_database\")` and `conn2 = DatabaseConnection(\"my_database\")` are executed, the metaclass checks if an instance of `DatabaseConnection` already exists in its `instances` dictionary. Since it does not, a new instance is created and stored in the dictionary. The next time an instance is requested, the existing instance is returned, resulting in `conn1 is conn2` being `True`.",
     "timestamp": "2025-08-17 00:01:36",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q2_2025-08-17": {
+    "id": "1755417696_2",
+    "question": "",
+    "answer": "Part 1 (Question):\nConsider the following code snippet that uses a decorator to count the number of times a function is called:\n\n```python\nfrom functools import wraps\n\ndef call_counter(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        wrapper.call_count += 1\n        return func(*args, **kwargs)\n    wrapper.call_count = 0\n    return wrapper\n\n@call_counter\ndef my_function():\n    pass\n```\n\nWhich of the following statements about this code is true?\n\nA) The `call_counter` decorator will correctly count how many times `my_function` has been called.\nB) Accessing `wrapper.call_count` from outside the function will raise an AttributeError because it's not a public attribute.\nC) The `wrapper` function does not preserve the name and docstring of `my_function`.\nD) Calling `my_function()` will modify the global namespace.\n\nPart 2 (Answer):\nA) The `call_counter` decorator will correctly count how many times `my_function` has been called.\n\nExplanation: The `@wraps(func)` decorator from `functools` is used to preserve the metadata of the original function (`my_function`). This means that accessing `my_function.__name__`, `my_function.__doc__`, etc., will return the same values as before the decoration. Additionally, since `wrapper.call_count` is initialized outside the wrapper function and then incremented each time the decorated function is called, it correctly counts how many times `my_function()` has been invoked.",
+    "timestamp": "2025-08-17 08:01:36",
+    "topic": "Advanced Python Programming"
   }
 }

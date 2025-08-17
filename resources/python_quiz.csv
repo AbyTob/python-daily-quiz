@@ -15197,3 +15197,33 @@ D. None";"B. True
 
 Explanation:
 The `singleton` decorator is used to ensure that only one instance of `DatabaseConnection` can be created, regardless of how many times it is instantiated. When `conn1 = DatabaseConnection(""my_database"")` and `conn2 = DatabaseConnection(""my_database"")` are executed, the metaclass checks if an instance of `DatabaseConnection` already exists in its `instances` dictionary. Since it does not, a new instance is created and stored in the dictionary. The next time an instance is requested, the existing instance is returned, resulting in `conn1 is conn2` being `True`."
+"2025-08-17 08:01";"";"Part 1 (Question):
+Consider the following code snippet that uses a decorator to count the number of times a function is called:
+
+```python
+from functools import wraps
+
+def call_counter(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        wrapper.call_count += 1
+        return func(*args, **kwargs)
+    wrapper.call_count = 0
+    return wrapper
+
+@call_counter
+def my_function():
+    pass
+```
+
+Which of the following statements about this code is true?
+
+A) The `call_counter` decorator will correctly count how many times `my_function` has been called.
+B) Accessing `wrapper.call_count` from outside the function will raise an AttributeError because it's not a public attribute.
+C) The `wrapper` function does not preserve the name and docstring of `my_function`.
+D) Calling `my_function()` will modify the global namespace.
+
+Part 2 (Answer):
+A) The `call_counter` decorator will correctly count how many times `my_function` has been called.
+
+Explanation: The `@wraps(func)` decorator from `functools` is used to preserve the metadata of the original function (`my_function`). This means that accessing `my_function.__name__`, `my_function.__doc__`, etc., will return the same values as before the decoration. Additionally, since `wrapper.call_count` is initialized outside the wrapper function and then incremented each time the decorated function is called, it correctly counts how many times `my_function()` has been invoked."
