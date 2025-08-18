@@ -15372,3 +15372,31 @@ D) Implement memoization within the decorator to avoid redundant calculations of
 A) Ensure that the timestamp is calculated when an instance is initialized.
 
 The correct answer is A. The `created_at` attribute should be set when the instance is created, not at any other time. Option B introduces unnecessary complexity and does not address the issue. Option C is incorrect because it violates the principle of encapsulation by using a global variable. Option D is also incorrect as memoization is not applicable in this context since each instance should have its own timestamp.";"Answer format error. Please check the generated content."
+"2025-08-18 16:01";"[QUESTION]
+You are working on a project where you need to implement a system that can dynamically create classes based on certain conditions. You decide to use metaclasses for this purpose. Below is a simplified version of what you have implemented:
+
+```python
+class DynamicClass(type):
+    def __new__(cls, name, bases, dct):
+        if 'create_method' not in dct:
+            raise TypeError(""Dynamic class must implement create_method"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=DynamicClass):
+    def create_method(self):
+        print(""Method created dynamically"")
+
+my_instance = MyClass()
+my_instance.create_method()
+```
+
+This code works as expected when `create_method` is defined in the subclass. However, you want to ensure that if a subclass does not define `create_method`, it raises an error. Modify the metaclass `DynamicClass` so that it checks for the presence of `create_method` and raises a TypeError if it is missing.
+
+[A] Implement the check inside the `__new__` method of the metaclass.
+[B] Use `__init_subclass__` to perform the check.
+[C] Both A and B
+[D] None of the above";"[ANSWER]
+A
+
+Explanation:
+The correct answer is [A]. The `__new__` method in a metaclass is called when a new class is created. By implementing the check for `create_method` inside this method, you ensure that if a subclass does not define it, a TypeError will be raised before the class can be instantiated. Using `__init_subclass__`, while useful for some initialization tasks during subclass creation, does not allow raising an error in case of missing methods because it is called after the class has been fully created and no longer raises errors if methods are missing."
