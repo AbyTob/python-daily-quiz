@@ -2385,5 +2385,12 @@
     "answer": "C) \n```\nCreating class Base\nDecorator is called\nCreating class MyClass\nDecorator is called\n10\nClass method of MyClass\n```",
     "timestamp": "2025-08-17 16:01:38",
     "topic": "Class Methods and Static Methods"
+  },
+  "q1_2025-08-18": {
+    "id": "1755475290_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses decorators to modify a class's behavior dynamically:\n\n```python\ndef add_method(func):\n    def wrapper(self):\n        print(\"Method added at runtime\")\n        func(self)\n    return wrapper\n\nclass MyClass:\n    def __init__(self, value):\n        self.value = value\n\n# Dynamically adding methods to an existing class\nMyClass.display_value = add_method(print)\n\nif __name__ == \"__main__\":\n    obj = MyClass(10)\n    obj.display_value()\n```\n\nWhat will be the output when running this code? \n\nA) `Method added at runtime`  \nB) `10 Method added at runtime`  \nC) The code will raise a TypeError  \nD) An empty line followed by `Method added at runtime`",
+    "answer": "The correct answer is A) `Method added at runtime`.\n\nExplanation: When you run this code, the `add_method` decorator is used to add a new method named `display_value` to the `MyClass` class at runtime. The `wrapper` function inside the decorator prints \"Method added at runtime\" and then calls the original function (which in this case is `print`). Since no arguments are passed to `print`, it defaults to printing nothing followed by a newline, resulting in an empty line being printed first, and then \"Method added at runtime\".",
+    "timestamp": "2025-08-18 00:01:30",
+    "topic": "Function and Method Decorators"
   }
 }
