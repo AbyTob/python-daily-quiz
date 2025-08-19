@@ -15400,3 +15400,44 @@ A
 
 Explanation:
 The correct answer is [A]. The `__new__` method in a metaclass is called when a new class is created. By implementing the check for `create_method` inside this method, you ensure that if a subclass does not define it, a TypeError will be raised before the class can be instantiated. Using `__init_subclass__`, while useful for some initialization tasks during subclass creation, does not allow raising an error in case of missing methods because it is called after the class has been fully created and no longer raises errors if methods are missing."
+"2025-08-19 00:01";"[QUESTION]
+You are tasked with creating a logging framework that can dynamically add loggers to any class. The goal is to allow developers to easily enable or disable logging for specific classes without modifying the class definitions.
+
+Here's a partial implementation using metaclasses:
+
+```python
+import functools
+
+class LoggableMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Create a dictionary of log methods
+        log_methods = {f""log_{attr}"": cls._log_method(attr) for attr in dct if callable(dct[attr])}
+        
+        # Update the class with the new log methods
+        dct.update(log_methods)
+        
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def _log_method(attr):
+        @functools.wraps(attr)
+        def wrapper(self, *args, **kwargs):
+            print(f""Calling {attr.__name__} with {args}, {kwargs}"")
+            return attr(self, *args, **kwargs)
+        return wrapper
+
+class Loggable(metaclass=LoggableMeta):
+    pass
+```
+
+Which of the following is a correct way to use this metaclass to add logging capabilities to a class?
+
+A) Simply inherit from `Loggable` in your classes.
+
+B) Define a custom metaclass that inherits from both `LoggableMeta` and another metaclass, then use it for your classes.
+
+C) Add an additional method in the subclass to call the log methods.
+
+D) Use a decorator to manually add logging to specific methods of a class.";"A) Simply inherit from `Loggable` in your classes.
+
+Explanation: The `LoggableMeta` metaclass automatically adds a `log_method` for every callable attribute in any class that inherits from `Loggable`. By simply inheriting from `Loggable`, developers can enable logging for their methods without needing to modify the method implementations themselves. This approach adheres to the principle of least astonishment, making it easy and intuitive for developers to use."
