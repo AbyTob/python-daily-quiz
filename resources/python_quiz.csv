@@ -15441,3 +15441,62 @@ C) Add an additional method in the subclass to call the log methods.
 D) Use a decorator to manually add logging to specific methods of a class.";"A) Simply inherit from `Loggable` in your classes.
 
 Explanation: The `LoggableMeta` metaclass automatically adds a `log_method` for every callable attribute in any class that inherits from `Loggable`. By simply inheriting from `Loggable`, developers can enable logging for their methods without needing to modify the method implementations themselves. This approach adheres to the principle of least astonishment, making it easy and intuitive for developers to use."
+"2025-08-19 08:02";"[ANSWER_SEPARATOR] 
+**Part 1 (Question):**
+Consider the following Python code snippet that involves a decorator, metaclass, and a context manager:
+
+```python
+from contextlib import ContextManager
+
+def log_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned: {result}"")
+        return result
+    return wrapper
+
+class LogMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = log_decorator(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class LoggedClass(metaclass=LogMeta):
+    def method1(self, x):
+        return x * 2
+
+    def __enter__(self):
+        print(""Entering LoggedClass"")
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        print(""Exiting LoggedClass"")
+
+@contextmanager
+def logged_manager():
+    print(""Entering context manager"")
+    yield
+    print(""Exiting context manager"")
+```
+
+Which of the following statements is true about this code?
+
+A) When an instance of `LoggedClass` is created and its `method1` is called, no logs are printed due to the decorator not being applied.
+
+B) The `log_decorator` correctly logs all callable attributes within `LoggedClass`, but `logged_manager` does not log any entries or exits.
+
+C) Both `logged_manager` and methods in `LoggedClass` use a metaclass for decoration, resulting in a conflict that prevents proper execution.
+
+D) When entering and exiting the `logged_manager` context manager, logs are printed as expected.
+
+[ANSWER_SEPARATOR] 
+**Part 2 (Answer):**
+B) The `log_decorator` correctly logs all callable attributes within `LoggedClass`, but `logged_manager` does not log any entries or exits.
+
+**Explanation:** 
+- The `LogMeta` metaclass correctly applies the `log_decorator` to all callable attributes of classes it creates, including `method1`.
+- However, the `logged_manager` is a context manager that uses Python's built-in `@contextmanager` decorator. It logs entering and exiting the context as intended but does not use any metaclass or decoration mechanism like the methods in `LoggedClass`.
+
+This question tests the ability to distinguish between different types of decorators (class-based vs. function-based) and how they interact with metaclasses.";"Answer format error. Please check the generated content."
