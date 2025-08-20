@@ -2441,5 +2441,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-08-20 08:01:43",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-08-20": {
+    "id": "1755705713_3",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to add a custom method to all classes it decorates. The goal is to create a new class attribute `total_instances` that keeps track of how many instances have been created for each class.\n\n```python\nclass InstanceTrackerMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['total_instances'] = 0\n        return super().__new__(cls, name, bases, dct)\n\n    def __call__(cls, *args, **kwargs):\n        cls.total_instances += 1\n        return super().__call__(*args, **kwargs)\n\n@InstanceTrackerMeta()\nclass MyClass:\n    pass\n\nobj1 = MyClass()\nobj2 = MyClass()\n\nprint(MyClass.total_instances)  # Expected output: 2\n```\n\nWhich of the following statements correctly describes why `MyClass.total_instances` equals 2?\n\nA) The metaclass is not working because it does not track instances correctly.\n\nB) The metaclass is working as intended, and each time an instance of MyClass is created, the `total_instances` attribute is incremented.\n\nC) The class decorator should be applied directly to the class definition rather than using a metaclass.\n\nD) The use of a metaclass for this purpose is unnecessary; a simpler approach with a class variable would suffice.",
+    "answer": "B) The metaclass is working as intended, and each time an instance of MyClass is created, the `total_instances` attribute is incremented.\n\nExplanation: In the provided code, `InstanceTrackerMeta` is a metaclass that adds a `total_instances` class attribute to any class it decorates. When an instance of a decorated class is created, the `__call__` method of the metaclass increments this `total_instances` attribute. Since two instances (`obj1` and `obj2`) are created from `MyClass`, `MyClass.total_instances` correctly equals 2, demonstrating that the metaclass is functioning as intended to track instance counts.",
+    "timestamp": "2025-08-20 16:01:53",
+    "topic": "Object-Oriented Programming"
   }
 }
