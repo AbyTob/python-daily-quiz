@@ -2434,5 +2434,12 @@
     "answer": "[ANSWER]\nD\n\nThe `SingletonMeta` metaclass uses a dictionary `_instances` to store instances of the class. When `__call__` is invoked (which happens whenever an instance of a class is created), it checks if an instance already exists in `_instances`. If not, it creates a new one and stores it. Subsequent calls return the stored instance. Therefore, regardless of how many times `Singleton()` is called, only one instance is returned, ensuring the Singleton pattern is adhered to.",
     "timestamp": "2025-08-20 00:01:56",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q2_2025-08-20": {
+    "id": "1755676903_2",
+    "question": "**Part 1 (Question):**\n\nConsider the following code snippet:\n\n```python\nimport asyncio\n\nclass AsyncCounter:\n    def __init__(self):\n        self.count = 0\n    \n    async def increment(self):\n        self.count += 1\n        await asyncio.sleep(1)\n    \n    async def get_count(self):\n        return self.count\n\nasync def main():\n    counter = AsyncCounter()\n    tasks = [counter.increment() for _ in range(5)]\n    await asyncio.gather(*tasks)\n    print(await counter.get_count())\n\nif __name__ == \"__main__\":\n    import time\n    start_time = time.time()\n    asyncio.run(main())\n    end_time = time.time()\n    print(f\"Execution time: {end_time - start_time} seconds\")\n```\n\nWhich of the following statements is true regarding the execution of this code?\n\nA) The program will run indefinitely as `asyncio.sleep(1)` blocks the event loop.\n\nB) The total count printed at the end will be 5, and the execution time will be approximately 5 seconds due to the sleep calls.\n\nC) The total count printed will be less than 5 because some increments might not complete due to context switching.\n\nD) The program will raise an exception because `counter.get_count()` cannot be awaited without an instance of `AsyncCounter`.\n\n**Part 2 (Answer):**\n\nB\n\nThe program will run for approximately 5 seconds, as the `await asyncio.sleep(1)` calls in the `increment` method cause the coroutine to yield control back to the event loop, allowing other tasks to run. By the time all five increments are completed, each taking one second, the total count will be 5 and the execution time will be close to 5 seconds.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-08-20 08:01:43",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
