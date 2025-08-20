@@ -15550,3 +15550,40 @@ The provided code is almost correct but has a subtle issue. The `LogMeta` metacl
 To fix this issue and ensure that the metaclass behaves as expected, you should include a call to `super().__new__()` at the end of the `__new__` method within the `LogMeta` class. This will properly create the new class type with the updated dictionary, ensuring that all methods are correctly wrapped.
 
 Once this is corrected, the code will log the method calls as expected and print the result when `my_instance.my_method(3, 4)` is called."
+"2025-08-20 00:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to create a Singleton pattern. The goal is to ensure that only one instance of a class can be created, even when multiple instances are attempted.
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Singleton(metaclass=SingletonMeta):
+    def __init__(self):
+        self.value = None
+
+# Usage example
+if __name__ == ""__main__"":
+    s1 = Singleton()
+    s2 = Singleton()
+
+    assert s1 is s2, ""Singletons are not the same instance""
+    print(s1.value)
+    s1.value = 42
+    print(s2.value)  # This should also be 42
+```
+
+Which of the following statements about the provided code is true?
+
+A) The `Singleton` class can have multiple instances depending on how it is instantiated.
+B) The `_instances` dictionary in the metaclass is used to store all instances created by subclasses of `Singleton`.
+C) When a subclass of `Singleton` is instantiated, its constructor is called even if an instance already exists.
+D) The `SingletonMeta` metaclass ensures that no matter how many times `Singleton()` is called, only one instance is returned.";"[ANSWER]
+D
+
+The `SingletonMeta` metaclass uses a dictionary `_instances` to store instances of the class. When `__call__` is invoked (which happens whenever an instance of a class is created), it checks if an instance already exists in `_instances`. If not, it creates a new one and stores it. Subsequent calls return the stored instance. Therefore, regardless of how many times `Singleton()` is called, only one instance is returned, ensuring the Singleton pattern is adhered to."
