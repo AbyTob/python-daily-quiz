@@ -2448,5 +2448,12 @@
     "answer": "B) The metaclass is working as intended, and each time an instance of MyClass is created, the `total_instances` attribute is incremented.\n\nExplanation: In the provided code, `InstanceTrackerMeta` is a metaclass that adds a `total_instances` class attribute to any class it decorates. When an instance of a decorated class is created, the `__call__` method of the metaclass increments this `total_instances` attribute. Since two instances (`obj1` and `obj2`) are created from `MyClass`, `MyClass.total_instances` correctly equals 2, demonstrating that the metaclass is functioning as intended to track instance counts.",
     "timestamp": "2025-08-20 16:01:53",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-08-21": {
+    "id": "1755734486_1",
+    "question": "Part 1 (Question):  \nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def task(name, delay):\n    print(f\"Task {name} started\")\n    await asyncio.sleep(delay)\n    print(f\"Task {name} finished\")\n\nasync def main():\n    tasks = [task(\"A\", 2), task(\"B\", 1)]\n    await asyncio.gather(*tasks)\n\n# Run the event loop\nasyncio.run(main())\n```\n\nWhat is the output of this code when run?\n\nA) Task A started, Task B started, Task B finished, Task A finished  \nB) Task A started, Task B started, Task A finished, Task B finished  \nC) Task A started, Task A finished, Task B started, Task B finished  \nD) Error: Tasks are not being awaited properly",
+    "answer": "Part 2 (Answer):  \nA) Task A started, Task B started, Task B finished, Task A finished\n\n**Explanation:** The `asyncio.gather` function runs all the tasks concurrently. In this case, \"Task B\" starts first as it has a shorter delay than \"Task A\". Both tasks run simultaneously and complete in order of their completion time, resulting in the output shown above.",
+    "timestamp": "2025-08-21 00:01:26",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

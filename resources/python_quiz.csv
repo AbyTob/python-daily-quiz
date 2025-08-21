@@ -15668,3 +15668,31 @@ C) The class decorator should be applied directly to the class definition rather
 D) The use of a metaclass for this purpose is unnecessary; a simpler approach with a class variable would suffice.";"B) The metaclass is working as intended, and each time an instance of MyClass is created, the `total_instances` attribute is incremented.
 
 Explanation: In the provided code, `InstanceTrackerMeta` is a metaclass that adds a `total_instances` class attribute to any class it decorates. When an instance of a decorated class is created, the `__call__` method of the metaclass increments this `total_instances` attribute. Since two instances (`obj1` and `obj2`) are created from `MyClass`, `MyClass.total_instances` correctly equals 2, demonstrating that the metaclass is functioning as intended to track instance counts."
+"2025-08-21 00:01";"Part 1 (Question):  
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def task(name, delay):
+    print(f""Task {name} started"")
+    await asyncio.sleep(delay)
+    print(f""Task {name} finished"")
+
+async def main():
+    tasks = [task(""A"", 2), task(""B"", 1)]
+    await asyncio.gather(*tasks)
+
+# Run the event loop
+asyncio.run(main())
+```
+
+What is the output of this code when run?
+
+A) Task A started, Task B started, Task B finished, Task A finished  
+B) Task A started, Task B started, Task A finished, Task B finished  
+C) Task A started, Task A finished, Task B started, Task B finished  
+D) Error: Tasks are not being awaited properly";"Part 2 (Answer):  
+A) Task A started, Task B started, Task B finished, Task A finished
+
+**Explanation:** The `asyncio.gather` function runs all the tasks concurrently. In this case, ""Task B"" starts first as it has a shorter delay than ""Task A"". Both tasks run simultaneously and complete in order of their completion time, resulting in the output shown above."
