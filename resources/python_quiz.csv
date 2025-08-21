@@ -15696,3 +15696,70 @@ D) Error: Tasks are not being awaited properly";"Part 2 (Answer):
 A) Task A started, Task B started, Task B finished, Task A finished
 
 **Explanation:** The `asyncio.gather` function runs all the tasks concurrently. In this case, ""Task B"" starts first as it has a shorter delay than ""Task A"". Both tasks run simultaneously and complete in order of their completion time, resulting in the output shown above."
+"2025-08-21 08:02";"[ANSWER_SEPARATOR]
+
+**Part 1: Question**
+
+Consider the following Python code snippet:
+
+```python
+import time
+
+class Timer:
+    def __init__(self, message):
+        self.message = message
+    
+    def __enter__(self):
+        self.start_time = time.time()
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end_time = time.time()
+        print(f""{self.message}: {end_time - self.start_time:.2f} seconds"")
+
+class Cached:
+    def __init__(self):
+        self.cache = {}
+    
+    def __call__(self, func):
+        def wrapper(*args):
+            if args not in self.cache:
+                self.cache[args] = func(*args)
+            return self.cache[args]
+        return wrapper
+
+@Cached()
+@Timer(""Function Execution Time"")
+def compute_heavy_task(n):
+    result = 0
+    for i in range(n):
+        result += i * i
+    return result
+
+# Example usage:
+result = compute_heavy_task(10000)
+print(f""Result: {result}"")
+```
+
+What will the output be when the `compute_heavy_task` function is called with an argument of 10,000? Explain why.
+
+**Options:**
+A) Function Execution Time: X.XX seconds  
+B) Result: 333335000  
+C) An error occurs because `@Cached()` and `@Timer()` cannot be used together.  
+D) Function Execution Time: Y.YY seconds followed by Result: 333335000
+
+[ANSWER_SEPARATOR]
+
+**Part 2: Answer**
+
+B) Result: 333335000  
+
+Explanation:
+
+- The `@Cached()` decorator is applied first, and it caches the result of `compute_heavy_task(10000)`. When `compute_heavy_task` is called with this argument, the cached value is immediately returned.
+  
+- The `@Timer()` decorator measures the execution time of a function. However, since `@Cached()` has already executed and stored the result, the `__enter__` and `__exit__` methods of the `Timer` class are not called when `compute_heavy_task(10000)` is invoked for the second time.
+
+- Therefore, the output will only include the cached result:  
+  Result: 333335000";"Answer format error. Please check the generated content."
