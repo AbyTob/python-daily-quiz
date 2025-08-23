@@ -15944,3 +15944,39 @@ C) The lambda function assigned to `__str__` will fail if the object has no attr
 D) The metaclass only works with classes that define their own `__init__` method.";"A) The `StrMeta` metaclass ensures that every class it decorates has a `__str__` method.
 
 Explanation: The `StrMeta` metaclass checks if the `__dict__` of the class being created contains the key `'__str__'`. If not, it adds a lambda function as the `__str__` method. This lambda function returns a string representation of the object in a readable format. Thus, every class that uses this metaclass will have a custom `__str__` method automatically added."
+"2025-08-23 08:01";"Part 1 (Question):
+Consider the following Python code snippet that uses a metaclass to create a singleton pattern:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=SingletonMeta):
+    pass
+
+a = MyClass()
+b = MyClass()
+
+print(a is b)  # What will this print?
+```
+
+Which of the following statements is true about the behavior of `MyClass` when it is instantiated?
+
+A. The class will raise a TypeError because metaclasses are not allowed in Python.
+B. Both `a` and `b` will be instances of `MyClass`, but they will point to different objects.
+C. Only one instance of `MyClass` will be created, and both `a` and `b` will refer to the same object.
+D. The program will crash due to an infinite recursion.";"Part 2 (Answer):
+The correct answer is C: Only one instance of `MyClass` will be created, and both `a` and `b` will refer to the same object.
+
+Explanation:
+- The `SingletonMeta` metaclass overrides the `__call__` method to control the instantiation process.
+- When an attempt is made to create an instance of `MyClass`, the metaclass checks if an instance already exists for that class in `_instances`.
+- If an instance does not exist, it proceeds with normal class instantiation and stores the new instance in `_instances`.
+- Any subsequent attempts to instantiate `MyClass` will return the existing instance from `_instances`, ensuring that only one instance of `MyClass` is created.
+- Therefore, both `a` and `b` are references to the same object, as confirmed by the statement `print(a is b)` which will output `True`."
