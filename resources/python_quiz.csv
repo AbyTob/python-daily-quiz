@@ -15980,3 +15980,94 @@ Explanation:
 - If an instance does not exist, it proceeds with normal class instantiation and stores the new instance in `_instances`.
 - Any subsequent attempts to instantiate `MyClass` will return the existing instance from `_instances`, ensuring that only one instance of `MyClass` is created.
 - Therefore, both `a` and `b` are references to the same object, as confirmed by the statement `print(a is b)` which will output `True`."
+"2025-08-23 16:02";"**Part 1 (Question):**
+
+Implement an asynchronous task scheduler that uses a metaclass to ensure that all tasks are of type `AsyncTask`. The `AsyncTask` class should be decorated with a decorator that measures the execution time of each task. Use asyncio for running these tasks concurrently.
+
+Here's what you need to do:
+- Create a metaclass called `AsyncMeta` that checks if the class it decorates is a subclass of `AsyncTask`.
+- Implement an asynchronous decorator `@time_task` that measures and prints the execution time of the decorated coroutine.
+- Use `asyncio.run()` to run all tasks concurrently.
+
+Example usage:
+
+```python
+class AsyncTask(metaclass=AsyncMeta):
+    pass
+
+@time_task
+async def task1():
+    await asyncio.sleep(2)
+    print(""Task 1 done"")
+
+@time_task
+async def task2():
+    await asyncio.sleep(1)
+    print(""Task 2 done"")
+```
+
+When you run `await asyncio.gather(task1(), task2())`, it should output the execution times for both tasks and ensure that `AsyncMeta` correctly identifies them as `AsyncTask` instances.";"**Part 2 (Answer):**
+
+The correct answer is A. Here's a detailed explanation:
+
+To implement this, we need to create a metaclass `AsyncMeta` that checks if the class it decorates is a subclass of `AsyncTask`. We also need an asynchronous decorator `@time_task` that measures and prints the execution time of each task.
+
+1. **Define the Metaclass**:
+   The metaclass will ensure that all classes decorated by `AsyncMeta` are subclasses of `AsyncTask`.
+
+2. **Implement the Decorator**:
+   The decorator will measure the execution time of the coroutine and print it.
+
+Here's a complete implementation:
+
+```python
+import asyncio
+from functools import wraps
+
+class AsyncMeta(type):
+    def __new__(cls, name, bases, dct):
+        if 'task_type' not in dct or dct['task_type'] != 'AsyncTask':
+            raise TypeError(f""Class {name} must inherit from AsyncTask"")
+        return super().__new__(cls, name, bases, dct)
+
+class AsyncTask(metaclass=AsyncMeta):
+    task_type = 'AsyncTask'
+
+def time_task(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        start_time = asyncio.get_running_loop().time()
+        result = await func(*args, **kwargs)
+        end_time = asyncio.get_running_loop().time()
+        print(f""{func.__name__} took {end_time - start_time:.2f} seconds"")
+        return result
+    return wrapper
+
+@AsyncTask
+@time_task
+async def task1():
+    await asyncio.sleep(2)
+    print(""Task 1 done"")
+
+@AsyncTask
+@time_task
+async def task2():
+    await asyncio.sleep(1)
+    print(""Task 2 done"")
+
+# Running the tasks concurrently
+async def main():
+    await asyncio.gather(task1(), task2())
+
+asyncio.run(main())
+```
+
+When you run this code, it should output:
+```
+Task 1 done
+Task 2 done
+task1 took 2.00 seconds
+task2 took 1.00 seconds
+```
+
+This implementation ensures that only classes decorated by `AsyncMeta` can be instances of `AsyncTask`, and the `@time_task` decorator correctly measures the execution time of each task, demonstrating both metaclass usage and asynchronous programming in Python."
