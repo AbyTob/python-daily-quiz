@@ -16071,3 +16071,31 @@ task2 took 1.00 seconds
 ```
 
 This implementation ensures that only classes decorated by `AsyncMeta` can be instances of `AsyncTask`, and the `@time_task` decorator correctly measures the execution time of each task, demonstrating both metaclass usage and asynchronous programming in Python."
+"2025-08-24 00:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data():
+    await asyncio.sleep(1)
+    return ""Data fetched""
+
+async def main():
+    task = asyncio.create_task(fetch_data())
+    result = await task
+    print(result)
+
+# Run the async function
+asyncio.run(main())
+```
+
+Which of the following statements is true about this code when executed?
+
+A) The `await` keyword is used to block the execution until `fetch_data()` completes.
+
+B) `create_task()` schedules a new coroutine for execution and returns a `Task` object representing the computation.
+
+C) `asyncio.sleep(1)` causes an immediate exit from the program.
+
+D) The `main()` function is executed synchronously because it does not contain any asynchronous operations.";"B"
