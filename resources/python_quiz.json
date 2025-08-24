@@ -2518,5 +2518,12 @@
     "answer": "B",
     "timestamp": "2025-08-24 00:01:11",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-08-24": {
+    "id": "1756022507_2",
+    "question": "[ANSWER_SEPARATOR] \nPart 1 (Question):  \nConsider the following Python code that uses a metaclass to create a singleton pattern. The goal is to ensure that only one instance of a class can be created, regardless of how many times it is instantiated.\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]\n\nclass SingletonClass(metaclass=SingletonMeta):\n    pass\n\n# Example usage\ninstance1 = SingletonClass()\ninstance2 = SingletonClass()\n\nprint(instance1 is instance2)  # Should print True\n```\n\nWhich of the following statements about this code is true?\n\nA) The `SingletonMeta` metaclass ensures that all classes using it are singletons.\n\nB) The `__call__` method of `SingletonMeta` checks if an instance already exists and creates a new one if not.\n\nC) The `SingletonClass` can be instantiated multiple times without any issues.\n\nD) None of the above.\n\n[ANSWER_SEPARATOR] \nPart 2 (Answer):  \nB) The `__call__` method of `SingletonMeta` checks if an instance already exists and creates a new one if not.\n\nExplanation: In the provided code, the metaclass `SingletonMeta` overrides the `__call__` method to ensure that only one instance of each class using it is created. When an instance is requested, it first checks if an instance already exists in `_instances`. If it does, it returns that instance; otherwise, it creates a new instance and stores it in `_instances`. This guarantees that all instances of `SingletonClass` are the same object, thus achieving the singleton pattern.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-08-24 08:01:47",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }

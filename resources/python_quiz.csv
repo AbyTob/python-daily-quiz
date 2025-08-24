@@ -16099,3 +16099,41 @@ B) `create_task()` schedules a new coroutine for execution and returns a `Task` 
 C) `asyncio.sleep(1)` causes an immediate exit from the program.
 
 D) The `main()` function is executed synchronously because it does not contain any asynchronous operations.";"B"
+"2025-08-24 08:01";"[ANSWER_SEPARATOR] 
+Part 1 (Question):  
+Consider the following Python code that uses a metaclass to create a singleton pattern. The goal is to ensure that only one instance of a class can be created, regardless of how many times it is instantiated.
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class SingletonClass(metaclass=SingletonMeta):
+    pass
+
+# Example usage
+instance1 = SingletonClass()
+instance2 = SingletonClass()
+
+print(instance1 is instance2)  # Should print True
+```
+
+Which of the following statements about this code is true?
+
+A) The `SingletonMeta` metaclass ensures that all classes using it are singletons.
+
+B) The `__call__` method of `SingletonMeta` checks if an instance already exists and creates a new one if not.
+
+C) The `SingletonClass` can be instantiated multiple times without any issues.
+
+D) None of the above.
+
+[ANSWER_SEPARATOR] 
+Part 2 (Answer):  
+B) The `__call__` method of `SingletonMeta` checks if an instance already exists and creates a new one if not.
+
+Explanation: In the provided code, the metaclass `SingletonMeta` overrides the `__call__` method to ensure that only one instance of each class using it is created. When an instance is requested, it first checks if an instance already exists in `_instances`. If it does, it returns that instance; otherwise, it creates a new instance and stores it in `_instances`. This guarantees that all instances of `SingletonClass` are the same object, thus achieving the singleton pattern.";"Answer format error. Please check the generated content."
