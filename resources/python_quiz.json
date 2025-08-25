@@ -2532,5 +2532,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-08-24 16:02:42",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-08-25": {
+    "id": "1756080068_1",
+    "question": "[QUESTION]  \nConsider the following code snippet that attempts to create a custom metaclass for logging instance creation:\n\n```python\nimport types\n\nclass LoggerMeta(type):\n    def __call__(cls, *args, **kwargs):\n        print(f\"Creating an instance of {cls.__name__}\")\n        return super().__call__(*args, **kwargs)\n\nclass MyClass(metaclass=LoggerMeta):\n    pass\n\n# Usage\nobj = MyClass()\n```\n\nWhat is the expected output when creating an instance of `MyClass`?\n\nA) \"Creating an instance of MyClass\"\n\nB) An error because metaclasses cannot be used with simple classes\n\nC) The class definition fails to compile\n\nD) No output at all",
+    "answer": "A) \"Creating an instance of MyClass\"",
+    "timestamp": "2025-08-25 00:01:08",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
