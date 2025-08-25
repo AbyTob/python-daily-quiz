@@ -16342,3 +16342,45 @@ print(expensive_function(5))  # Should take about 1 second
 print(expensive_function(5, y=20))  # This should be instant, as it uses the cache with different kwargs
 print(expensive_function(5))  # This should also be instant, using the same cached result
 ```"
+"2025-08-25 16:01";"[QUESTION] Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    async def __call__(self, *args, **kwargs):
+        print(""Pre-execution"")
+        result = await self.func(*args, **kwargs)
+        print(""Post-execution"")
+        return result
+
+@AsyncDecorator
+async def fetch_data():
+    await asyncio.sleep(1)
+    return ""Data fetched""
+
+async def main():
+    data = await fetch_data()
+    print(data)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+Which of the following statements is true regarding this code?
+
+A) The `AsyncDecorator` will not execute because it does not handle synchronous functions.
+
+B) When `fetch_data()` is called, ""Pre-execution"" and ""Post-execution"" will be printed immediately before and after the sleep.
+
+C) The `main` function must be decorated with `@asyncio.coroutine` to work with asynchronous functions.
+
+D) `AsyncDecorator` can be used to wrap both synchronous and asynchronous functions.";"D) `AsyncDecorator` can be used to wrap both synchronous and asynchronous functions.
+
+Explanation:
+- The decorator is designed to handle any callable, not just specific types. 
+- When the `fetch_data()` function, which is an asynchronous function, is called through the `AsyncDecorator`, it correctly prints ""Pre-execution"" before starting the sleep, waits for the sleep to complete, then prints ""Post-execution"". 
+- The decorator does not differentiate between synchronous and asynchronous functions; it simply calls whatever callable is passed to it."
