@@ -2553,5 +2553,12 @@
     "answer": "D) `AsyncDecorator` can be used to wrap both synchronous and asynchronous functions.\n\nExplanation:\n- The decorator is designed to handle any callable, not just specific types. \n- When the `fetch_data()` function, which is an asynchronous function, is called through the `AsyncDecorator`, it correctly prints \"Pre-execution\" before starting the sleep, waits for the sleep to complete, then prints \"Post-execution\". \n- The decorator does not differentiate between synchronous and asynchronous functions; it simply calls whatever callable is passed to it.",
     "timestamp": "2025-08-25 16:01:41",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-08-26": {
+    "id": "1756166512_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nclass Singleton(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass MyClass(metaclass=Singleton):\n    def __init__(self, value):\n        self.value = value\n\n# Usage\nobj1 = MyClass(10)\nobj2 = MyClass(20)\n\nprint(obj1 is obj2)  # Output: ?\nprint(obj1.value, obj2.value)  # Output: ?\n```\n\nWhat will be the output of this code?\n\nA) `True`, `10`\nB) `True`, `20`\nC) `False`, `10`\nD) `False`, `20`\n\n[ANSWER]\nA) `True`, `10`\n\nExplanation:\nThe Singleton metaclass is used to ensure that only one instance of `MyClass` can be created, no matter how many times it is instantiated. In the given code, when `obj1 = MyClass(10)` and `obj2 = MyClass(20)` are executed, the metaclass's `__call__` method checks if an instance already exists for the class `MyClass`. Since it does not, it creates a new instance with the value `10` and stores it in `_instances`. When `obj2 = MyClass(20)` is executed, the same instance (`obj1`) is returned from `_instances`, ensuring that both `obj1` and `obj2` refer to the same object. Therefore, `obj1 is obj2` evaluates to `True`, and both `obj1.value` and `obj2.value` are `10`.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-08-26 00:01:52",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }

@@ -16384,3 +16384,40 @@ Explanation:
 - The decorator is designed to handle any callable, not just specific types. 
 - When the `fetch_data()` function, which is an asynchronous function, is called through the `AsyncDecorator`, it correctly prints ""Pre-execution"" before starting the sleep, waits for the sleep to complete, then prints ""Post-execution"". 
 - The decorator does not differentiate between synchronous and asynchronous functions; it simply calls whatever callable is passed to it."
+"2025-08-26 00:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+class Singleton(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=Singleton):
+    def __init__(self, value):
+        self.value = value
+
+# Usage
+obj1 = MyClass(10)
+obj2 = MyClass(20)
+
+print(obj1 is obj2)  # Output: ?
+print(obj1.value, obj2.value)  # Output: ?
+```
+
+What will be the output of this code?
+
+A) `True`, `10`
+B) `True`, `20`
+C) `False`, `10`
+D) `False`, `20`
+
+[ANSWER]
+A) `True`, `10`
+
+Explanation:
+The Singleton metaclass is used to ensure that only one instance of `MyClass` can be created, no matter how many times it is instantiated. In the given code, when `obj1 = MyClass(10)` and `obj2 = MyClass(20)` are executed, the metaclass's `__call__` method checks if an instance already exists for the class `MyClass`. Since it does not, it creates a new instance with the value `10` and stores it in `_instances`. When `obj2 = MyClass(20)` is executed, the same instance (`obj1`) is returned from `_instances`, ensuring that both `obj1` and `obj2` refer to the same object. Therefore, `obj1 is obj2` evaluates to `True`, and both `obj1.value` and `obj2.value` are `10`.";"Answer format error. Please check the generated content."
