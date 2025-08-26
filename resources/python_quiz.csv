@@ -16466,3 +16466,37 @@ The primary issue with this code lies in the use of `time.time()`. Since the cod
 Option B and C are incorrect because:
 - The `fetch_data` method uses `await asyncio.sleep(1)`, which is non-blocking and does not block the event loop.
 - The cache implementation does not use threading locks, making it susceptible to concurrency issues if accessed by multiple tasks simultaneously."
+"2025-08-26 16:01";"### Question:
+Consider the following Python code snippet that uses a metaclass to dynamically add methods to classes based on their attributes:
+
+```python
+class DynamicMethodMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name in dct:
+            if attr_name.startswith('_'):
+                continue
+            dct[f'log_{attr_name}'] = lambda self: f""Logging {attr_name}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=DynamicMethodMeta):
+    x = 10
+    y = 20
+
+# Example usage:
+obj = MyClass()
+print(obj.log_x())  # Expected output: Logging x
+```
+
+What does the `DynamicMethodMeta` metaclass do? Additionally, what is the expected output when running the code snippet?
+
+A) The metaclass dynamically adds a method named `log_x` to `MyClass`. When called, it logs ""Logging x"".
+
+B) The metaclass dynamically adds a method named `log_y` to `MyClass`. When called, it logs ""Logging y"".
+
+C) The metaclass dynamically adds methods for every attribute in the class. When called, they all log ""Logging <attribute_name>"".
+
+D) None of the above.";"### Answer:
+**Correct Answer: C**
+
+**Explanation:** 
+The `DynamicMethodMeta` metaclass works by inspecting each attribute of a class during its creation (`__new__` method). If an attribute does not start with an underscore, it dynamically creates a new method in the form of `log_<attribute_name>`. This method logs ""Logging <attribute_name>"" when called. In this specific example, `MyClass` has two attributes, `x` and `y`. Therefore, the metaclass adds two methods: `log_x` and `log_y`. When `obj.log_x()` is called, it returns ""Logging x"", as expected."
