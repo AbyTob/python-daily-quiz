@@ -16692,3 +16692,38 @@ D) The `AbstractMeta` metaclass will prevent any instances of `MyClass` from bei
 Explanation: This statement is incorrect. As previously explained, the `AbstractMeta` metaclass checks if all methods are abstract but does not directly prevent instance creation. It only raises an error if it finds that not all methods are implemented as abstract. Therefore, option D is incorrect.
 
 The correct answer is B) An error will be raised because `MyClass` does not implement all abstract methods."
+"2025-08-28 08:01";"Part 1 (Question):  
+Consider the following Python code that uses decorators and metaclasses:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['greet'] = lambda self: f""Hello, I am a {name}!""
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class Person:
+    pass
+
+def greet_decorator(cls):
+    original_greet = cls.greet
+    def new_greet(self):
+        return original_greet(self).upper()
+    cls.greet = new_greet
+    return cls
+
+@greet_decorator
+class Employee(Person):
+    pass
+
+print(Employee().greet())
+```
+
+What will be the output when this code is executed?  
+A) HELLO, I AM A PERSON!  
+B) HELLO, I AM AN EMPLOYEE!  
+C) Hello, I am a Person!  
+D) Hello, I am an Employee!";"Part 2 (Answer):  
+B) HELLO, I AM AN EMPLOYEE!
+
+Explanation: The code defines a metaclass `Meta` that adds a `greet` method to any class it decorates. Then, the `Employee` class is decorated with both the `Meta` metaclass and a simple decorator `greet_decorator`. The `greet_decorator` modifies the `greet` method of the decorated class by making its output uppercase. Since `Employee` is first decorated with `Meta`, which adds a `greet` method, then with `greet_decorator`, the final `greet` method will output ""Hello, I am an Employee!"" in uppercase."
