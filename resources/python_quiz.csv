@@ -16629,3 +16629,66 @@ D) It depends on the complexity of the decorated functions.";"**Answer:** B) The
 5. Returning from the wrapper and the original function.
 
 These extra steps can introduce noticeable performance overhead, especially if the decorated functions are called frequently or involve complex operations. The impact is more pronounced if the logging involves I/O operations like printing to a file, as these are inherently slower than simple memory operations performed during function execution."
+"2025-08-28 00:03";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that involves both decorators and metaclasses. The goal is to create a class decorator that logs when an instance of a class is created, but only if the class was created using a specific metaclass.
+
+```python
+# Import necessary libraries
+from abc import ABC, abstractmethod
+
+# Define a metaclass that checks for abstract methods
+class AbstractMeta(type):
+    def __new__(cls, name, bases, dct):
+        if not all(issubclass(method, abstractmethod) for method in dct.values()):
+            raise TypeError(""All methods must be abstract"")
+        return super().__new__(cls, name, bases, dct)
+
+# Define a decorator to log instance creation
+def log_creation(cls):
+    class WrappedClass(cls):
+        def __init__(self, *args, **kwargs):
+            print(f""Instance of {cls.__name__} created."")
+            super().__init__(*args, **kwargs)
+    return WrappedClass
+
+# Example usage
+@log_creation
+class MyClass(metaclass=AbstractMeta):
+    @abstractmethod
+    def my_method(self):
+        pass
+
+# Attempt to create an instance of MyClass
+instance = MyClass()
+```
+
+Which of the following statements is true regarding the provided code?
+
+A) The `MyClass` will successfully log that an instance was created.
+
+B) An error will be raised because `MyClass` does not implement all abstract methods.
+
+C) The `log_creation` decorator will not work because it cannot be applied to a class with a metaclass.
+
+D) The `AbstractMeta` metaclass will prevent any instances of `MyClass` from being created.
+
+**Part 2 (Answer):**
+
+A) The `MyClass` will successfully log that an instance was created.
+
+Explanation: In the provided code, `MyClass` is defined with both a metaclass (`AbstractMeta`) and a decorator (`log_creation`). When `MyClass` is instantiated, the `AbstractMeta` checks if all methods are abstract. Since `my_method` is not implemented (as it's abstract), an error would normally be raised before reaching the `log_creation` decorator. However, due to the `metaclass=AbstractMeta` syntax, the metaclass is applied first. This means that the `AbstractMeta` will raise a `TypeError` indicating that all methods must be abstract, and it will never reach the `log_creation` decorator. Therefore, option A is incorrect.
+
+B) An error will be raised because `MyClass` does not implement all abstract methods.
+
+Explanation: This statement is correct. When `MyClass` is instantiated, `AbstractMeta` checks if all methods in the class are abstract. Since `my_method` is not implemented (it's marked with `@abstractmethod`), an error will be raised indicating that not all methods are abstract.
+
+C) The `log_creation` decorator will not work because it cannot be applied to a class with a metaclass.
+
+Explanation: This statement is incorrect. While it might seem counterintuitive, decorators can still be used on classes defined with metaclasses. The `log_creation` decorator wraps the original class in a new class (`WrappedClass`) that logs creation and then delegates to the original class. Therefore, option C is not applicable.
+
+D) The `AbstractMeta` metaclass will prevent any instances of `MyClass` from being created.
+
+Explanation: This statement is incorrect. As previously explained, the `AbstractMeta` metaclass checks if all methods are abstract but does not directly prevent instance creation. It only raises an error if it finds that not all methods are implemented as abstract. Therefore, option D is incorrect.
+
+The correct answer is B) An error will be raised because `MyClass` does not implement all abstract methods."
