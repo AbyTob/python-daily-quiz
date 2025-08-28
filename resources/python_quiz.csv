@@ -16727,3 +16727,40 @@ D) Hello, I am an Employee!";"Part 2 (Answer):
 B) HELLO, I AM AN EMPLOYEE!
 
 Explanation: The code defines a metaclass `Meta` that adds a `greet` method to any class it decorates. Then, the `Employee` class is decorated with both the `Meta` metaclass and a simple decorator `greet_decorator`. The `greet_decorator` modifies the `greet` method of the decorated class by making its output uppercase. Since `Employee` is first decorated with `Meta`, which adds a `greet` method, then with `greet_decorator`, the final `greet` method will output ""Hello, I am an Employee!"" in uppercase."
+"2025-08-28 16:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import threading
+
+class ThreadSafeCounter:
+    def __init__(self):
+        self.value = 0
+        self.lock = threading.Lock()
+
+    def increment(self):
+        with self.lock:
+            self.value += 1
+
+def thread_task(counter, iterations):
+    for _ in range(iterations):
+        counter.increment()
+
+if __name__ == ""__main__"":
+    counter = ThreadSafeCounter()
+    threads = [threading.Thread(target=thread_task, args=(counter, 1000)) for _ in range(10)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    print(counter.value)
+```
+
+What is the most efficient way to optimize this code to ensure it scales better as the number of threads and iterations increases?
+
+A) Implement a global lock instead of using an instance lock.
+B) Use multiprocessing instead of threading.
+C) Change the increment method to be atomic by removing the lock.
+D) Use asyncio for asynchronous execution.";"Answer: B) Use multiprocessing instead of threading.
+
+Explanation: While both threading and multiprocessing can be used to achieve parallelism in Python, they have different use cases due to the Global Interpreter Lock (GIL). In a multi-threaded application, if threads are CPU-bound (i.e., performing heavy computations), the GIL will still limit performance because only one thread can execute at a time. Multiprocessing, on the other hand, allows true parallel execution by creating separate Python processes, each with its own Python interpreter and GIL. This is beneficial when dealing with CPU-bound tasks, as it eliminates the overhead of the GIL and allows for efficient use of multiple processors. In this scenario, since the task involves updating a shared counter (a potentially CPU-bound operation), multiprocessing would provide better performance scaling compared to threading."
