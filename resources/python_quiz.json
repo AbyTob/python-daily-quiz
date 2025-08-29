@@ -2630,5 +2630,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-08-29 08:02:12",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-08-29": {
+    "id": "1756483298_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to ensure all instances of a class have a specific attribute:\n\n```python\nclass EnsureAttribute(type):\n    def __new__(cls, name, bases, dct):\n        dct['required_attribute'] = 'I must be here'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=EnsureAttribute):\n    pass\n\n# Create an instance of MyClass and print the value of required_attribute\ninstance = MyClass()\nprint(instance.required_attribute)\n```\n\nWhich of the following statements is true about the behavior of this code?\n\nA) When `MyClass` is instantiated, it will raise an AttributeError because 'required_attribute' has not been explicitly defined.\n\nB) The `__new__` method of the metaclass `EnsureAttribute` ensures that every subclass of `MyClass` also inherits the `required_attribute`.\n\nC) The value of `instance.required_attribute` will be 'I must be here'.\n\nD) Instances of `MyClass` cannot have their own definition for `required_attribute`.",
+    "answer": "C) The value of `instance.required_attribute` will be 'I must be here'.\n\nExplanation:\nThe metaclass `EnsureAttribute` modifies the dictionary of any class it is applied to by adding a new key-value pair, setting `'required_attribute'` to `'I must be here'`. Since this modification happens at the time the class is defined (not when an instance is created), every instance of `MyClass` will have the attribute `required_attribute` with the specified value.",
+    "timestamp": "2025-08-29 16:01:38",
+    "topic": "Object-Oriented Programming"
   }
 }

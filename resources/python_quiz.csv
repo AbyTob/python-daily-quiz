@@ -16863,3 +16863,32 @@ The correct behavior will be:
 1. ""Waiting for timer..."" printed immediately as the context manager enters.
 2. The main coroutine continues to run and prints ""Continuing after 2 seconds"".
 3. After 3 seconds, if the task hasn't already been cancelled (which it won't have), it would print ""Timer expired after 3 seconds"". However, this part is not reached because the context manager does not wait for the timer to expire before exiting.";"Answer format error. Please check the generated content."
+"2025-08-29 16:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to ensure all instances of a class have a specific attribute:
+
+```python
+class EnsureAttribute(type):
+    def __new__(cls, name, bases, dct):
+        dct['required_attribute'] = 'I must be here'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=EnsureAttribute):
+    pass
+
+# Create an instance of MyClass and print the value of required_attribute
+instance = MyClass()
+print(instance.required_attribute)
+```
+
+Which of the following statements is true about the behavior of this code?
+
+A) When `MyClass` is instantiated, it will raise an AttributeError because 'required_attribute' has not been explicitly defined.
+
+B) The `__new__` method of the metaclass `EnsureAttribute` ensures that every subclass of `MyClass` also inherits the `required_attribute`.
+
+C) The value of `instance.required_attribute` will be 'I must be here'.
+
+D) Instances of `MyClass` cannot have their own definition for `required_attribute`.";"C) The value of `instance.required_attribute` will be 'I must be here'.
+
+Explanation:
+The metaclass `EnsureAttribute` modifies the dictionary of any class it is applied to by adding a new key-value pair, setting `'required_attribute'` to `'I must be here'`. Since this modification happens at the time the class is defined (not when an instance is created), every instance of `MyClass` will have the attribute `required_attribute` with the specified value."
