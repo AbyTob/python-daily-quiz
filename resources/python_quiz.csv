@@ -16764,3 +16764,39 @@ C) Change the increment method to be atomic by removing the lock.
 D) Use asyncio for asynchronous execution.";"Answer: B) Use multiprocessing instead of threading.
 
 Explanation: While both threading and multiprocessing can be used to achieve parallelism in Python, they have different use cases due to the Global Interpreter Lock (GIL). In a multi-threaded application, if threads are CPU-bound (i.e., performing heavy computations), the GIL will still limit performance because only one thread can execute at a time. Multiprocessing, on the other hand, allows true parallel execution by creating separate Python processes, each with its own Python interpreter and GIL. This is beneficial when dealing with CPU-bound tasks, as it eliminates the overhead of the GIL and allows for efficient use of multiple processors. In this scenario, since the task involves updating a shared counter (a potentially CPU-bound operation), multiprocessing would provide better performance scaling compared to threading."
+"2025-08-29 00:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data(url):
+    print(f""Fetching data from {url}"")
+    await asyncio.sleep(2)
+    return f""Data from {url}""
+
+async def main():
+    urls = ['http://example.com', 'http://example.org', 'http://example.net']
+    tasks = [fetch_data(url) for url in urls]
+    results = await asyncio.gather(*tasks)
+    print(results)
+
+if __name__ == ""__main__"":
+    import time
+    start_time = time.time()
+    asyncio.run(main())
+    end_time = time.time()
+    print(f""Total time taken: {end_time - start_time} seconds"")
+```
+
+Which of the following statements about this code is true?
+
+A) The `fetch_data` function will run sequentially for each URL, taking a total of 6 seconds to complete.
+
+B) The `main` function creates a list of tasks but does not actually start them until they are passed to `asyncio.gather`.
+
+C) Using `asyncio.gather` allows the fetching of data from multiple URLs concurrently, reducing the total time taken compared to sequential execution.
+
+D) Each URL fetch operation is executed in a separate thread, allowing for concurrent execution.";"C) Using `asyncio.gather` allows the fetching of data from multiple URLs concurrently, reducing the total time taken compared to sequential execution.
+
+Explanation: The `asyncio.gather` function schedules all tasks concurrently and waits for them to complete. This means that while one task is waiting on a `sleep(2)` call, another can continue executing. As a result, the total time taken is significantly reduced compared to running each URL fetch operation sequentially, which would take 6 seconds (2 seconds per URL)."
