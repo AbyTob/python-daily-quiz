@@ -2637,5 +2637,12 @@
     "answer": "C) The value of `instance.required_attribute` will be 'I must be here'.\n\nExplanation:\nThe metaclass `EnsureAttribute` modifies the dictionary of any class it is applied to by adding a new key-value pair, setting `'required_attribute'` to `'I must be here'`. Since this modification happens at the time the class is defined (not when an instance is created), every instance of `MyClass` will have the attribute `required_attribute` with the specified value.",
     "timestamp": "2025-08-29 16:01:38",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-08-30": {
+    "id": "1756512108_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncTimer:\n    def __init__(self, timeout):\n        self.timeout = timeout\n\n    async def __aenter__(self):\n        print(\"Timer started\")\n        await asyncio.sleep(self.timeout)\n        return \"Timer done\"\n\n    async def __aexit__(self, exc_type, exc_val, exc_tb):\n        print(\"Timer stopped\")\n\nasync def main():\n    async with AsyncTimer(2) as timer_result:\n        print(timer_result)\n\n# Running the event loop\nasyncio.run(main())\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The `AsyncTimer` class defines a context manager that waits for 1 second before returning \"Timer done\".\n\nB) The `__aenter__` and `__aexit__` methods are not required to be `async`.\n\nC) When used in an `async with` statement, the event loop does not start automatically.\n\nD) The `AsyncTimer` class can be used both as a context manager and an iterator.\n\n**Part 2 (Answer):**\n\nA) is incorrect because the timeout set in the constructor of `AsyncTimer` is 2 seconds, not 1 second.\n\nB) is incorrect. Both `__aenter__` and `__aexit__` methods must be asynchronous if they are being used with an `async with` statement.\n\nC) is correct. When using an `async with` statement, the event loop does start automatically as long as it is running when the statement is executed.\n\nD) is incorrect. The `AsyncTimer` class cannot be used as an iterator because it only defines methods for context management (`__aenter__` and `__aexit__`).",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-08-30 00:01:48",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
