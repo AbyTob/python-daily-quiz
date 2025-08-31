@@ -17041,3 +17041,50 @@ D) The `WrappedClass` inherits from `Base`";"### Part 2 (Answer)
    - This means that when `obj.method()` is called, it calls the overridden method in `WrappedClass`.
 
 Option A and D are incorrect as they do not match the output or interaction described."
+"2025-08-31 00:01";"[QUESTION]
+Consider the following Python code that uses decorators and metaclasses to create a singleton pattern:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+def singleton(cls):
+    original_init = cls.__init__
+    
+    def new_init(self, *args, **kwargs):
+        if '_is_initialized' not in self.__dict__:
+            original_init(self, *args, **kwargs)
+            self._is_initialized = True
+    
+    cls.__init__ = new_init
+    return cls
+
+@singleton
+class SingletonClass(metaclass=SingletonMeta):
+    def __init__(self):
+        print(""Instance created"")
+
+# Usage
+s1 = SingletonClass()
+s2 = SingletonClass()
+
+print(s1 is s2)
+```
+
+What will be the output of this code?
+
+A) `True`
+B) `False`
+C) An error will occur
+D) The code will not run";"A) `True`
+
+Explanation:
+- The `SingletonMeta` metaclass ensures that only one instance of `SingletonClass` is created, even when using multiple threads.
+- The `singleton` decorator adds an initialization check to ensure that the class constructor is called only once per instance.
+- When `s1 = SingletonClass()` and `s2 = SingletonClass()`, they both refer to the same instance because of the singleton pattern implemented by both the metaclass and the decorator."
