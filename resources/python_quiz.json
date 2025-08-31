@@ -2672,5 +2672,12 @@
     "answer": "[B] A `TypeError` is raised because the attribute `b` is not an integer.\n\nExplanation: When you attempt to create an instance of `MyClass`, the metaclass `TypeEnforcer` checks each attribute in the class dictionary. It finds that the attribute `b` has a value of `'string'`, which is not an integer, and thus raises a `TypeError`. This error occurs during the creation of the class, so no instance can be created successfully.",
     "timestamp": "2025-08-31 08:01:34",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-08-31": {
+    "id": "1756656082_3",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses a decorator to count the number of times a function is called:\n\n```python\ndef counter(func):\n    def wrapper(*args, **kwargs):\n        wrapper.count += 1\n        return func(*args, **kwargs)\n    wrapper.count = 0\n    return wrapper\n\n@counter\ndef greet(name):\n    print(f\"Hello, {name}!\")\n\ngreet(\"Alice\")\ngreet(\"Bob\")\n\nprint(greet.count)  # What will this line output?\n```\n\nWhich of the following statements is true regarding the behavior and output of the above code?\n\nA) The decorator `counter` will not increment `wrapper.count` because it's initialized as a non-callable attribute.\n\nB) The output will be `0`, indicating that the `greet` function was not called.\n\nC) The output will be `1`, as only \"Alice\" was greeted once.\n\nD) The output will be `2`, reflecting that both \"Alice\" and \"Bob\" were greeted.",
+    "answer": "B) The output will be `0`, indicating that the `greet` function was not called.",
+    "timestamp": "2025-08-31 16:01:22",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }
