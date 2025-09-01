@@ -2679,5 +2679,12 @@
     "answer": "B) The output will be `0`, indicating that the `greet` function was not called.",
     "timestamp": "2025-08-31 16:01:22",
     "topic": "Counter Objects and Frequency Analysis"
+  },
+  "q1_2025-09-01": {
+    "id": "1756684929_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncCache:\n    def __init__(self):\n        self.cache = {}\n    \n    async def get(self, key):\n        if key in self.cache:\n            return self.cache[key]\n        else:\n            result = await self.fetch_data(key)\n            self.cache[key] = result\n            return result\n    \n    async def fetch_data(self, key):\n        # Simulate a network request with asyncio.sleep\n        await asyncio.sleep(1)  # This is a placeholder for actual data fetching\n        return f\"Data for {key}\"\n\nasync def main():\n    cache = AsyncCache()\n    tasks = [cache.get(i) for i in range(5)]\n    results = await asyncio.gather(*tasks)\n    print(results)\n\n# Run the main function to see the output\nasyncio.run(main())\n```\n\nThis code defines an `AsyncCache` class that caches data fetched asynchronously. When the `get` method is called with a key, it first checks if the data is in the cache. If not, it fetches the data using the `fetch_data` coroutine and stores it in the cache before returning it.\n\n**Question:** What will be the output of this script, assuming that the network request simulates by `asyncio.sleep(1)` takes exactly 1 second per request?\n\nA) `[None, None, None, None, None]`\n\nB) `[Data for 0, Data for 1, Data for 2, Data for 3, Data for 4]`\n\nC) `[Data for 0, Data for 1, Data for 2, Data for 3, 'Data for 4']`\n\nD) `[Data for 0, None, None, None, None]`\n\n[ANSWER]\nB) `[Data for 0, Data for 1, Data for 2, Data for 3, Data for 4]`\n\nExplanation: Each `get` call is awaited in the `main` function. Because these are all awaited concurrently using `asyncio.gather`, they should all start executing at the same time and complete after approximately 1 second each due to the simulated network delay. Therefore, all data will be fetched and cached, and the final output will contain the strings representing the data for keys 0 through 4.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-09-01 00:02:09",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

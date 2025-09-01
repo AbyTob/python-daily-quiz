@@ -17148,3 +17148,52 @@ B) The output will be `0`, indicating that the `greet` function was not called.
 C) The output will be `1`, as only ""Alice"" was greeted once.
 
 D) The output will be `2`, reflecting that both ""Alice"" and ""Bob"" were greeted.";"B) The output will be `0`, indicating that the `greet` function was not called."
+"2025-09-01 00:02";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncCache:
+    def __init__(self):
+        self.cache = {}
+    
+    async def get(self, key):
+        if key in self.cache:
+            return self.cache[key]
+        else:
+            result = await self.fetch_data(key)
+            self.cache[key] = result
+            return result
+    
+    async def fetch_data(self, key):
+        # Simulate a network request with asyncio.sleep
+        await asyncio.sleep(1)  # This is a placeholder for actual data fetching
+        return f""Data for {key}""
+
+async def main():
+    cache = AsyncCache()
+    tasks = [cache.get(i) for i in range(5)]
+    results = await asyncio.gather(*tasks)
+    print(results)
+
+# Run the main function to see the output
+asyncio.run(main())
+```
+
+This code defines an `AsyncCache` class that caches data fetched asynchronously. When the `get` method is called with a key, it first checks if the data is in the cache. If not, it fetches the data using the `fetch_data` coroutine and stores it in the cache before returning it.
+
+**Question:** What will be the output of this script, assuming that the network request simulates by `asyncio.sleep(1)` takes exactly 1 second per request?
+
+A) `[None, None, None, None, None]`
+
+B) `[Data for 0, Data for 1, Data for 2, Data for 3, Data for 4]`
+
+C) `[Data for 0, Data for 1, Data for 2, Data for 3, 'Data for 4']`
+
+D) `[Data for 0, None, None, None, None]`
+
+[ANSWER]
+B) `[Data for 0, Data for 1, Data for 2, Data for 3, Data for 4]`
+
+Explanation: Each `get` call is awaited in the `main` function. Because these are all awaited concurrently using `asyncio.gather`, they should all start executing at the same time and complete after approximately 1 second each due to the simulated network delay. Therefore, all data will be fetched and cached, and the final output will contain the strings representing the data for keys 0 through 4.";"Answer format error. Please check the generated content."
