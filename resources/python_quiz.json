@@ -2686,5 +2686,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-01 00:02:09",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-09-01": {
+    "id": "1756713718_2",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses both a decorator and a metaclass:\n\n```python\nimport time\n\ndef timer_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {func.__name__} took {end_time - start_time:.4f} seconds to execute.\")\n        return result\n    return wrapper\n\nclass TimerMeta(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name, attr_value in dct.items():\n            if callable(attr_value):\n                dct[attr_name] = timer_decorator(attr_value)\n        return super().__new__(cls, name, bases, dct)\n\nclass Task(metaclass=TimerMeta):\n    def task_1(self):\n        time.sleep(0.25)\n\n    def task_2(self):\n        time.sleep(0.75)\n```\n\nIn this setup, the `Task` class uses both a decorator (`timer_decorator`) and a metaclass (`TimerMeta`). The decorator is applied to all callable attributes of the class, and the metaclass also ensures that any new method added to the class will be wrapped by the decorator.\n\nGiven this code, if you create an instance of `Task` and call both `task_1` and `task_2`, what output would you expect?\n\nA) Both methods will execute without any additional information.\nB) Only `task_2` will print execution time.\nC) Both methods will print the execution time before returning.\nD) An error will occur because the decorator is not properly applied.",
+    "answer": "[C] Both methods will print the execution time before returning.\n\nExplanation: The metaclass `TimerMeta` dynamically decorates all callable attributes (methods in this case) of any class that uses it. When an instance of `Task` is created, both `task_1` and `task_2` are wrapped with the `timer_decorator`. As a result, calling either method will print the execution time before returning to the caller.",
+    "timestamp": "2025-09-01 08:01:58",
+    "topic": "Task Management and Scheduling"
   }
 }

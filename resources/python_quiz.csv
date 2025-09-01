@@ -17197,3 +17197,43 @@ D) `[Data for 0, None, None, None, None]`
 B) `[Data for 0, Data for 1, Data for 2, Data for 3, Data for 4]`
 
 Explanation: Each `get` call is awaited in the `main` function. Because these are all awaited concurrently using `asyncio.gather`, they should all start executing at the same time and complete after approximately 1 second each due to the simulated network delay. Therefore, all data will be fetched and cached, and the final output will contain the strings representing the data for keys 0 through 4.";"Answer format error. Please check the generated content."
+"2025-09-01 08:01";"[QUESTION]  
+Consider the following Python code snippet that uses both a decorator and a metaclass:
+
+```python
+import time
+
+def timer_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+class TimerMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = timer_decorator(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class Task(metaclass=TimerMeta):
+    def task_1(self):
+        time.sleep(0.25)
+
+    def task_2(self):
+        time.sleep(0.75)
+```
+
+In this setup, the `Task` class uses both a decorator (`timer_decorator`) and a metaclass (`TimerMeta`). The decorator is applied to all callable attributes of the class, and the metaclass also ensures that any new method added to the class will be wrapped by the decorator.
+
+Given this code, if you create an instance of `Task` and call both `task_1` and `task_2`, what output would you expect?
+
+A) Both methods will execute without any additional information.
+B) Only `task_2` will print execution time.
+C) Both methods will print the execution time before returning.
+D) An error will occur because the decorator is not properly applied.";"[C] Both methods will print the execution time before returning.
+
+Explanation: The metaclass `TimerMeta` dynamically decorates all callable attributes (methods in this case) of any class that uses it. When an instance of `Task` is created, both `task_1` and `task_2` are wrapped with the `timer_decorator`. As a result, calling either method will print the execution time before returning to the caller."
