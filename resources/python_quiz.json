@@ -2714,5 +2714,12 @@
     "answer": "**Part 2 (Answer):**\n\n**Correct Answer: B) It prints \"New method called\" as expected.**\n\n**Explanation:** The `MethodAdder` metaclass dynamically adds a method named `add_method` to any class that uses it. This method can be used to add new methods to the class at runtime. In the provided code, `MyClass.add_method(MyClass, 'new_method', my_new_method)` is called, which adds `my_new_method` as an attribute of `MyClass`. When `MyClass.new_method()` is then invoked, it executes the `my_new_method` function and prints \"New method called\". The metaclass ensures that `add_method` is available in every class using this metaclass, allowing for flexible and dynamic method addition.",
     "timestamp": "2025-09-02 08:01:52",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-09-02": {
+    "id": "1756828911_3",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport time\n\nclass Timer:\n    def __init__(self, func):\n        self.func = func\n\n    def __call__(self, *args, **kwargs):\n        start_time = time.time()\n        result = self.func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"{self.func.__name__} executed in {end_time - start_time:.4f}s\")\n        return result\n\n@Timer\ndef expensive_computation(n):\n    return sum(i * i for i in range(n))\n\nresult = expensive_computation(1000000)\nprint(result)\n```\n\nWhat is the output of this code snippet?\n\nA) 333332666750000.0, Timer executed in X.XXXs  \nB) 333332666750000.0, expensive_computation executed in X.XXXs  \nC) 3333333333.3333, Timer executed in X.XXXs  \nD) 3333333333.3333, expensive_computation executed in X.XXXs",
+    "answer": "B) 333332666750000.0, expensive_computation executed in X.XXXs  \nThe `Timer` class is a decorator that measures the execution time of the function it decorates. When `expensive_computation(1000000)` is called, the `Timer` decorator wraps the call to this function and prints the execution time along with the result. The output will show the result of the computation followed by \"expensive_computation executed in X.XXXs\", where X.XXX represents the time taken to execute the function.",
+    "timestamp": "2025-09-02 16:01:51",
+    "topic": "Object-Oriented Programming"
   }
 }
