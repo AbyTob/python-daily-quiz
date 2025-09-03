@@ -2735,5 +2735,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-03 08:02:19",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-09-03": {
+    "id": "1756915332_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses both a decorator and a metaclass:\n\n```python\nfrom functools import wraps\n\ndef logging_decorator(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__} returned {result}\")\n        return result\n    return wrapper\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'greet' in dct:\n            greet = dct['greet']\n            @wraps(greet)\n            def new_greet(*args, **kwargs):\n                print(\"Before greeting\")\n                result = greet(*args, **kwargs)\n                print(\"After greeting\")\n                return result\n            dct['greet'] = new_greet\n        return super().__new__(cls, name, bases, dct)\n\nclass Greeting(metaclass=Meta):\n    @logging_decorator\n    def greet(self, name):\n        return f\"Hello, {name}!\"\n```\n\nWhat will be the output of calling `Greeting().greet(\"Alice\")`?\n\nA) Hello, Alice!\nB) Before greeting: Hello, Alice! After greeting:\nC) Calling greet with args: (), kwargs: {'name': 'Alice'} Hello, Alice! Calling greet returned Hello, Alice!\nD) Before greeting: Calling greet with args: (), kwargs: {'name': 'Alice'} Hello, Alice! Calling greet returned Hello, Alice! After greeting:",
+    "answer": "C) Calling greet with args: (), kwargs: {'name': 'Alice'} Hello, Alice! Calling greet returned Hello, Alice!\n\nExplanation:\n- The `logging_decorator` is applied to the `greet` method using the decorator syntax. When `Greeting().greet(\"Alice\")` is called, it logs the call and return values.\n- The `Meta` metaclass modifies the class dictionary during the class creation process. If the `greet` method exists in the dictionary, it wraps it with an additional print statement before and after calling the original `greet` method.\n- Therefore, when `Greeting().greet(\"Alice\")` is executed, it first logs the call details using the `logging_decorator`, then the metaclass adds its own logging before and after the greeting message.",
+    "timestamp": "2025-09-03 16:02:12",
+    "topic": "Functional Programming Utilities"
   }
 }
