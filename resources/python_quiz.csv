@@ -17432,3 +17432,53 @@ B) `AsyncTimer` is a function that returns another function which, when called, 
 
 **Explanation**: 
 The `AsyncTimer` class is defined with an initializer to set the interval. The class also defines a `__call__` method, making it callable as a decorator. When `@AsyncTimer(2)` decorates `my_task`, the `wrapper` function returned by `__call__` is assigned to `my_task`. When `my_task()` is called, it first waits for 2 seconds (as specified by `AsyncTimer(2)`) using `await asyncio.sleep(self.interval)` and then proceeds to execute the original task. This demonstrates how decorators can be used to enhance or modify the behavior of functions asynchronously in Python."
+"2025-09-03 08:02";"**Part 1 (Question):**
+
+Consider the following code snippet that uses decorators and metaclasses in Python. The decorator `@log_method_calls` is intended to log every method call on instances of a class, while the metaclass `LoggerMeta` ensures that all methods are decorated with `@log_method_calls`.
+
+```python
+def log_method_calls(func):
+    def wrapper(self, *args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        return func(self, *args, **kwargs)
+    return wrapper
+
+class LoggerMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr in dct.items():
+            if callable(attr) and not attr_name.startswith('__'):
+                dct[attr_name] = log_method_calls(attr)
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=LoggerMeta):
+    def method1(self, a, b):
+        return a + b
+
+    def method2(self, c):
+        return c * 2
+```
+
+When you create an instance of `MyClass` and call its methods, the output should log each method call. However, there is a bug in this implementation that prevents it from working as expected.
+
+Which of the following options correctly identifies the bug and provides a fix?
+
+A) The decorator `log_method_calls` needs to be modified to accept and pass through instance information (self).
+B) The metaclass should not modify callable attributes if they are already decorated.
+C) The class should be instantiated using a different approach than the current one.
+D) None of the above.
+
+**Part 2 (Answer):**
+
+A) The decorator `log_method_calls` needs to be modified to accept and pass through instance information (self).
+
+Explanation: The issue in this code is that the `wrapper` function within the decorator does not receive the `self` parameter, which represents the instance of the class. As a result, when methods are called on an instance of `MyClass`, the wrapper does not have access to the instance context. To fix this, you need to modify the decorator to accept and pass through the `self` parameter correctly:
+
+```python
+def log_method_calls(func):
+    def wrapper(self, *args, **kwargs):
+        print(f""Calling {func.__name__} on {self.__class__.__name__} with args: {args}, kwargs: {kwargs}"")
+        return func(self, *args, **kwargs)
+    return wrapper
+```
+
+By making this change, the decorator will correctly log which instance's method is being called.";"Answer format error. Please check the generated content."
