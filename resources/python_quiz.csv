@@ -17527,3 +17527,83 @@ Explanation:
 - The `logging_decorator` is applied to the `greet` method using the decorator syntax. When `Greeting().greet(""Alice"")` is called, it logs the call and return values.
 - The `Meta` metaclass modifies the class dictionary during the class creation process. If the `greet` method exists in the dictionary, it wraps it with an additional print statement before and after calling the original `greet` method.
 - Therefore, when `Greeting().greet(""Alice"")` is executed, it first logs the call details using the `logging_decorator`, then the metaclass adds its own logging before and after the greeting message."
+"2025-09-04 00:02";"Part 1 (Question):
+Consider the following Python code that uses a metaclass to track all instances of a class. The goal is to modify this implementation so that it also counts how many times each method within the class has been called.
+
+```python
+class InstanceTrackerMeta(type):
+    _instances = set()
+    
+    def __call__(cls, *args, **kwargs):
+        instance = super().__call__(*args, **kwargs)
+        cls._instances.add(instance)
+        return instance
+
+class MyClass(metaclass=InstanceTrackerMeta):
+    def method1(self):
+        pass
+    
+    def method2(self):
+        pass
+
+# Usage
+obj1 = MyClass()
+obj2 = MyClass()
+
+print(f""Instances: {len(MyClass._instances)}"")  # Output should be 2
+```
+
+Modify the metaclass and class definitions to also track how many times each method is called.
+
+A) Provide a solution that uses a dictionary in the metaclass to count method calls for each instance of the class.
+B) Suggest a different approach using decorators and context managers.
+C) Provide an example of using threading to manage the counting of method calls across multiple threads.
+D) Propose a modification that uses a decorator within the class methods instead of changing the metaclass.
+
+Part 2 (Answer):
+A) Correct. The solution involves modifying the metaclass to include a dictionary for each instance where method names are keys and their call counts as values. Here's how you can implement it:
+
+```python
+class InstanceTrackerMeta(type):
+    _instances = set()
+    
+    def __call__(cls, *args, **kwargs):
+        instance = super().__call__(*args, **kwargs)
+        instance._method_calls = {}
+        cls._instances.add(instance)
+        return instance
+
+    @staticmethod
+    def count_method_calls(func):
+        def wrapper(self, *args, **kwargs):
+            if func.__name__ not in self._method_calls:
+                self._method_calls[func.__name__] = 0
+            self._method_calls[func.__name__] += 1
+            return func(self, *args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=InstanceTrackerMeta):
+    @InstanceTrackerMeta.count_method_calls
+    def method1(self):
+        pass
+    
+    @InstanceTrackerMeta.count_method_calls
+    def method2(self):
+        pass
+
+# Usage
+obj1 = MyClass()
+obj2 = MyClass()
+
+obj1.method1()
+obj1.method2()
+obj1.method1()  # Calling method1 twice
+
+print(f""Instances: {len(MyClass._instances)}"")  # Output should be 2
+print(f""Method1 calls for obj1: {obj1._method_calls['method1']}"")
+print(f""Method2 calls for obj1: {obj1._method_calls['method2']}"")
+```
+
+Explanation:
+- The metaclass `InstanceTrackerMeta` now includes a `_method_calls` dictionary for each instance.
+- A static method `count_method_calls` is added to the metaclass, which wraps any class method with logic that counts how many times it has been called on an instance.";"Answer format error. Please check the generated content."
