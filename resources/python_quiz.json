@@ -2770,5 +2770,12 @@
     "answer": "Part 2 (Answer): A) The `increment` method will log each call, showing \"Calling method: increment\".\n\nExplanation:\n- Option A is correct because the `LoggingMeta` metaclass replaces every callable attribute of the class with a wrapped version that logs the method name before calling the original method.\n- Option B is incorrect because `__init__` is not a callable attribute in this context; it's an instance method, and thus not affected by the metaclass modification.\n- Option C is incorrect as well because `increment` is indeed replaced with its logged version during class creation.\n- Option D is not entirely correct. While methods are redefined, the metaclass does not specifically target callable attributes; it applies to all attribute values of the class.",
     "timestamp": "2025-09-05 00:01:59",
     "topic": "Advanced Logging Configuration"
+  },
+  "q2_2025-09-05": {
+    "id": "1757059309_2",
+    "question": "[QUESTION]\nConsider the following Python code using asyncio:\n\n```python\nimport asyncio\n\nasync def task(name):\n    for i in range(5):\n        print(f'{name} is running {i}')\n        await asyncio.sleep(1)\n\nasync def main():\n    task1 = asyncio.create_task(task('Task 1'))\n    task2 = asyncio.create_task(task('Task 2'))\n\n    value = await task1\n    print(value)\n\nasyncio.run(main())\n```\n\nWhat will be the output of this program? \n\nA) Task 1 is running 0\\nTask 2 is running 0\\nTask 1 is running 1\\n...\\nTask 2 is running 4\n\nB) Task 1 is running 0\\nTask 1 is running 1\\nTask 1 is running 2\\n...\\nTask 1 is running 4\n\nC) Task 2 is running 0\\nTask 2 is running 1\\nTask 2 is running 2\\n...\\nTask 2 is running 4\n\nD) The program will raise an error because task1 and task2 cannot have return values",
+    "answer": "A) Task 1 is running 0\\nTask 2 is running 0\\nTask 1 is running 1\\n...\\nTask 2 is running 4\n\n**Explanation**: In this code, `task` functions are defined as asynchronous tasks that run concurrently. The `main` function creates two tasks (`task1` and `task2`) and runs them using `asyncio.create_task()`. However, the `await task1` statement in `main()` will raise an error because `task` does not return a value; it only prints messages. Therefore, option D is correct. Options A, B, and C are incorrect because they assume that `task` functions have some mechanism to return values or are running synchronously rather than concurrently.",
+    "timestamp": "2025-09-05 08:01:49",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
