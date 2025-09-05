@@ -17694,3 +17694,40 @@ D) The decorator `AsyncDecorator` will raise an error because it is trying to ha
 C) When `asyncio.run(my_async_function())` is executed, it will first print ""Before function execution"", wait for 1 second, then print ""Function executed"" and finally print ""After function execution"".
 
 Explanation: The decorator `AsyncDecorator` correctly handles the asynchronous nature of `my_async_function`. It prints ""Before function execution"", awaits the completion of `my_async_function`, prints ""Function executed"", and then completes its own execution by printing ""After function execution"". The `asyncio.run()` function is used to run an entry point coroutine, which in this case is `my_async_function` decorated with `AsyncDecorator`."
+"2025-09-05 00:01";"Part 1 (Question): Consider the following Python code that uses a metaclass to log every method call on an instance of a class:
+
+```python
+class LoggingMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = cls._log_method_call(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def _log_method_call(func):
+        def wrapper(*args, **kwargs):
+            print(f""Calling method: {func.__name__}"")
+            return func(*args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=LoggingMeta):
+    def __init__(self):
+        self.value = 0
+
+    def increment(self):
+        self.value += 1
+```
+
+Which of the following statements is true about the `MyClass` and its instances?
+
+A) The `increment` method will log each call, showing ""Calling method: increment"".
+B) When an instance of `MyClass` is created, it will print ""Calling method: __init__"".
+C) Calling `instance.increment()` will not log any calls because methods are not redefined in the metaclass.
+D) The `LoggingMeta` metaclass modifies only the class attributes that are callable.";"Part 2 (Answer): A) The `increment` method will log each call, showing ""Calling method: increment"".
+
+Explanation:
+- Option A is correct because the `LoggingMeta` metaclass replaces every callable attribute of the class with a wrapped version that logs the method name before calling the original method.
+- Option B is incorrect because `__init__` is not a callable attribute in this context; it's an instance method, and thus not affected by the metaclass modification.
+- Option C is incorrect as well because `increment` is indeed replaced with its logged version during class creation.
+- Option D is not entirely correct. While methods are redefined, the metaclass does not specifically target callable attributes; it applies to all attribute values of the class."
