@@ -2777,5 +2777,12 @@
     "answer": "A) Task 1 is running 0\\nTask 2 is running 0\\nTask 1 is running 1\\n...\\nTask 2 is running 4\n\n**Explanation**: In this code, `task` functions are defined as asynchronous tasks that run concurrently. The `main` function creates two tasks (`task1` and `task2`) and runs them using `asyncio.create_task()`. However, the `await task1` statement in `main()` will raise an error because `task` does not return a value; it only prints messages. Therefore, option D is correct. Options A, B, and C are incorrect because they assume that `task` functions have some mechanism to return values or are running synchronously rather than concurrently.",
     "timestamp": "2025-09-05 08:01:49",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-09-05": {
+    "id": "1757088091_3",
+    "question": "",
+    "answer": "**Part 1: Question**\n\nConsider the following Python code that utilizes metaclasses to ensure all instances of a class have a specific method signature:\n\n```python\nclass MethodMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'my_method' not in dct:\n            raise TypeError(\"Class {} must define 'my_method'\".format(name))\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=MethodMeta):\n    pass\n\nclass MyValidClass(MyClass):\n    def my_method(self):\n        print(\"This is a valid method.\")\n\ntry:\n    class InvalidMyClass(MyClass):\n        pass\nexcept TypeError as e:\n    error_message = str(e)\n```\n\nWhich of the following statements about this code is true?\n\nA) The `MethodMeta` metaclass ensures that all subclasses of `MyClass` have a method named 'my_method'.  \nB) `InvalidMyClass` successfully defines a class without raising an exception.  \nC) The code will raise a `TypeError` when trying to create an instance of `MyValidClass`.  \nD) The `error_message` variable contains the string \"This is a valid method.\"  \n\n**Part 2: Answer**\n\nA) The `MethodMeta` metaclass ensures that all subclasses of `MyClass` have a method named 'my_method'.",
+    "timestamp": "2025-09-05 16:01:31",
+    "topic": "Advanced Python Programming"
   }
 }
