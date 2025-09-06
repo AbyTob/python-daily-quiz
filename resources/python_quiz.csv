@@ -17798,3 +17798,42 @@ D) The `error_message` variable contains the string ""This is a valid method.""
 **Part 2: Answer**
 
 A) The `MethodMeta` metaclass ensures that all subclasses of `MyClass` have a method named 'my_method'."
+"2025-09-06 00:01";"";"**Part 1 (Question):**
+
+Consider the following Python code that aims to create a decorator to measure execution time of functions:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Executing {func.__name__} took {end_time - start_time:.4f} seconds."")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    return sum(range(n))
+
+# Call the decorated function
+print(compute_sum(1000000))
+```
+
+Which of the following statements about this code is true?
+
+A) The `timer` decorator will correctly measure and print the time taken to execute the `compute_sum` function.
+
+B) The `wrapper` function inside the `timer` decorator does not capture any local variables from the `compute_sum` function, so its closure over these variables won't work properly.
+
+C) Using a metaclass instead of a decorator for measuring execution time would have no impact on performance and readability.
+
+D) The `compute_sum` function will not be able to run because the `timer` decorator is incorrectly implemented.
+
+**Part 2 (Answer):**
+
+A) The `timer` decorator will correctly measure and print the time taken to execute the `compute_sum` function.
+
+Explanation: In Python, decorators work by wrapping a function inside another function. In this case, the `timer` decorator correctly wraps the `compute_sum` function. When `compute_sum(1000000)` is called, it will measure and print the time taken to execute the function. The `wrapper` function captures the local variables from the scope of `compute_sum`, so its closure over these variables works properly."
