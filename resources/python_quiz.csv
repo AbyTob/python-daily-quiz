@@ -17837,3 +17837,41 @@ D) The `compute_sum` function will not be able to run because the `timer` decora
 A) The `timer` decorator will correctly measure and print the time taken to execute the `compute_sum` function.
 
 Explanation: In Python, decorators work by wrapping a function inside another function. In this case, the `timer` decorator correctly wraps the `compute_sum` function. When `compute_sum(1000000)` is called, it will measure and print the time taken to execute the function. The `wrapper` function captures the local variables from the scope of `compute_sum`, so its closure over these variables works properly."
+"2025-09-06 08:01";"[QUESTION]
+Consider the following Python code that uses a metaclass and a class decorator:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['method'] = lambda self: ""Hello from Meta!""
+        return super().__new__(cls, name, bases, dct)
+
+def deco(cls):
+    cls.class_method = lambda cls: ""Hello from Deco!""
+    return cls
+
+@deco
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.method())  # Outputs ""Hello from Meta!""
+print(MyClass.class_method())  # Outputs ""Hello from Deco!""
+```
+
+What happens if we change the order of `meta` and `deco` in the decorator application? Explain why this happens.
+
+A) The program will raise an error because decorators are applied in reverse order.
+B) The output of both method calls will remain unchanged.
+C) The output of `obj.method()` will change to ""Hello from Deco!"", while the second call remains the same.
+D) The output of `MyClass.class_method()` will change to ""Hello from Meta!"", while the first call remains the same.";"[D]
+The order in which decorators are applied matters. In Python, decorators are applied from the innermost (nearest to the function/method definition) to the outermost. So if we switch the order of `meta` and `deco`, the actual application will be:
+
+```python
+@deco
+@Meta
+class MyClass:
+    pass
+```
+
+This means that when `MyClass` is created, it first goes through the `Meta` metaclass to add the `method` attribute. Then it goes through the `deco` decorator to add the `class_method` attribute. As a result, calling `obj.method()` will still output ""Hello from Meta!"", but calling `MyClass.class_method()` will now output ""Hello from Deco!""."
