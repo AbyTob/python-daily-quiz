@@ -2805,5 +2805,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-06 16:02:34",
     "topic": "Coroutines and Cooperative Multitasking"
+  },
+  "q1_2025-09-07": {
+    "id": "1757203303_1",
+    "question": "Part 1 (Question):\nConsider the following Python code snippet that uses a metaclass to ensure that all instances of a class have an attribute `created_at` set to the current timestamp when they are created:\n\n```python\nfrom datetime import datetime\n\nclass TimestampMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'created_at' not in dct:\n            dct['created_at'] = property(lambda self: datetime.now())\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=TimestampMeta):\n    pass\n\ninstance = MyClass()\n```\n\nWhich of the following statements is true about the above code?\n\nA) The `MyClass` instances will not have a `created_at` attribute.\nB) The `created_at` property will always return the timestamp when the class was defined.\nC) Each `MyClass` instance will have a unique `created_at` attribute set to the time of its creation.\nD) The metaclass `TimestampMeta` is incorrectly implemented and will cause an error.",
+    "answer": "Part 2 (Answer):\nC) Each `MyClass` instance will have a unique `created_at` attribute set to the time of its creation.\n\nExplanation:\n- The metaclass `TimestampMeta` dynamically adds a property named `created_at` to any class it decorates.\n- This property uses a lambda function that, when called, returns the current timestamp using `datetime.now()`.\n- Each time an instance of `MyClass` is created, a new `created_at` attribute is set with the timestamp at that moment.\n- Therefore, each instance will have its own unique timestamp, making option C correct.",
+    "timestamp": "2025-09-07 00:01:43",
+    "topic": "Property Decorators and Attribute Management"
   }
 }
