@@ -18046,3 +18046,29 @@ A) It prints `10` and then completes.
 
 Explanation:
 This code uses a metaclass to automatically convert any asynchronous method in a class into a synchronous one. When you call `obj.sync_method(5)`, it internally runs the `async_method` asynchronously using an event loop, converts its result to a synchronous value, and returns it. Thus, when printed, it correctly outputs `10`. The `AsyncMeta` metaclass checks if there is an `async_method` in the class dictionary and replaces it with a new method (`sync_method`) that runs the original asynchronous method in the event loop using `run_in_executor`, effectively making it synchronous."
+"2025-09-08 00:01";"[QUESTION]  
+Consider the following Python code snippet that uses a metaclass to add a method to all classes it decorates:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'greet' not in dct:
+            dct['greet'] = lambda self: f""Hello from {self.__class__.__name__}""
+        return super().__new__(cls, name, bases, dct)
+
+class Person(metaclass=Meta):
+    def __init__(self, name):
+        self.name = name
+
+p = Person(""John"")
+print(p.greet())
+```
+
+What will be the output of this code when executed?
+
+A) `Hello from Person`  
+B) `Hello from Meta`  
+C) An error occurs  
+D) The code will not run due to incorrect syntax";"**Answer: A) Hello from Person**
+
+Explanation: The metaclass `Meta` checks if the method `greet` is present in any class it decorates. If not, it adds a default `greet` method that returns a greeting string including the name of the class. When the `Person` class is defined with `metaclass=Meta`, the `greet` method is added to it automatically because it does not already have one. Therefore, when an instance of `Person` is created and its `greet` method is called, it outputs ""Hello from Person""."
