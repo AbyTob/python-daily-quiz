@@ -18072,3 +18072,47 @@ C) An error occurs
 D) The code will not run due to incorrect syntax";"**Answer: A) Hello from Person**
 
 Explanation: The metaclass `Meta` checks if the method `greet` is present in any class it decorates. If not, it adds a default `greet` method that returns a greeting string including the name of the class. When the `Person` class is defined with `metaclass=Meta`, the `greet` method is added to it automatically because it does not already have one. Therefore, when an instance of `Person` is created and its `greet` method is called, it outputs ""Hello from Person""."
+"2025-09-08 08:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to create a singleton class. The goal is to ensure that only one instance of `Singleton` can be created throughout the application.
+
+```python
+class Singleton(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Database(metaclass=Singleton):
+    def query(self, sql):
+        print(f""Executing query: {sql}"")
+
+# Usage
+db1 = Database()
+db2 = Database()
+
+print(db1 == db2)  # True or False?
+db1.query(""SELECT * FROM users"")
+```
+
+Which of the following statements is correct about the behavior of the `Database` class?
+
+A) The output will be `False`, and each call to `query()` will print ""Executing query: SELECT * FROM users"" twice.
+
+B) The output will be `True`, but only one query will be executed, printing ""Executing query: SELECT * FROM users"" once.
+
+C) The output will be `True`, and both calls to `query()` will print ""Executing query: SELECT * FROM users"" twice.
+
+D) The code will raise an error because the metaclass is not used correctly.
+
+**Part 2 (Answer):**
+
+B) The output will be `True`, but only one query will be executed, printing ""Executing query: SELECT * FROM users"" once.
+
+Explanation:
+
+- The `Singleton` metaclass ensures that when `Database()` is called multiple times, it always returns the same instance stored in `_instances`.
+- Therefore, `db1 == db2` will result in `True`, as both variables reference the same singleton instance.
+- When `query()` is called on either `db1` or `db2`, only one query is executed because they are the same instance."
