@@ -18116,3 +18116,43 @@ Explanation:
 - The `Singleton` metaclass ensures that when `Database()` is called multiple times, it always returns the same instance stored in `_instances`.
 - Therefore, `db1 == db2` will result in `True`, as both variables reference the same singleton instance.
 - When `query()` is called on either `db1` or `db2`, only one query is executed because they are the same instance."
+"2025-09-08 16:02";"[QUESTION]
+Consider the following Python code that attempts to create a metaclass to automatically add a method `log_method_call` to all classes defined with this metaclass:
+
+```python
+class LoggingMeta(type):
+    def __new__(cls, name, bases, attrs):
+        for attr_name, attr_value in attrs.items():
+            if callable(attr_value):
+                attrs[attr_name] = cls.log_method_call(attr_value)
+        return super().__new__(cls, name, bases, attrs)
+
+    @staticmethod
+    def log_method_call(method):
+        def wrapper(*args, **kwargs):
+            print(f""Calling {method.__name__}"")
+            return method(*args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=LoggingMeta):
+    def my_method(self):
+        print(""Method called"")
+
+obj = MyClass()
+obj.my_method()
+```
+
+What will be the output when `MyClass().my_method()` is executed? Explain how the metaclass works in this scenario.
+
+A) Method called  
+B) Calling my_method  
+C) Error - metaclass not applied  
+D) None";"Answer: A) Method called  
+
+Explanation: The metaclass `LoggingMeta` is designed to automatically wrap all callable attributes (methods) of a class it decorates with a logging wrapper. However, there's a subtle issue in the implementation of the metaclass that prevents this from working as intended.
+
+When `__new__` is called on the metaclass to create a new class `MyClass`, it iterates over all attributes and tries to wrap callable attributes with `log_method_call`. The problem lies in how Python handles attribute access during the definition phase. When the metaclass's `__new__` method is called, the `my_method` has not yet been fully defined in the namespace of `MyClass`. Therefore, when the metaclass tries to wrap `my_method`, it sees a placeholder or an incomplete function object that has not yet been bound to its name.
+
+As a result, the `log_method_call` method does not correctly recognize `my_method` as the target for wrapping. Instead, it wraps itself recursively, creating an infinite recursion until Python raises a `RecursionError`.
+
+This example highlights the importance of understanding how attribute resolution and metaclass application work in Python to avoid such issues."
