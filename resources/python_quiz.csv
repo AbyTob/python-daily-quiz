@@ -18230,3 +18230,36 @@ return result
 ```
 
 The correct implementation ensures that the function's execution time is logged only if it takes no arguments. If the function takes any arguments, a `TypeError` is raised, indicating that the function is not supported by this decorator. This approach provides clear and specific functionality based on the requirements."
+"2025-09-09 08:01";"[QUESTION]
+Consider the following Python code snippet that demonstrates a custom metaclass designed to count the number of instances created by classes derived from it:
+
+```python
+class InstanceCounter(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        cls._instances = 0
+
+    def __call__(cls, *args, **kwargs):
+        cls._instances += 1
+        return super().__call__(*args, **kwargs)
+
+class MyClass(metaclass=InstanceCounter):
+    pass
+
+# Creating instances of MyClass
+obj1 = MyClass()
+obj2 = MyClass()
+
+# Checking the count of instances
+print(MyClass._instances)
+```
+
+Which of the following statements is true regarding the above code?
+
+A) When `obj1` and `obj2` are created, their class (`MyClass`) will have a `_instances` attribute set to 2.
+B) The metaclass `InstanceCounter` does not track any instances because it only increments a static variable.
+C) The `_instances` attribute is stored in each instance of `MyClass`.
+D) The code raises an error when trying to create instances of `MyClass`.";"[ANSWER]
+A) When `obj1` and `obj2` are created, their class (`MyClass`) will have a `_instances` attribute set to 2.
+
+**Explanation:** In the provided code, the metaclass `InstanceCounter` overrides the `__call__` method. This method is called whenever an instance of `MyClass` (or any other class derived from it) is created. Inside this overridden method, `_instances` is incremented each time a new instance is created, thus correctly tracking the number of instances. The attribute `_instances` is not stored in each instance but rather in the class itself (`MyClass._instances`). Therefore, after creating two instances of `MyClass`, the value of `MyClass._instances` will be 2, confirming that statement A is true and options B, C, and D are incorrect."
