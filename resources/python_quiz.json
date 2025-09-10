@@ -2868,5 +2868,12 @@
     "answer": "C) The output will be \"Class MyClass is being created\", followed by \"Wrapper method called\", and then \"MyClass instance created\".\n\nExplanation: When a class `MyClass` is defined with both a metaclass (`Meta`) and a decorator (`my_decorator`), Python first creates the class using the metaclass, which prints \"Class MyClass is being created\". Then, the decorator is applied to the class, wrapping it in another class `Wrapper`, which adds a new method `wrapper_method`. When an instance of `MyClass` is created, both the original class and the wrapper are involved. The wrapper's initialization happens first, printing \"Wrapper method called\", and then the original class's `__init__` method runs, printing \"MyClass instance created\".",
     "timestamp": "2025-09-09 16:01:50",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-09-10": {
+    "id": "1757462494_1",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses a metaclass to create a singleton pattern. The goal is to ensure that only one instance of the class can be created, no matter how many times it is instantiated.\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super(SingletonMeta, cls).__call__(*args, **kwargs)\n        return cls._instances[cls]\n\nclass MyClass(metaclass=SingletonMeta):\n    pass\n```\n\nWhich of the following statements accurately describes a potential issue with the provided code and how it can be resolved?\n\nA) The `__call__` method in `SingletonMeta` should check for `**kwargs` as well.\nB) The `_instances` dictionary could potentially cause memory leaks if not managed properly.\nC) The use of a metaclass for creating a singleton is unnecessary and overly complex.\nD) The code correctly implements the singleton pattern without any issues.",
+    "answer": "D) The code correctly implements the singleton pattern without any issues.\n\nThe provided code snippet accurately demonstrates how to use a metaclass to implement the singleton pattern. It ensures that only one instance of `MyClass` is created, regardless of how many times it is instantiated. There are no issues with the implementation, and using a metaclass for this purpose is appropriate and correct.",
+    "timestamp": "2025-09-10 00:01:34",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
