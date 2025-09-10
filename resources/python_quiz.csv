@@ -18322,3 +18322,40 @@ C) The use of a metaclass for creating a singleton is unnecessary and overly com
 D) The code correctly implements the singleton pattern without any issues.";"D) The code correctly implements the singleton pattern without any issues.
 
 The provided code snippet accurately demonstrates how to use a metaclass to implement the singleton pattern. It ensures that only one instance of `MyClass` is created, regardless of how many times it is instantiated. There are no issues with the implementation, and using a metaclass for this purpose is appropriate and correct."
+"2025-09-10 08:01";"[QUESTION]
+Consider the following Python code that uses decorators and a metaclass together. The goal is to create a class that automatically adds a method to any subclass that matches a specific pattern.
+
+```python
+def add_method_to_subclasses(cls):
+    def new_method(self):
+        return ""Method added by decorator""
+    
+    for name in dir(cls):
+        if isinstance(getattr(cls, name), type) and name.endswith(""_method""):
+            setattr(cls, f""{name}_impl"", new_method)
+    return cls
+
+class Meta(type):
+    @classmethod
+    def __new__(cls, name, bases, dct):
+        return super().__new__(cls, name, bases, dct)
+
+@add_method_to_subclasses
+class Base(metaclass=Meta):
+    pass
+
+class Sub(Base):
+    def method_to_add_method(self):
+        pass
+
+print(Sub.method_to_add_method_impl())
+```
+
+Which of the following statements is true regarding the behavior of this code?
+
+A) When an instance of `Sub` calls `method_to_add_method`, it will return ""Method added by decorator"".
+B) The metaclass `Meta` does not affect the creation of `Sub`.
+C) The decorator `add_method_to_subclasses` does not modify `Base`.
+D) An AttributeError will be raised when trying to access `Sub.method_to_add_method_impl`.";"A
+
+The decorator `add_method_to_subclasses` correctly identifies subclasses that contain a method ending with ""_method"" and adds an implementation for the corresponding ""_impl"" method. The metaclass `Meta` does not interfere with this process as it is called after the class has been defined and modified by the decorator. Therefore, when you create an instance of `Sub` and call `method_to_add_method_impl`, it correctly returns ""Method added by decorator""."
