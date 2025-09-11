@@ -18463,3 +18463,57 @@ A) In order to dynamically adjust the cache size based on the current load, we n
 B) To correctly implement methods for adding, retrieving, and removing items from an LRU Cache, the descriptor should handle these operations. Typically, this involves maintaining a data structure like a dictionary to store cache entries and possibly another data structure to keep track of the order of entries (e.g., using `collections.OrderedDict`).
 
 While this solution provides a starting point, it lacks some details such as how to monitor load or implement LRU caching logic. However, focusing on these aspects would further challenge the understanding of metaclasses and descriptors in advanced Python programming."
+"2025-09-11 08:01";"";"**Question:**
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)
+    return ""Data fetched""
+
+async def main():
+    result = fetch_data()
+    print(result)
+
+# Run the event loop
+asyncio.run(main())
+```
+
+1. What does `AsyncDecorator` do?
+   A) It synchronizes asynchronous functions to run in parallel.
+   
+   B) It decorates an asynchronous function to ensure it runs within an asyncio event loop.
+   
+   C) It converts a synchronous function into an asynchronous function.
+   
+   D) It blocks the execution of asynchronous functions.
+
+2. What will be printed when you run the code?
+   A) ""Fetching data...""
+   
+   B) ""Data fetched""
+   
+   C) Both ""Fetching data..."" and ""Data fetched""
+   
+   D) The program will hang indefinitely
+
+**Answer:**
+B) It decorates an asynchronous function to ensure it runs within an asyncio event loop.
+
+C) Both ""Fetching data..."" and ""Data fetched""
+
+Explanation:
+- `AsyncDecorator` is a decorator that wraps around another coroutine (`fetch_data`). When called, it uses `asyncio.run()` to execute the coroutine in the current asyncio event loop.
+- The `main` function then calls the decorated `fetch_data`, which will print ""Fetching data..."" and wait for 2 seconds before printing ""Data fetched"".
+- Running this code will output both messages as expected."
