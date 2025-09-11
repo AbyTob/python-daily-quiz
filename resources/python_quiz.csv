@@ -18414,3 +18414,52 @@ D) The `functools.wraps(func)` is unnecessary here and can be removed without af
 
 **Explanation:** 
 The `functools.wraps(func)` decorator is used to preserve the metadata (like `__name__`, `__doc__`, etc.) of the original function when it is decorated. While this isn't strictly necessary for the caching mechanism to work, it's often a good practice to include it to ensure that the decorated function behaves as expected in terms of its identity and documentation. Removing `functools.wraps(func)` would not prevent the code from functioning but could make debugging harder if issues arise."
+"2025-09-11 00:02";"";"**Part 1 (Question):**
+
+Imagine you are developing a web application that requires handling large datasets efficiently. You need to implement a caching mechanism that can dynamically adjust its size based on the current load of the application. The cache should be able to track which items are least recently used and remove them when necessary. 
+
+You decide to use a metaclass along with a custom descriptor to create this flexible and efficient caching system.
+
+1. **Define a metaclass `CacheMeta` that inherits from `type`. This metaclass should override the `__new__` method to dynamically adjust the cache size based on the current load of the application.**
+2. **Create a custom descriptor class `LRUCacheDescriptor` that can be used as an attribute in a class definition to instantiate a least recently used (LRU) cache. The descriptor should handle adding, retrieving, and removing items from the cache.**
+3. **Define a class `DataHandler` using `CacheMeta` as its metaclass and include an `LRUCacheDescriptor` named `cache`.**
+
+```python
+# BEGIN SOLUTION
+class CacheMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Implement logic to adjust cache size based on current load
+        return super().__new__(cls, name, bases, dct)
+
+class LRUCacheDescriptor:
+    def __get__(self, instance, owner):
+        # Return an empty LRU Cache here
+        pass
+    
+    def __set__(self, instance, value):
+        # Set the cache value if it's a valid cache object
+        pass
+
+class DataHandler(metaclass=CacheMeta):
+    cache = LRUCacheDescriptor()
+# END SOLUTION
+```
+
+**Which of the following statements is true regarding the implementation above?**
+
+A) The `CacheMeta` metaclass can dynamically adjust the size of the cache based on the current load.
+B) The `LRUCacheDescriptor` correctly implements methods for adding, retrieving, and removing items from an LRU Cache.
+C) Both A and B are true.
+D) None of the above.
+
+**Part 2 (Answer):**
+
+C) Both A and B are true.
+
+Explanation:
+
+A) In order to dynamically adjust the cache size based on the current load, we need a way to monitor the load. This can be done in various ways depending on how you define ""current load"" (e.g., number of requests per minute). The `__new__` method of `CacheMeta` is where such logic would go.
+
+B) To correctly implement methods for adding, retrieving, and removing items from an LRU Cache, the descriptor should handle these operations. Typically, this involves maintaining a data structure like a dictionary to store cache entries and possibly another data structure to keep track of the order of entries (e.g., using `collections.OrderedDict`).
+
+While this solution provides a starting point, it lacks some details such as how to monitor load or implement LRU caching logic. However, focusing on these aspects would further challenge the understanding of metaclasses and descriptors in advanced Python programming."
