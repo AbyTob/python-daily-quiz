@@ -18561,3 +18561,53 @@ Part 2 (Answer):
 B) The `log_instantiation` decorator logs each time an instance of `MyClass` is created, but it does not ensure singleton behavior.
 
 Explanation: The `Singleton` metaclass correctly ensures that only one instance of `MyClass` can be created by maintaining a dictionary `_instances`. However, the `log_instantiation` decorator overrides the `__new__` method and logs instantiation, which means every time an instance is created, it is logged even if it's a duplicate. Therefore, the singleton behavior from the metaclass is preserved, but logging occurs for every instantiation."
+"2025-09-12 00:02";"Part 1 (Question):
+
+Consider the following Python code:
+
+```python
+import threading
+
+def synchronized(func):
+    def wrapper(*args, **kwargs):
+        lock = threading.Lock()
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+@synchronized
+def increment_counter():
+    global counter
+    for _ in range(100_000):
+        counter += 1
+
+counter = 0
+
+threads = [threading.Thread(target=increment_counter) for _ in range(10)]
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+
+print(f""Final Counter: {counter}"")
+```
+
+What is the issue with this code that could lead to incorrect results when run?
+
+A) The function `synchronized` is incorrectly implemented.
+
+B) Multiple threads can access and modify the global variable `counter` simultaneously, leading to a race condition.
+
+C) The `increment_counter` function is not correctly decorated.
+
+D) The threading library is being used improperly.";"Part 2 (Answer):
+
+The correct answer is B) Multiple threads can access and modify the global variable `counter` simultaneously, leading to a race condition.
+
+Explanation: 
+
+In this code, multiple threads are created that all call the `increment_counter` function concurrently. The `synchronized` decorator attempts to ensure that only one thread executes the `increment_counter` function at a time by using a lock. However, due to Python's Global Interpreter Lock (GIL), which does not allow true parallel execution of Python bytecode even in multi-threaded applications on CPUs with multiple cores, all threads may still be running simultaneously at the machine code level.
+
+The race condition occurs because each thread reads the current value of `counter`, increments it by 1, and then writes the new value back to the global variable. If two or more threads execute this sequence of operations concurrently, they may read the same value of `counter`, both increment it, and write back the same incremented value, effectively losing one increment.
+
+To avoid race conditions in scenarios like this, you would need a thread-safe counter implementation or use a lock that ensures true atomicity (e.g., using `threading.Lock()` directly in a way that prevents other threads from accessing any shared resources during the critical section)."
