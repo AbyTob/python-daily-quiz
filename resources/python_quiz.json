@@ -2924,5 +2924,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-12 08:01:58",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-09-12": {
+    "id": "1757692896_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses decorators and metaclasses together:\n\n```python\nfrom abc import ABC, abstractmethod\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'abstract_method' not in dct:\n            raise TypeError(f\"{name} must implement abstract_method\")\n        return super().__new__(cls, name, bases, dct)\n\nclass Base(metaclass=Meta):\n    @abstractmethod\n    def abstract_method(self):\n        pass\n\ndef my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print(\"Decorator is running!\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@my_decorator\nclass MyClass(Base):\n    def abstract_method(self):\n        print(\"Abstract method is called!\")\n\n# Create an instance of MyClass and call the abstract_method\ninstance = MyClass()\ninstance.abstract_method()\n```\n\nWhat will be printed when you run this code?\n\nA) Decorator is running!  \n   Abstract method is called!\n\nB) TypeError: MyClass must implement abstract_method\n\nC) NameError: name 'MyClass' is not defined\n\nD) SyntaxError: invalid syntax",
+    "answer": "A) Decorator is running!  \n   Abstract method is called!\n\nThe code first checks if `abstract_method` is implemented in the subclass of `Base`. Since it is, an instance of `MyClass` is created and the abstract method is called. The decorator runs before the abstract method, printing \"Decorator is running!\" followed by \"Abstract method is called!\".",
+    "timestamp": "2025-09-12 16:01:36",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }

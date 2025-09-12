@@ -18650,3 +18650,49 @@ B) The `greet` method will be added to `MyClass` and all instances of `MyClass`.
 The metaclass `Meta` is used to dynamically add a `greet` method to any class that uses it as its metaclass. This means that when you define a new class like `MyClass`, the `greet` method is added directly to `MyClass`. As a result, instances of `MyClass` can also call this `greet` method.
 
 The key point here is that metaclasses allow for modifications to the class definition at the time of class creation, making it possible to dynamically add methods or attributes to classes.";"Answer format error. Please check the generated content."
+"2025-09-12 16:01";"[QUESTION]
+Consider the following Python code that uses decorators and metaclasses together:
+
+```python
+from abc import ABC, abstractmethod
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'abstract_method' not in dct:
+            raise TypeError(f""{name} must implement abstract_method"")
+        return super().__new__(cls, name, bases, dct)
+
+class Base(metaclass=Meta):
+    @abstractmethod
+    def abstract_method(self):
+        pass
+
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator is running!"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@my_decorator
+class MyClass(Base):
+    def abstract_method(self):
+        print(""Abstract method is called!"")
+
+# Create an instance of MyClass and call the abstract_method
+instance = MyClass()
+instance.abstract_method()
+```
+
+What will be printed when you run this code?
+
+A) Decorator is running!  
+   Abstract method is called!
+
+B) TypeError: MyClass must implement abstract_method
+
+C) NameError: name 'MyClass' is not defined
+
+D) SyntaxError: invalid syntax";"A) Decorator is running!  
+   Abstract method is called!
+
+The code first checks if `abstract_method` is implemented in the subclass of `Base`. Since it is, an instance of `MyClass` is created and the abstract method is called. The decorator runs before the abstract method, printing ""Decorator is running!"" followed by ""Abstract method is called!""."
