@@ -2945,5 +2945,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-13 08:02:01",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q3_2025-09-13": {
+    "id": "1757779301_3",
+    "question": "[QUESTION]  \nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncTimer:\n    def __init__(self, interval):\n        self.interval = interval\n    \n    async def countdown(self):\n        while True:\n            print(f\"Counting down in {self.interval} seconds...\")\n            await asyncio.sleep(self.interval)\n\nasync def main():\n    timer1 = AsyncTimer(5)\n    timer2 = AsyncTimer(3)\n    \n    task1 = asyncio.create_task(timer1.countdown())\n    task2 = asyncio.create_task(timer2.countdown())\n    \n    await asyncio.gather(task1, task2)\n\n# Run the event loop\nasyncio.run(main())\n```\n\nWhat is the expected output when you run this code?\n\nA) Counting down in 5 seconds... and then Counting down in 3 seconds...\nB) Counting down in 3 seconds... and then Counting down in 5 seconds...\nC) The output alternates between \"Counting down in 5 seconds...\" and \"Counting down in 3 seconds...\"\nD) The code raises an exception",
+    "answer": "**Answer: C**\n\nExplanation: In the provided Python code, both `timer1` and `timer2` are instances of `AsyncTimer`. When they call their `countdown` method asynchronously using `asyncio.create_task`, both tasks run concurrently. Since both tasks are infinite loops, they will continue to print messages every `interval` seconds simultaneously. Because the event loop runs them in parallel, you can expect that both \"Counting down in 5 seconds...\" and \"Counting down in 3 seconds...\" messages will be printed alternately as they complete their sleep intervals.",
+    "timestamp": "2025-09-13 16:01:41",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
