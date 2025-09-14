@@ -18872,3 +18872,35 @@ After calling my_method";"Correct answer: A
 
 Explanation:
 The `method_decorator` is a decorator that wraps the original method and adds pre- and post-method call behavior. When an instance of `MyClass` calls `my_method(10)`, it first prints ""Before calling my_method"", then executes the original method, printing ""Value is 10"", and finally prints ""After calling my_method""."
+"2025-09-14 08:01";"[QUESTION]  
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data():
+    await asyncio.sleep(1)
+    return ""Data""
+
+class AsyncWrapper:
+    async def __call__(self, func):
+        result = await func()
+        return f""Wrapped: {result}""
+
+async def main():
+    wrapper = AsyncWrapper()
+    data = await wrapper(fetch_data())
+    print(data)
+
+# Run the async function
+asyncio.run(main())
+```
+
+Which of the following statements about this code is true?
+
+A) The `AsyncWrapper` class can be used as a decorator to wrap any synchronous function.  
+B) The `fetch_data` function will not execute asynchronously when passed to the `AsyncWrapper`.  
+C) The `main` function will print ""Wrapped: Data"" after approximately 1 second.  
+D) The `AsyncWrapper` class requires manual invocation of the wrapped function.";"C) The `main` function will print ""Wrapped: Data"" after approximately 1 second.
+
+Explanation: The `AsyncWrapper` class is designed to wrap an asynchronous function and return a string prefixed with ""Wrapped: "". When `fetch_data()` is passed to `wrapper`, it awaits the execution of `fetch_data()` and then adds the prefix, resulting in the printed output. Since `fetch_data()` sleeps for 1 second, the total time taken by the program will also be approximately 1 second, including the small overhead of wrapping."

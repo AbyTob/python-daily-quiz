@@ -2959,5 +2959,12 @@
     "answer": "Correct answer: A\n\nExplanation:\nThe `method_decorator` is a decorator that wraps the original method and adds pre- and post-method call behavior. When an instance of `MyClass` calls `my_method(10)`, it first prints \"Before calling my_method\", then executes the original method, printing \"Value is 10\", and finally prints \"After calling my_method\".",
     "timestamp": "2025-09-14 00:01:29",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-09-14": {
+    "id": "1757836892_2",
+    "question": "[QUESTION]  \nConsider the following Python code:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data\"\n\nclass AsyncWrapper:\n    async def __call__(self, func):\n        result = await func()\n        return f\"Wrapped: {result}\"\n\nasync def main():\n    wrapper = AsyncWrapper()\n    data = await wrapper(fetch_data())\n    print(data)\n\n# Run the async function\nasyncio.run(main())\n```\n\nWhich of the following statements about this code is true?\n\nA) The `AsyncWrapper` class can be used as a decorator to wrap any synchronous function.  \nB) The `fetch_data` function will not execute asynchronously when passed to the `AsyncWrapper`.  \nC) The `main` function will print \"Wrapped: Data\" after approximately 1 second.  \nD) The `AsyncWrapper` class requires manual invocation of the wrapped function.",
+    "answer": "C) The `main` function will print \"Wrapped: Data\" after approximately 1 second.\n\nExplanation: The `AsyncWrapper` class is designed to wrap an asynchronous function and return a string prefixed with \"Wrapped: \". When `fetch_data()` is passed to `wrapper`, it awaits the execution of `fetch_data()` and then adds the prefix, resulting in the printed output. Since `fetch_data()` sleeps for 1 second, the total time taken by the program will also be approximately 1 second, including the small overhead of wrapping.",
+    "timestamp": "2025-09-14 08:01:32",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
