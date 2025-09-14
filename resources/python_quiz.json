@@ -2952,5 +2952,12 @@
     "answer": "**Answer: C**\n\nExplanation: In the provided Python code, both `timer1` and `timer2` are instances of `AsyncTimer`. When they call their `countdown` method asynchronously using `asyncio.create_task`, both tasks run concurrently. Since both tasks are infinite loops, they will continue to print messages every `interval` seconds simultaneously. Because the event loop runs them in parallel, you can expect that both \"Counting down in 5 seconds...\" and \"Counting down in 3 seconds...\" messages will be printed alternately as they complete their sleep intervals.",
     "timestamp": "2025-09-13 16:01:41",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-09-14": {
+    "id": "1757808089_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that utilizes a decorator to enhance the behavior of class methods:\n\n```python\ndef method_decorator(func):\n    def wrapper(self, *args, **kwargs):\n        print(\"Before calling\", func.__name__)\n        result = func(self, *args, **kwargs)\n        print(\"After calling\", func.__name__)\n        return result\n    return wrapper\n\nclass MyClass:\n    @method_decorator\n    def my_method(self, value):\n        print(f\"Value is {value}\")\n```\n\nWhen an instance of `MyClass` calls `my_method(10)`, what output will be printed to the console?\n\nA. \nBefore calling my_method\nValue is 10\nAfter calling my_method\n\nB.\nValue is 10\n\nC.\nBefore calling my_method\nAfter calling my_method\n\nD.\nValue is 10\nAfter calling my_method",
+    "answer": "Correct answer: A\n\nExplanation:\nThe `method_decorator` is a decorator that wraps the original method and adds pre- and post-method call behavior. When an instance of `MyClass` calls `my_method(10)`, it first prints \"Before calling my_method\", then executes the original method, printing \"Value is 10\", and finally prints \"After calling my_method\".",
+    "timestamp": "2025-09-14 00:01:29",
+    "topic": "Object-Oriented Programming"
   }
 }
