@@ -18904,3 +18904,41 @@ C) The `main` function will print ""Wrapped: Data"" after approximately 1 second
 D) The `AsyncWrapper` class requires manual invocation of the wrapped function.";"C) The `main` function will print ""Wrapped: Data"" after approximately 1 second.
 
 Explanation: The `AsyncWrapper` class is designed to wrap an asynchronous function and return a string prefixed with ""Wrapped: "". When `fetch_data()` is passed to `wrapper`, it awaits the execution of `fetch_data()` and then adds the prefix, resulting in the printed output. Since `fetch_data()` sleeps for 1 second, the total time taken by the program will also be approximately 1 second, including the small overhead of wrapping."
+"2025-09-14 16:02";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to create a singleton pattern. The goal is to ensure that only one instance of the class `Singleton` can be created, no matter how many times it is instantiated.
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(SingletonMeta, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Singleton(metaclass=SingletonMeta):
+    def __init__(self):
+        self.value = None
+
+# Usage
+s1 = Singleton()
+s2 = Singleton()
+
+s1.value = 42
+print(s2.value)  # Output should be 42
+```
+
+What does the `Singleton` class do, and what will be printed when `s2.value` is accessed?
+
+A. The `Singleton` class ensures that only one instance of itself can be created. When `s2.value` is accessed, it prints `None`.
+
+B. The `Singleton` class allows multiple instances to be created. When `s2.value` is accessed, it prints `42`.
+
+C. The `Singleton` class ensures that only one instance of itself can be created. When `s2.value` is accessed, it also prints `42`.
+
+D. The code will raise an error because the metaclass `SingletonMeta` does not properly handle instantiation.";"**Correct Answer: C**
+
+Explanation:
+The `SingletonMeta` class uses a dictionary `_instances` to store instances of classes that use this metaclass. When an instance is created, it checks if the class already exists in the `_instances` dictionary. If not, it creates one using the superclass's `__call__` method and stores it. Any subsequent calls for the same class will return the stored instance.
+
+In the case of `Singleton`, when `s1` is created, an instance is stored with `SingletonMeta._instances[Singleton] = s1`. When `s2` is created, since `Singleton` already exists in `_instances`, `s2` references the same object as `s1`. Therefore, any changes made to attributes of `s1` are reflected in `s2`. Thus, when `s2.value` is accessed, it prints `42`."
