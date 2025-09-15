@@ -2973,5 +2973,12 @@
     "answer": "**Correct Answer: C**\n\nExplanation:\nThe `SingletonMeta` class uses a dictionary `_instances` to store instances of classes that use this metaclass. When an instance is created, it checks if the class already exists in the `_instances` dictionary. If not, it creates one using the superclass's `__call__` method and stores it. Any subsequent calls for the same class will return the stored instance.\n\nIn the case of `Singleton`, when `s1` is created, an instance is stored with `SingletonMeta._instances[Singleton] = s1`. When `s2` is created, since `Singleton` already exists in `_instances`, `s2` references the same object as `s1`. Therefore, any changes made to attributes of `s1` are reflected in `s2`. Thus, when `s2.value` is accessed, it prints `42`.",
     "timestamp": "2025-09-14 16:02:11",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q1_2025-09-15": {
+    "id": "1757894484_1",
+    "question": "[QUESTION] Consider the following Python code snippet that uses a metaclass to ensure all instances of a class have a unique identifier:\n\n```python\nimport uuid\n\nclass UniqueIdMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass UniqueInstance(metaclass=UniqueIdMeta):\n    pass\n\n# Usage\na = UniqueInstance()\nb = UniqueInstance()\n\nprint(a is b)  # Output: True\n```\n\nWhat will be the output of `print(a is b)`? Why?\n\nA. False  \nB. True  \nC. Raises an error  \nD. Outputs None",
+    "answer": "B. True\n\nThe metaclass `UniqueIdMeta` ensures that any class using it (`UniqueInstance` in this case) can only have one instance, stored and returned from a dictionary `_instances`. Therefore, when both `a` and `b` are created as instances of `UniqueInstance`, they point to the same object, resulting in `a is b` evaluating to True.",
+    "timestamp": "2025-09-15 00:01:24",
+    "topic": "Object-Oriented Programming"
   }
 }
