@@ -2980,5 +2980,12 @@
     "answer": "B. True\n\nThe metaclass `UniqueIdMeta` ensures that any class using it (`UniqueInstance` in this case) can only have one instance, stored and returned from a dictionary `_instances`. Therefore, when both `a` and `b` are created as instances of `UniqueInstance`, they point to the same object, resulting in `a is b` evaluating to True.",
     "timestamp": "2025-09-15 00:01:24",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-09-15": {
+    "id": "1757923288_2",
+    "question": "[QUESTION]\nConsider the following code snippet which utilizes a metaclass to dynamically add attributes to a class at creation time:\n\n```python\nclass DynamicMeta(type):\n    def __new__(cls, name, bases, dct):\n        for key in ['a', 'b', 'c']:\n            dct[key] = 0\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=DynamicMeta):\n    pass\n\n# Use MyClass and print its attributes\nmy_instance = MyClass()\nprint(my_instance.a)\n```\n\nWhat will be the output of this code when executed?\n\nA) An error because 'a', 'b', and 'c' are not defined in the class body.\nB) 0\nC) AttributeError: type object 'MyClass' has no attribute 'a'\nD) None\n\n[ANSWER]\nB) 0\n\nExplanation:\nThe metaclass `DynamicMeta` is invoked during the creation of `MyClass`. It iterates over a list of strings ['a', 'b', 'c'] and assigns each as an attribute to the class with a value of 0. When an instance of `MyClass` is created, it has access to these attributes due to their dynamic addition by the metaclass. Therefore, when we print `my_instance.a`, it correctly outputs `0`.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-09-15 08:01:28",
+    "topic": "Object-Oriented Programming"
   }
 }

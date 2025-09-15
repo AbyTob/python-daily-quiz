@@ -18974,3 +18974,33 @@ C. Raises an error
 D. Outputs None";"B. True
 
 The metaclass `UniqueIdMeta` ensures that any class using it (`UniqueInstance` in this case) can only have one instance, stored and returned from a dictionary `_instances`. Therefore, when both `a` and `b` are created as instances of `UniqueInstance`, they point to the same object, resulting in `a is b` evaluating to True."
+"2025-09-15 08:01";"[QUESTION]
+Consider the following code snippet which utilizes a metaclass to dynamically add attributes to a class at creation time:
+
+```python
+class DynamicMeta(type):
+    def __new__(cls, name, bases, dct):
+        for key in ['a', 'b', 'c']:
+            dct[key] = 0
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=DynamicMeta):
+    pass
+
+# Use MyClass and print its attributes
+my_instance = MyClass()
+print(my_instance.a)
+```
+
+What will be the output of this code when executed?
+
+A) An error because 'a', 'b', and 'c' are not defined in the class body.
+B) 0
+C) AttributeError: type object 'MyClass' has no attribute 'a'
+D) None
+
+[ANSWER]
+B) 0
+
+Explanation:
+The metaclass `DynamicMeta` is invoked during the creation of `MyClass`. It iterates over a list of strings ['a', 'b', 'c'] and assigns each as an attribute to the class with a value of 0. When an instance of `MyClass` is created, it has access to these attributes due to their dynamic addition by the metaclass. Therefore, when we print `my_instance.a`, it correctly outputs `0`.";"Answer format error. Please check the generated content."
