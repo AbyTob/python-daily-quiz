@@ -19332,3 +19332,39 @@ C) The value of `new_attribute` will be 'added' for all instances of `MyClass`.
 
 **Explanation:**
 The metaclass `AddAttribute` is correctly implemented. It modifies the dictionary of each class it defines by adding the key-value pair `'new_attribute': 'added'`. Therefore, when an instance of `MyClass` is created, this new attribute is added to the instance, and its value will be 'added'.";"Answer format error. Please check the generated content."
+"2025-09-17 16:01";"[QUESTION]
+Consider the following Python code using a metaclass:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'greet' not in dct:
+            raise TypeError(""All classes must implement greet method"")
+        return super().__new__(cls, name, bases, dct)
+
+class Greeter(metaclass=Meta):
+    pass
+
+class Friendly(Greeter):
+    def greet(self):
+        return ""Hello!""
+
+try:
+    class Polite(Greeter):
+        def greet(self):
+            return ""Hi!""
+except TypeError as e:
+    print(e)
+```
+
+What will be the output of running this code?
+
+A) `TypeError: All classes must implement greet method`
+B) `None`
+C) `Hello!`
+D) `Hi!`
+
+[ANSWER]
+A) `TypeError: All classes must implement greet method`
+
+Explanation: The metaclass `Meta` checks if each class it creates has a `greet` method. If not, it raises a `TypeError`. In this case, the class `Greeter` does not define a `greet` method, so when we try to create an instance of `Polite`, which inherits from `Greeter` and defines a `greet` method, Python raises a `TypeError` because `Polite` is created before its parent `Greeter` implements the required `greet` method.";"Answer format error. Please check the generated content."

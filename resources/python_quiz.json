@@ -3029,5 +3029,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-17 08:01:36",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-09-17": {
+    "id": "1758124891_3",
+    "question": "[QUESTION]\nConsider the following Python code using a metaclass:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'greet' not in dct:\n            raise TypeError(\"All classes must implement greet method\")\n        return super().__new__(cls, name, bases, dct)\n\nclass Greeter(metaclass=Meta):\n    pass\n\nclass Friendly(Greeter):\n    def greet(self):\n        return \"Hello!\"\n\ntry:\n    class Polite(Greeter):\n        def greet(self):\n            return \"Hi!\"\nexcept TypeError as e:\n    print(e)\n```\n\nWhat will be the output of running this code?\n\nA) `TypeError: All classes must implement greet method`\nB) `None`\nC) `Hello!`\nD) `Hi!`\n\n[ANSWER]\nA) `TypeError: All classes must implement greet method`\n\nExplanation: The metaclass `Meta` checks if each class it creates has a `greet` method. If not, it raises a `TypeError`. In this case, the class `Greeter` does not define a `greet` method, so when we try to create an instance of `Polite`, which inherits from `Greeter` and defines a `greet` method, Python raises a `TypeError` because `Polite` is created before its parent `Greeter` implements the required `greet` method.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-09-17 16:01:31",
+    "topic": "Object-Oriented Programming"
   }
 }
