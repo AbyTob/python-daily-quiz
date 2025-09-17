@@ -19301,3 +19301,34 @@ class Resource(metaclass=SingletonMeta):
 ```
 
 This approach avoids the need for explicit locking and is generally more efficient."
+"2025-09-17 08:01";"### Part 1 (Question)
+Consider the following Python code snippet that uses a metaclass to add a new attribute to all instances of a class dynamically:
+
+```python
+class AddAttribute(type):
+    def __new__(cls, name, bases, dct):
+        dct['new_attribute'] = 'added'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=AddAttribute):
+    pass
+
+obj = MyClass()
+print(obj.new_attribute)
+```
+
+Which of the following statements is true about this code?
+
+A) The `__new__` method of the metaclass is not called when creating an instance of `MyClass`.
+
+B) When you create an instance of `MyClass`, the `new_attribute` is added to the class itself, not to the instances.
+
+C) The value of `new_attribute` will be 'added' for all instances of `MyClass`.
+
+D) The `metaclass=AddAttribute` argument in the class definition is redundant because it's set to a built-in type `type`.
+
+### Part 2 (Answer)
+C) The value of `new_attribute` will be 'added' for all instances of `MyClass`.
+
+**Explanation:**
+The metaclass `AddAttribute` is correctly implemented. It modifies the dictionary of each class it defines by adding the key-value pair `'new_attribute': 'added'`. Therefore, when an instance of `MyClass` is created, this new attribute is added to the instance, and its value will be 'added'.";"Answer format error. Please check the generated content."
