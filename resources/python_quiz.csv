@@ -19192,3 +19192,112 @@ Explanation:
 2. The method `my_method` is decorated with a simple decorator that also prints ""Decorator called"" when the method is accessed.
 3. When `AnotherClass` is instantiated, it triggers the `decorator`, which in turn calls `wrapper`. However, since no actual functionality is provided inside `wrapper`, the output remains unchanged from the class creation phase.
 4. Finally, calling `MyClass.my_method()` executes the decorated method, resulting in ""Decorator called"" being printed followed by ""Hello""."
+"2025-09-17 00:03";"";"**Part 1: Question**
+
+You are tasked with designing a Python system that manages resources efficiently. You decide to use a metaclass to create a singleton pattern, ensuring that only one instance of a class can be created across the entire application. Additionally, you want to ensure that the singleton is thread-safe and handles resource initialization lazily.
+
+Consider the following code snippet:
+
+```python
+import threading
+
+class SingletonMeta(type):
+    _instances = {}
+    _lock: threading.Lock = threading.Lock()
+
+    def __call__(cls, *args, **kwargs):
+        with cls._lock:
+            if cls not in cls._instances:
+                instance = super().__call__(*args, **kwargs)
+                cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Resource(metaclass=SingletonMeta):
+    def __init__(self):
+        self.data = None
+
+    def initialize(self, data):
+        self.data = data
+
+# Usage example
+def main():
+    resource1 = Resource()
+    resource2 = Resource()
+
+    assert resource1 is resource2  # Both should be the same instance
+
+    resource1.initialize(""Data"")
+    print(resource2.data)  # Should print ""Data""
+
+if __name__ == ""__main__"":
+    main()
+```
+
+However, when running this code in a multi-threaded environment, you notice that both `resource1` and `resource2` are not the same instance. Your suspicion is that there might be an issue with how the lock is being used or how instances are being stored.
+
+**Question:**  
+Identify the potential issues in the given code snippet and provide a corrected version of the metaclass to ensure thread-safe lazy initialization of the singleton.
+
+A) The lock is not acquired correctly.  
+B) Instances are not being stored correctly.  
+C) Both A and B  
+D) There are no issues with the current implementation.
+
+**Part 2: Answer**
+
+**Answer:** C) Both A and B
+
+Explanation:
+The lock is being used correctly, but there might be an issue with how instances are being stored. The `cls._instances` dictionary should be thread-safe itself, so we don't need a separate lock to manage the dictionary.
+
+Here's the corrected version of the metaclass:
+
+```python
+import threading
+
+class SingletonMeta(type):
+    _instances = {}
+    _lock: threading.Lock = threading.Lock()
+
+    def __call__(cls, *args, **kwargs):
+        with cls._lock:
+            if cls not in cls._instances:
+                instance = super().__call__(*args, **kwargs)
+                cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Resource(metaclass=SingletonMeta):
+    def __init__(self):
+        self.data = None
+
+    def initialize(self, data):
+        self.data = data
+
+# Usage example remains the same
+```
+
+In this corrected version, we ensure that `_instances` is thread-safe by using a separate lock. However, in practice, it's often better to use `threading.local()` for such cases to avoid global locks altogether:
+
+```python
+import threading
+
+class SingletonMeta(type):
+    _instances = threading.local()
+
+    def __call__(cls, *args, **kwargs):
+        if not hasattr(cls._instances, cls):
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Resource(metaclass=SingletonMeta):
+    def __init__(self):
+        self.data = None
+
+    def initialize(self, data):
+        self.data = data
+
+# Usage example remains the same
+```
+
+This approach avoids the need for explicit locking and is generally more efficient."
