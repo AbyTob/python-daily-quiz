@@ -19404,3 +19404,65 @@ Option A is incorrect because `await` is used inside an `async def` function, ma
 Option B is also incorrect because, although each task starts immediately due to the event loop scheduling, they do not finish in order. The timing of completion depends on the specified sleep duration for each task.
 
 Option D is correct and elaborates on why running this code without `asyncio.run(main())` would result in an error. `asyncio.run()` is required to start the event loop and run the coroutine until it completes, which cannot be done outside a non-async context."
+"2025-09-18 08:02";"";"**Question:** Consider the following Python code that attempts to create a decorator for a coroutine function to ensure it only runs once. However, it does not work as expected. Identify what is wrong with the code and provide a corrected version of the decorator.
+
+```python
+def single_run_coroutine(func):
+    has_run = False
+    
+    async def wrapper(*args, **kwargs):
+        nonlocal has_run
+        if not has_run:
+            await func(*args, **kwargs)
+            has_run = True
+        else:
+            print(""Coroutine already run"")
+    
+    return wrapper
+
+@single_run_coroutine
+async def my_coroutine():
+    print(""Running coroutine"")
+
+# Example usage
+import asyncio
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(my_coroutine())
+loop.run_until_complete(my_coroutine())
+```
+
+A. The decorator does not properly handle the asynchronous context of `func`.  
+B. There is no need for a nonlocal variable `has_run` inside the wrapper.  
+C. The decorator should return an instance method instead of a coroutine function.  
+D. The usage of `nonlocal` is incorrect in this context.
+
+**Answer:** A. The decorator does not properly handle the asynchronous context of `func`.
+
+**Explanation:** The issue with the original code is that it attempts to use `await` outside of an asynchronous function. In Python, `await` can only be used inside functions marked as `async`. To fix this, the wrapper itself should be defined as an `async def`. Here's the corrected version:
+
+```python
+def single_run_coroutine(func):
+    has_run = False
+    
+    async def wrapper(*args, **kwargs):
+        nonlocal has_run
+        if not has_run:
+            await func(*args, **kwargs)
+            has_run = True
+        else:
+            print(""Coroutine already run"")
+    
+    return wrapper
+
+@single_run_coroutine
+async def my_coroutine():
+    print(""Running coroutine"")
+
+# Example usage
+import asyncio
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(my_coroutine())
+loop.run_until_complete(my_coroutine())  # This will correctly print ""Coroutine already run""
+```"
