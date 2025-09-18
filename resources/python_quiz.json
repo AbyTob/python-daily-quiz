@@ -3036,5 +3036,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-17 16:01:31",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-09-18": {
+    "id": "1758153723_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def task(name, seconds):\n    print(f\"Task {name} started\")\n    await asyncio.sleep(seconds)\n    print(f\"Task {name} finished\")\n\nasync def main():\n    tasks = [task(f'Task-{i}', i) for i in range(3)]\n    await asyncio.gather(*tasks)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements about this code is true?\n\nA) The `task` function will run synchronously because it uses the `await` keyword inside a non-async context.\n\nB) All tasks start immediately and finish in order due to the use of `asyncio.sleep`.\n\nC) The `main` function collects all tasks into a list and runs them concurrently using `asyncio.gather`.\n\nD) If you try to run this code without asyncio.run(main()), an error will occur because Python cannot handle asynchronous functions outside of their event loop.",
+    "answer": "[ANSWER] C) The `main` function collects all tasks into a list and runs them concurrently using `asyncio.gather`.\n\nExplanation: This statement is correct. In the provided code, the `main` function creates a list of tasks using a list comprehension. Each task is an instance of the `task` coroutine with different parameters. When `await asyncio.gather(*tasks)` is called in `main`, it schedules all tasks to run concurrently and waits for them to complete before exiting. This demonstrates how `asyncio.gather` can be used to manage multiple asynchronous tasks efficiently.\n\nOption A is incorrect because `await` is used inside an `async def` function, making the entire function asynchronous.\n\nOption B is also incorrect because, although each task starts immediately due to the event loop scheduling, they do not finish in order. The timing of completion depends on the specified sleep duration for each task.\n\nOption D is correct and elaborates on why running this code without `asyncio.run(main())` would result in an error. `asyncio.run()` is required to start the event loop and run the coroutine until it completes, which cannot be done outside a non-async context.",
+    "timestamp": "2025-09-18 00:02:03",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
