@@ -3057,5 +3057,12 @@
     "answer": "A) Something is happening before the function is called.  \nExecuting my_method.  \nSomething is happening after the function is called.\n\nExplanation: The metaclass `Meta` decorates the method `my_method` with the decorator `my_decorator`. When an instance of `MyClass` is created and `my_method` is called, the decorated version of `my_method` executes first, printing the pre-call message, then the actual method logic, and finally the post-call message.",
     "timestamp": "2025-09-18 16:01:41",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-09-19": {
+    "id": "1758240112_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Executing {func.__name__} took {end_time - start_time:.4f} seconds.\")\n        return result\n    return wrapper\n\nclass TimerClass:\n    def __init__(self):\n        self.start_time = None\n    \n    def __enter__(self):\n        self.start_time = time.time()\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        end_time = time.time()\n        print(f\"Executing block took {end_time - self.start_time:.4f} seconds.\")\n        return False\n\n@timer\ndef my_function():\n    time.sleep(1)\n\nwith TimerClass() as tc:\n    my_function()\n```\n\nWhich of the following statements about this code is true?\n\nA) The `timer` decorator and the `TimerClass` context manager will both correctly measure the execution time of `my_function`.\nB) Only the `TimerClass` context manager will correctly measure the execution time.\nC) Only the `timer` decorator will correctly measure the execution time.\nD) Neither the `timer` decorator nor the `TimerClass` context manager will correctly measure the execution time.",
+    "answer": "[C] Only the `timer` decorator will correctly measure the execution time.\n\nExplanation: The `TimerClass` context manager measures the time within its block, but it does not account for the time taken by `my_function` because the time is captured before `my_function` even starts executing. On the other hand, the `timer` decorator wraps the function call and accurately measures the total execution time of the function itself, including any time spent in nested functions or operations within `my_function`.",
+    "timestamp": "2025-09-19 00:01:52",
+    "topic": "Locks, Semaphores, and Synchronization"
   }
 }

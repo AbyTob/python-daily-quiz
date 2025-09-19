@@ -19513,3 +19513,46 @@ Executing my_method.
 Something is happening after the function is called.
 
 Explanation: The metaclass `Meta` decorates the method `my_method` with the decorator `my_decorator`. When an instance of `MyClass` is created and `my_method` is called, the decorated version of `my_method` executes first, printing the pre-call message, then the actual method logic, and finally the post-call message."
+"2025-09-19 00:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Executing {func.__name__} took {end_time - start_time:.4f} seconds."")
+        return result
+    return wrapper
+
+class TimerClass:
+    def __init__(self):
+        self.start_time = None
+    
+    def __enter__(self):
+        self.start_time = time.time()
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end_time = time.time()
+        print(f""Executing block took {end_time - self.start_time:.4f} seconds."")
+        return False
+
+@timer
+def my_function():
+    time.sleep(1)
+
+with TimerClass() as tc:
+    my_function()
+```
+
+Which of the following statements about this code is true?
+
+A) The `timer` decorator and the `TimerClass` context manager will both correctly measure the execution time of `my_function`.
+B) Only the `TimerClass` context manager will correctly measure the execution time.
+C) Only the `timer` decorator will correctly measure the execution time.
+D) Neither the `timer` decorator nor the `TimerClass` context manager will correctly measure the execution time.";"[C] Only the `timer` decorator will correctly measure the execution time.
+
+Explanation: The `TimerClass` context manager measures the time within its block, but it does not account for the time taken by `my_function` because the time is captured before `my_function` even starts executing. On the other hand, the `timer` decorator wraps the function call and accurately measures the total execution time of the function itself, including any time spent in nested functions or operations within `my_function`."
