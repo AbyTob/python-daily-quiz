@@ -19731,3 +19731,37 @@ C) The metaclass `AddMethod` is invoked whenever a new class is created that inh
 D) The code will raise a TypeError because metaclasses cannot be applied to base classes.";"[ANSWER] A) The `dynamic_method` is added to instances of `BaseClass` at runtime, not during class creation.
 
 Explanation: In Python, metaclasses are called when a new class is created. They allow you to intercept and customize the class creation process. In this example, the `AddMethod` metaclass modifies the dictionary (`dct`) that will become the class attributes by adding the `dynamic_method`. This method is then available on all instances of `BaseClass`, not just at runtime but as soon as the class itself is created."
+"2025-09-20 16:02";"[QUESTION]  
+Consider the following Python code snippet that uses a decorator to add functionality to a class. The decorator is intended to ensure that an instance of the class has not been accessed before it is initialized (i.e., its `__init__` method has been called). However, there's a subtle issue with this implementation:
+
+```python
+def singleton(cls):
+    instances = {}
+    def get_instance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return get_instance
+
+@singleton
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+
+# Create an instance of MyClass and print its value
+obj1 = MyClass(10)
+print(obj1.value)  # Output: 10
+
+# Attempt to create another instance of MyClass with a different value
+obj2 = MyClass(20)
+print(obj2.value)  # Expected output: 20, but actual output is 10
+```
+
+What is the issue with this implementation of the `singleton` decorator?
+
+A. The decorator does not properly handle multiple instances of the same class.
+B. The decorator prevents the creation of any new instances after the first one.
+C. The decorator incorrectly reuses an instance's attributes instead of creating a new one.
+D. The decorator fails to initialize the instance correctly.";"C. The decorator incorrectly reuses an instance's attributes instead of creating a new one.
+
+Explanation: The issue with this implementation lies in how the `singleton` decorator handles class instantiation. It uses a dictionary `instances` to store instances of classes, but it does not check if the instance has already been initialized by calling its `__init__` method. When you try to create another instance, the `get_instance` function checks if the class is already in the `instances` dictionary and returns the existing instance without calling `__init__` again. This means that if `MyClass(10)` is created first and then `MyClass(20)`, both variables `obj1` and `obj2` will reference the same instance, and `obj2.value` will still be 10 instead of 20, as expected."
