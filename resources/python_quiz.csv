@@ -19765,3 +19765,59 @@ C. The decorator incorrectly reuses an instance's attributes instead of creating
 D. The decorator fails to initialize the instance correctly.";"C. The decorator incorrectly reuses an instance's attributes instead of creating a new one.
 
 Explanation: The issue with this implementation lies in how the `singleton` decorator handles class instantiation. It uses a dictionary `instances` to store instances of classes, but it does not check if the instance has already been initialized by calling its `__init__` method. When you try to create another instance, the `get_instance` function checks if the class is already in the `instances` dictionary and returns the existing instance without calling `__init__` again. This means that if `MyClass(10)` is created first and then `MyClass(20)`, both variables `obj1` and `obj2` will reference the same instance, and `obj2.value` will still be 10 instead of 20, as expected."
+"2025-09-21 00:01";"[QUESTION]  
+Consider the following Python code snippet:
+
+```python
+import threading
+
+class MyThread(threading.Thread):
+    def __init__(self, thread_id, name, counter):
+        threading.Thread.__init__(self)
+        self.thread_id = thread_id
+        self.name = name
+        self.counter = counter
+
+    def run(self):
+        print(f""Starting {self.name}"")
+        # Lock acquired to synchronize threads
+        thread_lock.acquire()
+        print_time(self.name, self.counter, 3)
+        # Lock released after finishing the task
+        thread_lock.release()
+        print(f""Exiting {self.name}"")
+
+def print_time(thread_name, delay, counter):
+    while counter:
+        time.sleep(delay)
+        print(f""{thread_name}: {time.ctime(time.time())}"")
+        counter -= 1
+
+thread_lock = threading.Lock()
+
+# Create new threads
+thread1 = MyThread(1, ""Thread-1"", 1)
+thread2 = MyThread(2, ""Thread-2"", 2)
+
+# Start new Threads
+thread1.start()
+thread2.start()
+
+# Add threads to thread list
+threads = []
+threads.append(thread1)
+threads.append(thread2)
+
+# Wait for all threads to complete
+for t in threads:
+    t.join()
+
+print(""Exiting Main Thread"")
+```
+
+This code demonstrates the use of threading in Python. Which of the following is NOT a benefit of using threads in this context?
+
+A) Improves performance by utilizing multiple CPU cores  
+B) Allows independent execution of tasks concurrently  
+C) Automatically handles synchronization issues between threads  
+D) Enables sharing of global variables among threads";"A) Improves performance by utilizing multiple CPU cores"
