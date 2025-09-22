@@ -19975,3 +19975,27 @@ A) Both `sync_task()` and `async_task()` will execute synchronously.
 **Explanation:**
 - When `sync_task()` is called with an active event loop, the decorator checks if there's an event loop running. Since there is one, it uses the synchronous wrapper (`sync_wrapper`), which simply calls the function without any change.
 - For `async_task()`, even though there is an event loop, the decorator checks and determines that since it’s already running inside an async context (i.e., within a function marked with `@run_async_if_needed` or called from another async function), it should not attempt to run it again. Thus, it calls the synchronous wrapper (`sync_wrapper`) which simply returns the result of `async_task()`, effectively executing it synchronously without creating a new event loop."
+"2025-09-22 08:01";"[QUESTION]
+Consider the following code snippet that uses a metaclass to add an attribute dynamically to any class instantiated from it:
+
+```python
+class DynamicAttributeMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_attribute'] = 'This is dynamic'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=DynamicAttributeMeta):
+    pass
+
+obj = MyClass()
+print(obj.dynamic_attribute)
+```
+
+What will be the output of this code?
+
+A) This is dynamic
+B) AttributeError: 'MyClass' object has no attribute 'dynamic_attribute'
+C) TypeError: metaclass conflict
+D) SyntaxError: invalid syntax";"A) This is dynamic
+
+The correct answer is A) This is dynamic. The metaclass `DynamicAttributeMeta` modifies the dictionary of any class it decorates by adding a new key-value pair, where 'dynamic_attribute' is the key and 'This is dynamic' is its value. When an instance of `MyClass` is created, this new attribute becomes part of the instance's attributes, allowing access to 'dynamic_attribute'."

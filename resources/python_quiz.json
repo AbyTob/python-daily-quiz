@@ -3127,5 +3127,12 @@
     "answer": "Part 2 (Answer):\n\nA) Both `sync_task()` and `async_task()` will execute synchronously.\n\n**Explanation:**\n- When `sync_task()` is called with an active event loop, the decorator checks if there's an event loop running. Since there is one, it uses the synchronous wrapper (`sync_wrapper`), which simply calls the function without any change.\n- For `async_task()`, even though there is an event loop, the decorator checks and determines that since it’s already running inside an async context (i.e., within a function marked with `@run_async_if_needed` or called from another async function), it should not attempt to run it again. Thus, it calls the synchronous wrapper (`sync_wrapper`) which simply returns the result of `async_task()`, effectively executing it synchronously without creating a new event loop.",
     "timestamp": "2025-09-22 00:02:29",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-09-22": {
+    "id": "1758528082_2",
+    "question": "[QUESTION]\nConsider the following code snippet that uses a metaclass to add an attribute dynamically to any class instantiated from it:\n\n```python\nclass DynamicAttributeMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_attribute'] = 'This is dynamic'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=DynamicAttributeMeta):\n    pass\n\nobj = MyClass()\nprint(obj.dynamic_attribute)\n```\n\nWhat will be the output of this code?\n\nA) This is dynamic\nB) AttributeError: 'MyClass' object has no attribute 'dynamic_attribute'\nC) TypeError: metaclass conflict\nD) SyntaxError: invalid syntax",
+    "answer": "A) This is dynamic\n\nThe correct answer is A) This is dynamic. The metaclass `DynamicAttributeMeta` modifies the dictionary of any class it decorates by adding a new key-value pair, where 'dynamic_attribute' is the key and 'This is dynamic' is its value. When an instance of `MyClass` is created, this new attribute becomes part of the instance's attributes, allowing access to 'dynamic_attribute'.",
+    "timestamp": "2025-09-22 08:01:22",
+    "topic": "Object-Oriented Programming"
   }
 }
