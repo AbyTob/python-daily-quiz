@@ -19999,3 +19999,42 @@ C) TypeError: metaclass conflict
 D) SyntaxError: invalid syntax";"A) This is dynamic
 
 The correct answer is A) This is dynamic. The metaclass `DynamicAttributeMeta` modifies the dictionary of any class it decorates by adding a new key-value pair, where 'dynamic_attribute' is the key and 'This is dynamic' is its value. When an instance of `MyClass` is created, this new attribute becomes part of the instance's attributes, allowing access to 'dynamic_attribute'."
+"2025-09-22 16:02";"Part 1 (Question): Consider the following code snippet that uses decorators and metaclasses. Your task is to understand its behavior and what it accomplishes.
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time} seconds to execute."")
+        return result
+    return wrapper
+
+class TimeMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = timer(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=TimeMeta):
+    @staticmethod
+    def my_method(x):
+        time.sleep(x)
+
+# Usage
+instance = MyClass()
+instance.my_method(2)
+```
+
+What does this code achieve, and what happens when you run it?
+
+A) It defines a class with a method that sleeps for 2 seconds.  
+B) It creates a metaclass that automatically decorates all methods in the class to measure their execution time.  
+C) It adds a timer decorator only to instance methods of the class.  
+D) It demonstrates how to create a singleton pattern using a metaclass.";"Part 2 (Answer): B) It creates a metaclass that automatically decorates all methods in the class to measure their execution time.
+
+The correct answer is B. The `TimeMeta` metaclass, when used as the metaclass for `MyClass`, scans through its attributes during class creation (`__new__`). If an attribute is callable (i.e., it's a method), the `timer` decorator is applied to that method, allowing any instance of `MyClass` to call this decorated method and automatically measure how long each method takes to execute. The usage demonstrates calling a decorated method `my_method` on an instance of `MyClass`, which prints the execution time."
