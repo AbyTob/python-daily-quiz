@@ -20074,3 +20074,54 @@ D) The `log_creation` method will only be available in `MyClass` and not in othe
 A) The `log_creation` method will be added to every class using the `MetaLogger` metaclass, and calling it on an instance of any such class will print a timestamp.
 
 Explanation: In Python, metaclasses are powerful tools that allow you to modify or extend class behavior at the time of their creation. When `MyClass` is created with `metaclass=MetaLogger`, the metaclass's `__new__` method is invoked. This method defines a new class with an added `log_creation` method, which logs when an instance is created. Any subclass of `MyClass` (or any other class that uses `MetaLogger`) will also inherit this behavior because the method is defined in the metaclass's creation logic."
+"2025-09-23 08:02";"";"Part 1 (Question): 
+
+Consider the following code snippet that attempts to create a decorator which measures the execution time of any function it decorates. However, there is a critical issue with this implementation. Identify what the problem is and provide a corrected version of the decorator.
+
+```python
+import time
+
+def measure_time(func):
+    def wrapper():
+        start = time.time()
+        func()
+        end = time.time()
+        print(f""Execution time: {end - start} seconds"")
+    return wrapper
+
+@measure_time
+def my_function():
+    for i in range(1000000):
+        pass
+```
+
+A) The decorator is not correctly capturing the function arguments.
+B) The decorator does not handle exceptions that might occur inside the decorated function.
+C) The decorator should use `*args` and `**kwargs` to capture all arguments, but it doesn't.
+D) There's no problem with this decorator; it works as expected.
+
+Part 2 (Answer): 
+
+C) The decorator should use `*args` and `**kwargs` to capture all arguments, but it doesn't.
+
+Explanation: The original decorator does not accept any arguments (`func`) that the decorated function might take. It only calls `func()` without passing any arguments if they are provided. To fix this, the inner function `wrapper` should be modified to accept and pass along any positional (`*args`) and keyword (`**kwargs`) arguments it receives from the call to `my_function()`. The corrected decorator would look like this:
+
+```python
+import time
+
+def measure_time(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f""Execution time: {end - start} seconds"")
+        return result
+    return wrapper
+
+@measure_time
+def my_function():
+    for i in range(1000000):
+        pass
+```
+
+In this corrected version, `wrapper` now correctly handles any arguments passed to `my_function()`, and it returns the result of calling `func` with those arguments."
