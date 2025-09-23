@@ -20125,3 +20125,79 @@ def my_function():
 ```
 
 In this corrected version, `wrapper` now correctly handles any arguments passed to `my_function()`, and it returns the result of calling `func` with those arguments."
+"2025-09-23 16:02";"[ANSWER_SEPARATOR]
+**Part 1 (Question):**
+
+Consider the following Python code that uses a metaclass to add a method to any class it decorates. The goal is to create a simple logging mechanism where each method call logs its name.
+
+```python
+# Define a metaclass for adding logging functionality to methods
+class LogMethodCalls(type):
+    def __new__(cls, name, bases, dct):
+        # Iterate through all attributes in the class dictionary
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):  # Check if it's a method
+                # Define a new logging wrapper
+                def log_method(self, *args, **kwargs):
+                    print(f""Calling {attr_name} with args: {args}, kwargs: {kwargs}"")
+                    return attr_value(self, *args, **kwargs)
+                
+                dct[attr_name] = log_method  # Replace the original method with the new one
+        
+        return super().__new__(cls, name, bases, dct)
+
+# Apply the metaclass to a class
+class Example(metaclass=LogMethodCalls):
+    def greet(self, name):
+        print(f""Hello, {name}!"")
+
+    def farewell(self):
+        print(""Goodbye!"")
+```
+
+What will be printed when an instance of `Example` is created and its methods are called?
+
+A) 
+```
+Calling __init__ with args: (), kwargs: {}
+Calling greet with args: ('John',), kwargs: {}
+Hello, John!
+Calling farewell with args: (), kwargs: {}
+Goodbye!
+```
+
+B) 
+```
+Calling __init__ with args: (), kwargs: {}
+Hello, John!
+Goodbye!
+```
+
+C) 
+```
+Calling greet with args: ('John',), kwargs: {}
+Hello, John!
+Calling farewell with args: (), kwargs: {}
+Goodbye!
+```
+
+D) 
+```
+Hello, John!
+Goodbye!
+```
+
+[ANSWER_SEPARATOR]
+**Part 2 (Answer):**
+
+A)  
+This is correct. When an instance of `Example` is created, the metaclass `LogMethodCalls` processes all attributes in the class dictionary. Since both `greet` and `farewell` are callable methods, they are wrapped by the `log_method` function defined within the metaclass. Therefore, when these methods are called on an instance of `Example`, they first log their name along with arguments before executing the original method.
+
+B)  
+Incorrect. The output should include logging information for both `greet` and `farewell` calls because the metaclass adds logging functionality to all callable methods in the class.
+
+C)  
+Incorrect. This option is missing the initial call to `__init__`, which also gets wrapped by the metaclass's logic, leading to a log message before calling the original method.
+
+D)  
+Incorrect. Both `greet` and `farewell` calls should be preceded by logging information as they are wrapped methods in the class defined with the metaclass.";"Answer format error. Please check the generated content."
