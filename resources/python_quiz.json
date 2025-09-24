@@ -3169,5 +3169,12 @@
     "answer": "A) A decorator that counts how many times a function has been called.\n\nThis question tests the candidate's understanding of decorators and how they can be used to add functionality to existing functions without modifying their code. The `call_counter` decorator increases a `call_count` attribute each time the decorated function is invoked, demonstrating its use in tracking function usage.",
     "timestamp": "2025-09-24 00:01:27",
     "topic": "Counter Objects and Frequency Analysis"
+  },
+  "q2_2025-09-24": {
+    "id": "1758700888_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n    \n    async def __call__(self, *args, **kwargs):\n        print(\"Before calling function\")\n        result = await self.func(*args, **kwargs)\n        print(\"After calling function\")\n        return result\n\n@AsyncDecorator\nasync def my_async_function(x):\n    await asyncio.sleep(1)\n    return x * 2\n\n# Usage\nloop = asyncio.get_event_loop()\nresult = loop.run_until_complete(my_async_function(5))\nprint(result)\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The `AsyncDecorator` class does not support the use of async functions.\nB) When `my_async_function` is called, it will print \"Before calling function\" and then \"After calling function\".\nC) The output of the script will be `10`.\nD) The `loop.run_until_complete()` call will block the main thread for the entire duration of the asyncio task.",
+    "answer": "B) When `my_async_function` is called, it will print \"Before calling function\" and then \"After calling function\".",
+    "timestamp": "2025-09-24 08:01:28",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
