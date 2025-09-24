@@ -3162,5 +3162,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-23 16:02:38",
     "topic": "Advanced Logging Configuration"
+  },
+  "q1_2025-09-24": {
+    "id": "1758672087_1",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses a decorator to track how many times a function has been called:\n\n```python\ndef call_counter(func):\n    def wrapper(*args, **kwargs):\n        wrapper.call_count += 1\n        return func(*args, **kwargs)\n    wrapper.call_count = 0\n    return wrapper\n\n@call_counter\ndef greet(name):\n    print(f\"Hello, {name}!\")\n\ngreet(\"Alice\")\ngreet(\"Bob\")\nprint(greet.call_count)  # Should output 2\n```\n\nWhat does the code snippet above demonstrate?  \nA) A decorator that counts how many times a function has been called.  \nB) A context manager that tracks function calls.  \nC) A metaclass that alters class behavior upon instantiation.  \nD) An async function that waits for user input.",
+    "answer": "A) A decorator that counts how many times a function has been called.\n\nThis question tests the candidate's understanding of decorators and how they can be used to add functionality to existing functions without modifying their code. The `call_counter` decorator increases a `call_count` attribute each time the decorated function is invoked, demonstrating its use in tracking function usage.",
+    "timestamp": "2025-09-24 00:01:27",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }
