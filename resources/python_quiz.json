@@ -3176,5 +3176,12 @@
     "answer": "B) When `my_async_function` is called, it will print \"Before calling function\" and then \"After calling function\".",
     "timestamp": "2025-09-24 08:01:28",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-09-24": {
+    "id": "1758729720_3",
+    "question": "### Part 1 (Question)\nConsider the following Python code that aims to create a custom decorator to measure the execution time of functions. The decorator should also be able to handle asynchronous functions.\n\n```python\nimport time\nfrom functools import wraps\n\ndef time_decorator(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {func.__name__} took {end_time - start_time:.4f} seconds to execute.\")\n        return result\n    return wrapper\n\nasync def async_function():\n    await asyncio.sleep(1)\n\n@time_decorator\ndef normal_function():\n    time.sleep(1)\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The `time_decorator` can only be used with synchronous functions.\nB) The `time_decorator` will correctly measure the execution time of both synchronous and asynchronous functions.\nC) When applied to an asynchronous function, the decorator will raise a `TypeError`.\nD) The `async_function` is not wrapped by the decorator.",
+    "answer": "### Part 2 (Answer)\n**Correct Answer:** B) The `time_decorator` will correctly measure the execution time of both synchronous and asynchronous functions.\n\n**Explanation:**\nThe provided `time_decorator` uses Python's built-in `time.time()` function, which is designed to work with both synchronous and asynchronous operations. However, applying this decorator directly to an asynchronous function (like `async_function`) will not work as intended because `time.time()` measures the time between calling it and when the result of the function call is returned, but in the case of an async function, the actual execution may be delayed due to waiting on I/O operations.\n\nTo handle this correctly for async functions, we would need to use `asyncio.get_event_loop().run_until_complete(func(*args, **kwargs))` inside the decorator when wrapping an async function. Therefore, while the decorator can theoretically measure synchronous functions, it needs additional handling for asynchronous functions to ensure accurate timing.",
+    "timestamp": "2025-09-24 16:02:00",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
