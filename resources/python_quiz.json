@@ -3190,5 +3190,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-25 00:02:15",
     "topic": "Locks, Semaphores, and Synchronization"
+  },
+  "q2_2025-09-25": {
+    "id": "1758787296_2",
+    "question": "Part 1 (Question):\nConsider the following Python code:\n\n```python\nimport asyncio\n\nclass AsyncTimer:\n    def __init__(self, timeout):\n        self.timeout = timeout\n        self.loop = asyncio.get_running_loop()\n\n    async def start(self):\n        await asyncio.sleep(self.timeout)\n        print(f\"Timer finished after {self.timeout} seconds\")\n\nasync def main():\n    timer = AsyncTimer(2)\n    task = asyncio.create_task(timer.start())\n    await asyncio.gather(task)\n\n# Run the event loop\nasyncio.run(main())\n```\n\nWhich of the following statements is true about this code?\n\nA) The `AsyncTimer` class is a metaclass.\nB) The `start` method is a coroutine and will run asynchronously.\nC) The `main` function is a generator that yields tasks.\nD) When run, the program will hang indefinitely.\n\nPart 2 (Answer):\nB) The `start` method is a coroutine and will run asynchronously.\n\nExplanation:\nThe `AsyncTimer` class does not use metaclasses, so statement A is false. The `start` method in `AsyncTimer` uses `asyncio.sleep`, which makes it an asynchronous method that runs on the asyncio event loop, making B true. Statement C is incorrect because `main` is a normal function that returns a coroutine object, not a generator. Lastly, statement D is false; the program completes after 2 seconds as expected, printing \"Timer finished after 2 seconds\" and then exiting.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-09-25 08:01:36",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
