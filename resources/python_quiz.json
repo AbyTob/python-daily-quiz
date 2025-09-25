@@ -3197,5 +3197,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-25 08:01:36",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-09-25": {
+    "id": "1758816096_3",
+    "question": "### Question\n\nConsider the following code snippet that uses a metaclass to modify class behavior dynamically:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'x' in dct:\n            dct['y'] = dct['x'] * 2\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    x = 5\n\nclass AnotherClass(metaclass=Meta):\n    pass\n```\n\nWhat is the output of `print(MyClass.y)` and `print(AnotherClass.y)`?\n\nA) None, None  \nB) 10, None  \nC) None, 10  \nD) 10, 10",
+    "answer": "### Answer\n\n**B) 10, None**\n\nExplanation:\n- For `MyClass`, the metaclass `Meta` checks if 'x' is in the dictionary. Since it is (`MyClass.x = 5`), it sets `y` to twice the value of `x`. Therefore, `MyClass.y` is calculated as `10`.\n- For `AnotherClass`, there is no attribute `x` defined in its dictionary. The metaclass does not modify the class dictionary since 'x' is absent, so `y` remains undefined and will be `None` when accessed.\n\nThis question tests your understanding of how metaclasses can dynamically modify class attributes and handle cases where certain conditions are not met.",
+    "timestamp": "2025-09-25 16:01:36",
+    "topic": "Object-Oriented Programming"
   }
 }
