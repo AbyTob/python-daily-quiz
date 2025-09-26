@@ -20490,3 +20490,54 @@ A) Implement a method `is_async_context()` to check if the current context is as
 **Explanation:** The correct approach involves checking whether the current execution context is synchronous or asynchronous. This can typically be done by trying to run an asynchronous function and catching any resulting exceptions. If an exception is caught, it indicates that the code is running in a synchronous context, allowing the synchronous file handling methods to be called. Conversely, if no exceptions are caught, the code is running asynchronously, allowing the asynchronous file handling methods to be called.
 
 Option A correctly implements this logic by introducing an `is_async_context()` method to determine the current context and then appropriately opening or closing files based on whether the context is synchronous or asynchronous."
+"2025-09-26 08:02";"";"**Part 1 (Question):**
+
+Consider the following Python code that attempts to create a class decorator which logs the method calls and their arguments:
+
+```python
+from functools import wraps
+
+def log_method_calls(cls):
+    for name, func in cls.__dict__.items():
+        if callable(func) and not name.startswith(""__""):
+            setattr(cls, name, _log_method_call(func))
+    return cls
+
+def _log_method_call(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(self, *args, **kwargs)
+        return result
+    return wrapper
+
+@log_method_calls
+class Calculator:
+    def add(self, a, b):
+        return a + b
+    
+    def multiply(self, a, b):
+        return a * b
+```
+
+Which of the following statements correctly describes the behavior and potential issues with this code?
+
+A) The `Calculator` class will not be instantiated because the decorator fails to wrap methods properly.
+
+B) Each method in the `Calculator` class will print its name and arguments when called, as expected.
+
+C) The decorator only logs method calls for public methods but does not handle private or special methods (like `__init__`).
+
+D) All method calls on an instance of `Calculator` will raise a TypeError because they are not callable after decoration.
+
+**Part 2 (Answer):**
+
+B) Each method in the `Calculator` class will print its name and arguments when called, as expected.
+
+Explanation:
+
+The provided code attempts to create a decorator that logs all callable methods within a class. The `_log_method_call` function uses the `@wraps` decorator from the `functools` module to preserve the metadata of the original methods. When applied to the `Calculator` class, this decorator replaces each method with its logged version.
+
+The key issue in the code is that the line `print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")` should be outside the `if callable(func) and not name.startswith(""__""):` condition. This ensures that all methods are logged, including special (private or protected) methods. If this line is inside the condition, it will only log public methods, missing out on crucial setup and teardown operations typically encapsulated in private methods.
+
+By correcting this oversight, each method call on an instance of `Calculator` will indeed print its name along with the arguments passed to it, as expected."
