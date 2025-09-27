@@ -20593,3 +20593,29 @@ The correct answer is D. Let's break down why:
 - D) This statement is true. When you call `compute_sum(1000000)`, the `Timer` decorator is invoked, which measures and prints the execution time of the function before returning its result.
 
 Thus, option D correctly describes the behavior of the provided code snippet when using the `Timer` class as a decorator."
+"2025-09-27 00:01";"[QUESTION] Consider the following code snippet:
+
+```python
+import asyncio
+
+async def fetch_data(task_id):
+    await asyncio.sleep(2)
+    return f""Data for {task_id}""
+
+async def main():
+    tasks = [fetch_data(i) for i in range(3)]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    print(results)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What is the output of this code snippet if it were executed?
+
+A. `[None, None, None]`
+B. `['Data for 0', 'Data for 1', 'Data for 2']`
+C. `[False, False, False]`
+D. `[TimeoutError, TimeoutError, TimeoutError]`";"B. `['Data for 0', 'Data for 1', 'Data for 2']`
+
+Explanation: The code uses `asyncio.gather` to run multiple asynchronous tasks concurrently. Each task simulates fetching data by sleeping for 2 seconds and then returning a string with the task ID. Since all tasks are allowed to run simultaneously, each completes within the time limit set by asyncio, so they return their expected results without any exceptions. The `return_exceptions=True` parameter is used here, but since no exceptions occur, the output will be a list of the return values from the tasks."

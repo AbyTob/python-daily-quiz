@@ -3225,5 +3225,12 @@
     "answer": "** D\n\n**Detailed Explanation:**\n\nThe correct answer is D. Let's break down why:\n\n- A) The `Timer` class is not a context manager. It defines a `__call__` method, which makes it an callable object rather than a context manager. Context managers use `__enter__` and `__exit__` methods.\n\n- B) This statement is incorrect because the execution time of `compute_sum` will be printed to the console when called, as demonstrated by the code.\n\n- C) The `Timer` class can only be used as a decorator. It does not have any attributes or behaviors that would make it suitable for use as a metaclass.\n\n- D) This statement is true. When you call `compute_sum(1000000)`, the `Timer` decorator is invoked, which measures and prints the execution time of the function before returning its result.\n\nThus, option D correctly describes the behavior of the provided code snippet when using the `Timer` class as a decorator.",
     "timestamp": "2025-09-26 16:02:04",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-09-27": {
+    "id": "1758931293_1",
+    "question": "[QUESTION] Consider the following code snippet:\n\n```python\nimport asyncio\n\nasync def fetch_data(task_id):\n    await asyncio.sleep(2)\n    return f\"Data for {task_id}\"\n\nasync def main():\n    tasks = [fetch_data(i) for i in range(3)]\n    results = await asyncio.gather(*tasks, return_exceptions=True)\n    print(results)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhat is the output of this code snippet if it were executed?\n\nA. `[None, None, None]`\nB. `['Data for 0', 'Data for 1', 'Data for 2']`\nC. `[False, False, False]`\nD. `[TimeoutError, TimeoutError, TimeoutError]`",
+    "answer": "B. `['Data for 0', 'Data for 1', 'Data for 2']`\n\nExplanation: The code uses `asyncio.gather` to run multiple asynchronous tasks concurrently. Each task simulates fetching data by sleeping for 2 seconds and then returning a string with the task ID. Since all tasks are allowed to run simultaneously, each completes within the time limit set by asyncio, so they return their expected results without any exceptions. The `return_exceptions=True` parameter is used here, but since no exceptions occur, the output will be a list of the return values from the tasks.",
+    "timestamp": "2025-09-27 00:01:33",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
