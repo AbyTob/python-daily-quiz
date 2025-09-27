@@ -20673,3 +20673,49 @@ The correct answer is A. Here’s why:
 - When `await cache.get(""data"")` is called a second time, it checks the cache and finds that the key `""data""` already has a value (`""Value for data""`), so it returns this value immediately without calling `fetch()` again.
 
 Thus, both results are `""Value for data""`.";"Answer format error. Please check the generated content."
+"2025-09-27 16:01";"[QUESTION]
+Consider the following Python code that uses a custom metaclass and class decorator:
+
+```python
+import types
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['original_method'] = cls.__original_new__
+        return super().__new__(cls, name, bases, dct)
+
+    @classmethod
+    def __original_new__(cls, *args, **kwargs):
+        print(""Original method called"")
+        return super().__new__(*args, **kwargs)
+
+def class_decorator(cls):
+    original_init = cls.__init__
+
+    def new_init(self, *args, **kwargs):
+        print(""Decorator init called"")
+        original_init(self, *args, **kwargs)
+
+    cls.__init__ = new_init
+    return cls
+
+@class_decorator
+class MyClass(metaclass=Meta):
+    pass
+
+instance = MyClass()
+```
+
+What is the output when `MyClass` instance is created?
+
+A) Original method called  
+B) Decorator init called  
+C) Both A and B  
+D) Neither A nor B";"C) Both A and B  
+
+Explanation:
+When an instance of `MyClass` is created, Python first invokes the metaclass's `__new__` method. Since `Meta` is specified as the metaclass for `MyClass`, its `__new__` method is called. Inside this method, it calls the original `__new__` method and then assigns a new attribute `original_method` to the class dictionary.
+
+Next, because `class_decorator` is applied to `MyClass`, Python uses it to modify the class before the instance creation process completes. The decorator replaces the `__init__` method of `MyClass`. When an instance is created, Python first calls this modified `__init__` method which prints ""Decorator init called"" and then proceeds to call the original `__init__` method.
+
+Thus, both messages are printed when an instance of `MyClass` is created."

@@ -3239,5 +3239,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-09-27 08:02:07",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-09-27": {
+    "id": "1758988917_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses a custom metaclass and class decorator:\n\n```python\nimport types\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['original_method'] = cls.__original_new__\n        return super().__new__(cls, name, bases, dct)\n\n    @classmethod\n    def __original_new__(cls, *args, **kwargs):\n        print(\"Original method called\")\n        return super().__new__(*args, **kwargs)\n\ndef class_decorator(cls):\n    original_init = cls.__init__\n\n    def new_init(self, *args, **kwargs):\n        print(\"Decorator init called\")\n        original_init(self, *args, **kwargs)\n\n    cls.__init__ = new_init\n    return cls\n\n@class_decorator\nclass MyClass(metaclass=Meta):\n    pass\n\ninstance = MyClass()\n```\n\nWhat is the output when `MyClass` instance is created?\n\nA) Original method called  \nB) Decorator init called  \nC) Both A and B  \nD) Neither A nor B",
+    "answer": "C) Both A and B  \n\nExplanation:\nWhen an instance of `MyClass` is created, Python first invokes the metaclass's `__new__` method. Since `Meta` is specified as the metaclass for `MyClass`, its `__new__` method is called. Inside this method, it calls the original `__new__` method and then assigns a new attribute `original_method` to the class dictionary.\n\nNext, because `class_decorator` is applied to `MyClass`, Python uses it to modify the class before the instance creation process completes. The decorator replaces the `__init__` method of `MyClass`. When an instance is created, Python first calls this modified `__init__` method which prints \"Decorator init called\" and then proceeds to call the original `__init__` method.\n\nThus, both messages are printed when an instance of `MyClass` is created.",
+    "timestamp": "2025-09-27 16:01:57",
+    "topic": "Class Methods and Static Methods"
   }
 }
