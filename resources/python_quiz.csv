@@ -20768,3 +20768,42 @@ A) The `timing_decorator` works as intended, providing accurate timing for both 
 
 Explanation: 
 The provided decorator correctly handles both synchronous and asynchronous functions. For synchronous functions, it uses `time.time()` which is accurate for measuring elapsed time in a blocking manner. For asynchronous functions, using `asyncio.sleep` inside the wrapper will not block the event loop; instead, it will allow other tasks to run during the sleep period, making the decorator more efficient than necessary for timing async functions. The use of `@wraps(func)` ensures that metadata of the original function is preserved."
+"2025-09-28 08:01";"[QUESTION]
+Consider the following Python code snippet that utilizes both decorators and metaclasses:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'greet' not in dct:
+            raise TypeError(""Class must have a greet method"")
+        return super().__new__(cls, name, bases, dct)
+
+def greet_decorator(cls):
+    original_greet = cls.greet
+
+    @classmethod
+    def greet(cls, *args, **kwargs):
+        print(""Greet decorator says:"", end="" "")
+        return original_greet(*args, **kwargs)
+    
+    cls.greet = greet
+    return cls
+
+@greet_decorator
+class MyClass(metaclass=Meta):
+    def greet(self):
+        return ""Hello!""
+
+# Create an instance of MyClass and call its greet method
+instance = MyClass()
+print(instance.greet())
+```
+
+What will be the output when the code is executed? Choose the correct option:
+
+A) Greet decorator says: Hello!
+B) TypeError: Class must have a greet method
+C) AttributeError: 'MyClass' object has no attribute 'greet'
+D) None";"[ANSWER] A) Greet decorator says: Hello!
+
+Explanation: The code defines a metaclass `Meta` that ensures any subclass must implement a `greet` method. It also defines a decorator `greet_decorator` that wraps the original `greet` method, adding a greeting before calling it. When an instance of `MyClass` is created and its `greet` method is called, the output will be ""Greet decorator says: Hello!"", demonstrating both the metaclass enforcing the presence of the `greet` method and the decorator modifying how the method behaves."
