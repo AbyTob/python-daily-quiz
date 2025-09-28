@@ -20719,3 +20719,52 @@ When an instance of `MyClass` is created, Python first invokes the metaclass's `
 Next, because `class_decorator` is applied to `MyClass`, Python uses it to modify the class before the instance creation process completes. The decorator replaces the `__init__` method of `MyClass`. When an instance is created, Python first calls this modified `__init__` method which prints ""Decorator init called"" and then proceeds to call the original `__init__` method.
 
 Thus, both messages are printed when an instance of `MyClass` is created."
+"2025-09-28 00:02";"";"**Part 1 (Question):**
+You are tasked with creating a Python program that measures the time taken by different functions to execute. You want to implement this functionality using decorators, specifically focusing on handling asynchronous functions as well. Here's the code you have:
+
+```python
+import asyncio
+from functools import wraps
+
+def timing_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.6f} seconds to run."")
+        return result
+    return wrapper
+
+@timing_decorator
+async def async_function():
+    await asyncio.sleep(1)
+
+@timing_decorator
+def sync_function():
+    time.sleep(1)
+
+import time
+
+async def main():
+    await asyncio.gather(async_function(), sync_function())
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+Which of the following statements correctly implements the decorator for both synchronous and asynchronous functions?
+
+A) The `timing_decorator` works as intended, providing accurate timing for both synchronous and asynchronous function calls.
+
+B) The `asyncio.sleep` in `sync_function` will block the event loop, making it less efficient than necessary.
+
+C) The decorator does not support async functions because of the missing `await` keyword inside the wrapper.
+
+D) The `time.time()` used in the decorator is inappropriate for measuring time in asynchronous functions due to its blocking nature.
+
+**Part 2 (Answer):**
+A) The `timing_decorator` works as intended, providing accurate timing for both synchronous and asynchronous function calls.
+
+Explanation: 
+The provided decorator correctly handles both synchronous and asynchronous functions. For synchronous functions, it uses `time.time()` which is accurate for measuring elapsed time in a blocking manner. For asynchronous functions, using `asyncio.sleep` inside the wrapper will not block the event loop; instead, it will allow other tasks to run during the sleep period, making the decorator more efficient than necessary for timing async functions. The use of `@wraps(func)` ensures that metadata of the original function is preserved."
