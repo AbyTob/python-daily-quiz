@@ -21011,3 +21011,28 @@ C. An error is raised
 D. The program crashes";"**Answer: B. `""Method added by Meta""`
 
 Explanation:** In Python, metaclasses allow for the customization of class creation. In this example, a metaclass named `Meta` is defined to add a method called `dynamic_method` to any class that uses it as its metaclass. The `__new__` method of the metaclass is overridden to dynamically add the method to the class dictionary (`dct`). When an instance of `MyClass` is created, and the `dynamic_method` is called on this instance, it executes successfully, printing `""Method added by Meta""` as a result of the dynamic method addition."
+"2025-09-30 08:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to intercept class creation:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'answer' not in dct:
+            raise ValueError(""Missing answer attribute"")
+        return super().__new__(cls, name, bases, dct)
+
+class Question(metaclass=Meta):
+    pass
+
+class Answer(Question):
+    answer = ""Python""
+```
+
+Which of the following statements is true regarding the behavior of this code?
+
+A) The `Answer` class will be created successfully without any errors.
+B) An error will occur because the `Question` class does not define an `answer` attribute.
+C) The `Meta` metaclass will raise a `ValueError` when trying to create an instance of `Question`.
+D) The `Meta` metaclass will not interfere with the creation of classes.";"B) An error will occur because the `Question` class does not define an `answer` attribute.
+
+Explanation: In Python, metaclasses are used to control the creation and behavior of classes. When a new class is defined using a metaclass (in this case, the `Meta` class), the metaclass's `__new__` method is called with arguments representing the name of the class, its base classes, and its dictionary of attributes. If the attribute 'answer' is not present in the dictionary at the time the class is being created, the metaclass will raise a `ValueError`. Since the `Question` class does not have an `answer` attribute defined, creating an instance of `Answer`, which inherits from `Question`, will result in a `ValueError` being raised during the creation of the `Answer` class."
