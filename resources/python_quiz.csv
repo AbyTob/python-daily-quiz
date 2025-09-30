@@ -21036,3 +21036,43 @@ C) The `Meta` metaclass will raise a `ValueError` when trying to create an insta
 D) The `Meta` metaclass will not interfere with the creation of classes.";"B) An error will occur because the `Question` class does not define an `answer` attribute.
 
 Explanation: In Python, metaclasses are used to control the creation and behavior of classes. When a new class is defined using a metaclass (in this case, the `Meta` class), the metaclass's `__new__` method is called with arguments representing the name of the class, its base classes, and its dictionary of attributes. If the attribute 'answer' is not present in the dictionary at the time the class is being created, the metaclass will raise a `ValueError`. Since the `Question` class does not have an `answer` attribute defined, creating an instance of `Answer`, which inherits from `Question`, will result in a `ValueError` being raised during the creation of the `Answer` class."
+"2025-09-30 16:01";"Part 1 (Question):
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncWorker:
+    def __init__(self, name):
+        self.name = name
+
+    async def work(self):
+        print(f""{self.name} is working"")
+        await asyncio.sleep(1)
+        print(f""{self.name} has finished"")
+
+async def main():
+    worker1 = AsyncWorker(""Alice"")
+    worker2 = AsyncWorker(""Bob"")
+    
+    tasks = [worker1.work(), worker2.work()]
+    await asyncio.gather(*tasks)
+
+if __name__ == ""__main__"":
+    import time
+    start_time = time.time()
+    asyncio.run(main())
+    end_time = time.time()
+    print(f""Total time taken: {end_time - start_time} seconds"")
+```
+
+Which of the following statements is true regarding the execution time of this script?
+
+A) The script will take approximately 2 seconds to run.
+B) The script will take approximately 1 second to run.
+C) The script will take longer than 2 seconds to run due to GIL restrictions.
+D) The script will raise a `RuntimeError` because `asyncio.run(main())` is called from within an `if __name__ == ""__main__"":` block.";"Part 2 (Answer):
+B) The script will take approximately 1 second to run.
+
+Explanation:
+The `asyncio.sleep(1)` call in the `work` method of the `AsyncWorker` class simulates a blocking I/O operation. When this coroutine is called within an asyncio event loop, it does not block the execution of other coroutines. Instead, it allows other tasks to run while waiting for the sleep to complete. Therefore, both ""Alice"" and ""Bob"" will be working concurrently, reducing the total time taken to approximately 1 second. This demonstrates the non-blocking nature of asynchronous programming with asyncio."
