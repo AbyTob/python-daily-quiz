@@ -20989,3 +20989,25 @@ C) The metaclass `TimerMeta` and the decorator `timer` will both contribute to m
 D) When an instance of `MyClass` is created, only the metaclass contributes to measuring the initialization time.";"[ANSWER] C) The metaclass `TimerMeta` and the decorator `timer` will both contribute to measuring the initialization time of `MyClass` instances.
 
 Explanation: The `TimerMeta` class is a metaclass that adds timing functionality when an instance of `MyClass` is created. It measures the time taken for the `__init__` method. Additionally, the `@timer` decorator is used on a class method (in this case, implicitly through the decorator's application), which will measure the execution time of any method defined in `MyClass`. Therefore, both the metaclass and the decorator contribute to timing, making option C correct."
+"2025-09-30 00:01";"[QUESTION] Consider the following Python code that uses a metaclass to add a method dynamically to classes:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_method'] = lambda self: f""Method added by {name}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.dynamic_method())
+```
+
+What will be the output when `print(obj.dynamic_method())` is executed?  
+A. `None`  
+B. `""Method added by Meta""`  
+C. An error is raised  
+D. The program crashes";"**Answer: B. `""Method added by Meta""`
+
+Explanation:** In Python, metaclasses allow for the customization of class creation. In this example, a metaclass named `Meta` is defined to add a method called `dynamic_method` to any class that uses it as its metaclass. The `__new__` method of the metaclass is overridden to dynamically add the method to the class dictionary (`dct`). When an instance of `MyClass` is created, and the `dynamic_method` is called on this instance, it executes successfully, printing `""Method added by Meta""` as a result of the dynamic method addition."

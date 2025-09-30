@@ -3288,5 +3288,12 @@
     "answer": "[ANSWER] C) The metaclass `TimerMeta` and the decorator `timer` will both contribute to measuring the initialization time of `MyClass` instances.\n\nExplanation: The `TimerMeta` class is a metaclass that adds timing functionality when an instance of `MyClass` is created. It measures the time taken for the `__init__` method. Additionally, the `@timer` decorator is used on a class method (in this case, implicitly through the decorator's application), which will measure the execution time of any method defined in `MyClass`. Therefore, both the metaclass and the decorator contribute to timing, making option C correct.",
     "timestamp": "2025-09-29 16:02:14",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-09-30": {
+    "id": "1759190491_1",
+    "question": "[QUESTION] Consider the following Python code that uses a metaclass to add a method dynamically to classes:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self: f\"Method added by {name}\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\nprint(obj.dynamic_method())\n```\n\nWhat will be the output when `print(obj.dynamic_method())` is executed?  \nA. `None`  \nB. `\"Method added by Meta\"`  \nC. An error is raised  \nD. The program crashes",
+    "answer": "**Answer: B. `\"Method added by Meta\"`\n\nExplanation:** In Python, metaclasses allow for the customization of class creation. In this example, a metaclass named `Meta` is defined to add a method called `dynamic_method` to any class that uses it as its metaclass. The `__new__` method of the metaclass is overridden to dynamically add the method to the class dictionary (`dct`). When an instance of `MyClass` is created, and the `dynamic_method` is called on this instance, it executes successfully, printing `\"Method added by Meta\"` as a result of the dynamic method addition.",
+    "timestamp": "2025-09-30 00:01:31",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
