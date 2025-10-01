@@ -21105,3 +21105,37 @@ C. The `asyncio.gather(*tasks)` will run all tasks concurrently and collect thei
 D. The output order of the results in `main()` is guaranteed to be in the same order as the input URLs.";"B. The `fetch_data` function returns a coroutine object.
 
 Explanation: In Python, when you define an asynchronous function using the `async def` syntax, it does not immediately execute but instead returns a coroutine object that represents the execution of the function. This coroutine object can then be scheduled to run asynchronously using an event loop like in this example with `asyncio.run(main())`. The coroutine itself is not executing until it hits an `await` expression, which it does when calling `await asyncio.sleep(1)`."
+"2025-10-01 08:01";"[QUESTION]  
+Consider the following Python code snippet that demonstrates a decorator for class methods:
+
+```python
+from functools import wraps
+
+def log_method_calls(cls):
+    for name, value in cls.__dict__.items():
+        if callable(value) and not name.startswith('__'):
+            setattr(cls, name, wrap_method(value))
+    return cls
+
+def wrap_method(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling method {func.__name__} with args {args[1:]} and kwargs {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_method_calls
+class Calculator:
+    def add(self, a, b):
+        return a + b
+    
+    def subtract(self, a, b):
+        return a - b
+```
+
+Which of the following statements accurately describes what happens when an instance of `Calculator` is created and a method is called on it?
+
+A) The decorator `log_method_calls` logs each method call without modifying the original methods.
+B) The decorator `log_method_calls` dynamically replaces each callable method in `Calculator` with a new function that logs calls before executing the original method.
+C) When an instance of `Calculator` is created, no changes are made to its methods; only the class itself gets a new attribute.
+D) The methods `add` and `subtract` are not callable after applying the decorator.";"B) The decorator `log_method_calls` dynamically replaces each callable method in `Calculator` with a new function that logs calls before executing the original method."
