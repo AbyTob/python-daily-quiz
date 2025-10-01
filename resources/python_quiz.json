@@ -3309,5 +3309,12 @@
     "answer": "Part 2 (Answer):\nB) The script will take approximately 1 second to run.\n\nExplanation:\nThe `asyncio.sleep(1)` call in the `work` method of the `AsyncWorker` class simulates a blocking I/O operation. When this coroutine is called within an asyncio event loop, it does not block the execution of other coroutines. Instead, it allows other tasks to run while waiting for the sleep to complete. Therefore, both \"Alice\" and \"Bob\" will be working concurrently, reducing the total time taken to approximately 1 second. This demonstrates the non-blocking nature of asynchronous programming with asyncio.",
     "timestamp": "2025-09-30 16:01:53",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-10-01": {
+    "id": "1759276899_1",
+    "question": "[QUESTION]\nConsider the following Python code using asyncio for asynchronous I/O operations:\n\n```python\nimport asyncio\n\nasync def fetch_data(url):\n    print(f\"Fetching data from {url}\")\n    await asyncio.sleep(1)  # Simulate network delay\n    return f\"data from {url}\"\n\nasync def main():\n    urls = [\"http://example.com\", \"http://example.org\"]\n    tasks = [fetch_data(url) for url in urls]\n    results = await asyncio.gather(*tasks)\n    print(results)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements about this code is incorrect?\n\nA. The `asyncio.sleep(1)` simulates a blocking I/O operation.\nB. The `fetch_data` function returns a coroutine object.\nC. The `asyncio.gather(*tasks)` will run all tasks concurrently and collect their results.\nD. The output order of the results in `main()` is guaranteed to be in the same order as the input URLs.",
+    "answer": "B. The `fetch_data` function returns a coroutine object.\n\nExplanation: In Python, when you define an asynchronous function using the `async def` syntax, it does not immediately execute but instead returns a coroutine object that represents the execution of the function. This coroutine object can then be scheduled to run asynchronously using an event loop like in this example with `asyncio.run(main())`. The coroutine itself is not executing until it hits an `await` expression, which it does when calling `await asyncio.sleep(1)`.",
+    "timestamp": "2025-10-01 00:01:39",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
