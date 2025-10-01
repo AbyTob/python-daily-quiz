@@ -21139,3 +21139,35 @@ A) The decorator `log_method_calls` logs each method call without modifying the 
 B) The decorator `log_method_calls` dynamically replaces each callable method in `Calculator` with a new function that logs calls before executing the original method.
 C) When an instance of `Calculator` is created, no changes are made to its methods; only the class itself gets a new attribute.
 D) The methods `add` and `subtract` are not callable after applying the decorator.";"B) The decorator `log_method_calls` dynamically replaces each callable method in `Calculator` with a new function that logs calls before executing the original method."
+"2025-10-01 16:01";"[QUESTION]
+Consider the following Python code that uses a decorator to measure the execution time of functions:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Executing {func.__name__} took {end_time - start_time:.4f} seconds."")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    return sum(range(1, n + 1))
+
+if __name__ == ""__main__"":
+    compute_sum(10**6)
+```
+
+Which of the following statements is true regarding this code?
+
+A) The `timer` decorator modifies the original function's behavior by adding a timing feature without altering its core functionality.
+
+B) When `compute_sum(10**6)` is called, it will print out the time taken to execute but will not return any value.
+
+C) The `wrapper` function inside `timer` modifies the global namespace of the decorated function by directly changing its attributes.
+
+D) Using decorators for performance monitoring can affect the readability and maintainability of large codebases.";"A) The `timer` decorator modifies the original function's behavior by adding a timing feature without altering its core functionality."
