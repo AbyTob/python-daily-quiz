@@ -21229,3 +21229,39 @@ B) The `timing_decorator` will correctly measure and print the time taken by the
 C) The `wrapper` function does not need to return `result` because it is not used anywhere in the code.
 
 D) The decorator will cause a memory leak because of the use of `time.time()`.";"B) The `timing_decorator` will correctly measure and print the time taken by the `compute_sum` function."
+"2025-10-02 16:01";"**Part 1 (Question):**
+
+Consider the following code snippet that uses a metaclass to create a singleton pattern:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=SingletonMeta):
+    pass
+
+# Usage example
+obj1 = MyClass()
+obj2 = MyClass()
+
+print(obj1 is obj2)  # True or False?
+```
+
+Which of the following statements correctly describes what will be printed when the code is executed?
+
+A) `True`  
+B) `False`  
+C) The program will raise an error because of a circular import.  
+D) The output cannot be determined without knowing the implementation details.
+
+**Part 2 (Answer):**
+
+A) `True`
+
+Explanation: When the `MyClass` is instantiated for the first time, the metaclass's `__call__` method checks if an instance of `MyClass` already exists in `_instances`. Since it does not, a new instance is created and stored in `_instances`. When `MyClass()` is called again, the same instance is returned from `_instances`, hence `obj1 is obj2` evaluates to `True`.";"Answer format error. Please check the generated content."

@@ -3344,5 +3344,12 @@
     "answer": "B) The `timing_decorator` will correctly measure and print the time taken by the `compute_sum` function.",
     "timestamp": "2025-10-02 08:01:27",
     "topic": "Functions and Functional Programming"
+  },
+  "q3_2025-10-02": {
+    "id": "1759420893_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following code snippet that uses a metaclass to create a singleton pattern:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass MyClass(metaclass=SingletonMeta):\n    pass\n\n# Usage example\nobj1 = MyClass()\nobj2 = MyClass()\n\nprint(obj1 is obj2)  # True or False?\n```\n\nWhich of the following statements correctly describes what will be printed when the code is executed?\n\nA) `True`  \nB) `False`  \nC) The program will raise an error because of a circular import.  \nD) The output cannot be determined without knowing the implementation details.\n\n**Part 2 (Answer):**\n\nA) `True`\n\nExplanation: When the `MyClass` is instantiated for the first time, the metaclass's `__call__` method checks if an instance of `MyClass` already exists in `_instances`. Since it does not, a new instance is created and stored in `_instances`. When `MyClass()` is called again, the same instance is returned from `_instances`, hence `obj1 is obj2` evaluates to `True`.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-10-02 16:01:33",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
