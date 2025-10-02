@@ -3337,5 +3337,12 @@
     "answer": "[A] It will raise a `TypeError`  \nExplanation: The metaclass `UniqueIDMeta` ensures that no two instances of `UniqueID` can have the same ID. If an attempt is made to create a second instance with the same ID, it raises a `ValueError`, not a `TypeError`.",
     "timestamp": "2025-10-02 00:01:34",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-10-02": {
+    "id": "1759392087_2",
+    "question": "[QUESTION]\nConsider the following code snippet that aims to create a decorator which measures the execution time of any function it decorates:\n\n```python\nimport time\n\ndef timing_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Executing {func.__name__} took {end_time - start_time:.4f} seconds.\")\n        return result\n    return wrapper\n\n@timing_decorator\ndef compute_sum(n):\n    return sum(range(n))\n\ncompute_sum(1000000)\n```\n\nWhich of the following statements is true regarding the above code?\n\nA) The decorator will not work as expected due to the use of `*args` and `**kwargs`.\n\nB) The `timing_decorator` will correctly measure and print the time taken by the `compute_sum` function.\n\nC) The `wrapper` function does not need to return `result` because it is not used anywhere in the code.\n\nD) The decorator will cause a memory leak because of the use of `time.time()`.",
+    "answer": "B) The `timing_decorator` will correctly measure and print the time taken by the `compute_sum` function.",
+    "timestamp": "2025-10-02 08:01:27",
+    "topic": "Functions and Functional Programming"
   }
 }
