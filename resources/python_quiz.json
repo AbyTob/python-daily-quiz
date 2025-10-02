@@ -3330,5 +3330,12 @@
     "answer": "A) The `timer` decorator modifies the original function's behavior by adding a timing feature without altering its core functionality.",
     "timestamp": "2025-10-01 16:01:31",
     "topic": "Function and Method Decorators"
+  },
+  "q1_2025-10-02": {
+    "id": "1759363294_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to ensure that all instances of a class have a unique ID:\n\n```python\nclass UniqueIDMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        instance_id = args[0] if args else kwargs.get('id')\n        if instance_id in cls._instances:\n            raise ValueError(f\"Instance with id '{instance_id}' already exists.\")\n        instance = super().__call__(*args, **kwargs)\n        cls._instances[instance_id] = instance\n        return instance\n\nclass UniqueID(metaclass=UniqueIDMeta):\n    def __init__(self, id):\n        self.id = id\n```\n\nWhat will happen if you try to create an instance of `UniqueID` with the same ID more than once?\n\nA) It will raise a `TypeError`\nB) It will return a new instance without raising any errors\nC) It will update the existing instance with the new data\nD) It will raise a `ValueError`",
+    "answer": "[A] It will raise a `TypeError`  \nExplanation: The metaclass `UniqueIDMeta` ensures that no two instances of `UniqueID` can have the same ID. If an attempt is made to create a second instance with the same ID, it raises a `ValueError`, not a `TypeError`.",
+    "timestamp": "2025-10-02 00:01:34",
+    "topic": "Object-Oriented Programming"
   }
 }
