@@ -21265,3 +21265,106 @@ D) The output cannot be determined without knowing the implementation details.
 A) `True`
 
 Explanation: When the `MyClass` is instantiated for the first time, the metaclass's `__call__` method checks if an instance of `MyClass` already exists in `_instances`. Since it does not, a new instance is created and stored in `_instances`. When `MyClass()` is called again, the same instance is returned from `_instances`, hence `obj1 is obj2` evaluates to `True`.";"Answer format error. Please check the generated content."
+"2025-10-03 00:02";"[QUESTION]
+You are developing a web application that requires efficient handling of database connections. You decide to implement a connection pool that uses context managers to manage the lifecycle of each connection. The goal is to ensure that all connections are properly closed after use, even if an error occurs during their execution.
+
+Implement a `ConnectionPool` class using a context manager. The class should allow for the creation and management of multiple database connections. When entering the context manager, it should return a connection from the pool, and when exiting, it should ensure that the connection is returned to the pool or closed if an error occurs.
+
+Here's a partial implementation:
+```python
+class ConnectionPool:
+    def __init__(self, max_connections):
+        self.max_connections = max_connections
+        self.pool = []
+
+    def get_connection(self):
+        # Implement this method to return a connection from the pool
+        pass
+
+    def release_connection(self, conn):
+        # Implement this method to release a connection back to the pool
+        pass
+
+    def __enter__(self):
+        if len(self.pool) == 0:
+            raise ValueError(""No available connections in the pool"")
+        return self.get_connection()
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        # Implement this method to handle the exit of the context manager
+        pass
+
+# Example usage:
+pool = ConnectionPool(5)
+with pool as conn:
+    result = conn.execute(""SELECT * FROM users"")
+```
+
+Which of the following options correctly completes the `ConnectionPool` class?
+
+A) 
+```python
+def get_connection(self):
+    return self.pool.pop()
+
+def release_connection(self, conn):
+    self.pool.append(conn)
+
+def __exit__(self, exc_type, exc_value, traceback):
+    if exc_type is not None:
+        raise exc_value
+```
+
+B) 
+```python
+def get_connection(self):
+    return self.pool.pop() if self.pool else self.create_new_connection()
+
+def release_connection(self, conn):
+    self.pool.append(conn)
+
+def __exit__(self, exc_type, exc_value, traceback):
+    if exc_type is None:
+        self.release_connection()
+```
+
+C) 
+```python
+def get_connection(self):
+    return self.pool.pop()
+
+def release_connection(self, conn):
+    self.pool.append(conn)
+
+def __exit__(self, exc_type, exc_value, traceback):
+    if exc_type is not None:
+        self.release_connection()
+    else:
+        raise exc_value
+```
+
+D) 
+```python
+def get_connection(self):
+    return self.pool.pop() if self.pool else None
+
+def release_connection(self, conn):
+    self.pool.append(conn)
+
+def __exit__(self, exc_type, exc_value, traceback):
+    if exc_type is not None:
+        self.release_connection()
+```";"D) 
+```python
+def get_connection(self):
+    return self.pool.pop() if self.pool else None
+
+def release_connection(self, conn):
+    self.pool.append(conn)
+
+def __exit__(self, exc_type, exc_value, traceback):
+    if exc_type is not None:
+        self.release_connection()
+```
+
+This option correctly handles the creation of new connections when none are available and ensures that connections are always returned to the pool or closed properly upon exiting the context manager."
