@@ -21445,3 +21445,30 @@ A) The `main` function will complete before tasks A and B finish.
 B) The `task` functions do not return any value, so calling `await task1` will raise an error.  
 C) Tasks A and B run concurrently, and the output order might be ""Task A started"", ""Task B started"", ""Task A completed"", ""Task B completed"".  
 D) There is a memory leak due to unclosed tasks.";"B) The `task` functions do not return any value, so calling `await task1` will raise an error."
+"2025-10-04 00:01";"[QUESTION]
+Consider the following Python code snippet that uses metaclasses to create a class factory:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        dct['created'] = True
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+print(MyClass.created)
+```
+
+What does this code output and why?
+
+A) An error because metaclasses cannot be used with regular classes  
+B) The text ""Creating class MyClass"" followed by `True`  
+C) The text ""Creating class Meta"" followed by `True`  
+D) `False`";"**Answer: B) The text ""Creating class MyClass"" followed by `True`**
+
+Explanation:
+In the provided code, `Meta` is a metaclass that overrides the `__new__` method. When `MyClass` is defined, Python's type system automatically calls this method with the necessary arguments. Inside the `__new__` method of the metaclass, it prints the message ""Creating class {name}"", where `{name}` is the name of the class being created (`'MyClass'`). Additionally, it adds a new attribute `created` to the class dictionary and sets its value to `True`. After defining `MyClass`, we print the value of `MyClass.created`, which will be `True`.
+
+Option A is incorrect because metaclasses can indeed be used with regular classes. Option C is wrong because the `__new__` method is called on the metaclass itself, not on the class being created. Option D is incorrect as the value of `MyClass.created` is set to `True`, not `False`."

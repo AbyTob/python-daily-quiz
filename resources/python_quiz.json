@@ -3372,5 +3372,12 @@
     "answer": "B) The `task` functions do not return any value, so calling `await task1` will raise an error.",
     "timestamp": "2025-10-03 16:01:27",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-10-04": {
+    "id": "1759536115_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses metaclasses to create a class factory:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        print(f\"Creating class {name}\")\n        dct['created'] = True\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nprint(MyClass.created)\n```\n\nWhat does this code output and why?\n\nA) An error because metaclasses cannot be used with regular classes  \nB) The text \"Creating class MyClass\" followed by `True`  \nC) The text \"Creating class Meta\" followed by `True`  \nD) `False`",
+    "answer": "**Answer: B) The text \"Creating class MyClass\" followed by `True`**\n\nExplanation:\nIn the provided code, `Meta` is a metaclass that overrides the `__new__` method. When `MyClass` is defined, Python's type system automatically calls this method with the necessary arguments. Inside the `__new__` method of the metaclass, it prints the message \"Creating class {name}\", where `{name}` is the name of the class being created (`'MyClass'`). Additionally, it adds a new attribute `created` to the class dictionary and sets its value to `True`. After defining `MyClass`, we print the value of `MyClass.created`, which will be `True`.\n\nOption A is incorrect because metaclasses can indeed be used with regular classes. Option C is wrong because the `__new__` method is called on the metaclass itself, not on the class being created. Option D is incorrect as the value of `MyClass.created` is set to `True`, not `False`.",
+    "timestamp": "2025-10-04 00:01:55",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
