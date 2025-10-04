@@ -21519,3 +21519,49 @@ B) The `fetch_data` function is decorated with a class-based decorator `AsyncDec
 - The `fetch_data` function is defined as an `async def`, but since it's decorated with `@AsyncDecorator`, the actual execution of `fetch_data` inside `main` will be handled asynchronously by the event loop.
 - When `await fetch_data()` is called in `main`, it schedules `fetch_data` to run asynchronously. The event loop runs this coroutine, waits for 1 second as simulated by `asyncio.sleep(1)`, and then returns ""Data fetched"".
 - This demonstrates how a class-based decorator can be used to convert synchronous functions into asynchronous ones, facilitating the use of async/await syntax effectively."
+"2025-10-04 16:02";"";"Part 1 (Question): 
+Consider the following code snippet which uses a metaclass and decorators:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['new_attribute'] = 'I am a new attribute'
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class MyClass:
+    existing_attribute = 'I am an existing attribute'
+
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator is running"")
+        result = func(*args, **kwargs)
+        print(""Decorator is done"")
+        return result
+    return wrapper
+
+@my_decorator
+def my_function():
+    print(""Function is running"")
+
+obj = MyClass()
+my_function()
+
+print(obj.new_attribute)
+```
+
+Which of the following statements about the given code are true?
+
+A) The metaclass `Meta` adds a new attribute to the class `MyClass`.
+B) The decorator `my_decorator` wraps the function `my_function` and prints messages before and after its execution.
+C) When an instance of `MyClass` is created, it will have both `existing_attribute` and `new_attribute`.
+D) Calling `my_function()` will result in printing ""Decorator is running"", then ""Function is running"", and finally ""Decorator is done"".
+
+Part 2 (Answer):
+A) This statement is true. The metaclass `Meta` dynamically adds a new attribute called `new_attribute` to any class it is applied to, as shown by its `__new__` method.
+
+B) This statement is also true. The decorator `my_decorator` does wrap the function `my_function`, and upon calling `my_function()`, it will first print ""Decorator is running"", then execute the function itself (printing ""Function is running""), and finally print ""Decorator is done"".
+
+C) This statement is true. Instances of `MyClass` are created with both `existing_attribute` from the class definition and `new_attribute` added by the metaclass, as confirmed by the final print statement which outputs the value of `obj.new_attribute`.
+
+D) This statement is correct too. The output of calling `my_function()` will indeed be ""Decorator is running"", followed by ""Function is running"", and then ""Decorator is done""."
