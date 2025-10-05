@@ -21565,3 +21565,37 @@ B) This statement is also true. The decorator `my_decorator` does wrap the funct
 C) This statement is true. Instances of `MyClass` are created with both `existing_attribute` from the class definition and `new_attribute` added by the metaclass, as confirmed by the final print statement which outputs the value of `obj.new_attribute`.
 
 D) This statement is correct too. The output of calling `my_function()` will indeed be ""Decorator is running"", followed by ""Function is running"", and then ""Decorator is done""."
+"2025-10-05 00:01";"";"**Part 1 (Question):**  
+Consider the following Python code that uses a metaclass to modify class behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        # Modify or add attributes to the class dictionary
+        if 'my_attr' not in dct:
+            dct['my_attr'] = 'default_value'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+# Create an instance of MyClass and access my_attr
+instance = MyClass()
+print(instance.my_attr)
+```
+
+Which of the following statements correctly describes what happens when `MyClass` is instantiated?
+
+A) The `my_attr` attribute is added to `MyClass` with a default value of 'default_value'.
+
+B) An error occurs because `my_attr` is not defined in the class and no default value is provided.
+
+C) The `my_attr` attribute from an instance of `MyClass` can be accessed but will raise an AttributeError since it's not explicitly set.
+
+D) The `my_attr` attribute cannot be accessed from any instance of `MyClass`.
+
+**Part 2 (Answer):**  
+A) The `my_attr` attribute is added to `MyClass` with a default value of 'default_value'.
+
+Explanation:
+When the metaclass `Meta` is applied to `MyClass`, the `__new__` method of the metaclass is called. This method modifies or adds attributes to the class dictionary (`dct`) passed to it. Since `'my_attr'` is not in the dictionary, the metaclass adds it with a default value of 'default_value'. When an instance of `MyClass` is created and `my_attr` is accessed, it returns the value 'default_value' as added by the metaclass during class creation."
