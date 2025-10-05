@@ -21640,3 +21640,49 @@ D) The timers will run sequentially, but the total execution time will be less t
 A) The timers will run concurrently, and the total execution time will be approximately 3 seconds.
 
 Explanation: This code creates three `AsyncTimer` instances that are started using asyncio.gather(), which runs them concurrently. Since each timer waits for a sleep period equal to its duration, the total execution time is the maximum of these durations, which is 1 second, not 3 seconds. Therefore, all timers run concurrently, and the total execution time will be approximately 3 seconds.";"Answer format error. Please check the generated content."
+"2025-10-05 16:01";"[QUESTION]
+Consider the following Python code that aims to create a simple asynchronous server using asyncio:
+
+```python
+import asyncio
+
+class AsyncServer:
+    def __init__(self, port):
+        self.port = port
+        self.server = None
+
+    async def start(self):
+        self.server = await asyncio.start_server(self.handle_client, '127.0.0.1', self.port)
+        addr = self.server.sockets[0].getsockname()
+        print(f'Serving on {addr}')
+
+        async with self.server:
+            await self.server.serve_forever()
+
+    async def handle_client(self, reader, writer):
+        data = await reader.read(100)
+        message = data.decode().strip()
+        addr = writer.get_extra_info('peername')
+
+        print(f""Received {message} from {addr}"")
+
+        response = f'Echo: {message}'
+        writer.write(response.encode())
+        await writer.drain()
+
+        print(""Closing the connection"")
+        writer.close()
+
+# Usage
+server = AsyncServer(8888)
+asyncio.run(server.start())
+```
+
+Which of the following statements is true regarding the above code?
+
+A) The server will run indefinitely until manually stopped.
+B) The `handle_client` method runs in parallel for each client connection using threads.
+C) Each client's request is processed sequentially in a single thread.
+D) The use of asyncio ensures that the entire program can handle multiple clients simultaneously without blocking.";"A) The server will run indefinitely until manually stopped.
+
+This is true because `await self.server.serve_forever()` keeps the event loop running, allowing the server to continuously accept new connections and handle them asynchronously."

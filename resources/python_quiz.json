@@ -3407,5 +3407,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-10-05 08:01:47",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-10-05": {
+    "id": "1759680106_3",
+    "question": "[QUESTION]\nConsider the following Python code that aims to create a simple asynchronous server using asyncio:\n\n```python\nimport asyncio\n\nclass AsyncServer:\n    def __init__(self, port):\n        self.port = port\n        self.server = None\n\n    async def start(self):\n        self.server = await asyncio.start_server(self.handle_client, '127.0.0.1', self.port)\n        addr = self.server.sockets[0].getsockname()\n        print(f'Serving on {addr}')\n\n        async with self.server:\n            await self.server.serve_forever()\n\n    async def handle_client(self, reader, writer):\n        data = await reader.read(100)\n        message = data.decode().strip()\n        addr = writer.get_extra_info('peername')\n\n        print(f\"Received {message} from {addr}\")\n\n        response = f'Echo: {message}'\n        writer.write(response.encode())\n        await writer.drain()\n\n        print(\"Closing the connection\")\n        writer.close()\n\n# Usage\nserver = AsyncServer(8888)\nasyncio.run(server.start())\n```\n\nWhich of the following statements is true regarding the above code?\n\nA) The server will run indefinitely until manually stopped.\nB) The `handle_client` method runs in parallel for each client connection using threads.\nC) Each client's request is processed sequentially in a single thread.\nD) The use of asyncio ensures that the entire program can handle multiple clients simultaneously without blocking.",
+    "answer": "A) The server will run indefinitely until manually stopped.\n\nThis is true because `await self.server.serve_forever()` keeps the event loop running, allowing the server to continuously accept new connections and handle them asynchronously.",
+    "timestamp": "2025-10-05 16:01:46",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
