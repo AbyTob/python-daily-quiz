@@ -21686,3 +21686,50 @@ C) Each client's request is processed sequentially in a single thread.
 D) The use of asyncio ensures that the entire program can handle multiple clients simultaneously without blocking.";"A) The server will run indefinitely until manually stopped.
 
 This is true because `await self.server.serve_forever()` keeps the event loop running, allowing the server to continuously accept new connections and handle them asynchronously."
+"2025-10-06 00:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to add a method `log_access` to any class it decorates. The purpose of this method is to log every access to any instance attribute of the class.
+
+```python
+class AccessLoggerMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name in dct:
+            if isinstance(dct[attr_name], property):
+                dct[f""_{attr_name}_get""] = dct[attr_name].fget
+                dct[f""_{attr_name}_set""] = dct[attr_name].fset
+                dct[attr_name] = property(
+                    lambda self, name=attr_name: cls.log_access(self, name),
+                    lambda self, value, name=attr_name: setattr(self, f""_{name}"", value)
+                )
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def log_access(instance, attr):
+        print(f""Accessing {attr}"")
+        return getattr(instance, f""_{attr}"")
+
+class User(metaclass=AccessLoggerMeta):
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+
+user = User(""john_doe"", ""john@example.com"")
+print(user.username)  # Accessing username
+```
+
+Which of the following statements about the code above is true?
+
+A. The `log_access` method will not log any access to attributes because it uses a lambda function incorrectly.
+
+B. When you create an instance of `User`, accessing `user.username` will print ""Accessing username"" and then return the value of `username`.
+
+C. Using metaclasses in this way is considered bad practice because it makes the code harder to read and maintain.
+
+D. The code will raise a `TypeError` when attempting to access an attribute because the `log_access` method does not handle setting the attribute correctly.
+
+**Part 2 (Answer):**
+
+B. When you create an instance of `User`, accessing `user.username` will print ""Accessing username"" and then return the value of `username`.
+
+Explanation:
+The metaclass `AccessLoggerMeta` dynamically wraps each property in a class with getter and setter methods that call `log_access`. This method logs access to attributes. In the given example, when you create an instance of `User` and try to access the `username` attribute, it will first log ""Accessing username"" and then return the value of the actual `username` attribute (which is stored in a private variable `_username`).";"Answer format error. Please check the generated content."
