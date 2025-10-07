@@ -21904,3 +21904,24 @@ result = add(3, 5)
 ```
 
 This approach allows you to maintain clean code while conditionally enabling or disabling logging based on the `DEBUG` environment variable."
+"2025-10-07 08:01";"[QUESTION] 
+Imagine you are developing a web application that needs to handle a large number of simultaneous connections. To optimize performance, you decide to implement an asynchronous I/O framework using Python's `asyncio` library. You want to ensure that each connection is handled by a separate coroutine and that the application can scale efficiently.
+
+Which of the following approaches would be most suitable for handling multiple concurrent connections in your web application?
+
+A) Use traditional synchronous blocking I/O methods.
+B) Implement a custom event loop using `asyncio.create_event_loop()`.
+C) Create a single asynchronous coroutine to handle all connections.
+D) Use threading or multiprocessing to manage separate threads or processes for each connection.";"A) Use traditional synchronous blocking I/O methods.  
+This option is not suitable because it would block the entire application when handling any single connection, leading to a lack of scalability.
+
+B) Implement a custom event loop using `asyncio.create_event_loop()`.  
+While this could theoretically work, it is unnecessary and redundant since Python's standard library provides a robust event loop implementation with `asyncio`.
+
+C) Create a single asynchronous coroutine to handle all connections.  
+This approach would not scale well because a single coroutine can only process one connection at a time, which defeats the purpose of using asynchronous I/O.
+
+D) Use threading or multiprocessing to manage separate threads or processes for each connection.  
+This is the most suitable option because it allows multiple coroutines (or threads/processes) to run concurrently, handling different connections at the same time. Each coroutine can use `asyncio`'s mechanisms to perform non-blocking I/O operations efficiently.
+
+Therefore, the correct answer is D: Use threading or multiprocessing to manage separate threads or processes for each connection."
