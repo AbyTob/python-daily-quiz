@@ -21925,3 +21925,41 @@ D) Use threading or multiprocessing to manage separate threads or processes for 
 This is the most suitable option because it allows multiple coroutines (or threads/processes) to run concurrently, handling different connections at the same time. Each coroutine can use `asyncio`'s mechanisms to perform non-blocking I/O operations efficiently.
 
 Therefore, the correct answer is D: Use threading or multiprocessing to manage separate threads or processes for each connection."
+"2025-10-07 16:02";"";"**Part 1 (Question):**
+
+Consider the following Python code that uses a metaclass to modify the behavior of classes. The goal is to automatically add a `created_at` attribute to any class it decorates with a timestamp when an instance of the class is created.
+
+```python
+import time
+
+class TimestampMeta(type):
+    def __new__(cls, name, bases, dct):
+        if 'created_at' not in dct:
+            dct['created_at'] = time.time()
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=TimestampMeta):
+    pass
+```
+
+Which of the following statements is true regarding the behavior of `MyClass` after it has been decorated with the `TimestampMeta` metaclass?
+
+A) Each instance of `MyClass` will have a unique `created_at` timestamp.
+
+B) All instances of `MyClass` will share the same `created_at` timestamp.
+
+C) The `created_at` attribute will not be added to instances of `MyClass`.
+
+D) Attempting to create an instance of `MyClass` will raise an error.
+
+**Part 2 (Answer):**
+
+A) Each instance of `MyClass` will have a unique `created_at` timestamp.
+
+Explanation:
+- The metaclass `TimestampMeta` adds a `created_at` attribute to any class it decorates. This is done in the `__new__` method where it checks if 'created_at' is not already in the dictionary `dct`. If not, it adds the current time as a timestamp.
+- Each time an instance of `MyClass` is created, the `__new__` method of its metaclass will be invoked. This means that each instance will get its own unique `created_at` timestamp at the moment of creation.
+- Options B, C, and D are incorrect because:
+  - Option B suggests all instances share a single timestamp, which is not what happens due to the use of `time.time()` inside `__new__`.
+  - Option C is incorrect as the `created_at` attribute is successfully added to each instance.
+  - Option D incorrectly implies that creating an instance will raise an error, which does not occur with this implementation."
