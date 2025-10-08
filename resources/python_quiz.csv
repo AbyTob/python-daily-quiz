@@ -22082,3 +22082,39 @@ sync_function()  # Should print ""sync_function took Y.YY seconds""
 ```
 
 In this corrected version, `time.time()` is used for synchronous functions to get accurate execution time. For asynchronous functions, the decorator waits for the coroutine to complete with `await`, ensuring that the actual execution time of the coroutine is measured correctly."
+"2025-10-08 16:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+class Singleton(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+@Singleton
+class DatabaseConnection:
+    def connect(self):
+        print(""Connecting to the database..."")
+
+def use_database():
+    db1 = DatabaseConnection()
+    db2 = DatabaseConnection()
+    
+    db1.connect()
+    db2.connect()
+
+use_database()
+```
+
+What is the output of the `use_database` function? Explain why.
+
+A) Connecting to the database... Connecting to the database...
+B) Connecting to the database...
+C) Error: Maximum recursion depth exceeded
+D) None";"A) Connecting to the database...
+
+Explanation: The Singleton metaclass ensures that only one instance of `DatabaseConnection` is created. When `use_database` is called, both `db1` and `db2` refer to the same instance, so calling `connect` on either will print ""Connecting to the database..."" only once."
