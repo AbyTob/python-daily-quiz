@@ -22154,3 +22154,45 @@ D) `RuntimeError: maximum recursion depth exceeded`";"**Answer:** A) `TypeError:
 The code defines a metaclass `MyMeta` that checks if the class it's creating has a method named `my_method`. If this method is not present, the metaclass raises a `TypeError`.
 
 In the case of `MySubClass`, it inherits from `MyClass` but intentionally does not define its own `my_method`. This causes the metaclass to fail during the creation of `MySubClass` because it doesn't find the required `my_method` in either `MySubClass` or any of its base classes. As a result, a `TypeError` is raised with the message ""Class does not define my_method""."
+"2025-10-09 08:01";"Part 1: 
+
+You are tasked with creating a Python function that utilizes decorators, metaclasses, and asyncio to manage asynchronous tasks efficiently. The goal is to create a class `AsyncTaskManager` that ensures all asynchronous methods within it run concurrently without waiting for each other.
+
+Here's a skeleton of what the `AsyncTaskManager` should look like:
+
+```python
+import asyncio
+
+class AsyncTaskManager:
+    def __init__(self):
+        self.tasks = []
+
+    def add_task(self, coroutine):
+        # Add an async task to the manager
+        pass
+
+    async def run_all_tasks_concurrently(self):
+        # Run all tasks concurrently and wait for all of them to complete
+        await asyncio.gather(*self.tasks)
+
+# Example usage:
+async def example_coroutine():
+    await asyncio.sleep(1)
+    print(""Task completed"")
+
+task_manager = AsyncTaskManager()
+task_manager.add_task(example_coroutine())
+asyncio.run(task_manager.run_all_tasks_concurrently())
+```
+
+Implement the missing parts of `AsyncTaskManager` to achieve the described functionality. What is a suitable metaclass that can be used to automatically add methods decorated with a specific decorator (e.g., `@async_task`) to the task manager's list?
+
+A) A simple class
+B) A metaclass that inherits from `type`
+C) A context manager
+D) An abstract base class";"Part 2: 
+
+The correct answer is B) A metaclass that inherits from `type`.
+
+Explanation:
+A metaclass in Python is a class of a class. By inheriting from the built-in `type` class, we can create a custom metaclass that automatically adds methods decorated with a specific decorator to an instance of `AsyncTaskManager`. This approach allows for dynamic method registration and management at runtime, ensuring that all asynchronous tasks are properly managed by the task manager."
