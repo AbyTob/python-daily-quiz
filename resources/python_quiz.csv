@@ -22196,3 +22196,33 @@ The correct answer is B) A metaclass that inherits from `type`.
 
 Explanation:
 A metaclass in Python is a class of a class. By inheriting from the built-in `type` class, we can create a custom metaclass that automatically adds methods decorated with a specific decorator to an instance of `AsyncTaskManager`. This approach allows for dynamic method registration and management at runtime, ensuring that all asynchronous tasks are properly managed by the task manager."
+"2025-10-09 16:01";"[QUESTION]
+Consider the following code snippet:
+
+```python
+import asyncio
+
+async def async_task():
+    print(""Task started"")
+    await asyncio.sleep(1)
+    print(""Task completed"")
+
+async def main():
+    tasks = [async_task() for _ in range(5)]
+    await asyncio.gather(*tasks)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What is the output of this program, and what principle does it demonstrate about the behavior of async/await?
+
+A) The output will be ""Task started"" five times immediately followed by ""Task completed"" five times. This demonstrates that async functions execute concurrently.
+
+B) The output will be ""Task started"" once, followed by a pause for 1 second, and then ""Task completed"". This demonstrates sequential execution.
+
+C) The output will be ""Task started"" ten times immediately followed by ""Task completed"" ten times. This demonstrates that the loop creates 10 tasks but only runs one concurrently.
+
+D) The program will raise an exception because asyncio.sleep(1) is not allowed in an async function.";"A) The output will be ""Task started"" five times immediately followed by ""Task completed"" five times. This demonstrates that async functions execute concurrently.
+
+The correct answer is A. This question tests the understanding of how async/await works and the principle of concurrent execution in Python's asyncio library. It requires comprehension of the difference between sequential and concurrent programming, as well as an understanding of how `asyncio.sleep()` and other awaitable objects are used to pause the execution of coroutines without blocking the event loop."
