@@ -3477,5 +3477,12 @@
     "answer": "A) Connecting to the database...\n\nExplanation: The Singleton metaclass ensures that only one instance of `DatabaseConnection` is created. When `use_database` is called, both `db1` and `db2` refer to the same instance, so calling `connect` on either will print \"Connecting to the database...\" only once.",
     "timestamp": "2025-10-08 16:01:25",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q1_2025-10-09": {
+    "id": "1759968101_1",
+    "question": "[QUESTION]  \n**Question:**\n\nConsider the following Python code snippet that uses metaclasses and class decoration:\n\n```python\nclass MyMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'my_method' not in dct:\n            raise TypeError(\"Class does not define my_method\")\n        return super().__new__(cls, name, bases, dct)\n\n@MyMeta\nclass MyClass:\n    def my_method(self):\n        print(\"Method is called\")\n\ntry:\n    class MySubClass(MyClass):\n        pass  # Intentionally left empty to trigger an error\nexcept TypeError as e:\n    print(e)\n```\n\nWhat will be the output of this code? Why?\n\nA) `TypeError: Class does not define my_method`  \nB) `Method is called`  \nC) `No output`  \nD) `RuntimeError: maximum recursion depth exceeded`",
+    "answer": "**Answer:** A) `TypeError: Class does not define my_method`  \n\n**Explanation:**\n\nThe code defines a metaclass `MyMeta` that checks if the class it's creating has a method named `my_method`. If this method is not present, the metaclass raises a `TypeError`.\n\nIn the case of `MySubClass`, it inherits from `MyClass` but intentionally does not define its own `my_method`. This causes the metaclass to fail during the creation of `MySubClass` because it doesn't find the required `my_method` in either `MySubClass` or any of its base classes. As a result, a `TypeError` is raised with the message \"Class does not define my_method\".",
+    "timestamp": "2025-10-09 00:01:41",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
