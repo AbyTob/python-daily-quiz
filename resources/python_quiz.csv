@@ -22226,3 +22226,43 @@ C) The output will be ""Task started"" ten times immediately followed by ""Task 
 D) The program will raise an exception because asyncio.sleep(1) is not allowed in an async function.";"A) The output will be ""Task started"" five times immediately followed by ""Task completed"" five times. This demonstrates that async functions execute concurrently.
 
 The correct answer is A. This question tests the understanding of how async/await works and the principle of concurrent execution in Python's asyncio library. It requires comprehension of the difference between sequential and concurrent programming, as well as an understanding of how `asyncio.sleep()` and other awaitable objects are used to pause the execution of coroutines without blocking the event loop."
+"2025-10-10 00:02";"Part 1 (Question):
+Consider the following Python code that uses a metaclass to create a Singleton class. The Singleton pattern ensures that only one instance of a class is created throughout the application.
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super(SingletonMeta, cls).__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class SingletonClass(metaclass=SingletonMeta):
+    def __init__(self):
+        self.value = 0
+
+# Example usage:
+singleton1 = SingletonClass()
+singleton2 = SingletonClass()
+
+singleton1.value += 1
+
+print(singleton1.value)  # Output: 1
+print(singleton2.value)  # Output: 1
+```
+
+Which of the following statements about this code is true?
+
+A. The `SingletonMeta` metaclass ensures that only one instance of `SingletonClass` can be created.
+B. When creating a new instance of `SingletonClass`, if an instance already exists, it will be re-created with default arguments.
+C. The `_instances` dictionary is used to store all instances of classes using this metaclass.
+D. If multiple threads try to create an instance of `SingletonClass` simultaneously, they will each get their own instance.";"Part 2 (Answer):
+A. This statement is correct. The `SingletonMeta` metaclass uses a dictionary `_instances` to store instances of classes using this metaclass. When an instance is created, it checks if the class already exists in `_instances`. If not, it creates a new one and stores it. Subsequent calls return the stored instance.
+
+B. This statement is incorrect. When creating a new instance of `SingletonClass`, if an instance already exists, it will not be re-created with default arguments. Instead, the existing instance is returned.
+
+C. This statement is partially correct but misleading. The `_instances` dictionary stores instances of classes using this metaclass, not all instances. It's more accurate to say that it stores the singleton instances for each class that uses `SingletonMeta`.
+
+D. This statement is incorrect. If multiple threads try to create an instance of `SingletonClass` simultaneously, they will actually share the same instance due to the thread-safe nature of checking and setting `_instances[cls]`. However, Python's Global Interpreter Lock (GIL) ensures that only one thread executes Python bytecode at a time, so in practice, all threads will see the same instance."
