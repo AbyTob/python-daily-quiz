@@ -22390,3 +22390,39 @@ D) Before calling the function Fetching data... Processing Data fetched After ca
 - `AsyncDecorator` is a descriptor that uses the `__call__` method to intercept calls to the decorated function, printing messages before and after the call.
 - The `DataFetcher` class defines an asynchronous method `__call__` that returns data fetched by `fetch_data`.
 - When `process_data` is called with `@AsyncDecorator`, it becomes a coroutine that prints ""Before calling the function"", then calls the wrapped `fetch_data` coroutine, which fetches and processes data, finally printing ""After calling the function""."
+"2025-10-11 08:01";"[QUESTION]  
+Consider the following code:
+
+```python
+import time
+
+class Timer:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        start_time = time.time()
+        result = self.func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {self.func.__name__} took {end_time - start_time:.4f} seconds to run."")
+        return result
+
+@Timer
+def expensive_computation():
+    sum = 0
+    for i in range(1000000):
+        sum += i * i
+    return sum
+
+if __name__ == ""__main__"":
+    expensive_computation()
+```
+
+What is the purpose of using a decorator like `@Timer` on the `expensive_computation` function? Explain how this decorator works and what output you would expect when running this script.
+
+A) To add logging to the function  
+B) To measure the execution time of the function and print it  
+C) To modify the behavior of the function before it is called  
+D) To create a new class that inherits from the function";"B) To measure the execution time of the function and print it  
+
+Explanation: The `@Timer` decorator measures the time taken by the `expensive_computation` function to execute. When the decorated function is called, it records the start time, executes the function, records the end time, calculates the duration, prints it, and then returns the result of the function. This allows you to easily see how long the function takes to run without modifying the original code."

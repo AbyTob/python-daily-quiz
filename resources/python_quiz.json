@@ -3526,5 +3526,12 @@
     "answer": "A) Fetching data... Before calling the function Processing Data fetched After calling the function\n\n**Explanation:** \n- `AsyncDecorator` is a descriptor that uses the `__call__` method to intercept calls to the decorated function, printing messages before and after the call.\n- The `DataFetcher` class defines an asynchronous method `__call__` that returns data fetched by `fetch_data`.\n- When `process_data` is called with `@AsyncDecorator`, it becomes a coroutine that prints \"Before calling the function\", then calls the wrapped `fetch_data` coroutine, which fetches and processes data, finally printing \"After calling the function\".",
     "timestamp": "2025-10-11 00:02:00",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-10-11": {
+    "id": "1760169703_2",
+    "question": "[QUESTION]  \nConsider the following code:\n\n```python\nimport time\n\nclass Timer:\n    def __init__(self, func):\n        self.func = func\n\n    def __call__(self, *args, **kwargs):\n        start_time = time.time()\n        result = self.func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {self.func.__name__} took {end_time - start_time:.4f} seconds to run.\")\n        return result\n\n@Timer\ndef expensive_computation():\n    sum = 0\n    for i in range(1000000):\n        sum += i * i\n    return sum\n\nif __name__ == \"__main__\":\n    expensive_computation()\n```\n\nWhat is the purpose of using a decorator like `@Timer` on the `expensive_computation` function? Explain how this decorator works and what output you would expect when running this script.\n\nA) To add logging to the function  \nB) To measure the execution time of the function and print it  \nC) To modify the behavior of the function before it is called  \nD) To create a new class that inherits from the function",
+    "answer": "B) To measure the execution time of the function and print it  \n\nExplanation: The `@Timer` decorator measures the time taken by the `expensive_computation` function to execute. When the decorated function is called, it records the start time, executes the function, records the end time, calculates the duration, prints it, and then returns the result of the function. This allows you to easily see how long the function takes to run without modifying the original code.",
+    "timestamp": "2025-10-11 08:01:43",
+    "topic": "Advanced Logging Configuration"
   }
 }
