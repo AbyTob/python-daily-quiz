@@ -22333,3 +22333,60 @@ C) Since `asyncio.get_event_loop()` is called within the decorator, it may lead 
 D) None of the above.";"[ANSWER] A
 
 Explanation: The `run_in_new_task` decorator does not handle task management properly. When you call `asyncio.get_event_loop().create_task(func(*args, **kwargs))`, it creates a new task but does not wait for it to complete. This means that the function will immediately return without waiting for the task to finish, which can lead to resource exhaustion if many tasks are created concurrently. A better approach would be to use `asyncio.create_task` directly on the coroutine returned by the decorated function and then await it."
+"2025-10-11 00:02";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)
+    return ""Data fetched""
+
+class DataFetcher:
+    async def __call__(self):
+        return await fetch_data()
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        return types.MethodType(self.__call__, instance)
+    
+    async def __call__(self, *args, **kwargs):
+        print(""Before calling the function"")
+        result = await self.func(*args, **kwargs)
+        print(""After calling the function"")
+        return result
+
+@AsyncDecorator
+async def process_data():
+    data = await DataFetcher()()
+    return f""Processing {data}""
+
+async def main():
+    result = await process_data()
+    print(result)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What will be the output of this script when executed?
+
+A) Fetching data... Before calling the function Processing Data fetched After calling the function
+
+B) Before calling the function Fetching data... After calling the function Processing Data fetched
+
+C) Fetching data... Before calling the function After calling the function Processing Data fetched
+
+D) Before calling the function Fetching data... Processing Data fetched After calling the function";"A) Fetching data... Before calling the function Processing Data fetched After calling the function
+
+**Explanation:** 
+- `AsyncDecorator` is a descriptor that uses the `__call__` method to intercept calls to the decorated function, printing messages before and after the call.
+- The `DataFetcher` class defines an asynchronous method `__call__` that returns data fetched by `fetch_data`.
+- When `process_data` is called with `@AsyncDecorator`, it becomes a coroutine that prints ""Before calling the function"", then calls the wrapped `fetch_data` coroutine, which fetches and processes data, finally printing ""After calling the function""."
