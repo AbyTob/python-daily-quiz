@@ -3533,5 +3533,12 @@
     "answer": "B) To measure the execution time of the function and print it  \n\nExplanation: The `@Timer` decorator measures the time taken by the `expensive_computation` function to execute. When the decorated function is called, it records the start time, executes the function, records the end time, calculates the duration, prints it, and then returns the result of the function. This allows you to easily see how long the function takes to run without modifying the original code.",
     "timestamp": "2025-10-11 08:01:43",
     "topic": "Advanced Logging Configuration"
+  },
+  "q3_2025-10-11": {
+    "id": "1760198499_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses decorators to create a simple logging system. The goal is to log the entry and exit of functions. However, there are some issues with the current implementation.\n\n```python\nimport functools\n\ndef log_function_calls(func):\n    def wrapper(*args, **kwargs):\n        print(f\"Entering {func.__name__}\")\n        result = func(*args, **kwargs)\n        print(f\"Exiting {func.__name__}\")\n        return result\n    return wrapper\n\n@log_function_calls\ndef add(a, b):\n    return a + b\n\n@log_function_calls\ndef multiply(a, b):\n    return a * b\n\nprint(add(3, 4))\nprint(multiply(5, 6))\n```\n\nWhich of the following statements is true regarding the current implementation?\n\nA) The decorator works correctly and logs the entry and exit of both functions.\nB) The decorator logs only the entry of the functions and not their exit.\nC) There is an error in the decorator that prevents it from logging any information.\nD) The decorator logs both the entry and exit of the functions but fails to capture arguments.",
+    "answer": "A) The decorator works correctly and logs the entry and exit of both functions.\n\nExplanation:\nThe provided code snippet uses a simple decorator `log_function_calls` to log the entry and exit of functions. The decorator is applied to two functions, `add` and `multiply`. Each function call inside these decorated functions will indeed log its entry and exit with the correct function name, making this statement true.",
+    "timestamp": "2025-10-11 16:01:39",
+    "topic": "Function and Method Decorators"
   }
 }
