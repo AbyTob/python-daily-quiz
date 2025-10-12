@@ -3540,5 +3540,12 @@
     "answer": "A) The decorator works correctly and logs the entry and exit of both functions.\n\nExplanation:\nThe provided code snippet uses a simple decorator `log_function_calls` to log the entry and exit of functions. The decorator is applied to two functions, `add` and `multiply`. Each function call inside these decorated functions will indeed log its entry and exit with the correct function name, making this statement true.",
     "timestamp": "2025-10-11 16:01:39",
     "topic": "Function and Method Decorators"
+  },
+  "q1_2025-10-12": {
+    "id": "1760227308_1",
+    "question": "Part 1 (Question):\nYou are developing a web application that requires a feature to manage user sessions. The requirement is that every session should have a timeout after which it is automatically closed by the system. You decide to use Python decorators for this purpose.\n\nCreate a decorator `@session_timeout(timeout)` that can be applied to any function representing an endpoint in your application. When the decorated function is called, it should start a countdown timer based on the provided `timeout` value (in seconds). If the function takes more time than the specified timeout to execute, the session should be closed and an error message returned.\n\nHere's an example of how you might use this decorator:\n\n```python\n@session_timeout(10)  # This endpoint has a 10-second timeout\ndef user_dashboard():\n    time.sleep(5)\n    return \"User Dashboard\"\n```\n\nWhen `user_dashboard()` is called, it should execute within the first 10 seconds. If it takes longer than that, an error message should be returned.\n\nWhich of the following is a correct implementation of the `@session_timeout` decorator?\n\nA) Using threading.Timer to check execution time\nB) Using asyncio.sleep to enforce the timeout\nC) Modifying function arguments to include a timeout parameter\nD) None of the above\n\nPart 2 (Answer):\nA) Using threading.Timer to check execution time\nExplanation: The correct implementation would involve using `threading.Timer` to start a countdown timer when the decorated function is called. If the function does not complete within the specified timeout, the timer should trigger an action to close the session and return an error message. This approach allows for asynchronous handling of timeouts without blocking other parts of the application.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-10-12 00:01:48",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
