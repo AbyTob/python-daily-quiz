@@ -22622,3 +22622,34 @@ Explanation:
 - The `__new__` method of the metaclass is called during the creation of a new class, and it modifies the class dictionary by adding or updating methods. However, in this example, the `TimeStampMeta` overrides the `__init__` method to set the `created_at` attribute when an instance is created.
 - Since the `__init__` method is overridden in the metaclass, it will always be called when creating an instance of any class that uses this metaclass, regardless of whether a custom `__init__` method is defined in the subclass.
 - Therefore, the correct behavior is that the `TimeStampMeta` automatically sets the `created_at` attribute for all instances of any class it decorates."
+"2025-10-13 08:01";"";"Part 1 (Question):
+Consider the following Python code snippet that utilizes a metaclass to automatically add a method `log_access` to any class it decorates:
+
+```python
+class AccessLoggerMeta(type):
+    def __new__(cls, name, bases, dct):
+        if 'log_access' not in dct:
+            def log_access(self):
+                print(f""Accessing {self.__class__.__name__}"")
+        dct['log_access'] = log_access
+        return super().__new__(cls, name, bases, dct)
+
+class DataHandler(metaclass=AccessLoggerMeta):
+    def process_data(self):
+        pass
+
+dh = DataHandler()
+dh.process_data()  # This will trigger the log_access method
+```
+
+Which of the following statements about the `DataHandler` class is true?
+
+A) The `log_access` method is added to every subclass of `DataHandler`.
+B) When an instance of `DataHandler` calls any method, it automatically logs access.
+C) The `log_access` method is added only if it does not already exist in the class dictionary.
+D) All instances of `DataHandler` share the same `log_access` method.
+
+Part 2 (Answer):
+C) The `log_access` method is added only if it does not already exist in the class dictionary.
+
+Explanation: The metaclass `AccessLoggerMeta` checks if the `log_access` method exists in the dictionary being created for the new class. If it does not, it defines a new `log_access` method that prints a message indicating access to the class. This ensures that `log_access` is added only if it's not already defined, preventing any potential conflicts with existing methods or attributes."
