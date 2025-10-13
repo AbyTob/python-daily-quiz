@@ -22653,3 +22653,35 @@ Part 2 (Answer):
 C) The `log_access` method is added only if it does not already exist in the class dictionary.
 
 Explanation: The metaclass `AccessLoggerMeta` checks if the `log_access` method exists in the dictionary being created for the new class. If it does not, it defines a new `log_access` method that prints a message indicating access to the class. This ensures that `log_access` is added only if it's not already defined, preventing any potential conflicts with existing methods or attributes."
+"2025-10-13 16:01";"[QUESTION]
+Consider the following Python code snippet that utilizes a metaclass to automatically add a `log` method to any class that inherits from it. The goal is to observe how this metaclass affects the behavior of subclasses.
+
+```python
+class LoggingMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Automatically add a log method to each subclass
+        dct['log'] = lambda self, message: print(f""{name}: {message}"")
+        return super().__new__(cls, name, bases, dct)
+
+class Base(metaclass=LoggingMeta):
+    pass
+
+class Derived(Base):
+    def do_something(self):
+        self.log(""Doing something"")
+
+# Usage
+obj = Derived()
+obj.do_something()  # Output: Derived: Doing something
+```
+
+Which of the following statements correctly describes what happens when `Derived` is instantiated and `do_something` is called?
+
+A) The `log` method will be dynamically added to each instance of `Derived`.
+B) Each subclass of `Base` must explicitly define its own `log` method.
+C) When `do_something` is called, ""Doing something"" is printed directly without any additional text.
+D) The `log` method is added to the class `Derived` and not to each instance.";"[ANSWER]
+A) The `log` method will be dynamically added to each instance of `Derived`.
+
+Explanation:
+The metaclass `LoggingMeta` automatically adds a `log` method to any class that inherits from it during class creation. Since this happens at the time the class is defined, every instance of `Derived`, as well as any other subclass of `Base`, will have access to the `log` method through the class itself. The `do_something` method correctly uses `self.log(""Doing something"")`, which accesses the `log` method from the class and prints ""Derived: Doing something""."
