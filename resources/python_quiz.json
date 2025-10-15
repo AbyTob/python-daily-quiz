@@ -3617,5 +3617,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-10-15 08:02:24",
     "topic": "Advanced Logging Configuration"
+  },
+  "q3_2025-10-15": {
+    "id": "1760544089_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses metaclasses to create a singleton pattern:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass MyClass(metaclass=SingletonMeta):\n    pass\n\nobj1 = MyClass()\nobj2 = MyClass()\n\nprint(obj1 is obj2)  # True\n```\n\nWhich of the following statements about this code is true?\n\nA) The `__call__` method in `SingletonMeta` ensures that only one instance of `MyClass` can be created.\n\nB) Metaclasses are not used for creating singletons, so this code will raise an error.\n\nC) The `_instances` dictionary is a class variable and is shared among all instances of `MyClass`.\n\nD) The `SingletonMeta` metaclass inherits from `type`, but it does not override the `__new__` method, which means it cannot create singletons.",
+    "answer": "A) The `__call__` method in `SingletonMeta` ensures that only one instance of `MyClass` can be created.",
+    "timestamp": "2025-10-15 16:01:29",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
