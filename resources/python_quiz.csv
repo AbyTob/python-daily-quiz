@@ -22870,3 +22870,88 @@ D) None of the above";"B) It will print: Task 0 started, Task 1 started, Task 2 
 
 Explanation:
 The `asyncio.gather` function runs all tasks concurrently. However, the `await asyncio.sleep(delay)` line causes each task to pause for a certain duration (in this case, increasing delay for each task). Due to Python's single-threaded nature and the way `asyncio` manages its event loop, only one coroutine can execute at a time on the CPU while waiting for IO operations like sleeping. Therefore, even though all tasks are started immediately, they will not complete in parallel; instead, they will be executed one after another in the order of their start."
+"2025-10-15 08:02";"### Part 1 (Question)
+
+Consider the following Python code that uses a metaclass to create a class that automatically logs all calls to its methods:
+
+```python
+class MethodLogger(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = cls.create_logger(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def create_logger(func):
+        def wrapper(*args, **kwargs):
+            print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+            result = func(*args, **kwargs)
+            print(f""{func.__name__} returned {result}"")
+            return result
+        return wrapper
+
+class Calculator(metaclass=MethodLogger):
+    def add(self, a, b):
+        return a + b
+    
+    def multiply(self, a, b):
+        return a * b
+```
+
+What will be the output of the following code snippet?
+
+```python
+calc = Calculator()
+result_add = calc.add(3, 4)
+result_mul = calc.multiply(2, 5)
+```
+
+A. 
+```
+Calling add with args: (3, 4), kwargs: {}
+add returned 7
+Calling multiply with args: (2, 5), kwargs: {}
+multiply returned 10
+7
+10
+```
+
+B. 
+```
+Calling add with args: (3, 4), kwargs: {}
+add returned 7
+7
+Calling multiply with args: (2, 5), kwargs: {}
+multiply returned 10
+10
+```
+
+C. 
+```
+Calling add with args: (3, 4), kwargs: {}
+add returned 7
+Calling multiply with args: (2, 5), kwargs: {}
+multiply returned 10
+None
+None
+```
+
+D. 
+```
+AttributeError: 'Calculator' object has no attribute 'add'
+```
+
+### Part 2 (Answer)
+
+A.
+```
+Calling add with args: (3, 4), kwargs: {}
+add returned 7
+Calling multiply with args: (2, 5), kwargs: {}
+multiply returned 10
+7
+10
+```
+
+**Explanation**: The metaclass `MethodLogger` wraps each method in the class `Calculator` with a logger that prints the method name, its arguments, and return value. When we create an instance of `Calculator` and call its methods (`add` and `multiply`), the output shows the logging information followed by the actual result of the method calls.";"Answer format error. Please check the generated content."
