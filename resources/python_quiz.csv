@@ -23012,3 +23012,36 @@ D) TypeError: __new__() takes 3 positional arguments but 4 were given";"C) ""Cus
 
 Explanation:
 The metaclass `Meta` is defined to add a custom attribute `custom_attr` to any class it creates. When `DerivedClass` is created, the `__new__` method of `Meta` is called with the arguments `(cls, 'DerivedClass', (BaseClass,), {})`. This adds `custom_attr` to the `DerivedClass`, which can then be accessed as shown in the question."
+"2025-10-16 08:01";"[QUESTION]
+Consider the following Python code snippet that aims to create a metaclass which counts how many instances of its subclasses are created:
+
+```python
+class InstanceCounter(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        cls._instance_count = 0
+
+    def __call__(cls, *args, **kwargs):
+        cls._instance_count += 1
+        return super().__call__(*args, **kwargs)
+
+class MyClass(metaclass=InstanceCounter):
+    pass
+
+# Creating instances of MyClass
+a = MyClass()
+b = MyClass()
+c = MyClass()
+
+print(MyClass._instance_count)  # Expected output: ?
+```
+
+What will be the output when running this code?
+
+A) 0  
+B) 1  
+C) 3  
+D) TypeError";"C) 3
+
+Explanation:
+The metaclass `InstanceCounter` is designed to count the number of instances created for its subclasses. When a subclass like `MyClass` is instantiated, the metaclass's `__call__` method is called, incrementing `_instance_count` each time an instance is created. Since three instances (`a`, `b`, and `c`) are created, the final value of `_instance_count` should be 3."

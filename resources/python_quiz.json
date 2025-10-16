@@ -3631,5 +3631,12 @@
     "answer": "C) \"Custom Attribute\"\n\nExplanation:\nThe metaclass `Meta` is defined to add a custom attribute `custom_attr` to any class it creates. When `DerivedClass` is created, the `__new__` method of `Meta` is called with the arguments `(cls, 'DerivedClass', (BaseClass,), {})`. This adds `custom_attr` to the `DerivedClass`, which can then be accessed as shown in the question.",
     "timestamp": "2025-10-16 00:01:25",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-10-16": {
+    "id": "1760601690_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that aims to create a metaclass which counts how many instances of its subclasses are created:\n\n```python\nclass InstanceCounter(type):\n    def __init__(cls, name, bases, dct):\n        super().__init__(name, bases, dct)\n        cls._instance_count = 0\n\n    def __call__(cls, *args, **kwargs):\n        cls._instance_count += 1\n        return super().__call__(*args, **kwargs)\n\nclass MyClass(metaclass=InstanceCounter):\n    pass\n\n# Creating instances of MyClass\na = MyClass()\nb = MyClass()\nc = MyClass()\n\nprint(MyClass._instance_count)  # Expected output: ?\n```\n\nWhat will be the output when running this code?\n\nA) 0  \nB) 1  \nC) 3  \nD) TypeError",
+    "answer": "C) 3\n\nExplanation:\nThe metaclass `InstanceCounter` is designed to count the number of instances created for its subclasses. When a subclass like `MyClass` is instantiated, the metaclass's `__call__` method is called, incrementing `_instance_count` each time an instance is created. Since three instances (`a`, `b`, and `c`) are created, the final value of `_instance_count` should be 3.",
+    "timestamp": "2025-10-16 08:01:30",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }
