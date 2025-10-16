@@ -3624,5 +3624,12 @@
     "answer": "A) The `__call__` method in `SingletonMeta` ensures that only one instance of `MyClass` can be created.",
     "timestamp": "2025-10-15 16:01:29",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-10-16": {
+    "id": "1760572885_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to dynamically create classes based on a template class:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        new_class = super().__new__(cls, name, bases, dct)\n        new_class.custom_attr = \"Custom Attribute\"\n        return new_class\n\nclass BaseClass(metaclass=Meta):\n    pass\n\nclass DerivedClass(BaseClass):\n    pass\n```\n\nWhat will be the output when you print `DerivedClass.custom_attr`?\n\nA) AttributeError: 'DerivedClass' object has no attribute 'custom_attr'\nB) None\nC) \"Custom Attribute\"\nD) TypeError: __new__() takes 3 positional arguments but 4 were given",
+    "answer": "C) \"Custom Attribute\"\n\nExplanation:\nThe metaclass `Meta` is defined to add a custom attribute `custom_attr` to any class it creates. When `DerivedClass` is created, the `__new__` method of `Meta` is called with the arguments `(cls, 'DerivedClass', (BaseClass,), {})`. This adds `custom_attr` to the `DerivedClass`, which can then be accessed as shown in the question.",
+    "timestamp": "2025-10-16 00:01:25",
+    "topic": "Object-Oriented Programming"
   }
 }
