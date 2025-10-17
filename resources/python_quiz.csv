@@ -23192,3 +23192,43 @@ D) None of the above.";"### Part 2 (Answer)
 **A)** When `MyClass` is instantiated, it will have an attribute called `additional_attribute` with the value `'This is an additional attribute'`.
 
 Explanation: The metaclass `Meta` is defined to dynamically add an attribute named `additional_attribute` to any class that uses it as its metaclass. When `MyClass` is created using `Meta`, the metaclass's `__new__` method is called, and it adds the specified attribute to `MyClass`. Therefore, when an instance of `MyClass` is created and the `additional_attribute` is accessed, it returns the expected value."
+"2025-10-17 16:02";"Part 1 (Question):
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data(url):
+    await asyncio.sleep(2)
+    return ""Data fetched""
+
+async def main():
+    task = asyncio.create_task(fetch_data(""http://example.com""))
+    while not task.done():
+        print(""Fetching..."")
+        await asyncio.sleep(1)
+    
+    result = await task
+    print(result)
+
+# Uncomment the following line to run the code
+# asyncio.run(main())
+```
+
+Which of the following statements is true regarding the above code?
+
+A) The `fetch_data` function will not start executing until it is awaited.
+B) The `main` function will complete before the data is fetched because it does not wait for the task to finish.
+C) The program will print ""Fetching..."" three times before completing.
+D) The use of `asyncio.create_task` creates a new thread that runs concurrently with the main function.";"Part 2 (Answer):
+A) The `fetch_data` function will not start executing until it is awaited.  
+Correct. In Python's asyncio, an asynchronous function (`async def`) will only execute when its result is awaited, which happens inside another coroutine.
+
+B) The `main` function will complete before the data is fetched because it does not wait for the task to finish.  
+Incorrect. The `main` function uses a while loop with `await asyncio.sleep(1)` until the task is done, ensuring it waits for the data fetching to complete.
+
+C) The program will print ""Fetching..."" three times before completing.  
+Incorrect. The loop in the `main` function will run twice (for 2 seconds), and then the `fetch_data` function will execute once, printing ""Data fetched"".
+
+D) The use of `asyncio.create_task` creates a new thread that runs concurrently with the main function.  
+Incorrect. `asyncio.create_task` schedules the coroutine for execution in the asyncio event loop, not in a new thread. This means it is still part of the single-threaded asynchronous model managed by Python's asyncio."
