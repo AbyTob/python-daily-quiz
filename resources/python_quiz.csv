@@ -23321,3 +23321,43 @@ B) When calling `process_data(data_list)`, the execution time will be printed to
 C) The function `process_data` modifies its input list in-place, so the decorator will measure the time taken to append elements to the list.
 
 D) If an exception is raised inside `process_data`, the decorator will catch it and still print the execution time before re-raising the exception.";"C) The function `process_data` modifies its input list in-place, so the decorator will measure the time taken to append elements to the list."
+"2025-10-18 16:01";"";"**Part 1 (Question):**  
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def my_async_function():
+    print(""Starting async function"")
+    await asyncio.sleep(1)
+    print(""Finished async function"")
+
+if __name__ == ""__main__"":
+    result = my_async_function()
+    print(result)
+```
+
+What is the output of this code when run? Why does it behave as such?
+
+A) It will print ""Starting async function"" and then block until 1 second later, printing ""Finished async function"", followed by `None`.
+
+B) It will print ""Starting async function"", wait for 1 second, print ""Finished async function"", but not return anything.
+
+C) It will immediately raise an error because the decorator is applied to an async function incorrectly.
+
+D) It will raise a TypeError because `asyncio.run` cannot be used with non-async functions.
+
+**Part 2 (Answer):**  
+
+A) It will print ""Starting async function"" and then block until 1 second later, printing ""Finished async function"", followed by `None`.
+
+Explanation: The code defines an asynchronous decorator `AsyncDecorator` that wraps any function to run it using `asyncio.run`. When `my_async_function` is called with the decorator, the decorator runs the coroutine returned by `my_async_function`, which prints ""Starting async function"" and then waits for 1 second before printing ""Finished async function"". The result of running an async function with `asyncio.run` in a decorator is that it completes execution and returns the value of the final expression (which, in this case, there is none, so `None` is returned). Therefore, the output will be the print statements followed by `None`."
