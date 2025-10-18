@@ -23289,3 +23289,35 @@ Explanation:
 - When running the `timed_function`, it uses a thread to execute a blocking function (`time.sleep(1)`), so the Timer's exit method will not run immediately after entering, but when the thread finishes.
 - The `timed_coroutine` is an asynchronous function that measures its execution time using the same `Timer` class. Since it is awaited in an asyncio loop, the loop will continue to process other tasks while waiting for the coroutine, so the Timer's exit method will run after a short delay (not necessarily exactly 1 second) when the coroutine completes.
 - Therefore, both timers print their respective times after their associated task completes, but with some minor differences due to thread scheduling and asyncio's event loop behavior."
+"2025-10-18 08:01";"[QUESTION] Consider the following code snippet that uses a decorator to measure the execution time of functions:
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+@timing_decorator
+def process_data(data):
+    for _ in range(1000000):
+        data.append(_)
+
+data_list = []
+process_data(data_list)
+```
+
+Which of the following statements is true regarding this code?
+
+A) The decorator `timing_decorator` will not work because it does not handle asynchronous functions.
+
+B) When calling `process_data(data_list)`, the execution time will be printed to the console, but the returned value of `process_data` will not be captured and used.
+
+C) The function `process_data` modifies its input list in-place, so the decorator will measure the time taken to append elements to the list.
+
+D) If an exception is raised inside `process_data`, the decorator will catch it and still print the execution time before re-raising the exception.";"C) The function `process_data` modifies its input list in-place, so the decorator will measure the time taken to append elements to the list."
