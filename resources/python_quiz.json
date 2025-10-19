@@ -3694,5 +3694,12 @@
     "answer": "C) The `dynamic_method` will be dynamically added to all classes defined by the metaclass `Meta`, and both instances `a` and `b` can call it successfully.",
     "timestamp": "2025-10-19 00:01:36",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q2_2025-10-19": {
+    "id": "1760860887_2",
+    "question": "[QUESTION]\nConsider the following Python code that attempts to implement a thread-safe counter using decorators:\n\n```python\nimport threading\n\ndef synchronized(func):\n    lock = threading.Lock()\n    \n    def wrapper(*args, **kwargs):\n        with lock:\n            return func(*args, **kwargs)\n    return wrapper\n\nclass Counter:\n    def __init__(self):\n        self.value = 0\n    \n    @synchronized\n    def increment(self):\n        self.value += 1\n    \n    @synchronized\n    def decrement(self):\n        self.value -= 1\n    \n    @synchronized\n    def get_value(self):\n        return self.value\n```\n\nWhich of the following statements about this code is true?\n\nA) The `@synchronized` decorator ensures that all operations on instances of `Counter` are thread-safe.\n\nB) The `lock` in the `wrapper` function will be created each time the decorated method is called.\n\nC) Using `threading.Lock()` guarantees that only one thread can execute any method in `Counter` at a given time.\n\nD) There is no need for the `@synchronized` decorator as Python's global interpreter lock (GIL) prevents multiple threads from executing Python bytecodes simultaneously.",
+    "answer": "C",
+    "timestamp": "2025-10-19 08:01:27",
+    "topic": "Threading and Concurrent Execution"
   }
 }
