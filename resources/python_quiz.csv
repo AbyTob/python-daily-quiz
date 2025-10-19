@@ -23432,3 +23432,62 @@ B) The `lock` in the `wrapper` function will be created each time the decorated 
 C) Using `threading.Lock()` guarantees that only one thread can execute any method in `Counter` at a given time.
 
 D) There is no need for the `@synchronized` decorator as Python's global interpreter lock (GIL) prevents multiple threads from executing Python bytecodes simultaneously.";"C"
+"2025-10-19 16:01";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+from functools import wraps
+
+def async_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+
+class AsyncMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value) and not attr_name.startswith(""__""):
+                dct[attr_name] = async_decorator(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=AsyncMeta):
+    def method1(self):
+        print(""Method 1"")
+
+    def method2(self):
+        print(""Method 2"")
+```
+
+What will be the output of the following code when executed?
+
+```python
+obj = MyClass()
+asyncio.run(obj.method1())
+asyncio.run(obj.method2())
+```
+
+Options:
+A) Method 1
+   Method 2
+
+B) An error, as asyncio is not used correctly.
+
+C) A timeout error, as methods are decorated but not awaited properly.
+
+D) The string representations of method1 and method2
+
+**Part 2 (Answer):**
+
+A) Method 1  
+Method 2
+
+**Explanation:**
+
+The question tests the candidate's understanding of metaclasses, decorators, and asyncio. 
+
+- The `AsyncMeta` metaclass is defined to automatically apply a decorator (`async_decorator`) to any callable attribute in the class it creates.
+- The `async_decorator` does not actually make the method asynchronous; instead, it wraps the method without altering its behavior (it simply returns whatever the method returns).
+- When an instance of `MyClass` is created, both `method1` and `method2` are decorated by `async_decorator`, which means they will behave as normal methods when called.
+- Therefore, calling `obj.method1()` and `obj.method2()` will print ""Method 1"" and ""Method 2"", respectively.";"Answer format error. Please check the generated content."

@@ -3701,5 +3701,12 @@
     "answer": "C",
     "timestamp": "2025-10-19 08:01:27",
     "topic": "Threading and Concurrent Execution"
+  },
+  "q3_2025-10-19": {
+    "id": "1760889718_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nfrom functools import wraps\n\ndef async_decorator(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        return func(*args, **kwargs)\n    return wrapper\n\nclass AsyncMeta(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name, attr_value in dct.items():\n            if callable(attr_value) and not attr_name.startswith(\"__\"):\n                dct[attr_name] = async_decorator(attr_value)\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=AsyncMeta):\n    def method1(self):\n        print(\"Method 1\")\n\n    def method2(self):\n        print(\"Method 2\")\n```\n\nWhat will be the output of the following code when executed?\n\n```python\nobj = MyClass()\nasyncio.run(obj.method1())\nasyncio.run(obj.method2())\n```\n\nOptions:\nA) Method 1\n   Method 2\n\nB) An error, as asyncio is not used correctly.\n\nC) A timeout error, as methods are decorated but not awaited properly.\n\nD) The string representations of method1 and method2\n\n**Part 2 (Answer):**\n\nA) Method 1  \nMethod 2\n\n**Explanation:**\n\nThe question tests the candidate's understanding of metaclasses, decorators, and asyncio. \n\n- The `AsyncMeta` metaclass is defined to automatically apply a decorator (`async_decorator`) to any callable attribute in the class it creates.\n- The `async_decorator` does not actually make the method asynchronous; instead, it wraps the method without altering its behavior (it simply returns whatever the method returns).\n- When an instance of `MyClass` is created, both `method1` and `method2` are decorated by `async_decorator`, which means they will behave as normal methods when called.\n- Therefore, calling `obj.method1()` and `obj.method2()` will print \"Method 1\" and \"Method 2\", respectively.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-10-19 16:01:58",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
