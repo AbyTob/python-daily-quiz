@@ -3708,5 +3708,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-10-19 16:01:58",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-10-20": {
+    "id": "1760918524_1",
+    "question": "Part 1 (Question):\nConsider the following Python code snippet:\n```python\nimport asyncio\n\nasync def fetch_data(url):\n    await asyncio.sleep(2)\n    return f\"Data from {url}\"\n\nclass AsyncRunner:\n    def __init__(self, *coros):\n        self.coros = coros\n\n    async def run_all(self):\n        results = []\n        tasks = [asyncio.create_task(coro()) for coro in self.coros]\n        for task in asyncio.as_completed(tasks):\n            result = await task\n            results.append(result)\n        return results\n\nasync def main():\n    runner = AsyncRunner(fetch_data(\"http://example.com\"), fetch_data(\"http://example.org\"))\n    data = await runner.run_all()\n    print(data)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\nThis code defines an asynchronous function `fetch_data` that simulates fetching data from a URL. The `AsyncRunner` class is used to run multiple coroutines concurrently and collect their results.\n\nWhich of the following statements about this code is true?\n\nA) The `fetch_data` function runs synchronously.\nB) All tasks are guaranteed to complete before the program exits.\nC) The `AsyncRunner` class uses a coroutine pool to manage task execution.\nD) The `asyncio.create_task` method returns an awaitable that can be used with `await`.",
+    "answer": "Part 2 (Answer):\nD) The `asyncio.create_task` method returns an awaitable that can be used with `await`.\n\nExplanation: The question tests the understanding of asyncio's task creation and execution. Option A is incorrect because `fetch_data` is defined as an asynchronous function, meaning it runs asynchronously when awaited. Option B is not guaranteed because tasks completion does not depend on the order they are created but rather their inherent execution times. Option C is not accurate; while `AsyncRunner` creates tasks using `asyncio.create_task`, it does not explicitly manage a pool of tasks. Only option D accurately describes the behavior of `asyncio.create_task`, which returns an awaitable that can be awaited to get the result of the coroutine when completed.",
+    "timestamp": "2025-10-20 00:02:04",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
