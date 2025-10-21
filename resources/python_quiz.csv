@@ -23601,3 +23601,85 @@ C) The `yield` statement is incorrectly placed and should be removed to allow fo
 D) The code will successfully print ""Resource acquired"", ""Using resource: None"", and ""Resource released"".";"**Answer: A**
 
 **Explanation:** In the given context manager implementation, the `yield` statement is used without any value being returned. This means that when you try to use the generator with a `with` statement, Python expects the generator to return an object that can be bound to the variable declared in the `as resource` part of the `with` clause. Since the `yield` statement returns `None`, attempting to bind it to a variable results in `resource` being `None`. This leads to the output ""Resource acquired"", ""Using resource: None"", and ""Resource released"". The correct implementation would include an expression that yields a meaningful value, allowing it to be used within the context manager."
+"2025-10-21 00:02";"[QUESTION]
+Imagine you are developing a web application that requires logging every HTTP request made by users. You decide to use Python's decorators to achieve this. However, due to the asynchronous nature of modern web applications, you need to ensure that the log is written asynchronously.
+
+Create a decorator `@async_log_request` that logs a message to a file when an HTTP request starts. The logging should be done asynchronously using asyncio. Assume you have an `AsyncFileWriter` class that handles the asynchronous writing of text to a file.
+
+```python
+import asyncio
+
+class AsyncFileWriter:
+    def __init__(self, filename):
+        self.filename = filename
+
+    async def write(self, message):
+        with open(self.filename, 'a') as f:
+            await asyncio.to_thread(f.write, message + '\n')
+
+async def async_log_request(func):
+    # Your implementation here
+    pass
+
+# Example usage
+class MyWebApp:
+    @async_log_request
+    async def handle_request(self, request):
+        # Simulate handling the request
+        await asyncio.sleep(1)
+        return ""Request handled""
+
+app = MyWebApp()
+```
+
+Which of the following is a correct implementation of `async_log_request`?
+
+A) 
+```python
+async def async_log_request(func):
+    writer = AsyncFileWriter('logs.txt')
+    async def wrapper(*args, **kwargs):
+        await writer.write(f""Handling request: {func.__name__}"")
+        return await func(*args, **kwargs)
+    return wrapper
+```
+
+B) 
+```python
+async def async_log_request(func):
+    async def wrapper(*args, **kwargs):
+        writer = AsyncFileWriter('logs.txt')
+        await writer.write(f""Handling request: {func.__name__}"")
+        return await func(*args, **kwargs)
+    return wrapper
+```
+
+C) 
+```python
+async def async_log_request(func):
+    async with AsyncFileWriter('logs.txt') as writer:
+        async def wrapper(*args, **kwargs):
+            await writer.write(f""Handling request: {func.__name__}"")
+            return await func(*args, **kwargs)
+    return wrapper
+```
+
+D) 
+```python
+async def async_log_request(func):
+    async def wrapper(*args, **kwargs):
+        writer = AsyncFileWriter('logs.txt')
+        await writer.write(f""Handling request: {func.__name__}"")
+        result = await func(*args, **kwargs)
+        return result
+    return wrapper
+```";"[ANSWER]
+A) is correct. The decorator correctly uses an `AsyncFileWriter` to asynchronously write a log message when the decorated function is called.
+
+B) is incorrect because it attempts to use `async with` syntax outside of an async context manager, which will not work.
+
+C) is incorrect because it incorrectly assumes that `AsyncFileWriter` can be used as a context manager. It should be created and written to within the wrapper function.
+
+D) is correct but less efficient than A). While it correctly logs the request and waits for the function to complete, it creates a new instance of `AsyncFileWriter` each time, which is unnecessary if it's already been initialized elsewhere in the application.
+
+The key to this question is understanding how decorators work with asynchronous functions and properly managing resources such as file writers."
