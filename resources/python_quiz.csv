@@ -23683,3 +23683,44 @@ C) is incorrect because it incorrectly assumes that `AsyncFileWriter` can be use
 D) is correct but less efficient than A). While it correctly logs the request and waits for the function to complete, it creates a new instance of `AsyncFileWriter` each time, which is unnecessary if it's already been initialized elsewhere in the application.
 
 The key to this question is understanding how decorators work with asynchronous functions and properly managing resources such as file writers."
+"2025-10-21 08:01";"**Part 1: Question**
+
+Consider the following Python code that uses a decorator to enhance class methods. The goal is to understand how decorators can be used with classes and how they interact with the `__getattribute__` method of metaclasses.
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr, value in dct.items():
+            if callable(value):
+                dct[attr] = cls.wrap_method(value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def wrap_method(func):
+        def wrapper(*args, **kwargs):
+            print(f""Wrapping {func.__name__}"")
+            return func(*args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=Meta):
+    def my_method(self):
+        print(""Original method called"")
+
+# Create an instance of MyClass and call its method
+obj = MyClass()
+obj.my_method()
+```
+
+Which of the following statements is true regarding the execution flow and output of this code?
+
+A) The `my_method` will be printed directly without any wrapping.
+
+B) ""Wrapping my_method"" will be printed, followed by ""Original method called"".
+
+C) An error will occur because the decorator does not handle instance methods correctly.
+
+D) Only ""Original method called"" will be printed, as the decorator has no effect.";"**Part 2: Answer**
+
+B) ""Wrapping my_method"" will be printed, followed by ""Original method called"".
+
+**Explanation:** The decorator `wrap_method` is applied to each callable attribute (in this case, a class method) during the creation of the class using the metaclass `Meta`. When an instance of `MyClass` is created and its method `my_method` is called, the wrapper function defined inside `wrap_method` is invoked first. This wrapper function prints ""Wrapping my_method"" before calling the original method, which then executes and prints ""Original method called""."
