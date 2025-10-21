@@ -23724,3 +23724,41 @@ D) Only ""Original method called"" will be printed, as the decorator has no effe
 B) ""Wrapping my_method"" will be printed, followed by ""Original method called"".
 
 **Explanation:** The decorator `wrap_method` is applied to each callable attribute (in this case, a class method) during the creation of the class using the metaclass `Meta`. When an instance of `MyClass` is created and its method `my_method` is called, the wrapper function defined inside `wrap_method` is invoked first. This wrapper function prints ""Wrapping my_method"" before calling the original method, which then executes and prints ""Original method called""."
+"2025-10-21 16:01";"";"**Part 1 (Question):**
+
+Consider the following Python code that uses a metaclass to create a class with a custom method:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['custom_method'] = lambda self: f""Custom method called on {self.name}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    def __init__(self, name):
+        self.name = name
+
+# Usage
+obj = MyClass(""Test"")
+print(obj.custom_method())
+```
+
+Which of the following statements correctly describes what happens when an instance of `MyClass` is created and its method `custom_method` is called?
+
+A) The metaclass `Meta` is not used because it does not modify any methods.
+
+B) When creating `MyClass`, a new class with a `custom_method` is dynamically generated, which prints ""Custom method called on Test"" when invoked.
+
+C) An error occurs because the metaclass is not defined properly.
+
+D) The instance `obj` cannot call `custom_method` due to improper initialization in the metaclass.
+
+**Part 2 (Answer):**
+
+B) When creating `MyClass`, a new class with a `custom_method` is dynamically generated, which prints ""Custom method called on Test"" when invoked.
+
+Explanation:
+- The metaclass `Meta` is used during the creation of `MyClass`. 
+- Inside the `__new__` method of `Meta`, a lambda function named `custom_method` is added to the class dictionary (`dct`). This function returns a string that includes the name passed to the `MyClass` constructor.
+- When an instance of `MyClass` is created with the name ""Test"", it has access to the `custom_method` defined by the metaclass. 
+- Calling `obj.custom_method()` results in executing the lambda function, which outputs ""Custom method called on Test""."
