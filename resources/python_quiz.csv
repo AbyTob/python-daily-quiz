@@ -23762,3 +23762,47 @@ Explanation:
 - Inside the `__new__` method of `Meta`, a lambda function named `custom_method` is added to the class dictionary (`dct`). This function returns a string that includes the name passed to the `MyClass` constructor.
 - When an instance of `MyClass` is created with the name ""Test"", it has access to the `custom_method` defined by the metaclass. 
 - Calling `obj.custom_method()` results in executing the lambda function, which outputs ""Custom method called on Test""."
+"2025-10-22 00:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a decorator to measure execution time:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    return sum(range(1, n + 1))
+
+compute_sum(1000000)
+```
+
+Which of the following statements about this code are true?
+
+A) The `wrapper` function is a closure because it captures the `start_time` variable from its enclosing scope.
+
+B) When calling `compute_sum(1000000)`, the execution time will be printed directly to the console.
+
+C) Using decorators like `timer` can lead to performance overhead due to additional function calls and context switching.
+
+D) The `timer` decorator is thread-safe because it uses non-global variables only within its scope.
+
+**Part 2 (Answer):**
+
+B) When calling `compute_sum(1000000)`, the execution time will be printed directly to the console.
+
+Explanation:
+- **Option A:** This statement is true. The `wrapper` function does indeed capture the `start_time` variable from its enclosing scope, making it a closure.
+- **Option B:** This statement is true. When calling `compute_sum(1000000)`, the `timer` decorator will measure and print the execution time directly to the console because of the `print` statement inside the `wrapper`.
+- **Option C:** This statement is true. While decorators themselves do not necessarily lead to performance overhead, their use can sometimes introduce a slight delay due to additional function calls and context switching.
+- **Option D:** This statement is false. The `timer` decorator is not inherently thread-safe because it uses non-global variables only within its scope, but if the same decorated function were called from multiple threads simultaneously, there could be issues with shared resources or race conditions, depending on how these resources are managed.
+
+The correct answer is B."
