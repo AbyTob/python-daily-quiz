@@ -23806,3 +23806,48 @@ Explanation:
 - **Option D:** This statement is false. The `timer` decorator is not inherently thread-safe because it uses non-global variables only within its scope, but if the same decorated function were called from multiple threads simultaneously, there could be issues with shared resources or race conditions, depending on how these resources are managed.
 
 The correct answer is B."
+"2025-10-22 08:02";"[QUESTION]  
+Consider the following Python code that uses a decorator to add functionality to a class. The goal is to ensure that any instance of the decorated class has a method `log_activity` which logs every call to its methods.
+
+```python
+from functools import wraps
+
+def log_methods(cls):
+    for name, value in cls.__dict__.items():
+        if callable(value) and not name.startswith('__'):
+            setattr(cls, name, _wrap_method(value))
+    return cls
+
+def _wrap_method(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        result = func(self, *args, **kwargs)
+        print(f""Method {func.__name__} called with args: {args}, kwargs: {kwargs}"")
+        return result
+    return wrapper
+
+@log_methods
+class User:
+    def __init__(self, name):
+        self.name = name
+    
+    def say_hello(self, greeting):
+        print(f""{greeting}, {self.name}!"")
+
+# Usage
+user = User(""Alice"")
+user.say_hello(""Hello"")
+```
+
+What will be the output when running `user.say_hello(""Hello"")`?
+
+A) Hello, Alice!  
+B) Method say_hello called with args: ('Hello',), kwargs: {}  
+C) Both A and B  
+D) Error: 'User' object has no attribute 'say_hello'";"[ANSWER] C) Both A and B
+
+Explanation:
+- The `log_methods` decorator iterates through all attributes of the class, and if it finds callable methods (excluding special methods like `__init__`), it wraps them with `_wrap_method`.
+- `_wrap_method` is a decorator that logs every call to the method along with its arguments and keyword arguments before calling the original method.
+- When `user.say_hello(""Hello"")` is called, the `say_hello` method is first wrapped by `_wrap_method`, which logs the method call and then proceeds to execute the original `say_hello` method, printing ""Hello, Alice!"".
+- Therefore, the output will be both the greeting message and the log message, making option C correct."
