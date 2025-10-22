@@ -23851,3 +23851,73 @@ Explanation:
 - `_wrap_method` is a decorator that logs every call to the method along with its arguments and keyword arguments before calling the original method.
 - When `user.say_hello(""Hello"")` is called, the `say_hello` method is first wrapped by `_wrap_method`, which logs the method call and then proceeds to execute the original `say_hello` method, printing ""Hello, Alice!"".
 - Therefore, the output will be both the greeting message and the log message, making option C correct."
+"2025-10-22 16:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses both decorators and metaclasses:
+
+```python
+from datetime import datetime
+
+class TimestampDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        start_time = datetime.now()
+        result = self.func(*args, **kwargs)
+        end_time = datetime.now()
+        print(f""Function {self.func.__name__} took {end_time - start_time} seconds to execute."")
+        return result
+
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+@SingletonMeta
+@TimestampDecorator
+class DatabaseConnection:
+    def query(self, sql):
+        print(f""Query executed: {sql}"")
+
+def main():
+    db1 = DatabaseConnection()
+    db2 = DatabaseConnection()
+    assert id(db1) == id(db2), ""Database connections are not singletons""
+    db1.query(""SELECT * FROM users"")
+
+if __name__ == ""__main__"":
+    main()
+```
+
+Which of the following statements is true about this code?
+
+A) The `SingletonMeta` metaclass ensures that only one instance of `DatabaseConnection` can be created.
+
+B) The `TimestampDecorator` adds a timestamp before and after each function call, but it will not work on class methods directly.
+
+C) Both A and B are correct.
+
+D) Neither A nor B is correct.
+
+**Part 2 (Answer):**
+
+A) The `SingletonMeta` metaclass ensures that only one instance of `DatabaseConnection` can be created.
+
+Correct explanation: The `SingletonMeta` metaclass overrides the `__call__` method to control the instantiation process. It checks if an instance already exists for the class and returns it if available; otherwise, it creates a new instance and stores it in `_instances`. This ensures that all attempts to create an instance of `DatabaseConnection` return the same object.
+
+B) The `TimestampDecorator` adds a timestamp before and after each function call, but it will not work on class methods directly.
+
+Incorrect explanation: While the decorator itself works with any callable, including instance methods when called through an instance, it won't automatically adapt to class methods. To apply decorators to class methods, you'd need to adjust how the decorator is applied or modify the decorator to handle this case explicitly.
+
+C) Both A and B are correct.
+
+Incorrect explanation: Option B is incorrect as explained above.
+
+D) Neither A nor B is correct.
+
+Incorrect explanation: This contradicts option A, which is true.";"Answer format error. Please check the generated content."
