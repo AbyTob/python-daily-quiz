@@ -23987,3 +23987,39 @@ class MyClass:
 ```
 
 This new decorator, `log_and_time_with_args`, will print both the execution time and the arguments passed to each method call when they are invoked."
+"2025-10-23 08:01";"";"**Part 1 (Question):**
+
+Consider the following Python code that attempts to create a class decorator using metaclasses:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class MyClass:
+    pass
+
+print(""Class created"")
+```
+
+What will be the output of this code when executed?
+
+A) Creating class MyClass  
+   Class created  
+
+B) Class created  
+   Creating class MyClass  
+
+C) AttributeError: 'type' object has no attribute '__new__'  
+
+D) The code will not run due to a syntax error
+
+**Part 2 (Answer):**
+
+A) Creating class MyClass  
+   Class created  
+
+Explanation:
+In the given code, `Meta` is a metaclass that prints ""Creating class {name}"" when a new class is being created. When `MyClass` is decorated with `@Meta`, Python internally creates an instance of `Meta` with the name `'MyClass'` and passes it to `type.__new__`. The order of execution ensures that the print statement in the metaclass `__new__` method executes before the final print statement outside the class definition. Thus, the output will be ""Creating class MyClass"" followed by ""Class created""."
