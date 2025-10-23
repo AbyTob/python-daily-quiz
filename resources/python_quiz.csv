@@ -23921,3 +23921,69 @@ Incorrect explanation: Option B is incorrect as explained above.
 D) Neither A nor B is correct.
 
 Incorrect explanation: This contradicts option A, which is true.";"Answer format error. Please check the generated content."
+"2025-10-23 00:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that demonstrates a decorator for logging method calls. Your task is to enhance this decorator with an additional feature: it should also track the execution time of each method call.
+
+```python
+import time
+
+def log_and_time(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Executing {func.__name__} took {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+class MyClass:
+    @log_and_time
+    def method1(self):
+        time.sleep(1)
+
+    @log_and_time
+    def method2(self, x):
+        return sum(i for i in range(x))
+```
+
+Which of the following modifications would allow the `log_and_time` decorator to track both the execution time and log the arguments passed to each method call?
+
+A) Modify the `wrapper` function to include a print statement that logs the arguments.
+
+B) Create a new decorator that combines functionality of `log_and_time` with an argument logging feature, then apply this new decorator to `MyClass`.
+
+C) Directly modify the `func.__name__` inside the `wrapper` to include the method arguments in its string representation.
+
+D) None of the above. The current implementation cannot be modified to track both execution time and method arguments.";"**Part 2 (Answer):**
+
+B) Create a new decorator that combines functionality of `log_and_time` with an argument logging feature, then apply this new decorator to `MyClass`.
+
+Explanation: 
+The correct approach is to create a new decorator that logs both the execution time and the arguments passed to each method. This can be achieved by creating a decorator that captures the original function's signature, and then defining a wrapper inside it that logs the arguments before calling the original function. Here's how you could implement such a decorator:
+
+```python
+from functools import wraps
+
+def log_and_time_with_args(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        arg_list = [repr(a) for a in args] + [f""{k}={v!r}"" for k, v in kwargs.items()]
+        print(f""Executing {func.__name__}({', '.join(arg_list)}) took {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+class MyClass:
+    @log_and_time_with_args
+    def method1(self):
+        time.sleep(1)
+
+    @log_and_time_with_args
+    def method2(self, x):
+        return sum(i for i in range(x))
+```
+
+This new decorator, `log_and_time_with_args`, will print both the execution time and the arguments passed to each method call when they are invoked."
