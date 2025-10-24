@@ -24124,3 +24124,45 @@ D) Static methods are treated differently by the metaclass and do not have their
 
 Explanation:
 The metaclass `Meta` dynamically modifies any callable attribute (methods, functions) within the class it creates. Since `method1` is an instance method and `static_method` is a static method, they are both callable and thus decorated by the `debug` decorator. The decorator logs the call details for both methods when they are invoked on an instance of `MyClass`."
+"2025-10-24 08:01";"Part 1 (Question):
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)
+    return ""Data fetched""
+
+async def process_data(data):
+    print(f""Processing {data}..."")
+    await asyncio.sleep(1)
+    return f""{data} processed""
+
+async def main():
+    data = await fetch_data()
+    result = await process_data(data)
+    print(result)
+
+# Run the async function
+asyncio.run(main())
+```
+
+Which of the following statements is true regarding this code?
+
+A) The `fetch_data` and `process_data` functions will run sequentially without any overlap.
+
+B) The `fetch_data` function blocks other tasks from running while waiting for data.
+
+C) Both `fetch_data` and `process_data` functions can run concurrently, improving performance.
+
+D) There is no way to make the `fetch_data` and `process_data` functions run concurrently in this example.";"Part 2 (Answer):
+C) Both `fetch_data` and `process_data` functions can run concurrently, improving performance.
+
+Explanation:
+The provided code uses Python's `asyncio` library to define asynchronous functions. Asynchronous functions allow for the execution of I/O-bound tasks without blocking other tasks. In this example, both `fetch_data` and `process_data` are waiting on I/O operations (`await asyncio.sleep()`), which makes them ideal candidates for concurrent execution.
+
+When you run this code using `asyncio.run(main())`, it starts running all asynchronous tasks in the event loop until they complete. Since both tasks are awaiting I/O operations, Python can switch between these tasks while waiting, allowing other tasks to run during their wait time.
+
+This behavior is in contrast to synchronous functions where a task must completely finish before another task can begin, potentially leading to inefficient use of resources if there's significant waiting involved."
