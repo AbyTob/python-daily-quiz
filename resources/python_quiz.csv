@@ -24166,3 +24166,56 @@ The provided code uses Python's `asyncio` library to define asynchronous functio
 When you run this code using `asyncio.run(main())`, it starts running all asynchronous tasks in the event loop until they complete. Since both tasks are awaiting I/O operations, Python can switch between these tasks while waiting, allowing other tasks to run during their wait time.
 
 This behavior is in contrast to synchronous functions where a task must completely finish before another task can begin, potentially leading to inefficient use of resources if there's significant waiting involved."
+"2025-10-24 16:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses both a decorator and a metaclass:
+
+```python
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        return func(*args, **kwargs)
+    return wrapper
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'my_method' in dct:
+            dct['my_method'] = my_decorator(dct['my_method'])
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    def my_method(self):
+        print(""Hello, world!"")
+
+if __name__ == ""__main__"":
+    obj = MyClass()
+    obj.my_method()
+```
+
+What will be the output of this code when executed? Additionally, how does the combination of a decorator and a metaclass in `MyClass` modify the behavior of `my_method`?
+
+A) It prints ""Hello, world!""  
+B) It prints ""Something is happening before the function is called."" followed by ""Hello, world!""  
+C) The code will raise an error because decorators cannot be used with metaclasses.  
+D) None of the above.";"**Part 2 (Answer):**
+
+**B) It prints ""Something is happening before the function is called."" followed by ""Hello, world!""**
+
+Explanation:
+
+The combination of a decorator and a metaclass in this scenario modifies the behavior of `my_method` at class creation time. When an instance of `MyClass` is created and its method `my_method()` is called, the following happens:
+
+1. The metaclass `Meta` is invoked during the class creation process.
+2. Inside `Meta.__new__`, it checks if 'my_method' exists in the class dictionary (`dct`). Since it does, it decorates this method using the `my_decorator`.
+3. The decorated `my_method` now adds a print statement before calling the original `my_method`.
+4. When `obj.my_method()` is called on an instance of `MyClass`, it first executes the decorator's logic, printing ""Something is happening before the function is called."", and then calls the original method, which prints ""Hello, world!"".
+
+Thus, the correct output when running this code will be:
+
+```
+Something is happening before the function is called.
+Hello, world!
+```"
