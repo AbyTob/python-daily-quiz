@@ -24340,3 +24340,52 @@ The other options (A, C, D) are incorrect because:
 - Option A is incorrect because while metaclasses can be removed, they are necessary in this scenario to ensure that the decorator applies to all methods in the class.
 - Option C is incorrect because the current implementation of `log_method_calls` does not interfere with the application of other decorators. Each method's original decorators will still execute as intended.
 - Option D is incorrect because while logging entry, exit, exceptions, and execution times is correctly handled for each method, the issue with context manager functionality remains unaddressed."
+"2025-10-25 16:01";"Part 1 (Question): Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    async def __call__(self, *args, **kwargs):
+        print(""Before calling function"")
+        result = await self.func(*args, **kwargs)
+        print(""After calling function"")
+        return result
+
+@AsyncDecorator
+async def my_async_function():
+    await asyncio.sleep(1)
+    return ""Done""
+
+async def main():
+    result = await my_async_function()
+    print(result)
+
+# Uncomment the following line to run the code
+# asyncio.run(main())
+```
+
+What will be the output when `main()` is called? Explain why.
+
+A) Before calling function  
+   Done  
+   After calling function  
+
+B) Before calling function  
+   After calling function  
+   Done  
+
+C) Before calling function  
+   asyncio.sleep(1)  
+   After calling function  
+
+D) Before calling function  
+   After calling function  
+   asyncio.sleep(1)";"Part 2 (Answer): A) Before calling function  
+   Done  
+   After calling function  
+
+Explanation: The `AsyncDecorator` is applied to the `my_async_function`. When `main()` is called, it triggers the execution of `my_async_function` through the decorator. The decorator prints ""Before calling function"", then waits for `my_async_function` to complete, which itself includes a sleep and returns ""Done"". After `my_async_function` completes, the decorator prints ""After calling function"" and returns ""Done"" as well."
