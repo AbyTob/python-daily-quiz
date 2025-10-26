@@ -24423,3 +24423,49 @@ C) The `wrapper` function within `timing_decorator` does not return the result o
 D) None of the above. The code works as expected and no changes are needed.";"A) The decorator `timing_decorator` is defined using a class rather than a function.
 
 **Explanation:** Decorators in Python should be implemented as functions, not classes. In this case, defining the decorator as a class would require calling the instance of the class with parentheses, which would alter the decorator's syntax and prevent it from working correctly when applied to a function."
+"2025-10-26 08:02";"[QUESTION]
+Consider the following Python code that uses decorators to modify class behavior. The `LogCalls` decorator is designed to log the method calls of any decorated class. However, it fails when applied to asynchronous methods in an asynchronous class.
+
+```python
+import functools
+
+def LogCalls(cls):
+    for name, value in vars(cls).items():
+        if callable(value) and not name.startswith(""__""):
+            setattr(cls, name, _log_calls(value))
+    return cls
+
+def _log_calls(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned {result}"")
+        return result
+    return wrapper
+
+@LogCalls
+class AsyncClass:
+    async def async_method(self):
+        await asyncio.sleep(1)
+        return ""Done""
+
+# Usage
+import asyncio
+
+async def main():
+    ac = AsyncClass()
+    result = await ac.async_method()
+    print(result)
+
+asyncio.run(main())
+```
+
+Which of the following best describes why `LogCalls` fails to work properly with asynchronous methods in the `AsyncClass`?
+
+A) The decorator does not handle async functions.
+B) The use of `functools.wraps` is incorrect for async methods.
+C) The `await` keyword in the async method causes the decorator to fail.
+D) There is no issue; the decorator works as intended.";"**Answer: A) The decorator does not handle async functions.**
+
+**Explanation:** The `LogCalls` decorator assumes that all methods it decorates are synchronous because it simply wraps them with a logging function using `functools.wraps`. However, asynchronous methods in Python need to be handled differently due to their non-blocking nature and the use of the `async`/`await` syntax. To correctly log calls to async methods, you would need to modify the decorator to handle the `async def` signature and ensure that the logging occurs within the context of an event loop or asynchronously as well."
