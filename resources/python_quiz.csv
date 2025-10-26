@@ -24469,3 +24469,48 @@ C) The `await` keyword in the async method causes the decorator to fail.
 D) There is no issue; the decorator works as intended.";"**Answer: A) The decorator does not handle async functions.**
 
 **Explanation:** The `LogCalls` decorator assumes that all methods it decorates are synchronous because it simply wraps them with a logging function using `functools.wraps`. However, asynchronous methods in Python need to be handled differently due to their non-blocking nature and the use of the `async`/`await` syntax. To correctly log calls to async methods, you would need to modify the decorator to handle the `async def` signature and ensure that the logging occurs within the context of an event loop or asynchronously as well."
+"2025-10-26 16:01";"**Part 1 (Question):**
+
+Consider the following Python code snippet that demonstrates a decorator for asynchronous functions. The goal is to measure the execution time of an asynchronous function.
+
+```python
+import asyncio
+from functools import wraps
+
+def async_timer(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        start_time = asyncio.get_event_loop().time()
+        result = await func(*args, **kwargs)
+        end_time = asyncio.get_event_loop().time()
+        print(f""{func.__name__} executed in {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+@async_timer
+async def fetch_data():
+    # Simulate an I/O operation like fetching data from a network
+    await asyncio.sleep(1)
+    return ""Data fetched""
+
+async def main():
+    data = await fetch_data()
+    print(data)
+
+# Run the async function to see the timing information
+asyncio.run(main())
+```
+
+Which of the following statements correctly describes the behavior and usage of the `@async_timer` decorator in the provided code?
+
+A) The decorator measures the execution time of synchronous functions but does not work with asynchronous functions.
+
+B) The decorator correctly measures the execution time of an asynchronous function, printing the time taken for its execution.
+
+C) The decorator will cause a runtime error because it tries to get the current event loop outside of an async context.
+
+D) The decorator does not print any output when used on an asynchronous function.";"**Part 2 (Answer):**
+
+B) The decorator correctly measures the execution time of an asynchronous function, printing the time taken for its execution.
+
+The `async_timer` decorator is designed to work with asynchronous functions by using the `await` keyword inside the wrapper. When applied to the `fetch_data` function, it accurately measures and prints the time taken for the function's execution, demonstrating proper usage of decorators in the context of asyncio coroutines."
