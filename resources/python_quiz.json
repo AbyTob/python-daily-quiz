@@ -3834,5 +3834,12 @@
     "answer": "Part 2 (Answer): A) Before calling function  \n   Done  \n   After calling function  \n\nExplanation: The `AsyncDecorator` is applied to the `my_async_function`. When `main()` is called, it triggers the execution of `my_async_function` through the decorator. The decorator prints \"Before calling function\", then waits for `my_async_function` to complete, which itself includes a sleep and returns \"Done\". After `my_async_function` completes, the decorator prints \"After calling function\" and returns \"Done\" as well.",
     "timestamp": "2025-10-25 16:01:40",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-10-26": {
+    "id": "1761436907_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that attempts to create a custom decorator to measure the execution time of a function. However, it does not work as intended due to an issue with its implementation.\n\n```python\nimport time\n\ndef timing_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {func.__name__} took {end_time - start_time} seconds to execute.\")\n        return result\n    return wrapper\n\n@timing_decorator\ndef compute_sum(n):\n    return sum(range(n))\n\n# When compute_sum(1000) is called, it does not print the expected execution time.\nprint(compute_sum(1000))\n```\n\nWhich of the following options correctly explains why the `compute_sum` function does not print its execution time as expected?\n\nA) The decorator `timing_decorator` is defined using a class rather than a function.\n\nB) The decorator `timing_decorator` is not being applied to the function correctly because it lacks proper syntax.\n\nC) The `wrapper` function within `timing_decorator` does not return the result of the original function call.\n\nD) None of the above. The code works as expected and no changes are needed.",
+    "answer": "A) The decorator `timing_decorator` is defined using a class rather than a function.\n\n**Explanation:** Decorators in Python should be implemented as functions, not classes. In this case, defining the decorator as a class would require calling the instance of the class with parentheses, which would alter the decorator's syntax and prevent it from working correctly when applied to a function.",
+    "timestamp": "2025-10-26 00:01:47",
+    "topic": "Object-Oriented Programming"
   }
 }
