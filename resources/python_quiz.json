@@ -3869,5 +3869,12 @@
     "answer": "A) The `memoize` decorator will not work correctly because it is stateful and not thread-safe.\n\nExplanation: The `memoize` decorator uses a global dictionary to store results, which can be accessed by multiple threads simultaneously. If two threads attempt to calculate the same value at the same time, they might both compute the result independently before checking the cache, leading to duplicate computations and potentially incorrect results. To make this memoization thread-safe, you would need to add synchronization mechanisms like locks to protect access to the cache dictionary.",
     "timestamp": "2025-10-27 08:01:41",
     "topic": "Locks, Semaphores, and Synchronization"
+  },
+  "q3_2025-10-27": {
+    "id": "1761580837_3",
+    "question": "",
+    "answer": "",
+    "timestamp": "2025-10-27 16:00:37",
+    "topic": "Advanced Python Programming"
   }
 }
