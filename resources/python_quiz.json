@@ -3855,5 +3855,12 @@
     "answer": "**Part 2 (Answer):**\n\nB) The decorator correctly measures the execution time of an asynchronous function, printing the time taken for its execution.\n\nThe `async_timer` decorator is designed to work with asynchronous functions by using the `await` keyword inside the wrapper. When applied to the `fetch_data` function, it accurately measures and prints the time taken for the function's execution, demonstrating proper usage of decorators in the context of asyncio coroutines.",
     "timestamp": "2025-10-26 16:01:55",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-10-27": {
+    "id": "1761523307_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that uses a metaclass to track instances of a class:\n\n```python\nclass InstanceTracker(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]\n\nclass Singleton(metaclass=InstanceTracker):\n    pass\n\n# Usage\ns1 = Singleton()\ns2 = Singleton()\n\nprint(s1 is s2)  # Output: ?\n```\n\nWhat will be the output of `print(s1 is s2)`?\n\nA) False  \nB) True  \nC) AttributeError  \nD) TypeError",
+    "answer": "**Part 2 (Answer):**\n\nB) True\n\nExplanation:\n\nThe correct answer is B) True. \n\nThe metaclass `InstanceTracker` overrides the `__call__` method to ensure that only one instance of any class defined with this metaclass can exist. When an attempt is made to create a new instance, the metaclass checks if an instance already exists in its `_instances` dictionary. If it does, it returns the existing instance; otherwise, it creates a new one and stores it.\n\nIn the given code:\n- `s1 = Singleton()` calls `Singleton.__call__`, which finds that no instance of `Singleton` exists, so it creates a new one and stores it in `_instances`.\n- `s2 = Singleton()` again calls `Singleton.__call__`, but this time it finds an instance already exists in `_instances`, so it returns the existing instance.\n\nTherefore, `s1 is s2` evaluates to True because both variables point to the same object.",
+    "timestamp": "2025-10-27 00:01:47",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
