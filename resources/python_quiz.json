@@ -3876,5 +3876,12 @@
     "answer": "",
     "timestamp": "2025-10-27 16:00:37",
     "topic": "Advanced Python Programming"
+  },
+  "q1_2025-10-28": {
+    "id": "1761609690_1",
+    "question": "**Part 1: Question**\n\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n    \n    def __call__(self, *args, **kwargs):\n        return asyncio.run(self.func(*args, **kwargs))\n\n@AsyncDecorator\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data fetched\"\n\nasync def main():\n    result = fetch_data()\n    print(result)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhat is the primary purpose of using a metaclass or decorator in this context to enhance the functionality of `fetch_data`?\n\nA) To add logging before and after the function execution  \nB) To manage asynchronous operations without blocking the main thread  \nC) To create a persistent connection for database queries  \nD) To validate input parameters before executing the function\n\n**Part 2: Answer**\n\nB) To manage asynchronous operations without blocking the main thread\n\nThe `AsyncDecorator` class and its use of `asyncio.run()` inside the `__call__` method ensure that the `fetch_data` coroutine is run in an event loop, which does not block the main thread. This is crucial for maintaining responsiveness in applications that require handling multiple asynchronous tasks concurrently.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-10-28 00:01:30",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
