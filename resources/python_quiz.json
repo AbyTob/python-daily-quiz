@@ -3883,5 +3883,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-10-28 00:01:30",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-10-28": {
+    "id": "1761638521_2",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that uses both decorators and metaclasses:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        print(f\"Creating class {name}\")\n        for attr, value in dct.items():\n            if callable(value) and not attr.startswith('__'):\n                dct[attr] = cls.wrap_method(value)\n        return super().__new__(cls, name, bases, dct)\n\n    @staticmethod\n    def wrap_method(method):\n        def wrapper(*args, **kwargs):\n            print(f\"Calling method {method.__name__}\")\n            result = method(*args, **kwargs)\n            print(f\"{method.__name__} returned {result}\")\n            return result\n        return wrapper\n\n@Meta\nclass MyClass:\n    def my_method(self, x):\n        return x * 2\n\nobj = MyClass()\nresult = obj.my_method(5)\nprint(result)\n```\n\nWhat will be the output of this code?\n\nA) Creating class MyClass  \n   Calling method my_method  \n   my_method returned 10  \n   10  \n\nB) Creating class MyClass  \n   my_method returned 10  \n   Calling method my_method  \n   10  \n\nC) Creating class MyClass  \n   Calling method my_method  \n   10  \n\nD) TypeError: 'wrapper' object is not callable",
+    "answer": "**Part 2 (Answer):**\n\nA) Creating class MyClass  \n   Calling method my_method  \n   my_method returned 10  \n   10  \n\n**Explanation:**\nThe metaclass `Meta` is used to automatically wrap all non-private methods of the `MyClass` with a decorator that prints method call information. When an instance of `MyClass` is created, the constructor (`__init__`) does not run because there are no explicit calls to it in this code. However, when the method `my_method` is called on an instance of `MyClass`, the metaclass's `wrap_method` decorator takes over and prints additional debug information before calling the original method.",
+    "timestamp": "2025-10-28 08:02:01",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }

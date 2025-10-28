@@ -24628,3 +24628,60 @@ D) To validate input parameters before executing the function
 B) To manage asynchronous operations without blocking the main thread
 
 The `AsyncDecorator` class and its use of `asyncio.run()` inside the `__call__` method ensure that the `fetch_data` coroutine is run in an event loop, which does not block the main thread. This is crucial for maintaining responsiveness in applications that require handling multiple asynchronous tasks concurrently.";"Answer format error. Please check the generated content."
+"2025-10-28 08:02";"**Part 1 (Question):**
+
+Consider the following Python code that uses both decorators and metaclasses:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        for attr, value in dct.items():
+            if callable(value) and not attr.startswith('__'):
+                dct[attr] = cls.wrap_method(value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def wrap_method(method):
+        def wrapper(*args, **kwargs):
+            print(f""Calling method {method.__name__}"")
+            result = method(*args, **kwargs)
+            print(f""{method.__name__} returned {result}"")
+            return result
+        return wrapper
+
+@Meta
+class MyClass:
+    def my_method(self, x):
+        return x * 2
+
+obj = MyClass()
+result = obj.my_method(5)
+print(result)
+```
+
+What will be the output of this code?
+
+A) Creating class MyClass  
+   Calling method my_method  
+   my_method returned 10  
+   10  
+
+B) Creating class MyClass  
+   my_method returned 10  
+   Calling method my_method  
+   10  
+
+C) Creating class MyClass  
+   Calling method my_method  
+   10  
+
+D) TypeError: 'wrapper' object is not callable";"**Part 2 (Answer):**
+
+A) Creating class MyClass  
+   Calling method my_method  
+   my_method returned 10  
+   10  
+
+**Explanation:**
+The metaclass `Meta` is used to automatically wrap all non-private methods of the `MyClass` with a decorator that prints method call information. When an instance of `MyClass` is created, the constructor (`__init__`) does not run because there are no explicit calls to it in this code. However, when the method `my_method` is called on an instance of `MyClass`, the metaclass's `wrap_method` decorator takes over and prints additional debug information before calling the original method."
