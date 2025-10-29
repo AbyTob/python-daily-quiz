@@ -24723,3 +24723,33 @@ The correct answer is B) Define `required_attribute` as a class variable with an
 
 Explanation:
 In Python, metaclasses are used to modify or enforce class definitions before they are created. In this case, the metaclass checks if `required_attribute` exists in the dictionary of the class being defined (`dct`). If it does not exist, an `AttributeError` is raised. To fix the error in `DerivedClass`, we need to define `required_attribute` as a class variable with any value, which will be recognized by the metaclass as fulfilling its requirement. The other options either do not affect the class definition or are incorrect for solving this specific issue."
+"2025-10-29 00:01";"Part 1 (Question): Consider the following Python code snippet that uses a metaclass to modify class attributes:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'x' in dct:
+            dct['y'] = dct['x'] * 2
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    x = 5
+
+print(MyClass.y)  # Output will be displayed after the question part
+```
+
+What does `MyClass.y` print when this code is executed? 
+
+A) 2  
+B) 5  
+C) 10  
+D) The code raises an error";"Part 2 (Answer): C) 10
+
+The correct answer is C) 10.
+
+Explanation:
+- The metaclass `Meta` defines a custom `__new__` method.
+- When `MyClass` is defined, the `Meta.__new__` method is invoked with `cls=Meta`, `name='MyClass'`, and `bases=(object,)`.
+- Inside `Meta.__new__`, it checks if 'x' exists in the dictionary `dct`. Since `x = 5` is defined in `MyClass`, the condition is true.
+- It then sets `dct['y'] = dct['x'] * 2`, which calculates to `5 * 2 = 10`.
+- As a result, when `MyClass.y` is accessed, it returns `10`."
