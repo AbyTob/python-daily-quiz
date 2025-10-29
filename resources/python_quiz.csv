@@ -24815,3 +24815,75 @@ D) Calling `main()` will raise an error because async methods cannot be decorate
 B) When you run the program, it will print the execution time for both `method1` and `method2`.
 
 Explanation: The provided code correctly uses a metaclass to apply a decorator to all callable attributes of its subclasses. In Python, when a class is instantiated with a metaclass that modifies its dictionary (`__new__` method), these modifications are applied to any instances created from the class. Therefore, calling `sub.method1()` and `sub.method2()` in the `main()` function will execute them with their execution times logged by the `time_logger` decorator, as intended."
+"2025-10-29 16:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses decorators and metaclasses together:
+
+```python
+from functools import wraps
+
+def decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Decorator says: 'Before the function call.'"")
+        result = func(*args, **kwargs)
+        print(""Decorator says: 'After the function call.'"")
+        return result
+    return wrapper
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value) and not attr_name.startswith(""__""):
+                dct[attr_name] = decorator(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    def my_method(self, x):
+        print(f""Method called with {x}"")
+
+# Usage
+obj = MyClass()
+obj.my_method(5)
+```
+
+What will be the output when you run `MyClass().my_method(5)`?
+
+A) 
+```
+Decorator says: 'Before the function call.'
+Method called with 5
+Decorator says: 'After the function call.'
+```
+
+B) 
+```
+Decorator says: 'Before the method call.'
+Method called with 5
+Decorator says: 'After the method call.'
+```
+
+C) 
+```
+Decorator says: 'Before the function call.'
+Method called with 5
+```
+
+D) 
+```
+Decorator says: 'Before the method call.'
+Method called with 5
+Decorator says: 'After the function call.'
+MyClass().my_method(5)
+```
+
+**Part 2 (Answer):**
+
+A) is correct.
+
+Explanation:
+- The `Meta` metaclass iterates over all attributes in the class definition.
+- It checks if an attribute is callable and not a magic method (starts with `__`).
+- If it's callable, it wraps it with the `decorator`.
+- When you create an instance of `MyClass`, calling `my_method` will first trigger the decorator's behavior before and after the actual method execution.
+- The decorator correctly prints ""Decorator says: 'Before the function call.'"" before the method call and ""Decorator says: 'After the function call.'"" after it, confirming that both messages are printed as expected."
