@@ -24937,3 +24937,39 @@ The other options can be ruled out:
 - **D**: While calling `main()` directly with `main()` would work, it would not take advantage of asyncio's capabilities. The correct way to run an asynchronous program is by using `asyncio.run(main())`, which manages event loop execution and proper cleanup.
 
 This question tests the understanding of basic asyncio concepts, task creation, and concurrency."
+"2025-10-30 08:01";"";"**Part 1 (Question):**
+
+Consider the following Python code that attempts to create a metaclass for logging method calls:
+
+```python
+class LogMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = cls.log_method_call(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def log_method_call(method):
+        def wrapper(*args, **kwargs):
+            print(f""Calling {method.__name__} with args: {args}, kwargs: {kwargs}"")
+            return method(*args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=LogMeta):
+    def method1(self, a, b):
+        return a + b
+    
+    def method2(self, c):
+        return c * 2
+```
+
+What will be the output when `MyClass` is instantiated and its methods are called?
+
+A) An error will occur because `LogMeta` does not properly handle non-callable attributes.
+
+B) When an instance of `MyClass` is created and its methods are called, it will log each method call with its arguments but then raise an exception.
+
+C) The output will be the results of the method calls without any logging messages.
+
+D) Each method call will be logged as expected, followed by the return value of the method."
