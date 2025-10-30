@@ -24973,3 +24973,39 @@ B) When an instance of `MyClass` is created and its methods are called, it will 
 C) The output will be the results of the method calls without any logging messages.
 
 D) Each method call will be logged as expected, followed by the return value of the method."
+"2025-10-30 16:01";"[QUESTION]
+You are tasked with creating a context manager that measures the execution time of any block of code it decorates. The context manager should also log the start and end times, as well as calculate the total duration. Additionally, you need to ensure that this context manager can be used within an asynchronous function.
+
+Here is a partial implementation using a context manager:
+
+```python
+import time
+
+class TimeLogger:
+    def __enter__(self):
+        self.start_time = time.time()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end_time = time.time()
+        print(f""Start time: {self.start_time}"")
+        print(f""End time: {end_time}"")
+        print(f""Duration: {end_time - self.start_time}"")
+
+async def async_task():
+    with TimeLogger():  # Your implementation here
+        await asyncio.sleep(2)
+        print(""Task completed"")
+
+# Example usage
+asyncio.run(async_task())
+```
+
+What changes need to be made to the `TimeLogger` class to ensure it works correctly within an asynchronous context? Select the correct option:
+
+A) Use `time.async_time()` instead of `time.time()`
+B) Decorate the `__enter__` and `__exit__` methods with `@asyncio.coroutine`
+C) Replace `print` statements with `logging.debug`
+D) None of the above";"[ANSWER] D) None of the above
+
+Explanation: The current implementation of the `TimeLogger` class uses blocking calls to measure time, which will not work correctly within an asynchronous function. To ensure it works in an async context, you need to use `time.time()` instead of `time.async_time()`, but since there is no such function in Python, none of the provided options are correct. The best practice would be to use a combination of `asyncio.get_running_loop().time()` for non-blocking time measurement and logging instead of print statements."
