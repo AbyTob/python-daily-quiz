@@ -25097,3 +25097,33 @@ The correct answer is A) `0`.
 Explanation: The `manage_value` method in `MyClass` is a context manager that yields the current value of `self.value` and increments it when exiting the `with` block. Since the `with` statement successfully acquires the managed resource (`my_obj.manage_value()`), it prints `0`, which is the initial value of `self.value`. When the `with` block exits, the context manager's `finally` block runs, incrementing `self.value` to `1`. However, this increment does not affect the output within the `with` statement, as the context manager already yielded the initial value. Thus, the final print statement outputs `1`, and before exiting, the `print(my_obj.value)` call also outputs `1`.
 
 This question tests the understanding of both metaclass behavior during class creation and how context managers handle resource management within a `with` block."
+"2025-10-31 16:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses metaclasses to create a singleton pattern:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=SingletonMeta):
+    pass
+
+# Usage
+obj1 = MyClass()
+obj2 = MyClass()
+
+print(obj1 is obj2)  # True or False?
+```
+
+What will be the output of `print(obj1 is obj2)`?
+
+A) False  
+B) True  
+C) Error  
+D) None"
