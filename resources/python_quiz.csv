@@ -25162,3 +25162,34 @@ A) The `fibonacci` function will run twice for calculating the value at position
 B) The `fibonacci` function will not be cached after the first calculation, leading to repeated calculations.
 C) The `memoize` decorator correctly caches results based on arguments and prevents redundant computations.
 D) The `cache` dictionary in `memoize` is accessible from outside the decorator.";"C) The `memoize` decorator correctly caches results based on arguments and prevents redundant computations."
+"2025-11-01 08:01";"[QUESTION]
+Consider the following code snippet that uses asyncio for asynchronous programming:
+
+```python
+import asyncio
+
+class AsyncWorker:
+    def __init__(self, name):
+        self.name = name
+    
+    async def task(self):
+        print(f""Starting {self.name}"")
+        await asyncio.sleep(1)
+        print(f""Finished {self.name}"")
+
+async def main():
+    worker1 = AsyncWorker(""Worker 1"")
+    worker2 = AsyncWorker(""Worker 2"")
+    
+    await asyncio.gather(worker1.task(), worker2.task())
+
+# Run the async function
+asyncio.run(main())
+```
+
+What is the output of this code if you run it?
+
+A) Starting Worker 1, Finished Worker 1, Starting Worker 2, Finished Worker 2  
+B) Starting Worker 1, Starting Worker 2, Finished Worker 1, Finished Worker 2  
+C) Starting Worker 1, Starting Worker 2  
+D) Starting Worker 1, Finished Worker 2, Starting Worker 2, Finished Worker 1";"A) Starting Worker 1, Finished Worker 1, Starting Worker 2, Finished Worker 2"

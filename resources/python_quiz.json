@@ -3967,5 +3967,12 @@
     "answer": "C) The `memoize` decorator correctly caches results based on arguments and prevents redundant computations.",
     "timestamp": "2025-11-01 00:01:24",
     "topic": "Functional Programming Utilities"
+  },
+  "q2_2025-11-01": {
+    "id": "1761984083_2",
+    "question": "[QUESTION]\nConsider the following code snippet that uses asyncio for asynchronous programming:\n\n```python\nimport asyncio\n\nclass AsyncWorker:\n    def __init__(self, name):\n        self.name = name\n    \n    async def task(self):\n        print(f\"Starting {self.name}\")\n        await asyncio.sleep(1)\n        print(f\"Finished {self.name}\")\n\nasync def main():\n    worker1 = AsyncWorker(\"Worker 1\")\n    worker2 = AsyncWorker(\"Worker 2\")\n    \n    await asyncio.gather(worker1.task(), worker2.task())\n\n# Run the async function\nasyncio.run(main())\n```\n\nWhat is the output of this code if you run it?\n\nA) Starting Worker 1, Finished Worker 1, Starting Worker 2, Finished Worker 2  \nB) Starting Worker 1, Starting Worker 2, Finished Worker 1, Finished Worker 2  \nC) Starting Worker 1, Starting Worker 2  \nD) Starting Worker 1, Finished Worker 2, Starting Worker 2, Finished Worker 1",
+    "answer": "A) Starting Worker 1, Finished Worker 1, Starting Worker 2, Finished Worker 2",
+    "timestamp": "2025-11-01 08:01:23",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
