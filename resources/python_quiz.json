@@ -3960,5 +3960,12 @@
     "answer": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses metaclasses to create a singleton pattern:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass MyClass(metaclass=SingletonMeta):\n    pass\n\n# Usage\nobj1 = MyClass()\nobj2 = MyClass()\n\nprint(obj1 is obj2)  # True or False?\n```\n\nWhat will be the output of `print(obj1 is obj2)`?\n\nA) False  \nB) True  \nC) Error  \nD) None",
     "timestamp": "2025-10-31 16:01:10",
     "topic": "Advanced Python Programming"
+  },
+  "q1_2025-11-01": {
+    "id": "1761955284_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a decorator to cache function results based on their arguments:\n\n```python\nfrom functools import wraps\n\ndef memoize(func):\n    cache = {}\n    \n    @wraps(func)\n    def wrapper(*args):\n        if args in cache:\n            return cache[args]\n        result = func(*args)\n        cache[args] = result\n        return result\n    \n    return wrapper\n\n@memoize\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n\nprint(fibonacci(5))\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The `fibonacci` function will run twice for calculating the value at position 3.\nB) The `fibonacci` function will not be cached after the first calculation, leading to repeated calculations.\nC) The `memoize` decorator correctly caches results based on arguments and prevents redundant computations.\nD) The `cache` dictionary in `memoize` is accessible from outside the decorator.",
+    "answer": "C) The `memoize` decorator correctly caches results based on arguments and prevents redundant computations.",
+    "timestamp": "2025-11-01 00:01:24",
+    "topic": "Functional Programming Utilities"
   }
 }
