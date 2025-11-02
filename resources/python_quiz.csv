@@ -25325,3 +25325,41 @@ C) This statement is false. While the output of `obj(5)` will be ""15"", there w
 D) This statement is false. The metaclass `Meta` explicitly checks if `__call__` exists in the class dictionary and decorates it, not all methods.
 
 The correct answer is none of the above, indicating that the code snippet provided does not meet the conditions described in options A through D.";"Answer format error. Please check the generated content."
+"2025-11-02 16:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def slow_function():
+    await asyncio.sleep(1)
+    return ""Function completed""
+
+async def fast_function():
+    await asyncio.sleep(0.5)
+    return ""Function completed""
+
+async def run_functions(fns):
+    results = []
+    for fn in fns:
+        result = await fn()
+        results.append(result)
+    return results
+
+async def main():
+    tasks = [slow_function(), fast_function()]
+    final_results = await asyncio.gather(*tasks)
+    print(final_results)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What is the expected output of this script when executed?
+
+A) ['Function completed', 'Function completed']
+B) ['Function completed', None]
+C) [None, 'Function completed']
+D) An error because `asyncio.gather` cannot handle multiple coroutines at once";"[A] ['Function completed', 'Function completed']
+
+Explanation: The script defines two asynchronous functions, `slow_function` and `fast_function`, which simulate operations that take 1 second and 0.5 seconds respectively. The `run_functions` coroutine is designed to run a list of coroutines concurrently using `asyncio.gather`. Since both tasks are capable of running simultaneously, the output will reflect the completion of all tasks as expected."

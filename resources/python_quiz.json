@@ -3995,5 +3995,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-02 08:02:19",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-11-02": {
+    "id": "1762099291_3",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport asyncio\n\nasync def slow_function():\n    await asyncio.sleep(1)\n    return \"Function completed\"\n\nasync def fast_function():\n    await asyncio.sleep(0.5)\n    return \"Function completed\"\n\nasync def run_functions(fns):\n    results = []\n    for fn in fns:\n        result = await fn()\n        results.append(result)\n    return results\n\nasync def main():\n    tasks = [slow_function(), fast_function()]\n    final_results = await asyncio.gather(*tasks)\n    print(final_results)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhat is the expected output of this script when executed?\n\nA) ['Function completed', 'Function completed']\nB) ['Function completed', None]\nC) [None, 'Function completed']\nD) An error because `asyncio.gather` cannot handle multiple coroutines at once",
+    "answer": "[A] ['Function completed', 'Function completed']\n\nExplanation: The script defines two asynchronous functions, `slow_function` and `fast_function`, which simulate operations that take 1 second and 0.5 seconds respectively. The `run_functions` coroutine is designed to run a list of coroutines concurrently using `asyncio.gather`. Since both tasks are capable of running simultaneously, the output will reflect the completion of all tasks as expected.",
+    "timestamp": "2025-11-02 16:01:31",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
