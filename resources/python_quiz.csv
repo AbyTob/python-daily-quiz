@@ -25227,3 +25227,44 @@ B) `['Message 0', 'Message 1', 'Message 2', 'Message 3', 'Message 4']`
 C) The program will hang indefinitely  
 D) An error will occur";"**Answer:** A  
 **Explanation:** The script creates an instance of `AsyncLogger`, logs messages in parallel using asyncio, and then prints the logged messages. Since each log entry is awaited with `await asyncio.sleep(1)`, the simulated I/O delay ensures that all tasks complete before the final print statement is reached. Therefore, the output will be `[Message 0, Message 1, Message 2, Message 3, Message 4]`."
+"2025-11-02 00:02";"**Part 1 (Question):**
+Consider the following Python code snippet that aims to create a decorator to measure the execution time of a function. The decorator should also ensure that the function is only called once, regardless of how many times it is attempted to be called.
+
+```python
+import time
+
+def measure_and_once(func):
+    def wrapper(*args, **kwargs):
+        if not hasattr(wrapper, 'called'):
+            wrapper.called = True
+            start_time = time.time()
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            print(f""Function {func.__name__} executed in {end_time - start_time:.4f} seconds"")
+            return result
+        else:
+            raise Exception(""Function already called once."")
+    return wrapper
+
+@measure_and_once
+def compute_heavy_task():
+    time.sleep(2)
+    return ""Task Completed""
+
+# Example usage:
+try:
+    print(compute_heavy_task())
+    print(compute_heavy_task())  # This should raise an exception
+except Exception as e:
+    print(e)
+```
+
+Which of the following is a correct statement about this code?
+
+A) The decorator `measure_and_once` will correctly measure and print the execution time of `compute_heavy_task`.
+B) The decorator will execute `compute_heavy_task` twice, printing its execution time each time.
+C) The second call to `compute_heavy_task` after it has been called once will successfully execute without any exceptions.
+D) The code contains a memory leak due to the use of the decorator.";"**Part 2 (Answer):**
+A) The decorator `measure_and_once` will correctly measure and print the execution time of `compute_heavy_task`.
+
+Explanation: This answer is correct because the decorator checks if the function has already been called by checking the presence of an attribute (`wrapper.called`). If not, it sets this attribute to `True`, measures the execution time, prints it, and then returns the result. If the function is called again, it raises an exception as expected."
