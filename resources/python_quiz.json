@@ -4002,5 +4002,12 @@
     "answer": "[A] ['Function completed', 'Function completed']\n\nExplanation: The script defines two asynchronous functions, `slow_function` and `fast_function`, which simulate operations that take 1 second and 0.5 seconds respectively. The `run_functions` coroutine is designed to run a list of coroutines concurrently using `asyncio.gather`. Since both tasks are capable of running simultaneously, the output will reflect the completion of all tasks as expected.",
     "timestamp": "2025-11-02 16:01:31",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-11-03": {
+    "id": "1762128111_1",
+    "question": "Part 1 (Question):\nConsider the following Python code snippet that uses a decorator to enhance the functionality of a class method:\n\n```python\nfrom functools import wraps\n\ndef trace(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__} returned {result}\")\n        return result\n    return wrapper\n\nclass Calculator:\n    @trace\n    def add(self, x, y):\n        return x + y\n\n# Usage\ncalc = Calculator()\nprint(calc.add(3, 4))\n```\n\nWhat happens if you try to create a subclass of `Calculator` and override the `add` method without using the decorator? Explain the behavior and why it occurs.\n\nA) The `trace` function will still be applied to the overridden method.\nB) The `trace` function will not be applied to the overridden method, but the original functionality will be preserved.\nC) A TypeError will be raised because decorators cannot be inherited.\nD) The overridden method will not have any additional behavior or print statements.",
+    "answer": "Part 2 (Answer):\nA) The `trace` function will still be applied to the overridden method.\n\nExplanation: When a subclass overrides a method, it does not inherit decorators from the parent class. Each method in a class can independently define its own decorators. Therefore, when you override the `add` method in a subclass, any decorators applied to the original method are not automatically inherited or reapplied. In this case, the `trace` decorator is only applied to the `add` method defined directly in the `Calculator` class and not to any overridden versions of it in subclasses.",
+    "timestamp": "2025-11-03 00:01:51",
+    "topic": "Function and Method Decorators"
   }
 }
