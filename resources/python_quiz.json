@@ -4009,5 +4009,12 @@
     "answer": "Part 2 (Answer):\nA) The `trace` function will still be applied to the overridden method.\n\nExplanation: When a subclass overrides a method, it does not inherit decorators from the parent class. Each method in a class can independently define its own decorators. Therefore, when you override the `add` method in a subclass, any decorators applied to the original method are not automatically inherited or reapplied. In this case, the `trace` decorator is only applied to the `add` method defined directly in the `Calculator` class and not to any overridden versions of it in subclasses.",
     "timestamp": "2025-11-03 00:01:51",
     "topic": "Function and Method Decorators"
+  },
+  "q2_2025-11-03": {
+    "id": "1762156891_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that attempts to create a simple metaclass to ensure that all subclasses of a specific class are registered in a list:\n\n```python\nclass Registry(type):\n    _registry = {}\n\n    def __new__(cls, name, bases, dct):\n        instance = super().__new__(cls, name, bases, dct)\n        cls._registry[name] = instance\n        return instance\n\nclass Base(metaclass=Registry):\n    pass\n\nclass A(Base):\n    pass\n\nclass B(Base):\n    pass\n```\n\nWhat will happen if we try to create another subclass of `Base` after the current ones?\n\nA) The subclass will be registered in the `_registry`.\n\nB) An error will occur because the metaclass already has all subclasses registered.\n\nC) Nothing will happen; the metaclass remains unchanged.\n\nD) All previous registrations will be cleared before adding the new subclass.",
+    "answer": "A) The subclass will be registered in the `_registry`.\n\nExplanation: When a subclass of `Base` is created, the `Registry` metaclass's `__new__` method is invoked. This method adds each new subclass to its `_registry`. Therefore, creating another subclass of `Base` after `A` and `B` will result in those subclasses being added to the `_registry`, making option A the correct answer.",
+    "timestamp": "2025-11-03 08:01:31",
+    "topic": "Object-Oriented Programming"
   }
 }
