@@ -4030,5 +4030,12 @@
     "answer": "B) The `add_created_at` decorator correctly adds a `created_at` attribute to instances of `MyClass`.\n\nExplanation: When the `@add_created_at` decorator is applied to `MyClass`, the decorator replaces the class definition with a new class that has a `created_at` attribute added during instantiation. The metaclass, in this case, does not play any role in adding the `created_at` attribute; it's solely the responsibility of the decorator.",
     "timestamp": "2025-11-04 00:01:50",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2025-11-04": {
+    "id": "1762243300_2",
+    "question": "[QUESTION]\nConsider the following code snippet that uses metaclasses to create a singleton pattern:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass DatabaseConnection(metaclass=SingletonMeta):\n    def connect(self):\n        print(\"Connecting to database...\")\n```\n\nWhich of the following statements is true regarding the `DatabaseConnection` class?\n\nA) Every time a new instance of `DatabaseConnection` is created, it will always connect to the database.\n\nB) The singleton pattern ensures that only one instance of `DatabaseConnection` can exist at any given time.\n\nC) Calling `DatabaseConnection().connect()` multiple times will result in multiple connections to the database.\n\nD) Metaclasses cannot be used to implement design patterns like singletons in Python.",
+    "answer": "B) The singleton pattern ensures that only one instance of `DatabaseConnection` can exist at any given time.\n\nExplanation: The metaclass `SingletonMeta` overrides the `__call__` method to control how instances of `DatabaseConnection` are created. It checks if an instance already exists in `_instances` dictionary; if not, it creates a new one and stores it. Any subsequent attempts to create an instance will return the already existing instance, thus ensuring that only one instance of `DatabaseConnection` can exist at any given time.",
+    "timestamp": "2025-11-04 08:01:40",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
