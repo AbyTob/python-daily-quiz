@@ -4044,5 +4044,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-04 16:01:57",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-11-05": {
+    "id": "1762300907_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that uses a metaclass to automatically add a method to all classes created with this metaclass. Your task is to identify which of the provided options correctly demonstrates how to use this metaclass in a practical scenario.\n\n```python\nclass AutoMethodMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['auto_method'] = lambda self: print(\"Auto Method Executed\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=AutoMethodMeta):\n    pass\n\n# Create an instance of MyClass and call the auto_method\nmy_instance = MyClass()\nmy_instance.auto_method()\n```\n\n**Options:**\nA) When you run the provided code, it will raise a `TypeError` because `auto_method` cannot be added to a class using a metaclass.\n\nB) The output of running the code will be \"Auto Method Executed\".\n\nC) The code snippet demonstrates how to use decorators for methods instead of metaclasses.\n\nD) When you run the provided code, it will not execute any method because the metaclass is not correctly defined.\n\n**Part 2 (Answer):**\n\nB) The output of running the code will be \"Auto Method Executed\".\n\nExplanation: The `AutoMethodMeta` class is a metaclass that automatically adds a method named `auto_method` to all classes it decorates. When we create an instance of `MyClass`, which uses `AutoMethodMeta`, and call `my_instance.auto_method()`, the output will be \"Auto Method Executed\". This demonstrates how metaclasses can modify class behavior at creation time, allowing for dynamic method addition.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-11-05 00:01:47",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
