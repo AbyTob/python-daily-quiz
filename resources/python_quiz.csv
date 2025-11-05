@@ -25712,3 +25712,42 @@ async def read_file_with_timer():
 ```
 
 This corrected version ensures that the file is properly managed and the timing is accurate."
+"2025-11-05 16:01";"";"**Part 1 (Question):**
+
+Implement a decorator that measures the execution time of any function it decorates. The decorator should also log the function name along with its execution time in seconds. Use asyncio for handling asynchronous functions.
+
+```python
+import asyncio
+from functools import wraps
+import time
+
+def time_logger(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = await func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} executed in {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+# Example usage:
+@time_logger
+async def async_task():
+    await asyncio.sleep(2)
+
+asyncio.run(async_task())
+```
+
+Which of the following is a potential issue with this implementation?
+
+A) The decorator does not handle non-async functions.
+B) The decorator correctly logs execution time for both sync and async functions.
+C) Using `time.time()` in an async context might give inaccurate results.
+D) The decorator can be applied to both synchronous and asynchronous functions.
+
+**Part 2 (Answer):**
+
+A) The decorator does not handle non-async functions.
+
+Explanation: The current implementation of the `time_logger` decorator is specifically designed for asynchronous functions using `await`. If a synchronous function is passed to this decorator, it will raise an error because it attempts to use `await` on a non-awaitable value. To make this decorator universal, additional logic would need to be added to differentiate between sync and async functions."
