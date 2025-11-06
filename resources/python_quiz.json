@@ -4079,5 +4079,12 @@
     "answer": "C",
     "timestamp": "2025-11-06 08:01:46",
     "topic": "Property Decorators and Attribute Management"
+  },
+  "q3_2025-11-06": {
+    "id": "1762444877_3",
+    "question": "Part 1 (Question):\nConsider the following Python code that uses a metaclass and class decoration:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        print(f\"Creating class {name}\")\n        return super().__new__(cls, name, bases, dct)\n\n@Meta\nclass MyClass:\n    pass\n\ndef decorator(cls):\n    print(\"Decorating class\")\n    return cls\n\nMyClass = decorator(MyClass)\n```\n\nWhat will be the output of this code when executed?\n\nA) Creating class MyClass  \nB) Decorating class  \nC) Both A and B  \nD) Neither A nor B",
+    "answer": "Part 2 (Answer):\nC) Both A and B\n\nExplanation:\nThe metaclass `Meta` is invoked when the class `MyClass` is created, printing \"Creating class MyClass\". The decorator `decorator` is then applied to `MyClass`, which also prints \"Decorating class\". Therefore, both outputs are produced.",
+    "timestamp": "2025-11-06 16:01:17",
+    "topic": "Class Decorators and Class Modification"
   }
 }
