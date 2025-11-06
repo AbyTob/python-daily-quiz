@@ -25751,3 +25751,48 @@ D) The decorator can be applied to both synchronous and asynchronous functions.
 A) The decorator does not handle non-async functions.
 
 Explanation: The current implementation of the `time_logger` decorator is specifically designed for asynchronous functions using `await`. If a synchronous function is passed to this decorator, it will raise an error because it attempts to use `await` on a non-awaitable value. To make this decorator universal, additional logic would need to be added to differentiate between sync and async functions."
+"2025-11-06 00:01";"[QUESTION]
+Consider the following Python code using asyncio:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Start fetching"")
+    await asyncio.sleep(2)
+    print(""Data fetched"")
+    return {'data': 'fake data'}
+
+async def main():
+    task = asyncio.create_task(fetch_data())
+    await asyncio.sleep(1)
+    print(""Main function is running..."")
+    result = await task
+    print(result)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What will be the output of this program when run?
+
+A) Start fetching  
+   Main function is running...  
+   Data fetched  
+   {'data': 'fake data'}
+
+B) Main function is running...  
+   Start fetching  
+   Data fetched  
+   {'data': 'fake data'}
+
+C) Start fetching  
+   Data fetched  
+   {'data': 'fake data'}  
+
+D) Error: Task is already done";"A) Start fetching  
+   Main function is running...  
+   Data fetched  
+   {'data': 'fake data'}
+
+**Explanation**: The `await asyncio.sleep(1)` in the main function allows other tasks to run during this time, including the `fetch_data` coroutine. However, because the task was created but not awaited properly until after the sleep, it completes before the print statement inside the main function that fetches and prints the result."
