@@ -25796,3 +25796,47 @@ D) Error: Task is already done";"A) Start fetching
    {'data': 'fake data'}
 
 **Explanation**: The `await asyncio.sleep(1)` in the main function allows other tasks to run during this time, including the `fetch_data` coroutine. However, because the task was created but not awaited properly until after the sleep, it completes before the print statement inside the main function that fetches and prints the result."
+"2025-11-06 08:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import threading
+
+class ThreadSafeCounter:
+    def __init__(self):
+        self.value = 0
+        self.lock = threading.Lock()
+
+    @property
+    def value(self):
+        with self.lock:
+            return self._value
+
+    @value.setter
+    def value(self, new_value):
+        with self.lock:
+            self._value = new_value
+
+def increment_counter(counter):
+    for _ in range(100000):
+        counter.value += 1
+
+counter = ThreadSafeCounter()
+threads = [threading.Thread(target=increment_counter, args=(counter,)) for _ in range(10)]
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+
+print(counter.value)
+```
+
+Which of the following statements correctly describes what the code is intended to achieve and its current limitation?
+
+A) The code is intended to increment a counter by 100,000 from 10 different threads. It does not have any limitations.
+
+B) The code is intended to increment a counter by 100,000 from 10 different threads. However, due to the use of properties for the value, it will always set `_value` instead of `self.value`, leading to an infinite loop.
+
+C) The code is intended to increment a counter by 100,000 from 10 different threads. However, it will not necessarily reach the target value due to race conditions between threads.
+
+D) The code is intended to demonstrate a threading issue. It will raise an exception because accessing `counter.value` outside of its setter and getter methods is incorrect.";"C"

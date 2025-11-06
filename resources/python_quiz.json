@@ -4072,5 +4072,12 @@
     "answer": "A) Start fetching  \n   Main function is running...  \n   Data fetched  \n   {'data': 'fake data'}\n\n**Explanation**: The `await asyncio.sleep(1)` in the main function allows other tasks to run during this time, including the `fetch_data` coroutine. However, because the task was created but not awaited properly until after the sleep, it completes before the print statement inside the main function that fetches and prints the result.",
     "timestamp": "2025-11-06 00:01:34",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-11-06": {
+    "id": "1762416106_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport threading\n\nclass ThreadSafeCounter:\n    def __init__(self):\n        self.value = 0\n        self.lock = threading.Lock()\n\n    @property\n    def value(self):\n        with self.lock:\n            return self._value\n\n    @value.setter\n    def value(self, new_value):\n        with self.lock:\n            self._value = new_value\n\ndef increment_counter(counter):\n    for _ in range(100000):\n        counter.value += 1\n\ncounter = ThreadSafeCounter()\nthreads = [threading.Thread(target=increment_counter, args=(counter,)) for _ in range(10)]\nfor thread in threads:\n    thread.start()\nfor thread in threads:\n    thread.join()\n\nprint(counter.value)\n```\n\nWhich of the following statements correctly describes what the code is intended to achieve and its current limitation?\n\nA) The code is intended to increment a counter by 100,000 from 10 different threads. It does not have any limitations.\n\nB) The code is intended to increment a counter by 100,000 from 10 different threads. However, due to the use of properties for the value, it will always set `_value` instead of `self.value`, leading to an infinite loop.\n\nC) The code is intended to increment a counter by 100,000 from 10 different threads. However, it will not necessarily reach the target value due to race conditions between threads.\n\nD) The code is intended to demonstrate a threading issue. It will raise an exception because accessing `counter.value` outside of its setter and getter methods is incorrect.",
+    "answer": "C",
+    "timestamp": "2025-11-06 08:01:46",
+    "topic": "Property Decorators and Attribute Management"
   }
 }
