@@ -25940,3 +25940,47 @@ In Python, metaclasses are the classes used to create other classes. When a clas
 - For `AnotherClass`, we use a decorator `@MyMeta`. In Python, decorators are applied to functions or classes at definition time. However, when using a decorator with a metaclass, the decorator actually creates a new class under the hood. The original class is essentially replaced by this new class. Thus, applying `@MyMeta` to `AnotherClass` internally results in creating a new class with `MyMeta` as its metaclass, and then printing `Creating class AnotherClass`.
 
 Both classes result in the print statement being executed due to their respective metaclasses being invoked during their definition."
+"2025-11-07 16:02";"";"**Question:**
+
+Consider the following Python code that uses a metaclass to enforce a specific interface for classes. The goal is to ensure that any class inheriting from `BaseClass` must define certain methods. If not, it should raise a `TypeError`.
+
+```python
+class InterfaceMeta(type):
+    def __new__(cls, name, bases, dct):
+        required_methods = ['required_method']
+        for method in required_methods:
+            if method not in dct:
+                raise TypeError(f""{name} must implement {method}"")
+        return super().__new__(cls, name, bases, dct)
+
+class BaseClass(metaclass=InterfaceMeta):
+    pass
+
+class ConcreteClass(BaseClass):
+    def required_method(self):
+        print(""Method implemented!"")
+
+# Example usage:
+# concrete = ConcreteClass()  # This should work
+# non_concrete = BaseClass()  # This should raise a TypeError
+```
+
+Which of the following statements correctly describes how to extend `BaseClass` properly and handle the case where it's not extended correctly?
+
+A) You can simply create an instance of `ConcreteClass`, and it will work without any issues.
+B) Attempting to instantiate `BaseClass` directly should raise a `TypeError`.
+C) If you try to instantiate `BaseClass`, Python will automatically implement the missing method for you.
+D) The code provided does not handle the case where a subclass fails to implement required methods.
+
+**Answer:**
+
+B) Attempting to instantiate `BaseClass` directly should raise a `TypeError`.
+
+**Explanation:**
+
+- Option A is incorrect because instances of `ConcreteClass` can be created without issues, as it correctly implements the required method.
+- Option B is correct. When you try to create an instance of `BaseClass`, which does not implement the required method, Python will raise a `TypeError` during class creation due to the metaclass check in `InterfaceMeta`.
+- Option C is incorrect because the metaclass enforces that all subclasses define the required methods; it does not provide automatic implementation.
+- Option D is partially correct but less precise. While the code correctly raises an error when subclassing fails, it doesn't provide a mechanism for automatically implementing missing methods as suggested in this option.
+
+This question tests the candidate's understanding of metaclass behavior and how they can enforce interface compliance across subclasses."
