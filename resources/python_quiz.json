@@ -4086,5 +4086,12 @@
     "answer": "Part 2 (Answer):\nC) Both A and B\n\nExplanation:\nThe metaclass `Meta` is invoked when the class `MyClass` is created, printing \"Creating class MyClass\". The decorator `decorator` is then applied to `MyClass`, which also prints \"Decorating class\". Therefore, both outputs are produced.",
     "timestamp": "2025-11-06 16:01:17",
     "topic": "Class Decorators and Class Modification"
+  },
+  "q1_2025-11-07": {
+    "id": "1762473725_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a decorator to add logging functionality to a class method:\n\n```python\nimport functools\n\ndef log_method_calls(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args[1:]}, kwargs: {kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n\nclass MyClass:\n    @log_method_calls\n    def my_method(self, a, b=2):\n        return a + b\n\n# Usage\nobj = MyClass()\nresult = obj.my_method(3)\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The `@functools.wraps(func)` decorator preserves the metadata of `func`, such as its name and docstring.\nB) When calling `obj.my_method(3)`, the output will be \"Calling my_method with args: (3,), kwargs: {}\" followed by the return value of `my_method`.\nC) The `wrapper` function does not have access to any local variables of `my_method`.\nD) All method calls on instances of `MyClass` are automatically logged.",
+    "answer": "A) The `@functools.wraps(func)` decorator preserves the metadata of `func`, such as its name and docstring.\n\nExplanation:\n- Option A is correct. The `@functools.wraps(func)` decorator is used to preserve the identity of the original function, including its name, docstring, etc.\n- Option B is incorrect because `my_method` has a default argument (`b=2`), so calling `obj.my_method(3)` will log the arguments as \"Calling my_method with args: (3,), kwargs: {}\" but will not show the default value of `b`.\n- Option C is incorrect. The `wrapper` function does have access to the local variables of `my_method` through the closure mechanism.\n- Option D is incorrect. Only method calls explicitly decorated with `@log_method_calls` are logged; other method calls on instances of `MyClass` will not be automatically logged.",
+    "timestamp": "2025-11-07 00:02:05",
+    "topic": "Functional Programming Utilities"
   }
 }
