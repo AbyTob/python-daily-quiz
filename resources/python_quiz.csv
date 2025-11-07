@@ -25905,3 +25905,38 @@ Explanation:
 - Option B is incorrect because `my_method` has a default argument (`b=2`), so calling `obj.my_method(3)` will log the arguments as ""Calling my_method with args: (3,), kwargs: {}"" but will not show the default value of `b`.
 - Option C is incorrect. The `wrapper` function does have access to the local variables of `my_method` through the closure mechanism.
 - Option D is incorrect. Only method calls explicitly decorated with `@log_method_calls` are logged; other method calls on instances of `MyClass` will not be automatically logged."
+"2025-11-07 08:01";"### Part 1 (Question):
+Consider the following Python code:
+
+```python
+class MyMeta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=MyMeta):
+    pass
+
+@MyMeta
+class AnotherClass:
+    pass
+```
+
+What will be printed when running this code?
+
+A) `Creating class MyClass`  
+B) `Creating class AnotherClass`  
+C) Both `Creating class MyClass` and `Creating class AnotherClass`  
+D) Neither of the above
+
+### Part 2 (Answer):
+**";"C**
+
+**Detailed Explanation:**  
+In Python, metaclasses are the classes used to create other classes. When a class is defined, Python uses its metaclass to construct it. The default metaclass in Python is `type`, but you can specify a different metaclass using the `metaclass` keyword argument in the class definition.
+
+- For `MyClass`, the metaclass specified is `MyMeta`. Therefore, when `MyClass` is defined, the `__new__` method of `MyMeta` is called with arguments: `name='MyClass'`, `bases=()`, and `dct={}`. This results in the print statement `Creating class MyClass`.
+
+- For `AnotherClass`, we use a decorator `@MyMeta`. In Python, decorators are applied to functions or classes at definition time. However, when using a decorator with a metaclass, the decorator actually creates a new class under the hood. The original class is essentially replaced by this new class. Thus, applying `@MyMeta` to `AnotherClass` internally results in creating a new class with `MyMeta` as its metaclass, and then printing `Creating class AnotherClass`.
+
+Both classes result in the print statement being executed due to their respective metaclasses being invoked during their definition."
