@@ -4114,5 +4114,12 @@
     "answer": "C",
     "timestamp": "2025-11-08 00:01:30",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-11-08": {
+    "id": "1762588896_2",
+    "question": "[QUESTION]\nConsider the following code snippet:\n\n```python\nimport asyncio\n\nasync def task(name, delay):\n    print(f\"Task {name} started\")\n    await asyncio.sleep(delay)\n    print(f\"Task {name} finished\")\n\nasync def main():\n    tasks = [task(f'Task-{i}', i) for i in range(5)]\n    await asyncio.gather(*tasks)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements is true about the execution of this code?\n\nA) The tasks will run concurrently and print \"Task 0 finished\" first.\nB) The tasks will run sequentially, printing \"Task 0 finished\" first.\nC) The tasks will run concurrently but the order in which they finish cannot be determined.\nD) The code will not run because it contains a syntax error.",
+    "answer": "[A] The tasks will run concurrently and print \"Task 0 finished\" first.\n\n**Explanation:** In the provided code, `asyncio.gather` is used to run multiple coroutines concurrently. Each task starts immediately after the previous one has been scheduled. Since there are no dependencies between the tasks that would cause them to wait for each other, they will start and finish in an indeterminate order. Therefore, while all tasks will run concurrently, it's not guaranteed or predictable which task will be the first to complete based on their delay values alone. Hence, option C is technically correct but less specific than A.",
+    "timestamp": "2025-11-08 08:01:36",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
