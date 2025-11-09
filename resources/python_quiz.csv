@@ -26091,3 +26091,46 @@ Explanation:
 - The `Meta` metaclass decorates each callable attribute of its subclasses using the `log_instantiation` decorator.
 - Since `__init__` is a callable method in `MyClass`, it gets decorated by `log_instantiation`.
 - When an instance of `MyClass` is created, the `log_instantiation` wrapper function will be called first, printing ""Instantiating MyClass"" before initializing the actual class instance.";"Answer format error. Please check the generated content."
+"2025-11-09 00:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses both decorators and metaclasses:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if '__init__' not in dct:
+            raise ValueError(f""{name} must define an __init__ method"")
+        return super().__new__(cls, name, bases, dct)
+
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator is running before the function"")
+        result = func(*args, **kwargs)
+        print(""Decorator is running after the function"")
+        return result
+    return wrapper
+
+@my_decorator
+class MyClass(metaclass=Meta):
+    def __init__(self, value):
+        self.value = value
+
+# Create an instance of MyClass and call its method
+obj = MyClass(10)
+```
+
+Which of the following statements about this code is true?
+
+A) The `__new__` method in `Meta` will raise a ValueError if `MyClass` does not define an `__init__` method.
+
+B) When creating an instance of `MyClass`, the output will be ""Decorator is running before the function"" and ""Decorator is running after the function"".
+
+C) The `my_decorator` will only execute if `MyClass` defines a method other than `__init__`.
+
+D) The metaclass `Meta` can be used to enforce that all subclasses of `MyClass` must have an `__init__` method.
+
+**Part 2 (Answer):**
+
+B) When creating an instance of `MyClass`, the output will be ""Decorator is running before the function"" and ""Decorator is running after the function"".
+
+Explanation: The decorator `my_decorator` wraps the constructor (`__init__`) of `MyClass`. It will execute its print statements both before and after calling the actual `__init__` method. Since the `__new__` method in `Meta` does not raise any exceptions, this code runs without errors, and we can create an instance of `MyClass` successfully.";"Answer format error. Please check the generated content."

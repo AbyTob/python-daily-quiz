@@ -4128,5 +4128,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-08 16:02:02",
     "topic": "Functional Programming Utilities"
+  },
+  "q1_2025-11-09": {
+    "id": "1762646525_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses both decorators and metaclasses:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if '__init__' not in dct:\n            raise ValueError(f\"{name} must define an __init__ method\")\n        return super().__new__(cls, name, bases, dct)\n\ndef my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print(\"Decorator is running before the function\")\n        result = func(*args, **kwargs)\n        print(\"Decorator is running after the function\")\n        return result\n    return wrapper\n\n@my_decorator\nclass MyClass(metaclass=Meta):\n    def __init__(self, value):\n        self.value = value\n\n# Create an instance of MyClass and call its method\nobj = MyClass(10)\n```\n\nWhich of the following statements about this code is true?\n\nA) The `__new__` method in `Meta` will raise a ValueError if `MyClass` does not define an `__init__` method.\n\nB) When creating an instance of `MyClass`, the output will be \"Decorator is running before the function\" and \"Decorator is running after the function\".\n\nC) The `my_decorator` will only execute if `MyClass` defines a method other than `__init__`.\n\nD) The metaclass `Meta` can be used to enforce that all subclasses of `MyClass` must have an `__init__` method.\n\n**Part 2 (Answer):**\n\nB) When creating an instance of `MyClass`, the output will be \"Decorator is running before the function\" and \"Decorator is running after the function\".\n\nExplanation: The decorator `my_decorator` wraps the constructor (`__init__`) of `MyClass`. It will execute its print statements both before and after calling the actual `__init__` method. Since the `__new__` method in `Meta` does not raise any exceptions, this code runs without errors, and we can create an instance of `MyClass` successfully.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-11-09 00:02:05",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
