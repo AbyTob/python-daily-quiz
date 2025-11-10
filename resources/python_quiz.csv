@@ -26306,3 +26306,41 @@ Explanation:
 - Option B only applies the synchronous timer to all methods regardless of whether they are async or not. This will cause errors when trying to call an async method with the sync timer decorator.
 - Option C incorrectly uses `setattr(dct, attr_name, apply_timer(attr_value))` instead of assigning it back directly in the dictionary. This will not work as intended because `dct` is a local variable and changes made to it won't affect the original class dictionary.
 - Option D also tries to use `setattr(dct, attr_name, apply_timer(attr_value))`, which is incorrect for the same reason as option C."
+"2025-11-10 00:01";"[QUESTION]
+Consider the following Python code that uses a decorator to enhance the functionality of a class method:
+
+```python
+def log_method_calls(cls):
+    for attr_name, attr_value in cls.__dict__.items():
+        if callable(attr_value):
+            setattr(cls, attr_name, log_call(attr_value))
+    return cls
+
+def log_call(func):
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned {result}"")
+        return result
+    return wrapper
+
+@log_method_calls
+class Calculator:
+    def add(self, a, b):
+        return a + b
+
+    def subtract(self, a, b):
+        return a - b
+```
+
+What does the `@log_method_calls` decorator do to the methods of the `Calculator` class? Select all correct options.
+
+A) It logs the name and arguments passed to each method before calling it.
+B) It changes the behavior of the `subtract` method to always return 0.
+C) It increases the performance of the `add` and `subtract` methods.
+D) It adds a new attribute to each method that stores its previous call results.";"[ANSWER] A, D
+
+Explanation:
+The `@log_method_calls` decorator dynamically modifies the class by wrapping each callable attribute (method) with the `log_call` function. This wrapper logs both the arguments and the return value of each method before and after calling it. Therefore, options A is correct as it accurately describes what happens to each method. Option D is also correct because each method is replaced with a new version that includes logging functionality.
+
+Option B is incorrect because `subtract` is not altered in any way; its behavior remains unchanged. Option C is incorrect as the decorator does not affect performance; instead, it adds logging overhead."
