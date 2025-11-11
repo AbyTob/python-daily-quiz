@@ -26416,3 +26416,47 @@ The correct answer is C. The implementation of the metaclass has two primary pro
 2. The check for uniqueness in `__call__` does not actually check if an instance with a specific `unique_id` already exists. Instead, it checks if any instance of the class has been created.
 
 A fix would be to have `_instances` as an attribute of each metaclass instance (i.e., make it unique per class) and use `instance.unique_id` for uniqueness checking within that class."
+"2025-11-11 00:02";"**Part 1 (Question):**
+Consider the following Python code snippet that uses a metaclass to dynamically add methods to a class:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_method'] = lambda self: f""Hello from {name}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.dynamic_method())
+```
+
+1. What will be the output of `print(obj.dynamic_method())`?
+2. How would you modify the metaclass to make the dynamically added method available only during object creation and not permanently?
+
+A) Output: ""Hello from MyClass"" | B) Error: 'MyClass' has no attribute 'dynamic_method'
+C) Output: ""None"" | D) Output: TypeError";"**Part 2 (Answer):**
+A) Output: ""Hello from MyClass""
+
+Explanation:
+- The metaclass `Meta` is defined to dynamically add a method named `dynamic_method` to any class that uses it as its metaclass.
+- When an instance of `MyClass` is created, the `dynamic_method` is added to the class's dictionary during object creation.
+- Therefore, calling `obj.dynamic_method()` successfully outputs ""Hello from MyClass"".
+
+B) To make the dynamically added method available only during object creation and not permanently, you could modify the metaclass's `__new__` method to remove the method after it has been added:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        method = lambda self: f""Hello from {name}""
+        dct['dynamic_method'] = method
+        return super().__new__(cls, name, bases, dct)
+
+    def __init__(self, *args, **kwargs):
+        if 'dynamic_method' in args[0].__dict__:
+            del args[0].__dict__['dynamic_method']
+        super().__init__(*args, **kwargs)
+```
+
+This modified metaclass removes the `dynamic_method` from the class's dictionary after the instance is created."
