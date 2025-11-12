@@ -4198,5 +4198,12 @@
     "answer": "A) The `Timer` class acts as a decorator to measure the execution time of any function it decorates.",
     "timestamp": "2025-11-12 00:01:33",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2025-11-12": {
+    "id": "1762934520_2",
+    "question": "Part 1: Question\n\nConsider the following Python code that uses a metaclass to add a method to a class dynamically:\n\n```python\n# Define a metaclass that adds a 'greet' method to any class it decorates\nclass AddGreetMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['greet'] = lambda self: f\"Hello, I am {self.name}\"\n        return super().__new__(cls, name, bases, dct)\n\n# Use the metaclass to create a class with dynamic method\nclass Person(metaclass=AddGreetMeta):\n    def __init__(self, name):\n        self.name = name\n\n# Create an instance of Person and call the dynamically added method\nperson = Person(\"Alice\")\nprint(person.greet())\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The `Person` class will raise a `TypeError` when instantiated because it does not define the `greet` method.\nB) When `Person(\"Alice\")` is called, an error occurs because metaclasses cannot dynamically add methods after a class has been created.\nC) The output of `print(person.greet())` will be \"Hello, I am Alice\".\nD) The `AddGreetMeta` metaclass must be used with inheritance to work properly.",
+    "answer": "Part 2: Answer\n\nC) The output of `print(person.greet())` will be \"Hello, I am Alice\".\n\nExplanation:\n\nIn Python, metaclasses allow for the customization of class creation. By using a metaclass (`AddGreetMeta`) and defining its `__new__` method, we can dynamically add methods to any class being created. In this example, the `greet` method is added to the `Person` class when it is instantiated. Therefore, when calling `person.greet()`, the output will be \"Hello, I am Alice\". The metaclass works during class creation, not at instance creation or after the class has been fully defined and used.",
+    "timestamp": "2025-11-12 08:02:00",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
