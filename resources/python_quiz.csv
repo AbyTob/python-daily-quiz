@@ -26625,3 +26625,69 @@ C) The output of `print(person.greet())` will be ""Hello, I am Alice"".
 Explanation:
 
 In Python, metaclasses allow for the customization of class creation. By using a metaclass (`AddGreetMeta`) and defining its `__new__` method, we can dynamically add methods to any class being created. In this example, the `greet` method is added to the `Person` class when it is instantiated. Therefore, when calling `person.greet()`, the output will be ""Hello, I am Alice"". The metaclass works during class creation, not at instance creation or after the class has been fully defined and used."
+"2025-11-12 16:02";"### Question
+Consider the following code snippet that attempts to implement a simple logging system:
+
+```python
+import functools
+
+def log_function_calls(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned: {result}"")
+        return result
+    return wrapper
+
+class LoggedClass:
+    def __init__(self, value):
+        self.value = value
+
+    @log_function_calls
+    def add(self, other):
+        return self.value + other
+```
+
+When you create an instance of `LoggedClass` and call the `add` method with another number, what will be printed to the console? 
+
+A) 
+```
+Calling __init__ with args: (5,), kwargs: {}
+Adding 10 and 20
+10
+20
+```
+
+B)
+```
+Calling __init__ with args: (5,), kwargs: {}
+LoggedClass.add called with args: (10,), kwargs: {}
+5
+10
+```
+
+C)
+```
+Calling add with args: (10,), kwargs: {}
+10
+5
+```
+
+D)
+```
+Adding 5 and 20
+35
+```";"### Answer
+B) 
+```
+Calling __init__ with args: (5,), kwargs: {}
+LoggedClass.add called with args: (10,), kwargs: {}
+5
+10
+```
+
+**Explanation:**  
+The `log_function_calls` decorator wraps the methods of `LoggedClass`. However, when you access an attribute on a class like `self.value`, Python calls the descriptor protocol which does not go through the `__call__` method of the decorator. Therefore, the `wrapper` function is only called for actual method calls, such as `add(10)`. The `__init__` method is directly invoked when creating an instance of `LoggedClass` and does not go through the decorator.
+
+This question tests whether you understand how decorators and descriptor protocols work in Python, particularly how they interact with class methods and initialization."
