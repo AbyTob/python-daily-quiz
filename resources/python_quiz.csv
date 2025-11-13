@@ -26691,3 +26691,46 @@ LoggedClass.add called with args: (10,), kwargs: {}
 The `log_function_calls` decorator wraps the methods of `LoggedClass`. However, when you access an attribute on a class like `self.value`, Python calls the descriptor protocol which does not go through the `__call__` method of the decorator. Therefore, the `wrapper` function is only called for actual method calls, such as `add(10)`. The `__init__` method is directly invoked when creating an instance of `LoggedClass` and does not go through the decorator.
 
 This question tests whether you understand how decorators and descriptor protocols work in Python, particularly how they interact with class methods and initialization."
+"2025-11-13 00:02";"";"**Part 1 (Question):**
+
+You are tasked with creating a custom context manager that logs the execution time of a block of code. Additionally, you need this context manager to be compatible with both synchronous and asynchronous code blocks. Below is your initial attempt:
+
+```python
+import time
+from contextlib import contextmanager
+
+@contextmanager
+def log_execution_time():
+    start_time = time.time()
+    try:
+        yield
+    finally:
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time} seconds"")
+
+async def async_task():
+    await asyncio.sleep(1)
+    print(""Task completed"")
+
+# Synchronous usage
+with log_execution_time():
+    for _ in range(10_000_000):
+        pass
+
+# Asynchronous usage
+import asyncio
+asyncio.run(log_execution_time(async_task()))
+```
+
+Unfortunately, the above implementation does not work as intended. Why is this the case? How would you modify it to support both synchronous and asynchronous code blocks while correctly logging the execution time?
+
+A) The context manager can be made async by using `async with` instead of `with`.  
+B) The asynchronous version will fail because `time.time()` does not work with async tasks. You need to use `asyncio.get_running_loop().time()`.  
+C) Decorators are not needed for this purpose, and the current implementation already supports both sync and async code.  
+D) There is no issue; the provided implementation works correctly for both synchronous and asynchronous usage.
+
+**Part 2 (Answer):**
+
+B) The asynchronous version will fail because `time.time()` does not work with async tasks. You need to use `asyncio.get_running_loop().time()`.  
+
+Explanation: The current implementation of `log_execution_time` uses `time.time()` for measuring execution time, which is synchronous and does not work correctly within an asynchronous context. To fix this, you should replace `time.time()` with `asyncio.get_running_loop().time()`, which returns the current time in seconds since the start of the program as a float in floating-point format. This change allows the context manager to accurately measure execution times for both synchronous and asynchronous code blocks."
