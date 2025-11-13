@@ -26771,3 +26771,46 @@ Explanation:
 - After the `say_hello` function completes execution, it returns to the `wrapper` and prints ""Something is happening after the function is called.""
 
 This demonstrates how decorators can be used to add functionality before and after a function call without modifying the original function's code."
+"2025-11-13 16:02";"[QUESTION]
+Consider the following Python code that attempts to implement a simple logging system using a decorator and metaclasses. The goal is to automatically log the entry and exit of all methods in a class.
+
+```python
+import time
+
+def log_method_calls(cls):
+    for name, attr in cls.__dict__.items():
+        if callable(attr):
+            setattr(cls, name, log_entry_exit(attr))
+    return cls
+
+class MetaLogger(type):
+    def __new__(mcs, name, bases, dct):
+        decorated = log_method_calls(dct)
+        return super().__new__(mcs, name, bases, decorated)
+
+def log_entry_exit(func):
+    def wrapper(*args, **kwargs):
+        print(f""Entering {func.__name__}"")
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Exiting {func.__name__}, took {end_time - start_time:.2f} seconds"")
+        return result
+    return wrapper
+
+class Logger(metaclass=MetaLogger):
+    def method1(self):
+        time.sleep(0.5)
+
+    def method2(self):
+        time.sleep(0.7)
+```
+
+Which of the following is true about the above code?
+
+A) It will correctly log the entry and exit of all methods in the `Logger` class, including their execution times.
+B) It will raise a TypeError because metaclasses cannot be used with decorators.
+C) It will only log the entry of each method but not their execution times.
+D) The logging functionality will not work as intended due to the use of `type.__new__`.";"A) It will correctly log the entry and exit of all methods in the `Logger` class, including their execution times.
+
+Explanation: The code uses a decorator (`log_method_calls`) that applies another decorator (`log_entry_exit`) to each callable attribute (method) of the class. Additionally, it employs a metaclass (`MetaLogger`) to ensure that this logging is applied whenever a class using this metaclass is instantiated. Therefore, when an instance of `Logger` calls its methods, the entry and exit logs along with execution times will be printed as expected."
