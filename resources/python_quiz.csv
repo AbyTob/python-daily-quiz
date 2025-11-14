@@ -26840,3 +26840,37 @@ C) Both A and B
 D) Neither A nor B";"C) Both A and B
 
 Explanation: The `MyClass` definition is decorated with `@my_decorator`, which prints a message when the decorator is applied. Additionally, because `MyClass` is a subclass of `object` (which implicitly inherits from `type`), it will go through the metaclass's initialization process, printing ""Class MyClass is created"". The order of operations means both messages are printed as expected."
+"2025-11-14 08:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(1)
+    return ""Data fetched""
+
+class AsyncWrapper:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+async_wrapper = AsyncWrapper(fetch_data)
+
+@async_wrapper
+async def main():
+    data = await fetch_data()
+    print(data)
+
+asyncio.run(main())
+```
+
+What is the output of this code when executed?
+
+A) Fetching data... Data fetched  
+B) Fetching data... None  
+C) Error: 'AsyncWrapper' object is not callable  
+D) None";"A) Fetching data... Data fetched"
