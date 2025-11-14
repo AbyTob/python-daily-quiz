@@ -26874,3 +26874,35 @@ A) Fetching data... Data fetched
 B) Fetching data... None  
 C) Error: 'AsyncWrapper' object is not callable  
 D) None";"A) Fetching data... Data fetched"
+"2025-11-14 16:01";"";"Part 1 (Question):
+Consider the following Python code snippet:
+
+```python
+import threading
+
+def thread_decorator(func):
+    def wrapper(*args, **kwargs):
+        thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+        thread.start()
+        return thread
+    return wrapper
+
+@thread_decorator
+def print_numbers():
+    for i in range(5):
+        print(i)
+
+print_numbers()
+```
+
+What will be the output of this code? Why?
+
+A) The numbers 0 through 4 will be printed sequentially.
+B) The numbers 0 through 4 will be printed concurrently.
+C) A TypeError will be raised because threading is not used correctly.
+D) No output will be produced.
+
+Part 2 (Answer):
+B) The numbers 0 through 4 will be printed concurrently.
+
+Explanation: The `thread_decorator` function wraps the original `print_numbers` function within a new function, `wrapper`, which creates and starts a new thread to execute the target function. Therefore, when `print_numbers()` is called, it does not block the main program execution, allowing other code (if any) to run concurrently. The numbers 0 through 4 will be printed by different threads at some point in time, hence concurrently."
