@@ -26814,3 +26814,29 @@ C) It will only log the entry of each method but not their execution times.
 D) The logging functionality will not work as intended due to the use of `type.__new__`.";"A) It will correctly log the entry and exit of all methods in the `Logger` class, including their execution times.
 
 Explanation: The code uses a decorator (`log_method_calls`) that applies another decorator (`log_entry_exit`) to each callable attribute (method) of the class. Additionally, it employs a metaclass (`MetaLogger`) to ensure that this logging is applied whenever a class using this metaclass is instantiated. Therefore, when an instance of `Logger` calls its methods, the entry and exit logs along with execution times will be printed as expected."
+"2025-11-14 00:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+class Meta(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        print(f""Class {name} is created"")
+
+def my_decorator(cls):
+    print(f""Decorator applied to class {cls.__name__}"")
+    return cls
+
+@my_decorator
+class MyClass:
+    pass
+```
+
+What will be the output of this code when executed? Explain your reasoning.
+
+A) Class MyClass is created  
+B) Decorator applied to class MyClass  
+C) Both A and B  
+D) Neither A nor B";"C) Both A and B
+
+Explanation: The `MyClass` definition is decorated with `@my_decorator`, which prints a message when the decorator is applied. Additionally, because `MyClass` is a subclass of `object` (which implicitly inherits from `type`), it will go through the metaclass's initialization process, printing ""Class MyClass is created"". The order of operations means both messages are printed as expected."

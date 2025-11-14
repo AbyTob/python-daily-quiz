@@ -4233,5 +4233,12 @@
     "answer": "A) It will correctly log the entry and exit of all methods in the `Logger` class, including their execution times.\n\nExplanation: The code uses a decorator (`log_method_calls`) that applies another decorator (`log_entry_exit`) to each callable attribute (method) of the class. Additionally, it employs a metaclass (`MetaLogger`) to ensure that this logging is applied whenever a class using this metaclass is instantiated. Therefore, when an instance of `Logger` calls its methods, the entry and exit logs along with execution times will be printed as expected.",
     "timestamp": "2025-11-13 16:02:06",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-11-14": {
+    "id": "1763078480_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nclass Meta(type):\n    def __init__(cls, name, bases, dct):\n        super().__init__(name, bases, dct)\n        print(f\"Class {name} is created\")\n\ndef my_decorator(cls):\n    print(f\"Decorator applied to class {cls.__name__}\")\n    return cls\n\n@my_decorator\nclass MyClass:\n    pass\n```\n\nWhat will be the output of this code when executed? Explain your reasoning.\n\nA) Class MyClass is created  \nB) Decorator applied to class MyClass  \nC) Both A and B  \nD) Neither A nor B",
+    "answer": "C) Both A and B\n\nExplanation: The `MyClass` definition is decorated with `@my_decorator`, which prints a message when the decorator is applied. Additionally, because `MyClass` is a subclass of `object` (which implicitly inherits from `type`), it will go through the metaclass's initialization process, printing \"Class MyClass is created\". The order of operations means both messages are printed as expected.",
+    "timestamp": "2025-11-14 00:01:20",
+    "topic": "Object-Oriented Programming"
   }
 }
