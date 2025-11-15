@@ -26972,3 +26972,41 @@ C) The `manage_resource` context manager will correctly open and close the resou
 D) The `ManagedResource` class does not implement the `__enter__` and `__exit__` methods, so it cannot be used as a context manager directly.";"C) The `manage_resource` context manager will correctly open and close the resource, and log each access to the `name` attribute.
 
 Explanation: The `LoggingDescriptor` correctly logs when the `name` attribute is accessed or modified. The `ManagedResource` class implements the required methods (`open`, `close`) for opening and closing the resource. When used in the context manager with the `with` statement, it will open the resource before executing the block of code, log accesses to the `name` attribute via the descriptor, and then close the resource when exiting the block."
+"2025-11-15 08:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncClass:
+    def __init__(self, value):
+        self.value = value
+
+    async def fetch_data(self):
+        await asyncio.sleep(1)
+        return f""Data: {self.value}""
+
+async def main():
+    tasks = [AsyncClass(i).fetch_data() for i in range(5)]
+    results = await asyncio.gather(*tasks)
+    print(results)
+
+asyncio.run(main())
+```
+
+Which of the following statements is true about the code above?
+
+A) The `main` function will run indefinitely due to an infinite loop.  
+B) All tasks are scheduled immediately when `main` is called, and they execute concurrently.  
+C) Only one task can run at a time because it uses synchronous `sleep`.  
+D) The `fetch_data` method must be awaited inside the `__init__` method for proper execution.
+
+**Part 2 (Answer):**
+
+B) All tasks are scheduled immediately when `main` is called, and they execute concurrently. 
+
+Explanation: 
+- In Python's asyncio library, the `asyncio.gather(*tasks)` function schedules all tasks concurrently and waits for them to complete before continuing. Therefore, all `fetch_data` calls are executed simultaneously.
+- The `await asyncio.sleep(1)` inside `fetch_data` does not block other tasks; it only suspends the current task temporarily until the sleep is over.
+- Options A, C, and D contain incorrect assumptions about how async/await works in Python."
