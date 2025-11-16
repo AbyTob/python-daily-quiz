@@ -4282,5 +4282,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-16 00:02:52",
     "topic": "Locks, Semaphores, and Synchronization"
+  },
+  "q2_2025-11-16": {
+    "id": "1763280106_2",
+    "question": "[QUESTION]\nConsider the following Python code that uses metaclasses to create a singleton pattern:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass DatabaseConnection(metaclass=SingletonMeta):\n    def connect(self):\n        print(\"Connecting to database...\")\n\n# Usage\ndb1 = DatabaseConnection()\ndb2 = DatabaseConnection()\n\ndb1.connect()  # Output: Connecting to database...\ndb2.connect()  # Output should be different if not a singleton\n```\n\nWhich of the following statements is true about the `DatabaseConnection` class when using the provided metaclass?\n\nA) Multiple instances of `DatabaseConnection` can exist at runtime.\nB) The `connect` method will only print \"Connecting to database...\" once, no matter how many times it's called on different instances.\nC) The `__call__` method in `SingletonMeta` is not used when creating an instance of `DatabaseConnection`.\nD) Accessing `db2.connect()` will raise a TypeError because the class is not callable.",
+    "answer": "B) The `connect` method will only print \"Connecting to database...\" once, no matter how many times it's called on different instances.\n\nExplanation: The `SingletonMeta` metaclass ensures that only one instance of `DatabaseConnection` can exist at runtime. When `db1` and `db2` are created, they refer to the same object, so calling `connect` on either will execute the print statement only once.",
+    "timestamp": "2025-11-16 08:01:46",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
