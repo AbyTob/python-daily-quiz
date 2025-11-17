@@ -27389,3 +27389,26 @@ D) The `@timed` decorator will print the time taken by the `compute_primes` func
 D) The `@timed` decorator will print the time taken by the `compute_primes` function when called.
 
 Explanation: The `@timed` decorator is correctly implemented and will wrap the execution of the `compute_primes` function within a context managed instance of the `Timer` class. When the `with` statement in the `__enter__` method is executed, it starts timing. After the `compute_primes` function completes its execution, the `__exit__` method is called, which calculates and prints the elapsed time. Therefore, when you run the code, you will see the output indicating the time taken by the `compute_primes` function to execute."
+"2025-11-17 16:01";"[QUESTION]
+Consider the following Python code that attempts to implement a context manager using a class with `__enter__` and `__exit__` methods. However, it contains a subtle error:
+
+```python
+class MyContextManager:
+    def __init__(self):
+        self.resource = open('example.txt', 'w')
+
+    def __enter__(self):
+        return self.resource
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.resource.close()
+```
+
+Which of the following statements about this code is true?
+
+A) The context manager will successfully close the file when used in a `with` statement.
+B) The context manager will fail to close the file because it does not handle exceptions properly.
+C) The context manager will always raise an exception because the file open operation might fail.
+D) The context manager's constructor raises an exception, which prevents its use as a context manager.";"B) The context manager will fail to close the file because it does not handle exceptions properly.
+
+Explanation: In Python, if `__exit__` returns `True`, it signals that no exception was raised inside the `with` block. If an exception occurs and is not handled within `__exit__`, it propagates up the call stack. The given context manager does not return any value from `__exit__`, which by default means that any exceptions inside the `with` block are considered unhandled, causing the program to crash or continue running with the exception uncaught. To fix this, `__exit__` should explicitly return `False` if it wants to handle all exceptions, or properly handle and suppress exceptions as needed."
