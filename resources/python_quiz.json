@@ -4296,5 +4296,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-16 16:01:56",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-11-17": {
+    "id": "1763337697_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that attempts to create a decorator for asynchronous functions:\n\n```python\nimport asyncio\n\ndef async_decorator(func):\n    def wrapper(*args, **kwargs):\n        return asyncio.run(func(*args, **kwargs))\n    return wrapper\n\n@async_decorator\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data fetched\"\n\n# Usage of the decorated function\nresult = fetch_data()\nprint(result)\n```\n\nWhat is likely to happen when you run this code?\n\nA) The program will print \"Data fetched\" immediately.\n\nB) The program will wait for 1 second before printing \"Data fetched\".\n\nC) The program will raise an error because `async_decorator` cannot handle asynchronous functions.\n\nD) The program will hang and not execute at all.\n\n**Part 2 (Answer):**\n\nA) The program will print \"Data fetched\" immediately.\n\nExplanation: \nThe decorator `async_decorator` wraps the original function `fetch_data`, which is declared as `async`. However, the `wrapper` function inside the decorator does not use `await` when calling `func(*args, **kwargs)`. As a result, it attempts to run the asynchronous function synchronously with `asyncio.run()`, which blocks until the function completes. Since the `fetch_data` function simulates an I/O operation with `await asyncio.sleep(1)`, the program will indeed wait for 1 second before printing \"Data fetched\".",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-11-17 00:01:37",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

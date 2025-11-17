@@ -27299,3 +27299,41 @@ Explanation:
 - Inside the decorator, it prints ""Starting..."", then awaits the result of `fetch_data()`. This means it waits for 1 second as simulated by `asyncio.sleep(1)`.
 - After the sleep finishes, it prints ""Finished!"" and returns the result of `fetch_data()`, which is ""Data fetched"".
 - The event loop correctly handles the asynchronous nature of the function, ensuring that the program pauses for 1 second when `await asyncio.sleep(1)` is encountered.";"Answer format error. Please check the generated content."
+"2025-11-17 00:01";"**Part 1 (Question):**
+
+Consider the following Python code that attempts to create a decorator for asynchronous functions:
+
+```python
+import asyncio
+
+def async_decorator(func):
+    def wrapper(*args, **kwargs):
+        return asyncio.run(func(*args, **kwargs))
+    return wrapper
+
+@async_decorator
+async def fetch_data():
+    await asyncio.sleep(1)
+    return ""Data fetched""
+
+# Usage of the decorated function
+result = fetch_data()
+print(result)
+```
+
+What is likely to happen when you run this code?
+
+A) The program will print ""Data fetched"" immediately.
+
+B) The program will wait for 1 second before printing ""Data fetched"".
+
+C) The program will raise an error because `async_decorator` cannot handle asynchronous functions.
+
+D) The program will hang and not execute at all.
+
+**Part 2 (Answer):**
+
+A) The program will print ""Data fetched"" immediately.
+
+Explanation: 
+The decorator `async_decorator` wraps the original function `fetch_data`, which is declared as `async`. However, the `wrapper` function inside the decorator does not use `await` when calling `func(*args, **kwargs)`. As a result, it attempts to run the asynchronous function synchronously with `asyncio.run()`, which blocks until the function completes. Since the `fetch_data` function simulates an I/O operation with `await asyncio.sleep(1)`, the program will indeed wait for 1 second before printing ""Data fetched"".";"Answer format error. Please check the generated content."
