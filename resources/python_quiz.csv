@@ -27337,3 +27337,55 @@ A) The program will print ""Data fetched"" immediately.
 
 Explanation: 
 The decorator `async_decorator` wraps the original function `fetch_data`, which is declared as `async`. However, the `wrapper` function inside the decorator does not use `await` when calling `func(*args, **kwargs)`. As a result, it attempts to run the asynchronous function synchronously with `asyncio.run()`, which blocks until the function completes. Since the `fetch_data` function simulates an I/O operation with `await asyncio.sleep(1)`, the program will indeed wait for 1 second before printing ""Data fetched"".";"Answer format error. Please check the generated content."
+"2025-11-17 08:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import time
+
+class Timer:
+    def __init__(self, text='Elapsed time:'):
+        self.text = text
+
+    def __enter__(self):
+        self.start = time.perf_counter()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end = time.perf_counter()
+        print(f'{self.text} {end - self.start:.4f} seconds')
+
+def timed(func):
+    def wrapper(*args, **kwargs):
+        with Timer():
+            result = func(*args, **kwargs)
+        return result
+    return wrapper
+
+@timed
+def compute_primes(n):
+    primes = []
+    for possiblePrime in range(2, n + 1):
+        isPrime = True
+        for num in range(2, int(possiblePrime ** 0.5) + 1):
+            if possiblePrime % num == 0:
+                isPrime = False
+        if isPrime:
+            primes.append(possiblePrime)
+    return primes
+
+if __name__ == ""__main__"":
+    result = compute_primes(100000)
+```
+
+Which of the following statements about the code above is correct?
+
+A) The `Timer` class can be used as a context manager without any issues.
+B) The `timed` decorator will not work properly due to the `with` statement's context management features.
+C) The `compute_primes` function will run infinitely because of the nested loop inside it.
+D) The `@timed` decorator will print the time taken by the `compute_primes` function when called.";"**Part 2 (Answer):**
+
+D) The `@timed` decorator will print the time taken by the `compute_primes` function when called.
+
+Explanation: The `@timed` decorator is correctly implemented and will wrap the execution of the `compute_primes` function within a context managed instance of the `Timer` class. When the `with` statement in the `__enter__` method is executed, it starts timing. After the `compute_primes` function completes its execution, the `__exit__` method is called, which calculates and prints the elapsed time. Therefore, when you run the code, you will see the output indicating the time taken by the `compute_primes` function to execute."

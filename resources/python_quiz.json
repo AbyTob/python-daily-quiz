@@ -4303,5 +4303,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-17 00:01:37",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2025-11-17": {
+    "id": "1763366537_2",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nimport time\n\nclass Timer:\n    def __init__(self, text='Elapsed time:'):\n        self.text = text\n\n    def __enter__(self):\n        self.start = time.perf_counter()\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        end = time.perf_counter()\n        print(f'{self.text} {end - self.start:.4f} seconds')\n\ndef timed(func):\n    def wrapper(*args, **kwargs):\n        with Timer():\n            result = func(*args, **kwargs)\n        return result\n    return wrapper\n\n@timed\ndef compute_primes(n):\n    primes = []\n    for possiblePrime in range(2, n + 1):\n        isPrime = True\n        for num in range(2, int(possiblePrime ** 0.5) + 1):\n            if possiblePrime % num == 0:\n                isPrime = False\n        if isPrime:\n            primes.append(possiblePrime)\n    return primes\n\nif __name__ == \"__main__\":\n    result = compute_primes(100000)\n```\n\nWhich of the following statements about the code above is correct?\n\nA) The `Timer` class can be used as a context manager without any issues.\nB) The `timed` decorator will not work properly due to the `with` statement's context management features.\nC) The `compute_primes` function will run infinitely because of the nested loop inside it.\nD) The `@timed` decorator will print the time taken by the `compute_primes` function when called.",
+    "answer": "**Part 2 (Answer):**\n\nD) The `@timed` decorator will print the time taken by the `compute_primes` function when called.\n\nExplanation: The `@timed` decorator is correctly implemented and will wrap the execution of the `compute_primes` function within a context managed instance of the `Timer` class. When the `with` statement in the `__enter__` method is executed, it starts timing. After the `compute_primes` function completes its execution, the `__exit__` method is called, which calculates and prints the elapsed time. Therefore, when you run the code, you will see the output indicating the time taken by the `compute_primes` function to execute.",
+    "timestamp": "2025-11-17 08:02:17",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }
