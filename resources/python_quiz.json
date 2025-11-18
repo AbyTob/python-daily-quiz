@@ -4331,5 +4331,12 @@
     "answer": "B) Logs method calls and returns the result for each method call",
     "timestamp": "2025-11-18 08:01:28",
     "topic": "Function and Method Decorators"
+  },
+  "q3_2025-11-18": {
+    "id": "1763481718_3",
+    "question": "[QUESTION]\nConsider the following Python code that aims to create a decorator for asynchronous functions. The goal is to measure the execution time of these functions.\n\n```python\nimport asyncio\nfrom datetime import datetime\n\ndef timing_decorator(func):\n    async def wrapper(*args, **kwargs):\n        start_time = datetime.now()\n        result = await func(*args, **kwargs)\n        end_time = datetime.now()\n        print(f\"{func.__name__} took {end_time - start_time} to execute.\")\n        return result\n    return wrapper\n\n@timing_decorator\nasync def async_task(n):\n    await asyncio.sleep(n)\n    return n\n\n# Example usage\nloop = asyncio.get_event_loop()\nresult = loop.run_until_complete(async_task(2))\nprint(result)\n```\n\nWhat issue might arise when running this code, and how could it be fixed?\n\nA) The decorator does not handle `async` functions correctly.\nB) The `wrapper` function should be defined as a regular synchronous function instead of an asynchronous one.\nC) The `datetime.now()` method is not compatible with asyncio timing.\nD) The decorator will work perfectly fine without any modifications.",
+    "answer": "A) The decorator does not handle `async` functions correctly.\n\nThe correct answer is A. The issue with the provided code is that the `wrapper` function is defined as an asynchronous function (`async def wrapper`). When using a decorator on an async function, it must return another async function to ensure proper handling of the coroutine execution. To fix this, you should define the `wrapper` function as synchronous:\n\n```python\ndef timing_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = datetime.now()\n        result = func(*args, **kwargs)\n        end_time = datetime.now()\n        print(f\"{func.__name__} took {end_time - start_time} to execute.\")\n        return result\n    return wrapper\n```\n\nBy making the `wrapper` function synchronous, it can correctly handle the execution of async functions and measure their timing properly.",
+    "timestamp": "2025-11-18 16:01:58",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
