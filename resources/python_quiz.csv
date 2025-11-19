@@ -27618,3 +27618,40 @@ D) None of the above";"B) Value is 10
 
 **Explanation:**  
 In Python, abstract methods are part of an abstract base class (ABC) and must be implemented by any subclass that doesn't declare them as abstract itself. In this example, `Concrete` correctly implements the `abstract_method`, which prints ""Value is {self.value}"". When you create an instance of `Concrete` with `c = Concrete(10)` and call `c.abstract_method()`, it will output ""Value is 10"". The metaclass `Meta` ensures that any subclass of `Base` (except for abstract base classes) must implement the `abstract_method`."
+"2025-11-19 16:01";"[QUESTION]  
+Consider the following Python code:
+
+```python
+class Singleton(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+    
+@Singleton
+class DatabaseConnection:
+    def connect(self):
+        print(""Connecting to the database..."")
+
+def use_database():
+    db1 = DatabaseConnection()
+    db2 = DatabaseConnection()
+    db1.connect()
+    print(db1 is db2)
+
+use_database()
+```
+
+What does the code above do and why?
+
+A) It prints ""Connecting to the database..."" twice because `db1` and `db2` are separate instances.
+
+B) It prints ""Connecting to the database..."" once and then `True`, indicating that `db1` and `db2` are the same instance.
+
+C) It raises an error because a singleton class cannot be instantiated with parameters.
+
+D) It prints ""Connecting to the database..."" twice but does not compare instances.";"B) It prints ""Connecting to the database..."" once and then `True`, indicating that `db1` and `db2` are the same instance.
+
+Explanation: The `Singleton` metaclass ensures that only one instance of the `DatabaseConnection` class can be created. When `use_database()` is called, it creates two variables (`db1` and `db2`) that both reference the same instance of `DatabaseConnection`. Therefore, calling `connect()` on either variable results in a single ""Connecting to the database..."" message being printed, and `db1 is db2` evaluates to `True`, demonstrating that they are indeed the same object."

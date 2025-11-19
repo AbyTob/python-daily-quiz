@@ -4352,5 +4352,12 @@
     "answer": "B) Value is 10  \n\n**Explanation:**  \nIn Python, abstract methods are part of an abstract base class (ABC) and must be implemented by any subclass that doesn't declare them as abstract itself. In this example, `Concrete` correctly implements the `abstract_method`, which prints \"Value is {self.value}\". When you create an instance of `Concrete` with `c = Concrete(10)` and call `c.abstract_method()`, it will output \"Value is 10\". The metaclass `Meta` ensures that any subclass of `Base` (except for abstract base classes) must implement the `abstract_method`.",
     "timestamp": "2025-11-19 08:01:46",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-11-19": {
+    "id": "1763568110_3",
+    "question": "[QUESTION]  \nConsider the following Python code:\n\n```python\nclass Singleton(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]\n    \n@Singleton\nclass DatabaseConnection:\n    def connect(self):\n        print(\"Connecting to the database...\")\n\ndef use_database():\n    db1 = DatabaseConnection()\n    db2 = DatabaseConnection()\n    db1.connect()\n    print(db1 is db2)\n\nuse_database()\n```\n\nWhat does the code above do and why?\n\nA) It prints \"Connecting to the database...\" twice because `db1` and `db2` are separate instances.\n\nB) It prints \"Connecting to the database...\" once and then `True`, indicating that `db1` and `db2` are the same instance.\n\nC) It raises an error because a singleton class cannot be instantiated with parameters.\n\nD) It prints \"Connecting to the database...\" twice but does not compare instances.",
+    "answer": "B) It prints \"Connecting to the database...\" once and then `True`, indicating that `db1` and `db2` are the same instance.\n\nExplanation: The `Singleton` metaclass ensures that only one instance of the `DatabaseConnection` class can be created. When `use_database()` is called, it creates two variables (`db1` and `db2`) that both reference the same instance of `DatabaseConnection`. Therefore, calling `connect()` on either variable results in a single \"Connecting to the database...\" message being printed, and `db1 is db2` evaluates to `True`, demonstrating that they are indeed the same object.",
+    "timestamp": "2025-11-19 16:01:50",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
