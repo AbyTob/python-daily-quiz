@@ -27754,3 +27754,45 @@ D) When the `timer.running` flag is set to `False`, the `start` method stops exe
 B) The `main` function will raise a `RuntimeError` because it tries to stop an asynchronous task after it has already completed.
 
 Explanation: In Python, once an asyncio Task has been awaited and completed, it cannot be stopped. Setting the `running` flag to `False` in this case does not affect the running task created by `asyncio.create_task(timer.start())`. Therefore, when the timer is supposed to stop after 3 seconds, attempting to set `timer.running` to `False` does nothing and the program will raise a `RuntimeError` when it tries to await the already completed task."
+"2025-11-20 16:02";"[QUESTION]  
+Consider the following Python code snippet that attempts to create a context manager which logs the execution time of any block of code it decorates:
+
+```python
+import time
+
+class LogExecutionTime:
+    def __enter__(self):
+        self.start_time = time.time()
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        end_time = time.time()
+        print(f""Execution time: {end_time - self.start_time} seconds"")
+
+def log_execution(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        with LogExecutionTime():
+            return func(*args, **kwargs)
+    return wrapper
+
+@log_execution
+def compute_sum(n):
+    return sum(range(1, n + 1))
+
+if __name__ == ""__main__"":
+    result = compute_sum(1000000)
+```
+
+What issues might this code have, and how could you fix them?
+
+A) The context manager is not used properly within the `log_execution` decorator.
+B) The use of `@wraps` from the `functools` module in the decorator is redundant.
+C) The `LogExecutionTime` class should implement `__aenter__` and `__aexit__` for asynchronous execution support.
+D) None of the above.";"A) The context manager is not used properly within the `log_execution` decorator.  
+The issue with this code is that it attempts to use a synchronous context manager (`LogExecutionTime`) inside a decorator designed to work with synchronous functions. To fix this, you need to ensure that both the context manager and the decorator are compatible with the function's execution type (synchronous or asynchronous). Since `log_execution` is used for synchronous functions, no changes are needed in the context manager implementation. However, if you were trying to use it with an asynchronous function, you would need to modify either the context manager to support asynchronous operations (`__aenter__` and `__aexit__`) or adjust the decorator to handle asynchronous contexts.
+
+B) The use of `@wraps` from the `functools` module in the decorator is redundant.  
+This statement is incorrect because using `@wraps(func)` in the `log_execution` decorator preserves the metadata (like function name and docstring) of the original function, which can be useful for debugging and introspection.
+
+C) The `LogExecutionTime` class should implement `__aenter__` and `__aexit__` for asynchronous execution support.  
+This statement is incorrect because the code does not need to be modified for asynchronous support since it already uses synchronous methods (`__enter__` and `__exit__`). If you were trying to use this decorator with an asynchronous function, you would indeed need to implement the context manager methods as asynchronous functions (`async def __aenter__(self)` and `async def __aexit__(self, exc_type, exc_val, exc_tb)`)."
