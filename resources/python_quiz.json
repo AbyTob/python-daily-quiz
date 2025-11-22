@@ -4415,5 +4415,12 @@
     "answer": "**Part 2 (Answer):**\n\nC) The first call to `process_data` starts executing right away. Subsequent calls to `process_data` are scheduled but do not start until the previous call completes.\n\nExplanation: In the provided code, `main()` is an asynchronous function that awaits the result of `fetch_data()`. It then creates a list of three tasks by calling `process_data(data)` for each element in the range (3). When you pass these tasks to `asyncio.gather(*tasks)`, it schedules all the tasks concurrently but does not run them simultaneously. Instead, it runs them in the order they were added to the gatherer object, which means the first call to `process_data` starts immediately after `fetch_data` returns. Each subsequent call is scheduled after the previous one completes.",
     "timestamp": "2025-11-22 08:01:55",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-11-22": {
+    "id": "1763827273_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses both decorators and metaclasses to modify class behavior:\n\n```python\ndef add_method(cls):\n    def new_method(self):\n        return \"New method called!\"\n    cls.new_method = new_method\n    return cls\n\nclass Meta(type):\n    @add_method\n    def __new__(cls, name, bases, dct):\n        return super().__new__(cls, name, bases, dct)\n\n@Meta\nclass MyClass:\n    pass\n\ndef test():\n    obj = MyClass()\n    print(obj.new_method())\n\ntest()\n```\n\nWhich of the following statements is true about this code?\n\nA) The `add_method` decorator adds a new method to all classes decorated with it.\nB) The metaclass `Meta` overrides the class creation process, adding a new method to `MyClass`.\nC) Both A and B are correct.\nD) Neither A nor B is correct.",
+    "answer": "B",
+    "timestamp": "2025-11-22 16:01:13",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }

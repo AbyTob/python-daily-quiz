@@ -27998,3 +27998,35 @@ D) The code will raise an error because `asyncio.sleep(0.5)` cannot be awaited w
 C) The first call to `process_data` starts executing right away. Subsequent calls to `process_data` are scheduled but do not start until the previous call completes.
 
 Explanation: In the provided code, `main()` is an asynchronous function that awaits the result of `fetch_data()`. It then creates a list of three tasks by calling `process_data(data)` for each element in the range (3). When you pass these tasks to `asyncio.gather(*tasks)`, it schedules all the tasks concurrently but does not run them simultaneously. Instead, it runs them in the order they were added to the gatherer object, which means the first call to `process_data` starts immediately after `fetch_data` returns. Each subsequent call is scheduled after the previous one completes."
+"2025-11-22 16:01";"[QUESTION]
+Consider the following Python code snippet that uses both decorators and metaclasses to modify class behavior:
+
+```python
+def add_method(cls):
+    def new_method(self):
+        return ""New method called!""
+    cls.new_method = new_method
+    return cls
+
+class Meta(type):
+    @add_method
+    def __new__(cls, name, bases, dct):
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class MyClass:
+    pass
+
+def test():
+    obj = MyClass()
+    print(obj.new_method())
+
+test()
+```
+
+Which of the following statements is true about this code?
+
+A) The `add_method` decorator adds a new method to all classes decorated with it.
+B) The metaclass `Meta` overrides the class creation process, adding a new method to `MyClass`.
+C) Both A and B are correct.
+D) Neither A nor B is correct.";"B"
