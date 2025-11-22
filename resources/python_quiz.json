@@ -4401,5 +4401,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-21 16:02:21",
     "topic": "Function and Method Decorators"
+  },
+  "q1_2025-11-22": {
+    "id": "1763769699_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to dynamically add methods to classes:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self: \"This method was added dynamically\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\nprint(obj.dynamic_method())\n```\n\nWhich of the following statements is true about this code?\n\nA) The `dynamic_method` will not be available on instances of `MyClass`.\nB) When an instance of `MyClass` is created, it will have a method named `dynamic_method` with the specified behavior.\nC) This code will raise an error because metaclasses cannot modify methods after the class has been instantiated.\nD) The `dynamic_method` will be available on instances of `MyClass`, but its functionality will be different.",
+    "answer": "B) When an instance of `MyClass` is created, it will have a method named `dynamic_method` with the specified behavior.\n\nExplanation:\nThe metaclass `Meta` dynamically adds a method called `dynamic_method` to any class that uses this metaclass. This method is added during the class creation process, not at the time of instance creation. Therefore, when you create an instance of `MyClass` and call `obj.dynamic_method()`, it will execute as expected and output \"This method was added dynamically\".",
+    "timestamp": "2025-11-22 00:01:39",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
