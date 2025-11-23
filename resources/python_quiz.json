@@ -4422,5 +4422,12 @@
     "answer": "B",
     "timestamp": "2025-11-22 16:01:13",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-11-23": {
+    "id": "1763856097_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a metaclass to add a method to a class dynamically. Your task is to understand how this works and predict its behavior.\n\n```python\nclass MethodAdder(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self: f\"Method added to {name}\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=MethodAdder):\n    pass\n\nobj = MyClass()\nprint(obj.dynamic_method())\n```\n\nWhat will be the output when running this code?\n\nA) `<function MethodAdder.__new__.<locals>.<lambda> at 0x...>`\n\nB) `None`\n\nC) `Method added to MyClass`\n\nD) `TypeError: MyClass() takes no arguments`\n\n**Part 2 (Answer):**\n\nC) `Method added to MyClass`\n\nExplanation:\n\n- The metaclass `MethodAdder` dynamically adds a method named `dynamic_method` to any class it's used for.\n- In this case, the class `MyClass` is created using `MethodAdder`, so when an instance of `MyClass` (`obj`) is created and its `dynamic_method` is called, it returns the string \"Method added to MyClass\".\n\nThis question tests your understanding of how metaclasses work in Python, specifically how they can be used to modify classes at creation time.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-11-23 00:01:37",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
