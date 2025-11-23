@@ -4429,5 +4429,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-23 00:01:37",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2025-11-23": {
+    "id": "1763884885_2",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to create a singleton class. A singleton is a design pattern where a class has only one instance, and provides a global point of access to it.\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]\n\nclass Database(metaclass=SingletonMeta):\n    def connect(self):\n        print(\"Connecting to database...\")\n\n# Usage\ndb1 = Database()\ndb2 = Database()\n\nprint(db1 is db2)  # True or False?\n```\n\nWhat will be the output of `print(db1 is db2)`?\n\nA) True  \nB) False  \nC) Runtime error  \nD) None",
+    "answer": "A) True\n\nExplanation: The metaclass `SingletonMeta` ensures that only one instance of the class `Database` can be created. When `db1 = Database()` and `db2 = Database()`, both variables point to the same instance stored in `_instances`. Therefore, `db1 is db2` evaluates to `True`.",
+    "timestamp": "2025-11-23 08:01:25",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
