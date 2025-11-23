@@ -28098,3 +28098,62 @@ C) Runtime error
 D) None";"A) True
 
 Explanation: The metaclass `SingletonMeta` ensures that only one instance of the class `Database` can be created. When `db1 = Database()` and `db2 = Database()`, both variables point to the same instance stored in `_instances`. Therefore, `db1 is db2` evaluates to `True`."
+"2025-11-23 16:02";"**Part 1: Question**
+
+Consider the following Python code snippet that attempts to create a decorator to measure the execution time of functions:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds to execute"")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    return sum(range(n))
+
+# Uncomment the line below and run this script. It should print the execution time of 'compute_sum'
+# compute_sum(1000000)
+```
+
+However, when you try to use this decorator on an asynchronous function, it doesn't work as intended. Modify the `timer` decorator to correctly measure the execution time of both synchronous and asynchronous functions.";"**Part 2: Answer**
+
+The correct answer is A.
+
+Explanation:
+The original `timer` decorator is designed to work with synchronous functions only. When used on an asynchronous function, it doesn't wait for the coroutine to complete before printing the execution time, which leads to incorrect results.
+
+To fix this, we need to modify the `wrapper` function inside the `timer` decorator to handle both synchronous and asynchronous calls properly. We can use Python's `inspect.iscoroutinefunction` to check if the decorated function is a coroutine. If it is, we need to await the coroutine before measuring its execution time.
+
+Here’s how you can modify the decorator:
+
+```python
+import inspect
+import asyncio
+
+def timer(func):
+    async def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        if inspect.iscoroutinefunction(func):
+            await result  # Wait for the coroutine to complete
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds to execute"")
+        return result
+    return wrapper
+
+@timer
+async def compute_sum(n):
+    return sum(range(n))
+
+# To run this, you would need an asyncio event loop:
+# asyncio.run(compute_sum(1000000))
+```
+
+This modified `timer` decorator now correctly measures the execution time for both synchronous and asynchronous functions."
