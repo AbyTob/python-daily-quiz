@@ -28157,3 +28157,36 @@ async def compute_sum(n):
 ```
 
 This modified `timer` decorator now correctly measures the execution time for both synchronous and asynchronous functions."
+"2025-11-24 00:01";"**Part 1 (Question):**
+Consider the following Python code snippet that attempts to create a metaclass for a class to ensure that it cannot be instantiated more than once:
+
+```python
+class Singleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MySingleton(metaclass=Singleton):
+    pass
+
+# Attempting to instantiate multiple times
+a = MySingleton()
+b = MySingleton()
+
+print(a is b)  # Output: True or False?
+```
+
+Which of the following statements correctly describes what will be printed when `a is b` is executed?
+
+A) `True`
+B) `False`
+C) The code will raise an exception.
+D) The output cannot be determined without further context.";"**Part 2 (Answer):**
+The correct answer is A) `True`.
+
+Explanation: 
+In the provided code, the `Singleton` metaclass ensures that only one instance of any class using it can be created. When `MySingleton()` is called for the first time, an instance is created and stored in `_instances`. When `MySingleton()` is called again, since the instance already exists in `_instances`, the same instance is returned, resulting in `a is b` being `True`."
