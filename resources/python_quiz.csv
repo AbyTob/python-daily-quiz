@@ -28190,3 +28190,52 @@ The correct answer is A) `True`.
 
 Explanation: 
 In the provided code, the `Singleton` metaclass ensures that only one instance of any class using it can be created. When `MySingleton()` is called for the first time, an instance is created and stored in `_instances`. When `MySingleton()` is called again, since the instance already exists in `_instances`, the same instance is returned, resulting in `a is b` being `True`."
+"2025-11-24 08:02";"";"Part 1: 
+Consider the following Python code snippet that uses a decorator and a metaclass together. The goal is to create a class that automatically generates methods based on its attributes.
+
+```python
+from typing import Any, Callable
+
+def method_decorator(func: Callable) -> Callable:
+    def wrapper(self):
+        print(f""Executing {func.__name__}"")
+        return func(self)
+    return wrapper
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = method_decorator(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class DynamicClass(metaclass=Meta):
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+# Example usage
+dynamic_obj = DynamicClass(name=""Alice"", age=30)
+print(dynamic_obj.name)  # Output: Alice
+dynamic_obj.age()       # Output: Executing age
+```
+
+Which of the following statements correctly describes what happens when `DynamicClass` is instantiated and a method like `age()` is called?
+
+A. The `__init__` method initializes the attributes, but no additional methods are generated or decorated.
+
+B. When `dynamic_obj.age()` is called, it simply prints ""Executing age"" and then attempts to call a non-existent `age()` method from the class.
+
+C. The metaclass `Meta` intercepts the creation of `DynamicClass`, adding `method_decorator` to any callable attributes during initialization.
+
+D. The decorator `method_decorator` only affects methods that are explicitly decorated in the class body, and calling `dynamic_obj.age()` does not trigger the decorator.
+
+Part 2: 
+The correct answer is C. 
+
+Explanation:
+- The metaclass `Meta` dynamically intercepts the creation of `DynamicClass`. During its creation, it iterates through the dictionary of attributes (`dct`). If an attribute's value is callable (i.e., a method), it decorates that method using `method_decorator`.
+- When an instance of `DynamicClass` is created, the `__init__` method initializes the attributes based on keyword arguments passed at instantiation.
+- When `dynamic_obj.age()` is called, due to the decorator added by the metaclass, it first prints ""Executing age"" and then executes the original `age` method (which was an attribute of `DynamicClass`).
+
+Therefore, option C accurately describes what happens when a method like `age()` is called on an instance of `DynamicClass`."
