@@ -28324,3 +28324,31 @@ Why does using a class decorator instead of a metaclass result in different outp
 When you use a class decorator, it is applied after all base classes have already been created. Therefore, when `AnotherClass` is defined, its bases (which include `MyClass`) are already instantiated. The decorator only affects `AnotherClass`, not the bases that were already created. 
 
 In contrast, with a metaclass, the metaclass's `__new__` method is called before any base classes are instantiated, allowing it to control the creation and modification of all classes involved in the inheritance hierarchy. Thus, when you use a metaclass, it affects both the class being decorated (`MyClass`) and its bases (`AnotherClass`)."
+"2025-11-25 08:01";"Part 1 (Question):  
+Consider the following Python code that uses a decorator to modify class behavior:
+
+```python
+def add_method(cls):
+    def new_method(self):
+        return ""New method added!""
+    cls.new_method = new_method
+    return cls
+
+@add_method
+class MyClass:
+    pass
+
+obj = MyClass()
+print(obj.new_method())
+```
+
+Which of the following statements is true about this code?
+
+A) The decorator `add_method` does not change the behavior of `MyClass`.
+B) The output of the program will be ""New method added!"".
+C) The decorator `add_method` changes the class definition at runtime, adding a new method to it.
+D) The code will raise an error because decorators cannot modify classes in this way.";"Part 2 (Answer):  
+C) The decorator `add_method` changes the class definition at runtime, adding a new method to it.
+
+Explanation:  
+The decorator `add_method` is applied to the class `MyClass`. Inside the decorator, a new method named `new_method` is defined and then assigned to the class `cls`. When an instance of `MyClass` is created and its `new_method` is called, it executes the newly added method, which returns ""New method added!"". This demonstrates how decorators can be used dynamically to modify classes and their behaviors at runtime."
