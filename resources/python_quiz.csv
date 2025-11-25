@@ -28273,3 +28273,54 @@ C) Runtime error
 D) Syntax error";"A) True
 
 Explanation: The metaclass `SingletonMeta` ensures that only one instance of `MyClass` can exist. When `obj1` and `obj2` are created, the `__call__` method in `SingletonMeta` checks if an instance already exists for the class `MyClass`. Since it does not, a new instance is created and stored in `_instances`. The next time an instance of `MyClass` is created (in this case with `obj2`), the existing instance is returned instead. Therefore, `obj1` and `obj2` refer to the same object, and `obj1 is obj2` evaluates to True."
+"2025-11-25 00:01";"[QUESTION]  
+Consider the following Python code snippet that attempts to use a metaclass to control class creation:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+class AnotherClass(MyClass):
+    pass
+```
+
+When you run this code, it prints:
+
+```
+Creating MyClass
+Creating AnotherClass
+```
+
+However, if you change the metaclass to use a class decorator instead of a metaclass, like so:
+
+```python
+def meta_decorator(cls):
+    print(f""Decorating {cls.__name__}"")
+    return cls
+
+@meta_decorator
+class MyClass:
+    pass
+
+@meta_decorator
+class AnotherClass(MyClass):
+    pass
+```
+
+Running this code will only print:
+
+```
+Decorating MyClass
+Decorating AnotherClass
+```
+
+Why does using a class decorator instead of a metaclass result in different output? Explain the behavior difference and provide the correct output for both scenarios.";"**Answer: A**
+
+When you use a class decorator, it is applied after all base classes have already been created. Therefore, when `AnotherClass` is defined, its bases (which include `MyClass`) are already instantiated. The decorator only affects `AnotherClass`, not the bases that were already created. 
+
+In contrast, with a metaclass, the metaclass's `__new__` method is called before any base classes are instantiated, allowing it to control the creation and modification of all classes involved in the inheritance hierarchy. Thus, when you use a metaclass, it affects both the class being decorated (`MyClass`) and its bases (`AnotherClass`)."

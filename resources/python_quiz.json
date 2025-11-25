@@ -4464,5 +4464,12 @@
     "answer": "A) True\n\nExplanation: The metaclass `SingletonMeta` ensures that only one instance of `MyClass` can exist. When `obj1` and `obj2` are created, the `__call__` method in `SingletonMeta` checks if an instance already exists for the class `MyClass`. Since it does not, a new instance is created and stored in `_instances`. The next time an instance of `MyClass` is created (in this case with `obj2`), the existing instance is returned instead. Therefore, `obj1` and `obj2` refer to the same object, and `obj1 is obj2` evaluates to True.",
     "timestamp": "2025-11-24 16:01:43",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q1_2025-11-25": {
+    "id": "1764028909_1",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that attempts to use a metaclass to control class creation:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        print(f\"Creating {name}\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nclass AnotherClass(MyClass):\n    pass\n```\n\nWhen you run this code, it prints:\n\n```\nCreating MyClass\nCreating AnotherClass\n```\n\nHowever, if you change the metaclass to use a class decorator instead of a metaclass, like so:\n\n```python\ndef meta_decorator(cls):\n    print(f\"Decorating {cls.__name__}\")\n    return cls\n\n@meta_decorator\nclass MyClass:\n    pass\n\n@meta_decorator\nclass AnotherClass(MyClass):\n    pass\n```\n\nRunning this code will only print:\n\n```\nDecorating MyClass\nDecorating AnotherClass\n```\n\nWhy does using a class decorator instead of a metaclass result in different output? Explain the behavior difference and provide the correct output for both scenarios.",
+    "answer": "**Answer: A**\n\nWhen you use a class decorator, it is applied after all base classes have already been created. Therefore, when `AnotherClass` is defined, its bases (which include `MyClass`) are already instantiated. The decorator only affects `AnotherClass`, not the bases that were already created. \n\nIn contrast, with a metaclass, the metaclass's `__new__` method is called before any base classes are instantiated, allowing it to control the creation and modification of all classes involved in the inheritance hierarchy. Thus, when you use a metaclass, it affects both the class being decorated (`MyClass`) and its bases (`AnotherClass`).",
+    "timestamp": "2025-11-25 00:01:49",
+    "topic": "Object-Oriented Programming"
   }
 }
