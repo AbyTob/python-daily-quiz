@@ -28456,3 +28456,30 @@ The correct answer is B) The output will be `True`, because only one instance of
 
 Explanation:  
 In the provided code, `SingletonMeta` is a metaclass that overrides the `__call__` method to control object creation. When an instance of `MyClass` is created for the first time, it gets stored in `_instances`. Any subsequent attempts to create an instance of `MyClass` will return the already existing instance from `_instances`, ensuring that only one instance exists throughout the program."
+"2025-11-26 16:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to add a method to all classes dynamically:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['greet'] = lambda self: f""Hello from {self.__class__.__name__}""
+        return super().__new__(cls, name, bases, dct)
+
+class Person(metaclass=Meta):
+    pass
+
+class Animal(metaclass=Meta):
+    pass
+```
+
+Which of the following statements correctly explains why `Person` and `Animal` instances can call a `greet` method?
+
+A) The metaclass adds a `greet` method to every class derived from it.
+
+B) The `greet` method is added at runtime when an instance of `Person` or `Animal` is created.
+
+C) The metaclass dynamically assigns a `greet` method to all attributes of the class during definition.
+
+D) Each class defines its own `greet` method, but the metaclass overrides it in derived classes.";"A) The metaclass adds a `greet` method to every class derived from it.
+
+**Explanation:** In Python, when a class is defined, the metaclass's `__new__` method is called with the class name, its base classes, and a dictionary of attributes. By overriding this method in the `Meta` metaclass, we can dynamically add the `greet` method to any class that uses `Meta` as its metaclass. This ensures that all instances of `Person` and `Animal`, which are both subclasses of `object` (or another base class using `Meta`), will have access to the `greet` method."
