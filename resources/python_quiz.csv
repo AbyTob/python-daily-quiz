@@ -28421,3 +28421,38 @@ Explanation:
 - Option A is incorrect because although `asyncio.sleep` is used, it does not guarantee that tasks will complete in ascending order. Their order of completion depends on when they finish, which can be randomized due to concurrent execution.  
 - Option B is incorrect because, with concurrency provided by `asyncio.gather`, the total execution time should be around 1 second (the duration of one `await asyncio.sleep(1)`), not exactly 5 seconds. Each task runs concurrently and completes in about a second.  
 - Option D is incorrect because if you comment out `await asyncio.sleep(1)`, each `my_async_function(i)` will return immediately with the value of `i * 2`, but this does not affect the concurrency or execution time improvement provided by `asyncio.gather`."
+"2025-11-26 08:01";"";"**Part 1 (Question):**  
+Consider the following Python code that uses a metaclass to create a singleton pattern:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=SingletonMeta):
+    pass
+
+# Usage
+a = MyClass()
+b = MyClass()
+
+print(a is b)  # What will this print?
+```
+
+Which of the following statements correctly describes the behavior of `MyClass` when it is instantiated multiple times?
+
+A) The output will be `False`, because each instance has its own memory location.
+B) The output will be `True`, because only one instance of `MyClass` is created.
+C) The output will raise an exception, because singletons cannot have arguments.
+D) The output will be unpredictable, depending on the Python interpreter used.
+
+**Part 2 (Answer):**  
+The correct answer is B) The output will be `True`, because only one instance of `MyClass` is created. 
+
+Explanation:  
+In the provided code, `SingletonMeta` is a metaclass that overrides the `__call__` method to control object creation. When an instance of `MyClass` is created for the first time, it gets stored in `_instances`. Any subsequent attempts to create an instance of `MyClass` will return the already existing instance from `_instances`, ensuring that only one instance exists throughout the program."
