@@ -4513,5 +4513,12 @@
     "answer": "A) Each instance of `UniqueClass` will have a unique identifier.\n\nExplanation: The `UniqueNameMeta` metaclass uses a dictionary `_instances` to track all classes by their name. When a new class is defined, the metaclass checks if a class with that name already exists and raises a `TypeError` if it does. The metaclass also ensures that each instance of a class is stored in a weak set associated with the class's name, which allows instances to be garbage collected when no longer referenced elsewhere in the program.",
     "timestamp": "2025-11-27 00:01:53",
     "topic": "Weak References and Object Finalization"
+  },
+  "q2_2025-11-27": {
+    "id": "1764230506_2",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport threading\n\nclass ThreadSafeCounter:\n    def __init__(self):\n        self.value = 0\n        self.lock = threading.Lock()\n\n    def increment(self):\n        with self.lock:\n            self.value += 1\n\ndef worker(counter, id):\n    for _ in range(1000):\n        counter.increment()\n\nif __name__ == \"__main__\":\n    counter = ThreadSafeCounter()\n    threads = [threading.Thread(target=worker, args=(counter, i)) for i in range(10)]\n    for thread in threads:\n        thread.start()\n    for thread in threads:\n        thread.join()\n    print(\"Final value:\", counter.value)\n```\n\nWhat is the expected output of this program?\n\nA) 1000\nB) 9000\nC) The final value is unpredictable\nD) An error occurs because `increment` method is not atomic",
+    "answer": "C) The final value is unpredictable\n\nExplanation: The code attempts to use a `threading.Lock()` to ensure that the `increment` method of the `ThreadSafeCounter` class is thread-safe, meaning it should be able to increment the counter by 10,000 without race conditions. However, due to the way Python's Global Interpreter Lock (GIL) works on top of threads, the operation inside the `with self.lock:` block may not be entirely atomic. This means that two or more threads could theoretically execute part of the `increment` method simultaneously, leading to a final value that is less than 10,000. In practice, you might see outputs like 9500 or even lower due to the GIL's behavior.",
+    "timestamp": "2025-11-27 08:01:46",
+    "topic": "Threading and Concurrent Execution"
   }
 }

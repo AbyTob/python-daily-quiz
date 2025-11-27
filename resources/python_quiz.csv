@@ -28517,3 +28517,40 @@ C) The metaclass ensures that no two instances with the same value are created.
 D) Instances of `UniqueClass` cannot be garbage collected.";"A) Each instance of `UniqueClass` will have a unique identifier.
 
 Explanation: The `UniqueNameMeta` metaclass uses a dictionary `_instances` to track all classes by their name. When a new class is defined, the metaclass checks if a class with that name already exists and raises a `TypeError` if it does. The metaclass also ensures that each instance of a class is stored in a weak set associated with the class's name, which allows instances to be garbage collected when no longer referenced elsewhere in the program."
+"2025-11-27 08:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+import threading
+
+class ThreadSafeCounter:
+    def __init__(self):
+        self.value = 0
+        self.lock = threading.Lock()
+
+    def increment(self):
+        with self.lock:
+            self.value += 1
+
+def worker(counter, id):
+    for _ in range(1000):
+        counter.increment()
+
+if __name__ == ""__main__"":
+    counter = ThreadSafeCounter()
+    threads = [threading.Thread(target=worker, args=(counter, i)) for i in range(10)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    print(""Final value:"", counter.value)
+```
+
+What is the expected output of this program?
+
+A) 1000
+B) 9000
+C) The final value is unpredictable
+D) An error occurs because `increment` method is not atomic";"C) The final value is unpredictable
+
+Explanation: The code attempts to use a `threading.Lock()` to ensure that the `increment` method of the `ThreadSafeCounter` class is thread-safe, meaning it should be able to increment the counter by 10,000 without race conditions. However, due to the way Python's Global Interpreter Lock (GIL) works on top of threads, the operation inside the `with self.lock:` block may not be entirely atomic. This means that two or more threads could theoretically execute part of the `increment` method simultaneously, leading to a final value that is less than 10,000. In practice, you might see outputs like 9500 or even lower due to the GIL's behavior."
