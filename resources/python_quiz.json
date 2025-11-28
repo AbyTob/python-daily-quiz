@@ -4527,5 +4527,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-27 16:02:12",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-11-28": {
+    "id": "1764288106_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data\"\n\nasync def process_data():\n    data = await fetch_data()\n    print(f\"Processing {data}\")\n\n# Main function to run the async tasks\nasync def main():\n    task = asyncio.create_task(process_data())\n    await asyncio.sleep(2)  # This sleep is necessary for the task to complete\n    print(\"Main function done\")\n\n# Running the event loop\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\n**Question:**\nWhat will be the output of this code when run? Explain why.\n\nA) Processing Data  \n   Main function done  \n\nB) Main function done  \n   Processing Data  \n\nC) Error: Task is not awaited properly  \n\nD) Processing Data  \n   Processing Data",
+    "answer": "**Part 2 (Answer):**\n\n**Correct Answer:** A) Processing Data  \n   Main function done  \n\n**Explanation:**\nThe code runs two asynchronous tasks concurrently. The `main` function creates a task for `process_data` and then immediately proceeds to sleep for 2 seconds, which is more than enough time for the `fetch_data` coroutine to complete. When `fetch_data` completes, it prints \"Processing Data\". After that, the `main` function finishes by printing \"Main function done\".\n\nIf the `asyncio.sleep(2)` in the `main` function were removed, there would be a race condition where the `process_data` task might not have had enough time to complete before `main` finished and printed \"Main function done\".",
+    "timestamp": "2025-11-28 00:01:46",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

@@ -28607,3 +28607,50 @@ Explanation:
 - To execute the asynchronous methods, one must manually call the `init_coro` method on the class or instantiate the class and then call `init_coro`.
 
 This question tests the ability to understand the interactions between metaclasses, decorators, and asynchronous programming in Python. It requires a deep understanding of how these components work together and their roles during object creation and initialization.";"Answer format error. Please check the generated content."
+"2025-11-28 00:01";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data():
+    await asyncio.sleep(1)
+    return ""Data""
+
+async def process_data():
+    data = await fetch_data()
+    print(f""Processing {data}"")
+
+# Main function to run the async tasks
+async def main():
+    task = asyncio.create_task(process_data())
+    await asyncio.sleep(2)  # This sleep is necessary for the task to complete
+    print(""Main function done"")
+
+# Running the event loop
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+**Question:**
+What will be the output of this code when run? Explain why.
+
+A) Processing Data  
+   Main function done  
+
+B) Main function done  
+   Processing Data  
+
+C) Error: Task is not awaited properly  
+
+D) Processing Data  
+   Processing Data";"**Part 2 (Answer):**
+
+**Correct Answer:** A) Processing Data  
+   Main function done  
+
+**Explanation:**
+The code runs two asynchronous tasks concurrently. The `main` function creates a task for `process_data` and then immediately proceeds to sleep for 2 seconds, which is more than enough time for the `fetch_data` coroutine to complete. When `fetch_data` completes, it prints ""Processing Data"". After that, the `main` function finishes by printing ""Main function done"".
+
+If the `asyncio.sleep(2)` in the `main` function were removed, there would be a race condition where the `process_data` task might not have had enough time to complete before `main` finished and printed ""Main function done""."
