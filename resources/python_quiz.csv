@@ -28722,3 +28722,62 @@ C) `AttributeError: 'Derived' object has no attribute 'new_method'`
 
 D) The program will crash";"B) `""Added method called by <__main__.Derived object at 0x...>""`
 The metaclass `AddMethodMeta` dynamically adds a new method `new_method` to any class it decorates. When `Derived` is created, the metaclass intercepts its creation and adds `new_method`. Calling `instance.new_method()` then executes the added method, which returns a string formatted with the instance's value and its address in memory."
+"2025-11-29 00:02";"Part 1 (Question):
+You are tasked with creating a Python program that manages a simple inventory system. The inventory should support adding items, removing items, and checking the stock level. You decide to use decorators and context managers to ensure thread safety and transactional integrity.
+
+Write a decorator `@transactional` that ensures any method decorated with it is executed within a transaction context. If an error occurs during execution, the transaction should be rolled back, otherwise, it should be committed. Additionally, create a context manager `TransactionContext` that manages the transaction lifecycle.
+
+```python
+import threading
+
+# Define your @transactional decorator and TransactionContext class here
+
+class Inventory:
+    def __init__(self):
+        self.items = {}
+        self.lock = threading.Lock()
+
+    @transactional  # Apply the transactional decorator to the methods below
+    def add_item(self, item, quantity):
+        with self.lock:
+            if item in self.items:
+                self.items[item] += quantity
+            else:
+                self.items[item] = quantity
+
+    @transactional
+    def remove_item(self, item, quantity):
+        with self.lock:
+            if item in self.items and self.items[item] >= quantity:
+                self.items[item] -= quantity
+                if self.items[item] == 0:
+                    del self.items[item]
+            else:
+                raise ValueError(""Not enough stock"")
+
+    @transactional
+    def check_stock(self, item):
+        with self.lock:
+            return self.items.get(item, 0)
+
+# Usage example
+inventory = Inventory()
+with TransactionContext():
+    inventory.add_item('apple', 10)
+    print(inventory.check_stock('apple'))  # Should output 10
+
+try:
+    with TransactionContext():
+        inventory.remove_item('banana', 5)  # This should raise an error if 'banana' is not in stock
+except ValueError as e:
+    print(e)
+```
+
+Part 2 (Answer):
+A. The `@transactional` decorator and `TransactionContext` class are implemented correctly, ensuring thread safety and transactional integrity for the inventory methods.
+
+B. The `@transactional` decorator ensures that any method decorated with it is executed within a transaction context. If an error occurs during execution, the transaction should be rolled back, otherwise, it should be committed. However, the provided solution lacks the actual implementation of the decorator and context manager.
+
+C. The `TransactionContext` class manages the transaction lifecycle correctly by ensuring that any code within its block is executed in a transactional context. If an error occurs, the transaction is rolled back, otherwise, it is committed.
+
+D. Both the `@transactional` decorator and `TransactionContext` class are implemented incorrectly. The provided solution does not address thread safety or ensure transactional integrity for the inventory methods.";"Answer format error. Please check the generated content."
