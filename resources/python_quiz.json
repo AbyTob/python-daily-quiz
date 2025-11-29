@@ -4555,5 +4555,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-11-29 00:02:32",
     "topic": "Task Management and Scheduling"
+  },
+  "q2_2025-11-29": {
+    "id": "1764403333_2",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code that attempts to create a decorator to log function call details, but it doesn't work as expected:\n\n```python\nimport functools\n\ndef log_function_calls(func):\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n        return func(*args, **kwargs)\n    return functools.wraps(func)(wrapper)\n\n@log_function_calls\nclass MyClass:\n    def method1(self, a):\n        pass\n\n    def method2(self, b, c=0):\n        pass\n```\n\nUpon using `MyClass` and calling its methods, the decorator doesn't log the calls correctly. Identify what is wrong with this code.\n\nA) The `wrapper` function is not properly defined to handle class methods.\nB) The `functools.wraps(func)` call is misplaced in the decorator definition.\nC) Using a decorator on a class method does not work in Python.\nD) None of the above\n\n**Part 2 (Answer):**\n\nA) The correct answer is A. The issue with the code lies in how `wrapper` is defined to handle class methods. In Python, instance methods expect their first argument to be the instance itself (usually named `self`). Therefore, the `wrapper` function must also accept an additional parameter for the instance, typically named `self`.\n\nTo fix this, you should modify the wrapper to accept all arguments and pass them correctly:\n\n```python\n@log_function_calls\nclass MyClass:\n    def method1(self, a):\n        pass\n\n    def method2(self, b, c=0):\n        pass\n```\n\nHowever, if we want to keep the decorator's simplicity while ensuring it works with class methods, we can modify the `wrapper` function as follows:\n\n```python\ndef log_function_calls(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        instance = args[0]  # Assuming the first argument is always 'self'\n        print(f\"Calling {func.__name__} on {instance} with args: {args[1:]}, kwargs: {kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n```\n\nThis modification ensures that the `wrapper` function can handle both standalone functions and class methods correctly, logging the calls as expected.",
+    "timestamp": "2025-11-29 08:02:13",
+    "topic": "Advanced Python Programming"
   }
 }
