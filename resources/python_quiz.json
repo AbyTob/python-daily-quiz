@@ -4583,5 +4583,12 @@
     "answer": "A) The `fetch_data` function will always complete before the `process_data` function.\n\nExplanation: In Python's asyncio, the code does not run in parallel by default. Each coroutine must explicitly wait for another task to complete using an `await` statement. Therefore, `fetch_data` will need to complete its 2-second sleep before `process_data` can start processing any data, making option A true. Option B is incorrect because the coroutines are not running concurrently. Options C and D are also incorrect as there is no guarantee that the program waits for 2 seconds or runs tasks synchronously; it follows an event loop where tasks yield control back to the event loop when waiting.",
     "timestamp": "2025-11-30 08:01:39",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-11-30": {
+    "id": "1764518496_3",
+    "question": "[QUESTION]  \nConsider the following Python code that attempts to create a metaclass which adds a new method `greet` to all classes it decorates:\n\n```python\nclass GreetMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['greet'] = lambda self: f\"Hello from {self.__class__.__name__}\"\n        return super().__new__(cls, name, bases, dct)\n\nclass Greeter(metaclass=GreetMeta):\n    pass\n\nclass Person(Greeter):\n    pass\n```\n\nWhat will be the output when running `person = Person(); print(person.greet())`?\n\nA) `Hello from Person`\nB) `TypeError: 'greet' takes 1 positional argument but 2 were given`\nC) `AttributeError: 'Person' object has no attribute 'greet'`\nD) The code will not run and throw an error",
+    "answer": "**Answer**: A) `Hello from Person`\n\n**Explanation**:  \nIn the provided code, the metaclass `GreetMeta` adds a `greet` method to any class it decorates. This method is defined as a lambda function that takes `self` and returns a string greeting with the class name. When you create an instance of `Person`, calling `person.greet()` will correctly execute this lambda function, outputting \"Hello from Person\". The lambda function implicitly captures the `self` parameter correctly within its scope, so there are no type errors or attribute errors as might be expected if the method were incorrectly defined.",
+    "timestamp": "2025-11-30 16:01:36",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }

@@ -28988,3 +28988,28 @@ C) The program waits for 2 seconds before processing any data.
 D) The `asyncio.run(main())` call runs all tasks synchronously.";"A) The `fetch_data` function will always complete before the `process_data` function.
 
 Explanation: In Python's asyncio, the code does not run in parallel by default. Each coroutine must explicitly wait for another task to complete using an `await` statement. Therefore, `fetch_data` will need to complete its 2-second sleep before `process_data` can start processing any data, making option A true. Option B is incorrect because the coroutines are not running concurrently. Options C and D are also incorrect as there is no guarantee that the program waits for 2 seconds or runs tasks synchronously; it follows an event loop where tasks yield control back to the event loop when waiting."
+"2025-11-30 16:01";"[QUESTION]  
+Consider the following Python code that attempts to create a metaclass which adds a new method `greet` to all classes it decorates:
+
+```python
+class GreetMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['greet'] = lambda self: f""Hello from {self.__class__.__name__}""
+        return super().__new__(cls, name, bases, dct)
+
+class Greeter(metaclass=GreetMeta):
+    pass
+
+class Person(Greeter):
+    pass
+```
+
+What will be the output when running `person = Person(); print(person.greet())`?
+
+A) `Hello from Person`
+B) `TypeError: 'greet' takes 1 positional argument but 2 were given`
+C) `AttributeError: 'Person' object has no attribute 'greet'`
+D) The code will not run and throw an error";"**Answer**: A) `Hello from Person`
+
+**Explanation**:  
+In the provided code, the metaclass `GreetMeta` adds a `greet` method to any class it decorates. This method is defined as a lambda function that takes `self` and returns a string greeting with the class name. When you create an instance of `Person`, calling `person.greet()` will correctly execute this lambda function, outputting ""Hello from Person"". The lambda function implicitly captures the `self` parameter correctly within its scope, so there are no type errors or attribute errors as might be expected if the method were incorrectly defined."
