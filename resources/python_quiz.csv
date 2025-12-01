@@ -29073,3 +29073,61 @@ C) The `locking_proxy` decorator already ensures thread safety by proxying all m
 D) Apply the `@synchronized` decorator from the `threading` module to each method";"C) The `locking_proxy` decorator already ensures thread safety by proxying all method calls through a locked context manager
 
 The `LockingProxy` class intercepts all attribute access and method calls, applying a lock around them. Since it proxies all method calls, any instance of the `Counter` class will have its methods automatically protected by the lock when called from multiple threads, ensuring that the `increment` method is thread-safe without needing to manually lock around each line of code."
+"2025-12-01 16:01";"Part 1 (Question):
+Consider the following Python code that uses decorators and metaclasses together:
+
+```python
+from functools import wraps
+
+def log_method_calls(cls):
+    for attr_name, attr in cls.__dict__.items():
+        if callable(attr) and not attr_name.startswith('__'):
+            setattr(cls, attr_name, wraps(attr)(log_call))
+    return cls
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        new_cls = super().__new__(cls, name, bases, dct)
+        log_method_calls(new_cls)
+        return new_cls
+
+@Meta
+class MyClass:
+    def method1(self):
+        print(""Method 1 called"")
+
+    def method2(self):
+        print(""Method 2 called"")
+```
+
+What will be printed when the following code is executed?
+
+```python
+obj = MyClass()
+obj.method1()
+obj.method2()
+```
+
+A) Method 1 called  
+B) Method 2 called  
+C) Method 1 called  
+   Method 2 called  
+D) TypeError: 'NoneType' object is not callable
+
+Part 2 (Answer):
+C) Method 1 called  
+   Method 2 called  
+
+Explanation:
+The `log_method_calls` decorator is used to log the calls to methods in a class. The metaclass `Meta` applies this decorator when creating any class that uses it. 
+
+In the provided code, `MyClass` is created using the metaclass `Meta`. This means that when an instance of `MyClass` is created and its methods are called, the decorators applied by the metaclass will log these method calls before executing them.
+
+When you create an instance of `MyClass` (`obj = MyClass()`) and call its methods (`obj.method1()` and `obj.method2()`), the output will be:
+
+```
+Method 1 called
+Method 2 called
+```
+
+This demonstrates how decorators and metaclasses can be combined to modify class behavior dynamically during runtime.";"Answer format error. Please check the generated content."
