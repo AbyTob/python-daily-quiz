@@ -4597,5 +4597,12 @@
     "answer": "[B] The class will be instantiated successfully with `x` set to 10. \n\nExplanation: The metaclass `Meta` checks if the attribute `x` is present in the dictionary of the new class being created. Since `x` is defined as `x = 10` in `MyClass`, the metaclass does not raise an error, and the class is instantiated successfully with `x` set to 10.",
     "timestamp": "2025-12-01 00:01:31",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-12-01": {
+    "id": "1764576099_2",
+    "question": "[QUESTION]  \nConsider the following Python code:\n\n```python\nimport threading\n\nclass LockingProxy:\n    def __init__(self, wrapped):\n        self._wrapped = wrapped\n        self._lock = threading.Lock()\n\n    def __getattr__(self, name):\n        with self._lock:\n            return getattr(self._wrapped, name)\n\ndef locking_proxy(cls):\n    return LockingProxy(cls)\n\n@locking_proxy\nclass Counter:\n    def __init__(self):\n        self.count = 0\n\n    def increment(self):\n        self.count += 1\n```\n\nWhen used in a multi-threaded environment, how would you ensure that the `increment` method of the `Counter` class is thread-safe?\n\nA) Manually lock around every access to `self.count`  \nB) Use the `threading.Lock()` directly in the `increment` method  \nC) The `locking_proxy` decorator already ensures thread safety by proxying all method calls through a locked context manager  \nD) Apply the `@synchronized` decorator from the `threading` module to each method",
+    "answer": "C) The `locking_proxy` decorator already ensures thread safety by proxying all method calls through a locked context manager\n\nThe `LockingProxy` class intercepts all attribute access and method calls, applying a lock around them. Since it proxies all method calls, any instance of the `Counter` class will have its methods automatically protected by the lock when called from multiple threads, ensuring that the `increment` method is thread-safe without needing to manually lock around each line of code.",
+    "timestamp": "2025-12-01 08:01:39",
+    "topic": "Threading and Concurrent Execution"
   }
 }
