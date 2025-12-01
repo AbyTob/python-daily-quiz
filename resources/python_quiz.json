@@ -4590,5 +4590,12 @@
     "answer": "**Answer**: A) `Hello from Person`\n\n**Explanation**:  \nIn the provided code, the metaclass `GreetMeta` adds a `greet` method to any class it decorates. This method is defined as a lambda function that takes `self` and returns a string greeting with the class name. When you create an instance of `Person`, calling `person.greet()` will correctly execute this lambda function, outputting \"Hello from Person\". The lambda function implicitly captures the `self` parameter correctly within its scope, so there are no type errors or attribute errors as might be expected if the method were incorrectly defined.",
     "timestamp": "2025-11-30 16:01:36",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q1_2025-12-01": {
+    "id": "1764547291_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to create a class with specific behavior:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'x' not in dct:\n            raise TypeError(\"Attribute 'x' is missing\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    x = 10\n```\n\nWhat will happen when you try to create an instance of `MyClass` and why?\n\nA) An error will occur because `x` is not defined in `MyClass`.\n\nB) The class will be instantiated successfully with `x` set to 10.\n\nC) An error will occur because the metaclass does not implement `__new__`.\n\nD) The class will be instantiated successfully, but `x` will not be set.",
+    "answer": "[B] The class will be instantiated successfully with `x` set to 10. \n\nExplanation: The metaclass `Meta` checks if the attribute `x` is present in the dictionary of the new class being created. Since `x` is defined as `x = 10` in `MyClass`, the metaclass does not raise an error, and the class is instantiated successfully with `x` set to 10.",
+    "timestamp": "2025-12-01 00:01:31",
+    "topic": "Object-Oriented Programming"
   }
 }
