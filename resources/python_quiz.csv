@@ -29241,3 +29241,55 @@ This implementation is incorrect because it does not log the arguments and keywo
 
 **B)**
 This implementation correctly logs both the arguments and keyword arguments, as well as the result and time taken by the function. It is the intended solution that meets all the requirements specified in the question."
+"2025-12-02 16:02";"[ANSWER_SEPARATOR]
+Part 1 (Question):
+Consider the following Python code snippet that uses both decorators and metaclasses:
+
+```python
+import time
+
+def timed(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f""Function {func.__name__} took {end - start} seconds to run."")
+        return result
+    return wrapper
+
+class TimerMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr in dct.items():
+            if callable(attr):
+                dct[attr_name] = timed(attr)
+        return super().__new__(cls, name, bases, dct)
+
+class Timer(metaclass=TimerMeta):
+    def method1(self):
+        time.sleep(0.5)
+    
+    def method2(self):
+        time.sleep(0.75)
+
+# Usage
+t = Timer()
+t.method1()
+t.method2()
+```
+
+Which of the following statements accurately describes the behavior of this code?
+
+A) Both `method1` and `method2` will print their execution times immediately after they complete.
+
+B) The metaclass `TimerMeta` applies the decorator `timed` to all callable attributes, so both methods will output their execution times when called.
+
+C) Neither method will print any execution time since the decorator only affects instance methods.
+
+D) `method1` and `method2` will not execute at all because they are being replaced by decorators.
+
+[ANSWER_SEPARATOR]
+Part 2 (Answer):
+B) The metaclass `TimerMeta` applies the decorator `timed` to all callable attributes, so both methods will output their execution times when called.
+
+Explanation:
+In Python, metaclasses allow for the customization of class creation. In this example, the `TimerMeta` metaclass is used to automatically decorate any callable attribute (methods in this case) with the `timed` decorator when a new instance of the `Timer` class is created. This means that calling either `method1()` or `method2()` on an instance of `Timer` will first execute the `timed` wrapper, which measures and prints the execution time before returning the original method's result. Thus, both methods will output their execution times immediately after they complete.";"Answer format error. Please check the generated content."
