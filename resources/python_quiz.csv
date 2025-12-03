@@ -29323,3 +29323,50 @@ D) `None`
 B) `MyClass()`
 
 Explanation: The metaclass `AutoReprMeta` is designed to automatically add a `__repr__` method to any class it decorates. This method, when called, returns a string representation of the object in the format `{ClassName}()`. When an instance of `MyClass` is created and printed, the `__repr__` method defined by the metaclass is used, resulting in the output `MyClass()`.";"Answer format error. Please check the generated content."
+"2025-12-03 08:02";"[ANSWER_SEPARATOR]
+**Question:**
+
+Consider the following Python code that uses a metaclass to modify class behavior dynamically:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value) and not attr_name.startswith('__'):
+                dct[attr_name] = cls.wrap_method(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def wrap_method(method):
+        def wrapper(*args, **kwargs):
+            print(f""Method {method.__name__} called with args: {args}, kwargs: {kwargs}"")
+            return method(*args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=Meta):
+    def my_method(self, x):
+        return x * 2
+```
+
+Which of the following statements is true about the behavior of `MyClass` after applying the metaclass?
+
+A) Calling `my_method` on an instance of `MyClass` will not print any additional information.
+
+B) Calling `my_method` on an instance of `MyClass` will print ""Method my_method called with args: (1,), kwargs: {}"" and return 2 if the argument is 1.
+
+C) The metaclass does not modify `my_method` as it starts with two underscores.
+
+D) The `Meta` class will raise an error when trying to define `MyClass`.
+
+[ANSWER_SEPARATOR]
+**Answer:**
+
+B) Calling `my_method` on an instance of `MyClass` will print ""Method my_method called with args: (1,), kwargs: {}"" and return 2 if the argument is 1.
+
+Explanation:
+
+The metaclass `Meta` modifies the methods defined in classes it decorates. It checks each attribute in the class dictionary; if the attribute is a callable method and does not start with double underscores, it wraps that method using the `wrap_method` static method. The `wrap_method` adds print statements before calling the original method.
+
+In this case, `my_method` is defined in `MyClass`, so the metaclass modifies it by wrapping it with additional functionality to print a message about the call.
+
+Calling `my_method(1)` on an instance of `MyClass` will therefore print ""Method my_method called with args: (1,), kwargs: {}"" and then return 2, as defined in the original method.";"Answer format error. Please check the generated content."
