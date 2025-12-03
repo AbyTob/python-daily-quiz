@@ -4646,5 +4646,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-12-03 08:02:15",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-12-03": {
+    "id": "1764777679_3",
+    "question": "[QUESTION]\nConsider the following Python code that attempts to create a metaclass which logs the creation of each class it decorates:\n\n```python\nimport logging\n\nclass LoggingMeta(type):\n    def __new__(cls, name, bases, dct):\n        print(f\"Creating class: {name}\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=LoggingMeta):\n    pass\n\nclass AnotherClass(metaclass=LoggingMeta):\n    x = 10\n```\n\nWhat will be printed when the above code is executed?\n\nA) \nCreating class: <module>\nCreating class: MyClass\nCreating class: AnotherClass\n\nB) \nCreating class: MyClass\nCreating class: AnotherClass\n\nC) \nCreating class: LoggingMeta\nCreating class: MyClass\nCreating class: AnotherClass\n\nD) \nCreating class: MyClass\nCreating class: AnotherClass\nCreating class: <module>",
+    "answer": "B) Creating class: MyClass\nCreating class: AnotherClass",
+    "timestamp": "2025-12-03 16:01:19",
+    "topic": "Advanced Logging Configuration"
   }
 }

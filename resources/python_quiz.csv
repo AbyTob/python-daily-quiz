@@ -29370,3 +29370,42 @@ The metaclass `Meta` modifies the methods defined in classes it decorates. It ch
 In this case, `my_method` is defined in `MyClass`, so the metaclass modifies it by wrapping it with additional functionality to print a message about the call.
 
 Calling `my_method(1)` on an instance of `MyClass` will therefore print ""Method my_method called with args: (1,), kwargs: {}"" and then return 2, as defined in the original method.";"Answer format error. Please check the generated content."
+"2025-12-03 16:01";"[QUESTION]
+Consider the following Python code that attempts to create a metaclass which logs the creation of each class it decorates:
+
+```python
+import logging
+
+class LoggingMeta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class: {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=LoggingMeta):
+    pass
+
+class AnotherClass(metaclass=LoggingMeta):
+    x = 10
+```
+
+What will be printed when the above code is executed?
+
+A) 
+Creating class: <module>
+Creating class: MyClass
+Creating class: AnotherClass
+
+B) 
+Creating class: MyClass
+Creating class: AnotherClass
+
+C) 
+Creating class: LoggingMeta
+Creating class: MyClass
+Creating class: AnotherClass
+
+D) 
+Creating class: MyClass
+Creating class: AnotherClass
+Creating class: <module>";"B) Creating class: MyClass
+Creating class: AnotherClass"
