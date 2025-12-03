@@ -4632,5 +4632,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-12-02 16:02:12",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-12-03": {
+    "id": "1764720095_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to automatically add a `__repr__` method to any class it decorates, which simply prints out the class name.\n\n```python\nclass AutoReprMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct.setdefault(\"__repr__\", lambda self: f\"{self.__class__.__name__}()\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=AutoReprMeta):\n    pass\n\nobj = MyClass()\nprint(obj)\n```\n\nWhat will be the output of `print(obj)` when this code is executed?\n\nA) `<MyClass object at 0x7f8b9c4d5e20>`\n\nB) `MyClass()`\n\nC) An error because `__repr__` is not defined\n\nD) `None`\n\n[ANSWER]\nB) `MyClass()`\n\nExplanation: The metaclass `AutoReprMeta` is designed to automatically add a `__repr__` method to any class it decorates. This method, when called, returns a string representation of the object in the format `{ClassName}()`. When an instance of `MyClass` is created and printed, the `__repr__` method defined by the metaclass is used, resulting in the output `MyClass()`.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-12-03 00:01:35",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }

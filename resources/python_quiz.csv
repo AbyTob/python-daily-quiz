@@ -29293,3 +29293,33 @@ B) The metaclass `TimerMeta` applies the decorator `timed` to all callable attri
 
 Explanation:
 In Python, metaclasses allow for the customization of class creation. In this example, the `TimerMeta` metaclass is used to automatically decorate any callable attribute (methods in this case) with the `timed` decorator when a new instance of the `Timer` class is created. This means that calling either `method1()` or `method2()` on an instance of `Timer` will first execute the `timed` wrapper, which measures and prints the execution time before returning the original method's result. Thus, both methods will output their execution times immediately after they complete.";"Answer format error. Please check the generated content."
+"2025-12-03 00:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to automatically add a `__repr__` method to any class it decorates, which simply prints out the class name.
+
+```python
+class AutoReprMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct.setdefault(""__repr__"", lambda self: f""{self.__class__.__name__}()"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=AutoReprMeta):
+    pass
+
+obj = MyClass()
+print(obj)
+```
+
+What will be the output of `print(obj)` when this code is executed?
+
+A) `<MyClass object at 0x7f8b9c4d5e20>`
+
+B) `MyClass()`
+
+C) An error because `__repr__` is not defined
+
+D) `None`
+
+[ANSWER]
+B) `MyClass()`
+
+Explanation: The metaclass `AutoReprMeta` is designed to automatically add a `__repr__` method to any class it decorates. This method, when called, returns a string representation of the object in the format `{ClassName}()`. When an instance of `MyClass` is created and printed, the `__repr__` method defined by the metaclass is used, resulting in the output `MyClass()`.";"Answer format error. Please check the generated content."
