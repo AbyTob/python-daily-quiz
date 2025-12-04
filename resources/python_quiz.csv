@@ -29409,3 +29409,50 @@ Creating class: MyClass
 Creating class: AnotherClass
 Creating class: <module>";"B) Creating class: MyClass
 Creating class: AnotherClass"
+"2025-12-04 00:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+class Singleton:
+    _instances = {}
+
+    def __new__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super(Singleton, cls).__new__(cls, *args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Logger(metaclass=Singleton):
+    def log(self, message):
+        print(f""Log: {message}"")
+
+def logger_decorator(func):
+    def wrapper(*args, **kwargs):
+        logger.log(f""Calling function {func.__name__} with args {args} and kwargs {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@logger_decorator
+class DatabaseConnection:
+    @staticmethod
+    def connect():
+        print(""Connecting to database..."")
+
+# Usage
+db1 = Logger()
+db2 = Logger()
+
+print(db1 is db2)  # A. True B. False
+DatabaseConnection.connect()  # C. Logs ""Calling function connect with args () and kwargs {}"" followed by ""Connecting to database...""
+```
+
+Which of the following statements about the provided code is true?
+
+A. `db1` and `db2` are different instances of the `Logger` class.
+B. The output of calling `DatabaseConnection.connect()` includes a log message indicating the function call.
+C. Both A and B are correct.
+D. Neither A nor B are correct.";"C. Both A and B are correct.
+
+Explanation: 
+- The `Singleton` metaclass ensures that only one instance of the `Logger` class is created, so `db1` and `db2` refer to the same instance. This means `db1 is db2` evaluates to `True`.
+- The `logger_decorator` logs a message before calling the decorated method. Therefore, when `DatabaseConnection.connect()` is called, it logs ""Calling function connect with args () and kwargs {}"" followed by ""Connecting to database...""."

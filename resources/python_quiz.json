@@ -4653,5 +4653,12 @@
     "answer": "B) Creating class: MyClass\nCreating class: AnotherClass",
     "timestamp": "2025-12-03 16:01:19",
     "topic": "Advanced Logging Configuration"
+  },
+  "q1_2025-12-04": {
+    "id": "1764806518_1",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nclass Singleton:\n    _instances = {}\n\n    def __new__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super(Singleton, cls).__new__(cls, *args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass Logger(metaclass=Singleton):\n    def log(self, message):\n        print(f\"Log: {message}\")\n\ndef logger_decorator(func):\n    def wrapper(*args, **kwargs):\n        logger.log(f\"Calling function {func.__name__} with args {args} and kwargs {kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@logger_decorator\nclass DatabaseConnection:\n    @staticmethod\n    def connect():\n        print(\"Connecting to database...\")\n\n# Usage\ndb1 = Logger()\ndb2 = Logger()\n\nprint(db1 is db2)  # A. True B. False\nDatabaseConnection.connect()  # C. Logs \"Calling function connect with args () and kwargs {}\" followed by \"Connecting to database...\"\n```\n\nWhich of the following statements about the provided code is true?\n\nA. `db1` and `db2` are different instances of the `Logger` class.\nB. The output of calling `DatabaseConnection.connect()` includes a log message indicating the function call.\nC. Both A and B are correct.\nD. Neither A nor B are correct.",
+    "answer": "C. Both A and B are correct.\n\nExplanation: \n- The `Singleton` metaclass ensures that only one instance of the `Logger` class is created, so `db1` and `db2` refer to the same instance. This means `db1 is db2` evaluates to `True`.\n- The `logger_decorator` logs a message before calling the decorated method. Therefore, when `DatabaseConnection.connect()` is called, it logs \"Calling function connect with args () and kwargs {}\" followed by \"Connecting to database...\".",
+    "timestamp": "2025-12-04 00:01:58",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
