@@ -29456,3 +29456,51 @@ D. Neither A nor B are correct.";"C. Both A and B are correct.
 Explanation: 
 - The `Singleton` metaclass ensures that only one instance of the `Logger` class is created, so `db1` and `db2` refer to the same instance. This means `db1 is db2` evaluates to `True`.
 - The `logger_decorator` logs a message before calling the decorated method. Therefore, when `DatabaseConnection.connect()` is called, it logs ""Calling function connect with args () and kwargs {}"" followed by ""Connecting to database...""."
+"2025-12-04 08:02";"[QUESTION]
+Consider the following Python code snippet that aims to create a simple caching mechanism for function results:
+
+```python
+from functools import wraps
+
+def cache_results(func):
+    memo = {}
+    @wraps(func)
+    def wrapper(*args):
+        if args in memo:
+            return memo[args]
+        else:
+            result = func(*args)
+            memo[args] = result
+            return result
+    return wrapper
+
+@cache_results
+def compute_expensive_operation(x, y):
+    print(f""Computing {x} + {y}"")
+    return x + y
+```
+
+When you run the following code:
+
+```python
+result1 = compute_expensive_operation(2, 3)
+result2 = compute_expensive_operation(2, 3)
+result3 = compute_expensive_operation(4, 5)
+```
+
+What is the output of these function calls and how does it demonstrate the caching mechanism?
+
+A) [Computing 2 + 3] 5 [Computing 2 + 3] 5 [Computing 4 + 5] 9
+B) [Computing 2 + 3] 5 5 9
+C) [Computing 2 + 3] 5 [Computing 4 + 5] 9
+D) [Computing 2 + 3] 5 9";"C) [Computing 2 + 3] 5 [Computing 4 + 5] 9
+
+Explanation:
+The `cache_results` decorator is designed to cache the results of the function it decorates. It uses a dictionary named `memo` to store the results of the function calls based on their arguments. When a function call is made, the decorator checks if the result for those arguments is already in the cache. If it is, it returns the cached result without recomputing it.
+
+In the provided code snippet:
+- The first call to `compute_expensive_operation(2, 3)` computes the sum and stores it in the cache.
+- The second call with the same arguments (2, 3) retrieves the result from the cache instead of recomputing it.
+- The third call to `compute_expensive_operation(4, 5)` computes and caches the result again.
+
+Therefore, the output demonstrates that the function is caching its results based on the input arguments, and only re-computes when necessary."
