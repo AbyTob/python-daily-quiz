@@ -4667,5 +4667,12 @@
     "answer": "C) [Computing 2 + 3] 5 [Computing 4 + 5] 9\n\nExplanation:\nThe `cache_results` decorator is designed to cache the results of the function it decorates. It uses a dictionary named `memo` to store the results of the function calls based on their arguments. When a function call is made, the decorator checks if the result for those arguments is already in the cache. If it is, it returns the cached result without recomputing it.\n\nIn the provided code snippet:\n- The first call to `compute_expensive_operation(2, 3)` computes the sum and stores it in the cache.\n- The second call with the same arguments (2, 3) retrieves the result from the cache instead of recomputing it.\n- The third call to `compute_expensive_operation(4, 5)` computes and caches the result again.\n\nTherefore, the output demonstrates that the function is caching its results based on the input arguments, and only re-computes when necessary.",
     "timestamp": "2025-12-04 08:02:14",
     "topic": "Functional Programming Utilities"
+  },
+  "q3_2025-12-04": {
+    "id": "1764864086_3",
+    "question": "[QUESTION]  \nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def fetch_data(url):\n    await asyncio.sleep(2)\n    return f\"Data from {url}\"\n\nasync def main():\n    url = \"http://example.com\"\n    data_task = asyncio.create_task(fetch_data(url))\n    result = await data_task\n    print(result)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\n1. What will be the output of this script?\n   A) Data from http://example.com  \n   B) Task is created but not awaited  \n   C) The script will hang indefinitely  \n   D) AttributeError: 'NoneType' object has no attribute 'await'\n\n2. How can you modify the `fetch_data` function to make it synchronous instead of asynchronous?",
+    "answer": "[ANSWER] A) Data from http://example.com  \nExplanation: When you run the script, it creates an asynchronous task using `asyncio.create_task(fetch_data(url))`, which schedules `fetch_data` to run in the background. The `main` function then awaits this task, which causes the program to pause until the task is completed and returns the result \"Data from http://example.com\".",
+    "timestamp": "2025-12-04 16:01:26",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

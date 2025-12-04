@@ -29504,3 +29504,31 @@ In the provided code snippet:
 - The third call to `compute_expensive_operation(4, 5)` computes and caches the result again.
 
 Therefore, the output demonstrates that the function is caching its results based on the input arguments, and only re-computes when necessary."
+"2025-12-04 16:01";"[QUESTION]  
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data(url):
+    await asyncio.sleep(2)
+    return f""Data from {url}""
+
+async def main():
+    url = ""http://example.com""
+    data_task = asyncio.create_task(fetch_data(url))
+    result = await data_task
+    print(result)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+1. What will be the output of this script?
+   A) Data from http://example.com  
+   B) Task is created but not awaited  
+   C) The script will hang indefinitely  
+   D) AttributeError: 'NoneType' object has no attribute 'await'
+
+2. How can you modify the `fetch_data` function to make it synchronous instead of asynchronous?";"[ANSWER] A) Data from http://example.com  
+Explanation: When you run the script, it creates an asynchronous task using `asyncio.create_task(fetch_data(url))`, which schedules `fetch_data` to run in the background. The `main` function then awaits this task, which causes the program to pause until the task is completed and returns the result ""Data from http://example.com""."
