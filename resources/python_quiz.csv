@@ -29564,3 +29564,36 @@ B) `['Task completed', 'Task completed']`
 
 Explanation:
 The given code snippet defines an asynchronous function `slow_task` that simulates a slow operation by sleeping for 2 seconds and then returning a string. In the `main` function, `asyncio.gather` is used to run two instances of `slow_task` concurrently. The results of these tasks are awaited in parallel, so both tasks start at the same time and complete after 2 seconds. When the results are printed, you will get `['Task completed', 'Task completed']`, indicating that both tasks have successfully completed."
+"2025-12-05 08:01";"**Part 1 (Question):**
+
+Consider the following Python code that uses metaclasses to track the creation of classes:
+
+```python
+class Meta(type):
+    created_classes = []
+
+    def __new__(cls, name, bases, dct):
+        instance = super().__new__(cls, name, bases, dct)
+        cls.created_classes.append(instance)
+        return instance
+
+class A(metaclass=Meta):
+    pass
+
+class B(metaclass=Meta):
+    pass
+
+# Additional classes will be created here
+```
+
+What is the expected output of `Meta.created_classes` after creating two additional classes `C` and `D`?
+
+A) `[A, B]`
+B) `[A, B, C, D]`
+C) An error because `Meta.created_classes` is not accessible from outside the class
+D) `[C, D]`";"**Part 2 (Answer):**
+
+B) `[A, B, C, D]`
+
+Explanation:
+The metaclass `Meta` is designed to track all classes created using it by appending them to the list `created_classes`. Initially, two classes `A` and `B` are created, which are added to the `created_classes` list. If we create two additional classes `C` and `D`, they will also be appended to the `created_classes` list, resulting in `[A, B, C, D]`."
