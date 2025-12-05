@@ -29532,3 +29532,35 @@ if __name__ == ""__main__"":
 
 2. How can you modify the `fetch_data` function to make it synchronous instead of asynchronous?";"[ANSWER] A) Data from http://example.com  
 Explanation: When you run the script, it creates an asynchronous task using `asyncio.create_task(fetch_data(url))`, which schedules `fetch_data` to run in the background. The `main` function then awaits this task, which causes the program to pause until the task is completed and returns the result ""Data from http://example.com""."
+"2025-12-05 00:01";"";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def slow_task():
+    await asyncio.sleep(2)
+    return ""Task completed""
+
+async def main():
+    result = await asyncio.gather(slow_task(), slow_task())
+    print(result)
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
+```
+
+What will be the output of this code when run? Explain why.
+
+A) `[None, None]`  
+B) `['Task completed', 'Task completed']`  
+C) `[('Task completed', 'Task completed')]`  
+D) The code will raise an exception
+
+**Part 2 (Answer):**
+
+B) `['Task completed', 'Task completed']`
+
+Explanation:
+The given code snippet defines an asynchronous function `slow_task` that simulates a slow operation by sleeping for 2 seconds and then returning a string. In the `main` function, `asyncio.gather` is used to run two instances of `slow_task` concurrently. The results of these tasks are awaited in parallel, so both tasks start at the same time and complete after 2 seconds. When the results are printed, you will get `['Task completed', 'Task completed']`, indicating that both tasks have successfully completed."
