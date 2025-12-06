@@ -4702,5 +4702,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-12-06 00:01:35",
     "topic": "Event Loop Implementation and Control"
+  },
+  "q2_2025-12-06": {
+    "id": "1765008106_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a decorator to log method calls on a class instance. The decorator should also ensure that each method can only be called once per instance.\n\n```python\ndef single_call(func):\n    def wrapper(*args, **kwargs):\n        if hasattr(args[0], 'called'):\n            raise Exception(\"Method already called\")\n        args[0].called = True\n        return func(*args, **kwargs)\n    return wrapper\n\nclass MyClass:\n    @single_call\n    def my_method(self):\n        print(\"Method called\")\n\n# Usage\nobj = MyClass()\nobj.my_method()  # Expected output: Method called\ntry:\n    obj.my_method()  # Should raise an exception\nexcept Exception as e:\n    print(e)  # Expected output: Method already called\n```\n\nWhich of the following modifications is required to ensure that `my_method` can only be called once per class, not just per instance?\n\nA) Move the `called` attribute to a metaclass.\nB) Change the decorator to use a class variable instead of an instance attribute.\nC) Use a thread-safe lock within the decorator.\nD) Implement a custom descriptor for the method.",
+    "answer": "B) Change the decorator to use a class variable instead of an instance attribute.\n\nExplanation: The current implementation checks if the `called` attribute exists on the first argument (the instance). However, this only restricts calling the method once per instance. To ensure that the method can only be called once per class, we need to use a class variable or a metaclass attribute instead of an instance attribute. This way, the state is shared across all instances of the class, enforcing the single call constraint at the class level.",
+    "timestamp": "2025-12-06 08:01:46",
+    "topic": "Locks, Semaphores, and Synchronization"
   }
 }
