@@ -4709,5 +4709,12 @@
     "answer": "B) Change the decorator to use a class variable instead of an instance attribute.\n\nExplanation: The current implementation checks if the `called` attribute exists on the first argument (the instance). However, this only restricts calling the method once per instance. To ensure that the method can only be called once per class, we need to use a class variable or a metaclass attribute instead of an instance attribute. This way, the state is shared across all instances of the class, enforcing the single call constraint at the class level.",
     "timestamp": "2025-12-06 08:01:46",
     "topic": "Locks, Semaphores, and Synchronization"
+  },
+  "q3_2025-12-06": {
+    "id": "1765036891_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a metaclass to modify class behavior:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['default_value'] = 42\n        return super().__new__(cls, name, bases, dct)\n\n@Meta\nclass MyClass:\n    pass\n\ndef create_instance(cls):\n    instance = cls()\n    return instance.default_value\n```\n\nWhat will be the output of `create_instance(MyClass)`?\n\nA) 10  \nB) 24  \nC) 42  \nD) An error is raised",
+    "answer": "**Part 2 (Answer):**\n\nThe correct answer is C) 42.\n\nExplanation:\n- The metaclass `Meta` is defined to add a class attribute `default_value` with the value 42 during class creation.\n- When `create_instance(MyClass)` is called, it creates an instance of `MyClass`.\n- Since `MyClass` was created by the metaclass `Meta`, it has the `default_value` attribute set to 42.\n- Therefore, calling `instance.default_value` returns 42.\n\nThis question tests the understanding of how metaclasses can be used to modify class behavior during creation and highlights the importance of following class inheritance chains when accessing attributes.",
+    "timestamp": "2025-12-06 16:01:31",
+    "topic": "Object-Oriented Programming"
   }
 }

@@ -29701,3 +29701,38 @@ C) Use a thread-safe lock within the decorator.
 D) Implement a custom descriptor for the method.";"B) Change the decorator to use a class variable instead of an instance attribute.
 
 Explanation: The current implementation checks if the `called` attribute exists on the first argument (the instance). However, this only restricts calling the method once per instance. To ensure that the method can only be called once per class, we need to use a class variable or a metaclass attribute instead of an instance attribute. This way, the state is shared across all instances of the class, enforcing the single call constraint at the class level."
+"2025-12-06 16:01";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to modify class behavior:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['default_value'] = 42
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class MyClass:
+    pass
+
+def create_instance(cls):
+    instance = cls()
+    return instance.default_value
+```
+
+What will be the output of `create_instance(MyClass)`?
+
+A) 10  
+B) 24  
+C) 42  
+D) An error is raised";"**Part 2 (Answer):**
+
+The correct answer is C) 42.
+
+Explanation:
+- The metaclass `Meta` is defined to add a class attribute `default_value` with the value 42 during class creation.
+- When `create_instance(MyClass)` is called, it creates an instance of `MyClass`.
+- Since `MyClass` was created by the metaclass `Meta`, it has the `default_value` attribute set to 42.
+- Therefore, calling `instance.default_value` returns 42.
+
+This question tests the understanding of how metaclasses can be used to modify class behavior during creation and highlights the importance of following class inheritance chains when accessing attributes."
