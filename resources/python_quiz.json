@@ -4723,5 +4723,12 @@
     "answer": "C) 20 hello 5\n\nThe metaclass `Meta` doubles the value of integer attributes when a class is created. The attribute `x` and `z` are integers, so their values are doubled to 20 and 10 respectively. The string attribute `y` remains unchanged as it is not an integer.",
     "timestamp": "2025-12-07 00:01:29",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-12-07": {
+    "id": "1765094509_2",
+    "question": "",
+    "answer": "Part 1 (Question):\nConsider the following Python code that uses a metaclass and a decorator:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        print(f\"Creating class {name}\")\n        return super().__new__(cls, name, bases, dct)\n\n@Meta\nclass MyClass:\n    def my_method(self):\n        print(\"Method called\")\n\ndef deco(func):\n    def wrapper(*args, **kwargs):\n        print(\"Decorator called\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@deco\ndef my_function():\n    print(\"Function called\")\n```\n\nWhat will be printed when the following code is executed?\n\n```python\nobj = MyClass()\nmy_function()\n```\n\nA) Creating class MyClass\n   Decorator called\n   Method called\n   Function called\n\nB) Creating class MyClass\n   Method called\n   Decorator called\n   Function called\n\nC) Creating class MyClass\n   Decorator called\n   Function called\n   Method called\n\nD) Method called\n   Function called\n\nPart 2 (Answer):\nA) Creating class MyClass\n   Decorator called\n   Method called\n   Function called\n\nExplanation:\nThe `Meta` metaclass is invoked when the `MyClass` is created. It prints \"Creating class MyClass\". The `deco` decorator is applied to `my_function`, but since decorators are applied at the time of function definition, it doesn't print anything yet. When `obj = MyClass()` is executed, it creates an instance of `MyClass`. When `my_function()` is called later, it prints \"Decorator called\" because the decorator has been applied. The method calls (\"Method called\" and \"Function called\") happen as expected when the methods are invoked on instances or directly as functions, respectively.",
+    "timestamp": "2025-12-07 08:01:49",
+    "topic": "Advanced Python Programming"
   }
 }

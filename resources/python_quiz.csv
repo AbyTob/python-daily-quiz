@@ -29766,3 +29766,61 @@ C) 20 hello 5
 D) TypeError: 'int' object is not iterable";"C) 20 hello 5
 
 The metaclass `Meta` doubles the value of integer attributes when a class is created. The attribute `x` and `z` are integers, so their values are doubled to 20 and 10 respectively. The string attribute `y` remains unchanged as it is not an integer."
+"2025-12-07 08:01";"";"Part 1 (Question):
+Consider the following Python code that uses a metaclass and a decorator:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class MyClass:
+    def my_method(self):
+        print(""Method called"")
+
+def deco(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator called"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@deco
+def my_function():
+    print(""Function called"")
+```
+
+What will be printed when the following code is executed?
+
+```python
+obj = MyClass()
+my_function()
+```
+
+A) Creating class MyClass
+   Decorator called
+   Method called
+   Function called
+
+B) Creating class MyClass
+   Method called
+   Decorator called
+   Function called
+
+C) Creating class MyClass
+   Decorator called
+   Function called
+   Method called
+
+D) Method called
+   Function called
+
+Part 2 (Answer):
+A) Creating class MyClass
+   Decorator called
+   Method called
+   Function called
+
+Explanation:
+The `Meta` metaclass is invoked when the `MyClass` is created. It prints ""Creating class MyClass"". The `deco` decorator is applied to `my_function`, but since decorators are applied at the time of function definition, it doesn't print anything yet. When `obj = MyClass()` is executed, it creates an instance of `MyClass`. When `my_function()` is called later, it prints ""Decorator called"" because the decorator has been applied. The method calls (""Method called"" and ""Function called"") happen as expected when the methods are invoked on instances or directly as functions, respectively."
