@@ -4716,5 +4716,12 @@
     "answer": "**Part 2 (Answer):**\n\nThe correct answer is C) 42.\n\nExplanation:\n- The metaclass `Meta` is defined to add a class attribute `default_value` with the value 42 during class creation.\n- When `create_instance(MyClass)` is called, it creates an instance of `MyClass`.\n- Since `MyClass` was created by the metaclass `Meta`, it has the `default_value` attribute set to 42.\n- Therefore, calling `instance.default_value` returns 42.\n\nThis question tests the understanding of how metaclasses can be used to modify class behavior during creation and highlights the importance of following class inheritance chains when accessing attributes.",
     "timestamp": "2025-12-06 16:01:31",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-12-07": {
+    "id": "1765065689_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to modify class attributes dynamically:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        for key, value in dct.items():\n            if isinstance(value, int):\n                dct[key] = value * 2\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    x = 10\n    y = \"hello\"\n    z = 5\n```\n\nWhat will be the output of the following code when it is executed?\n\n```python\nobj = MyClass()\nprint(obj.x, obj.y, obj.z)\n```\n\nA) 10 hello 5  \nB) 20 hello 10  \nC) 20 hello 5  \nD) TypeError: 'int' object is not iterable",
+    "answer": "C) 20 hello 5\n\nThe metaclass `Meta` doubles the value of integer attributes when a class is created. The attribute `x` and `z` are integers, so their values are doubled to 20 and 10 respectively. The string attribute `y` remains unchanged as it is not an integer.",
+    "timestamp": "2025-12-07 00:01:29",
+    "topic": "Object-Oriented Programming"
   }
 }
