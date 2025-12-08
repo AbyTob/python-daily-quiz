@@ -29974,3 +29974,32 @@ def __call__(self, func):
         return result
     return wrapper(self)  # This line is incorrect and will cause an error
 ```";"A"
+"2025-12-08 16:01";"[QUESTION]  
+Consider the following Python code that uses a metaclass to dynamically add methods to a class at runtime:
+
+```python
+class DynamicMethodMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_method'] = lambda self: f""Hello from {self.name}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=DynamicMethodMeta):
+    def __init__(self, name):
+        self.name = name
+
+# Usage
+obj = MyClass(""Example"")
+print(obj.dynamic_method())
+```
+
+What is the output of this code?
+
+A) AttributeError: 'MyClass' object has no attribute 'dynamic_method'
+
+B) TypeError: Can't instantiate abstract class MyClass with abstract methods dynamic_method
+
+C) Hello from Example
+
+D) None";"C) Hello from Example
+
+Explanation: The metaclass `DynamicMethodMeta` dynamically adds a method `dynamic_method` to the class `MyClass`. When an instance of `MyClass` is created, it includes this new method. Calling `obj.dynamic_method()` successfully executes the dynamically added method and prints ""Hello from Example""."

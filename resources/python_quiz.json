@@ -4751,5 +4751,12 @@
     "answer": "A",
     "timestamp": "2025-12-08 08:02:03",
     "topic": "Task Management and Scheduling"
+  },
+  "q3_2025-12-08": {
+    "id": "1765209683_3",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to dynamically add methods to a class at runtime:\n\n```python\nclass DynamicMethodMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self: f\"Hello from {self.name}\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=DynamicMethodMeta):\n    def __init__(self, name):\n        self.name = name\n\n# Usage\nobj = MyClass(\"Example\")\nprint(obj.dynamic_method())\n```\n\nWhat is the output of this code?\n\nA) AttributeError: 'MyClass' object has no attribute 'dynamic_method'\n\nB) TypeError: Can't instantiate abstract class MyClass with abstract methods dynamic_method\n\nC) Hello from Example\n\nD) None",
+    "answer": "C) Hello from Example\n\nExplanation: The metaclass `DynamicMethodMeta` dynamically adds a method `dynamic_method` to the class `MyClass`. When an instance of `MyClass` is created, it includes this new method. Calling `obj.dynamic_method()` successfully executes the dynamically added method and prints \"Hello from Example\".",
+    "timestamp": "2025-12-08 16:01:23",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
