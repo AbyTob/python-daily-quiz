@@ -29911,3 +29911,66 @@ B) `This is an added attribute`
 
 Explanation:
 The code defines a metaclass `AddAttributeMeta` that adds an attribute named `added_attribute` with the value `""This is an added attribute""` to any class it decorates. When `MyClass` is defined with this metaclass, `addition_attribute` is automatically added to instances of `MyClass`. Thus, when you print `instance.added_attribute`, it correctly outputs `""This is an added attribute""`."
+"2025-12-08 08:02";"[QUESTION]
+You are tasked with creating a class that automatically measures the execution time of any method called on its instances. This should be done without modifying the original methods themselves.
+
+```python
+import time
+
+class Timer:
+    def __init__(self, name):
+        self.name = name
+
+    def __call__(self, func):
+        # Your implementation goes here
+```
+
+The `Timer` class is intended to be used as a decorator. When applied to any method, it should print the execution time of that method before returning its result.
+
+Which of the following implementations correctly achieves this functionality?
+
+A) 
+```python
+def __call__(self, func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{self.name}: {end_time - start_time} seconds"")
+        return result
+    return wrapper
+```
+
+B) 
+```python
+def __call__(self, func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{self.name}: {end_time - start_time} seconds"")
+        return result
+    return wrapper(func)  # This line is incorrect and will cause an error
+```
+
+C) 
+```python
+def __call__(self, func):
+    start_time = time.time()
+    result = func(*args, **kwargs)
+    end_time = time.time()
+    print(f""{self.name}: {end_time - start_time} seconds"")
+    return result  # This method does not accept args and kwargs
+```
+
+D) 
+```python
+def __call__(self, func):
+    def wrapper(func, *args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{self.name}: {end_time - start_time} seconds"")
+        return result
+    return wrapper(self)  # This line is incorrect and will cause an error
+```";"A"
