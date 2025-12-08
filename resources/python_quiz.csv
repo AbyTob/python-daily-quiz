@@ -29878,3 +29878,36 @@ A) The `increment` method does not properly synchronize access to the shared res
 
 Explanation:
 The code attempts to implement a thread-safe counter using Python's `threading.Lock`. However, the actual synchronization mechanism is implemented in the `worker` function, not within the `increment` method. This means that multiple threads could potentially read and write to `self.value` simultaneously without proper locking, leading to race conditions. The correct implementation should use a lock inside the `increment` method to ensure that only one thread can modify `self.value` at a time."
+"2025-12-08 00:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a metaclass to add an attribute to any class it decorates:
+
+```python
+class AddAttributeMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['added_attribute'] = 'This is an added attribute'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=AddAttributeMeta):
+    pass
+
+instance = MyClass()
+print(instance.added_attribute)
+```
+
+What will be printed when the above code is executed?
+
+A) `TypeError: __new__() takes exactly 3 arguments (4 given)`
+
+B) `This is an added attribute`
+
+C) `'added_attribute' is not defined`
+
+D) The program will crash
+
+**Part 2 (Answer):**
+
+B) `This is an added attribute`
+
+Explanation:
+The code defines a metaclass `AddAttributeMeta` that adds an attribute named `added_attribute` with the value `""This is an added attribute""` to any class it decorates. When `MyClass` is defined with this metaclass, `addition_attribute` is automatically added to instances of `MyClass`. Thus, when you print `instance.added_attribute`, it correctly outputs `""This is an added attribute""`."
