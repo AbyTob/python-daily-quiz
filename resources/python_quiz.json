@@ -4765,5 +4765,12 @@
     "answer": "",
     "timestamp": "2025-12-09 00:00:37",
     "topic": "Advanced Python Programming"
+  },
+  "q2_2025-12-09": {
+    "id": "1765267320_2",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses decorators and metaclasses to create a class that automatically logs all method calls:\n\n```python\ndef log_methods(cls):\n    for name, value in cls.__dict__.items():\n        if callable(value) and not name.startswith(\"__\"):\n            setattr(cls, name, log_method(value))\n    return cls\n\ndef log_method(func):\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__} returned: {result}\")\n        return result\n    return wrapper\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        return log_methods(super().__new__(cls, name, bases, dct))\n\nclass LoggedClass(metaclass=Meta):\n    def method1(self, a):\n        return a * 2\n\n    def method2(self, b):\n        return b + 3\n```\n\nWhich of the following statements is true about the `LoggedClass` when an instance of it calls its methods?\n\nA) The methods will not be logged because the metaclass does not properly apply the decorator.\n\nB) The methods will be logged as expected, showing both input arguments and output results.\n\nC) The methods will only log input arguments but not the output results.\n\nD) An error will occur when calling any method due to an incorrect application of the decorator or metaclass.",
+    "answer": "[B] The methods will be logged as expected, showing both input arguments and output results.\n\nExplanation:  \nThe `LoggedClass` uses a combination of a class decorator (`log_methods`) and a metaclass (`Meta`). The metaclass applies the class decorator to each callable method in the class during its creation. This means that when an instance of `LoggedClass` calls any of its methods, the logging functionality provided by `log_method` is invoked, printing both the input arguments and the output results as expected.",
+    "timestamp": "2025-12-09 08:02:00",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
