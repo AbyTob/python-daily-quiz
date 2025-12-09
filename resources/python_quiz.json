@@ -4772,5 +4772,12 @@
     "answer": "[B] The methods will be logged as expected, showing both input arguments and output results.\n\nExplanation:  \nThe `LoggedClass` uses a combination of a class decorator (`log_methods`) and a metaclass (`Meta`). The metaclass applies the class decorator to each callable method in the class during its creation. This means that when an instance of `LoggedClass` calls any of its methods, the logging functionality provided by `log_method` is invoked, printing both the input arguments and the output results as expected.",
     "timestamp": "2025-12-09 08:02:00",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2025-12-09": {
+    "id": "1765296076_3",
+    "question": "[QUESTION] Consider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data fetched\"\n\nasync def process_data(data):\n    await asyncio.sleep(1)\n    return f\"Processed: {data}\"\n\nasync def main():\n    data = await fetch_data()\n    processed_data = await process_data(data)\n    print(processed_data)\n\n# Run the async function\nasyncio.run(main())\n```\n\nWhich of the following statements is true about the behavior of this asynchronous program?\n\nA) The `fetch_data` and `process_data` functions are executed concurrently.\nB) The entire `main` function runs synchronously, blocking all operations.\nC) The `await` keyword is used to pause execution until the awaited task completes.\nD) Python's Global Interpreter Lock (GIL) prevents any parallelism in this code.",
+    "answer": "C) The `await` keyword is used to pause execution until the awaited task completes.",
+    "timestamp": "2025-12-09 16:01:16",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
