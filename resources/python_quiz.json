@@ -4779,5 +4779,12 @@
     "answer": "C) The `await` keyword is used to pause execution until the awaited task completes.",
     "timestamp": "2025-12-09 16:01:16",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-12-10": {
+    "id": "1765324932_1",
+    "question": "[ANSWER_SEPARATOR]  \n**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nfrom functools import wraps\n\ndef log_method_calls(cls):\n    \"\"\"Decorator to log calls to methods of a class.\"\"\"\n    for name, func in cls.__dict__.items():\n        if callable(func) and not name.startswith(\"__\"):\n            setattr(cls, name, _log_call(func))\n    return cls\n\ndef _log_call(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__} returned: {result}\")\n        return result\n    return wrapper\n\n@log_method_calls\nclass Calculator:\n    def add(self, a, b):\n        return a + b\n\n    def multiply(self, a, b):\n        return a * b\n```\n\nWhat happens when you create an instance of `Calculator` and call its methods?\n\nA) The decorator does nothing because the class is not being created in a metaclass context.\n\nB) When calling `add(2, 3)`, it prints \"Calling add with args: (2, 3), kwargs: {}\" followed by \"add returned: 5\". When calling `multiply(4, 5)`, it does the same and returns 20.\n\nC) There is an error because the decorator cannot be applied to class methods.\n\nD) The decorator causes a syntax error at the point of application.\n\n[ANSWER_SEPARATOR]  \n**Part 2 (Answer):**\n\nB) When calling `add(2, 3)`, it prints \"Calling add with args: (2, 3), kwargs: {}\" followed by \"add returned: 5\". When calling `multiply(4, 5)`, it does the same and returns 20.\n\n**Explanation:** The `log_method_calls` decorator is applied to the `Calculator` class. It iterates over all callable attributes (methods) of the class and wraps them with a logging function `_log_call`. This wrapper prints the method call details before and after calling the original method. Thus, when you create an instance of `Calculator` and call its methods, the decorator correctly logs each call and its results.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-12-10 00:02:12",
+    "topic": "Functional Programming Utilities"
   }
 }
