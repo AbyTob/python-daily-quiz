@@ -30123,3 +30123,69 @@ D) The decorator causes a syntax error at the point of application.
 B) When calling `add(2, 3)`, it prints ""Calling add with args: (2, 3), kwargs: {}"" followed by ""add returned: 5"". When calling `multiply(4, 5)`, it does the same and returns 20.
 
 **Explanation:** The `log_method_calls` decorator is applied to the `Calculator` class. It iterates over all callable attributes (methods) of the class and wraps them with a logging function `_log_call`. This wrapper prints the method call details before and after calling the original method. Thus, when you create an instance of `Calculator` and call its methods, the decorator correctly logs each call and its results.";"Answer format error. Please check the generated content."
+"2025-12-10 08:02";"";"**Part 1 (Question):**  
+Consider the following code snippet that attempts to implement a simple async web server using `asyncio`:
+
+```python
+import asyncio
+
+class AsyncWebServer:
+    def __init__(self, host='localhost', port=8080):
+        self.host = host
+        self.port = port
+        self.server = None
+
+    async def handle_request(self, reader, writer):
+        data = await reader.read(1024)
+        message = data.decode().strip()
+        addr = writer.get_extra_info('peername')
+
+        print(f""Received {message} from {addr}"")
+        response = f""Echo: {message}""
+        writer.write(response.encode())
+        await writer.drain()
+        writer.close()
+
+    async def start(self):
+        self.server = await asyncio.start_server(self.handle_request, self.host, self.port)
+        addr = self.server.sockets[0].getsockname()
+        print(f'Serving on {addr}')
+
+        async with self.server:
+            await self.server.serve_forever()
+
+if __name__ == '__main__':
+    server = AsyncWebServer()
+    asyncio.run(server.start())
+```
+
+Which of the following modifications would make this class a true metaclass to control the creation and initialization of `AsyncWebServer` instances?
+
+A) Change `class AsyncWebServer:` to `class AsyncWebServer(metaclass=type):`
+
+B) Implement the `__call__` method in `AsyncWebServer`.
+
+C) Add a class attribute `__metaclass__ = type` to `AsyncWebServer`.
+
+D) Use the `@classmethod` decorator on the `start` method of `AsyncWebServer`.
+
+**Part 2 (Answer):**  
+A) Change `class AsyncWebServer:` to `class AsyncWebServer(metaclass=type):`
+
+This is incorrect. Metaclasses in Python are used to customize class creation, but modifying a regular class to be a metaclass requires redefining it as a subclass of `type`. The correct way to make a class a metaclass directly involves using the `metaclass` keyword argument or setting the `__metaclass__` attribute.
+
+B) Implement the `__call__` method in `AsyncWebServer`.
+
+This is incorrect. The `__call__` method is not related to making a class a metaclass. It is used for instance callability, allowing instances of a class to be called like functions.
+
+C) Add a class attribute `__metaclass__ = type` to `AsyncWebServer`.
+
+This is correct. One way to make a class a metaclass is by setting the `__metaclass__` attribute to `type`, which is Python's default metaclass. However, this method is deprecated and not recommended in modern Python code.
+
+D) Use the `@classmethod` decorator on the `start` method of `AsyncWebServer`.
+
+This is incorrect. The `@classmethod` decorator does not make a class a metaclass. It is used to define methods that operate on the class itself rather than instances, but it does not affect how the class is created.
+
+**Correct Answer: C) Add a class attribute `__metaclass__ = type` to `AsyncWebServer`.**
+
+This modification correctly makes `AsyncWebServer` a metaclass, allowing for more advanced control over its creation and behavior."
