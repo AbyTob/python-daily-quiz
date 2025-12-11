@@ -30375,3 +30375,39 @@ D) The `decorator` function is not called at all when creating an instance of `D
 In Python, decorators are applied during class creation. Therefore, when you define a class with a decorator like `@decorator`, the class definition itself undergoes transformation by the decorator before it's fully instantiated as a type. This means that the `SingletonMeta` metaclass logic (which enforces the Singleton pattern) is correctly invoked and applies even to classes decorated with other functions, including decorators.
 
 The fact that the `singleton3 is singleton4` assertion passes indicates that the Singleton pattern has indeed been enforced despite the presence of a decorator. The decorator's execution happens at class creation time but does not interfere with or bypass the Singleton behavior established by the metaclass."
+"2025-12-11 16:01";"[QUESTION]
+Consider the following code snippet:
+
+```python
+import asyncio
+
+async def async_task():
+    print(""Task started"")
+    await asyncio.sleep(1)
+    print(""Task finished"")
+
+def sync_wrapper(func):
+    async def wrapper(*args, **kwargs):
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(None, func, *args, **kwargs)
+    return wrapper
+
+@sync_wrapper
+async def main():
+    task = asyncio.create_task(async_task())
+    print(""Main function started"")
+    await task
+    print(""Main function finished"")
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What will be the output of this code when run? 
+
+A) Task started, Main function started, Task finished, Main function finished  
+B) Main function started, Task started, Main function finished, Task finished  
+C) Task started, Main function started, Task finished  
+D) Main function started, Task started, Task finished, Main function finished";"A) Task started, Main function started, Task finished, Main function finished  
+
+**Explanation:** The `sync_wrapper` decorator is intended to run synchronous functions asynchronously using `asyncio`. However, in the provided code, it mistakenly tries to use `run_in_executor` on an already asynchronous function `async_task`, which leads to unexpected behavior. Since `async_task` is already a coroutine, calling it directly without awaiting it inside the wrapper function will not yield control back to the event loop and thus, it does not print ""Task finished"" before moving on to ""Main function finished"". Instead, the output will be the same as option A because both print statements in `main` are executed immediately, followed by the awaits of the task."
