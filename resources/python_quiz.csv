@@ -30279,3 +30279,46 @@ class LoggingMeta(type):
 - The code in option A correctly modifies each callable attribute in the dictionary by applying the `log_calls` decorator to them. This ensures that all methods of any class using this metaclass will be wrapped with logging functionality.
 
 Options B, C, and D do not achieve the desired outcome because they are incorrectly attempting to apply the decorator during different stages of class creation or instance initialization. Option A is the correct approach as it properly applies the `log_calls` decorator to all methods during the class creation process."
+"2025-12-11 00:01";"**Part 1 (Question):**
+
+Consider the following Python code that uses metaclasses to create a logging mechanism for class instantiation:
+
+```python
+class LoggerMeta(type):
+    def __call__(cls, *args, **kwargs):
+        instance = super().__call__(*args, **kwargs)
+        print(f""Instantiated {cls.__name__}"")
+        return instance
+
+class MyClass(metaclass=LoggerMeta):
+    pass
+
+# Usage
+my_instance = MyClass()
+```
+
+What will be the output of the code when executed?
+
+A) An error indicating that `LoggerMeta` does not define a `__call__` method.
+
+B) The text ""Instantiated MyClass"" printed to the console along with an empty string.
+
+C) The text ""Instantiated MyClass"" printed to the console followed by the memory address of `my_instance`.
+
+D) No output, only the creation of `my_instance` without any logging.";"**Part 2 (Answer):**
+
+The correct answer is C: The text ""Instantiated MyClass"" printed to the console followed by the memory address of `my_instance`.
+
+Explanation:
+- The metaclass `LoggerMeta` overrides the `__call__` method, which is called when a class is instantiated.
+- Inside the `__call__` method, it first calls the superclass's `__call__` method to actually create the instance.
+- After creating the instance, it prints the name of the class being instantiated.
+- Finally, it returns the newly created instance.
+
+When you run the code with `my_instance = MyClass()`, the output will be:
+```
+Instantiated MyClass
+<__main__.MyClass object at 0x...>
+```
+
+Where `<__main__.MyClass object at 0x...>` is the memory address of `my_instance`."
