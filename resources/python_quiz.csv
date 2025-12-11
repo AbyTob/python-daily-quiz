@@ -30322,3 +30322,56 @@ Instantiated MyClass
 ```
 
 Where `<__main__.MyClass object at 0x...>` is the memory address of `my_instance`."
+"2025-12-11 08:02";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Singleton(metaclass=SingletonMeta):
+    pass
+
+# Usage of the Singleton class
+singleton1 = Singleton()
+singleton2 = Singleton()
+
+assert singleton1 is singleton2  # This assertion should pass
+
+def decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator called"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@decorator
+class DecoratedSingleton(Singleton):
+    pass
+
+# Usage of the DecoratedSingleton class
+singleton3 = DecoratedSingleton()
+singleton4 = DecoratedSingleton()
+
+assert singleton3 is singleton4  # This assertion should also pass
+```
+
+Which of the following statements correctly describes what happens when the `DecoratorSingleton` is instantiated?
+
+A) The `decorator` function is called and it prints ""Decorator called"", but since it's a decorator, it doesn't affect the Singleton pattern.
+
+B) The `decorator` function is called and it prints ""Decorator called"", but it creates a new instance of `DecoratedSingleton`.
+
+C) The `decorator` function is called and it prints ""Decorator called"", and because of metaclass delegation, the Singleton pattern is still enforced.
+
+D) The `decorator` function is not called at all when creating an instance of `DecoratedSingleton`.";"C) The `decorator` function is called and it prints ""Decorator called"", and because of metaclass delegation, the Singleton pattern is still enforced.
+
+**Explanation**: 
+In Python, decorators are applied during class creation. Therefore, when you define a class with a decorator like `@decorator`, the class definition itself undergoes transformation by the decorator before it's fully instantiated as a type. This means that the `SingletonMeta` metaclass logic (which enforces the Singleton pattern) is correctly invoked and applies even to classes decorated with other functions, including decorators.
+
+The fact that the `singleton3 is singleton4` assertion passes indicates that the Singleton pattern has indeed been enforced despite the presence of a decorator. The decorator's execution happens at class creation time but does not interfere with or bypass the Singleton behavior established by the metaclass."
