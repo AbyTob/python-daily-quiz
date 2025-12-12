@@ -30443,3 +30443,33 @@ Explanation:
 - The metaclass `Meta` dynamically adds a method `dynamic_method` to all classes inheriting from `BaseClass`. 
 - Since `DerivedClass` inherits from `BaseClass`, it gains the `dynamic_method`.
 - When an instance of `DerivedClass` is created and its `dynamic_method` is called, it executes as intended, printing ""Dynamic Method Called""."
+"2025-12-12 08:01";"[QUESTION]  
+Consider the following Python code snippet that uses a metaclass to track all instances of a class:
+
+```python
+class TrackerMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        instance = super().__call__(*args, **kwargs)
+        cls._instances[instance] = True
+        return instance
+
+class MyClass(metaclass=TrackerMeta):
+    pass
+
+a = MyClass()
+b = MyClass()
+
+print(len(TrackerMeta._instances))
+```
+
+What will be the output of this code?
+
+A) 0  
+B) 1  
+C) 2  
+D) TypeError";"C) 2  
+
+**Explanation**:  
+When `MyClass` is instantiated, the `__call__` method of its metaclass `TrackerMeta` is invoked. This method creates a new instance of the class and stores it in `_instances`. Each time an instance of `MyClass` is created (`a = MyClass()` and `b = MyClass()`), a new entry is added to `_instances`. Therefore, after creating two instances, the length of `_instances` will be 2."

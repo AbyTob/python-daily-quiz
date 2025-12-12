@@ -4828,5 +4828,12 @@
     "answer": "[B] Dynamic Method Called\n\nExplanation:\n- The metaclass `Meta` dynamically adds a method `dynamic_method` to all classes inheriting from `BaseClass`. \n- Since `DerivedClass` inherits from `BaseClass`, it gains the `dynamic_method`.\n- When an instance of `DerivedClass` is created and its `dynamic_method` is called, it executes as intended, printing \"Dynamic Method Called\".",
     "timestamp": "2025-12-12 00:01:35",
     "topic": "Task Management and Scheduling"
+  },
+  "q2_2025-12-12": {
+    "id": "1765526483_2",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses a metaclass to track all instances of a class:\n\n```python\nclass TrackerMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        instance = super().__call__(*args, **kwargs)\n        cls._instances[instance] = True\n        return instance\n\nclass MyClass(metaclass=TrackerMeta):\n    pass\n\na = MyClass()\nb = MyClass()\n\nprint(len(TrackerMeta._instances))\n```\n\nWhat will be the output of this code?\n\nA) 0  \nB) 1  \nC) 2  \nD) TypeError",
+    "answer": "C) 2  \n\n**Explanation**:  \nWhen `MyClass` is instantiated, the `__call__` method of its metaclass `TrackerMeta` is invoked. This method creates a new instance of the class and stores it in `_instances`. Each time an instance of `MyClass` is created (`a = MyClass()` and `b = MyClass()`), a new entry is added to `_instances`. Therefore, after creating two instances, the length of `_instances` will be 2.",
+    "timestamp": "2025-12-12 08:01:23",
+    "topic": "Object-Oriented Programming"
   }
 }
