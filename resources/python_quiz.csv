@@ -30411,3 +30411,35 @@ C) Task started, Main function started, Task finished
 D) Main function started, Task started, Task finished, Main function finished";"A) Task started, Main function started, Task finished, Main function finished  
 
 **Explanation:** The `sync_wrapper` decorator is intended to run synchronous functions asynchronously using `asyncio`. However, in the provided code, it mistakenly tries to use `run_in_executor` on an already asynchronous function `async_task`, which leads to unexpected behavior. Since `async_task` is already a coroutine, calling it directly without awaiting it inside the wrapper function will not yield control back to the event loop and thus, it does not print ""Task finished"" before moving on to ""Main function finished"". Instead, the output will be the same as option A because both print statements in `main` are executed immediately, followed by the awaits of the task."
+"2025-12-12 00:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to dynamically add a method to all classes inheriting from `BaseClass`. Your task is to identify what will be printed when the `main` function is executed.
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_method'] = lambda self: ""Dynamic Method Called""
+        return super().__new__(cls, name, bases, dct)
+
+class BaseClass(metaclass=Meta):
+    pass
+
+class DerivedClass(BaseClass):
+    pass
+
+def main():
+    obj = DerivedClass()
+    print(obj.dynamic_method())
+
+if __name__ == ""__main__"":
+    main()
+```
+
+A) AttributeError: 'DerivedClass' object has no attribute 'dynamic_method'
+B) Dynamic Method Called
+C) TypeError: Can't instantiate abstract class DerivedClass with abstract methods dynamic_method
+D) NameError: name 'dynamic_method' is not defined";"[B] Dynamic Method Called
+
+Explanation:
+- The metaclass `Meta` dynamically adds a method `dynamic_method` to all classes inheriting from `BaseClass`. 
+- Since `DerivedClass` inherits from `BaseClass`, it gains the `dynamic_method`.
+- When an instance of `DerivedClass` is created and its `dynamic_method` is called, it executes as intended, printing ""Dynamic Method Called""."
