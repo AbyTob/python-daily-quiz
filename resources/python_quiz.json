@@ -4835,5 +4835,12 @@
     "answer": "C) 2  \n\n**Explanation**:  \nWhen `MyClass` is instantiated, the `__call__` method of its metaclass `TrackerMeta` is invoked. This method creates a new instance of the class and stores it in `_instances`. Each time an instance of `MyClass` is created (`a = MyClass()` and `b = MyClass()`), a new entry is added to `_instances`. Therefore, after creating two instances, the length of `_instances` will be 2.",
     "timestamp": "2025-12-12 08:01:23",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-12-12": {
+    "id": "1765555281_3",
+    "question": "[ANSWER_SEPARATOR]\nPart 1 (Question): You are tasked with optimizing the performance of a web application that processes a large number of requests. The current implementation uses synchronous I/O operations, which are blocking and lead to inefficient use of resources. You decide to implement asynchronous handling using asyncio to improve performance.\n\nWrite an asyncio-based function `fetch_data` that performs a GET request to a URL and returns the response content. Use Python's `aiohttp` library for making HTTP requests asynchronously. Ensure that your function handles exceptions gracefully and logs any errors that occur during the request.\n\nHere is a skeleton of the function you need to complete:\n\n```python\nimport aiohttp\nimport asyncio\n\nasync def fetch_data(url):\n    # Your code here\n    pass\n\n# Example usage:\n# loop = asyncio.get_event_loop()\n# result = loop.run_until_complete(fetch_data('http://example.com'))\n# print(result)\n```\n\n[ANSWER_SEPARATOR]\nPart 2 (Answer): A",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-12-12 16:01:21",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
