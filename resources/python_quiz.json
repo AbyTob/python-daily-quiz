@@ -4849,5 +4849,12 @@
     "answer": "[C] LoggerMeta is a metaclass that logs calls to any method it decorates.\n\nExplanation: The correct answer is C. The `LoggerMeta` metaclass uses the `__new__` method to iterate through all attributes of the class being created (`name`, `bases`, `dct`). If an attribute is callable (i.e., a method), it applies the `log_calls` decorator to that method. Therefore, any methods defined in `MyClass` will have their calls logged by `LoggerMeta`.",
     "timestamp": "2025-12-13 00:01:57",
     "topic": "Functional Programming Utilities"
+  },
+  "q2_2025-12-13": {
+    "id": "1765612907_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that attempts to create a decorator which counts how many times a function has been called:\n\n```python\ndef count_calls(func):\n    def wrapper(*args, **kwargs):\n        wrapper.count += 1\n        return func(*args, **kwargs)\n    wrapper.count = 0\n    return wrapper\n\n@count_calls\ndef my_function():\n    print(\"Function called!\")\n\n# Using the decorated function a few times\nmy_function()\nmy_function()\nmy_function()\n\nprint(f\"Function was called {my_function.count} times.\")\n```\n\nWhat is an issue with this code that prevents it from working as intended?\n\nA) The `wrapper` function does not have access to its own `count` attribute.\nB) Each call to `my_function()` resets the `count`.\nC) The `count_calls` decorator should be a class instead of a function.\nD) Python does not support mutable default arguments.",
+    "answer": "Answer: A\n\nExplanation:\nThe issue with this code is that the `wrapper.count = 0` statement is executed every time the `count_calls` decorator is applied to a function, resetting the count to zero for each new application. As a result, the count will only reflect how many times the most recently decorated function has been called, not the total number of calls across all functions using this decorator. To fix this issue, you can use a nonlocal variable or encapsulate the count within an inner class if using a class-based approach.",
+    "timestamp": "2025-12-13 08:01:47",
+    "topic": "Object-Oriented Programming"
   }
 }
