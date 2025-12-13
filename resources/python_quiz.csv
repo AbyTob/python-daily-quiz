@@ -30566,3 +30566,30 @@ D) Python does not support mutable default arguments.";"Answer: A
 
 Explanation:
 The issue with this code is that the `wrapper.count = 0` statement is executed every time the `count_calls` decorator is applied to a function, resetting the count to zero for each new application. As a result, the count will only reflect how many times the most recently decorated function has been called, not the total number of calls across all functions using this decorator. To fix this issue, you can use a nonlocal variable or encapsulate the count within an inner class if using a class-based approach."
+"2025-12-13 16:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to enforce certain constraints on class attributes:
+
+```python
+class MetaConstraint(type):
+    def __new__(cls, name, bases, dct):
+        for attr, value in dct.items():
+            if not isinstance(value, int):
+                raise ValueError(f""Attribute {attr} must be an integer"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=MetaConstraint):
+    x = 10
+    y = ""not_an_int""
+```
+
+When you try to create an instance of `MyClass`, what will happen?
+
+A) An instance of `MyClass` will be created with `x = 10` and `y = ""not_an_int""`.
+
+B) A `ValueError` will be raised because the attribute `y` is not an integer.
+
+C) The metaclass will ignore the constraint since it's a class attribute, not an instance attribute.
+
+D) An `AttributeError` will be raised when trying to access `y`.";"[B] A `ValueError` will be raised because the attribute `y` is not an integer.
+
+Explanation: In Python, metaclasses allow for customizing class creation. The `MetaConstraint` metaclass checks that all attributes defined in any subclass are integers. Since `MyClass` contains a non-integer attribute (`y = ""not_an_int""`), attempting to create an instance of `MyClass` will trigger the metaclass's error handling, raising a `ValueError`."

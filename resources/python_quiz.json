@@ -4856,5 +4856,12 @@
     "answer": "Answer: A\n\nExplanation:\nThe issue with this code is that the `wrapper.count = 0` statement is executed every time the `count_calls` decorator is applied to a function, resetting the count to zero for each new application. As a result, the count will only reflect how many times the most recently decorated function has been called, not the total number of calls across all functions using this decorator. To fix this issue, you can use a nonlocal variable or encapsulate the count within an inner class if using a class-based approach.",
     "timestamp": "2025-12-13 08:01:47",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-12-13": {
+    "id": "1765641710_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to enforce certain constraints on class attributes:\n\n```python\nclass MetaConstraint(type):\n    def __new__(cls, name, bases, dct):\n        for attr, value in dct.items():\n            if not isinstance(value, int):\n                raise ValueError(f\"Attribute {attr} must be an integer\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=MetaConstraint):\n    x = 10\n    y = \"not_an_int\"\n```\n\nWhen you try to create an instance of `MyClass`, what will happen?\n\nA) An instance of `MyClass` will be created with `x = 10` and `y = \"not_an_int\"`.\n\nB) A `ValueError` will be raised because the attribute `y` is not an integer.\n\nC) The metaclass will ignore the constraint since it's a class attribute, not an instance attribute.\n\nD) An `AttributeError` will be raised when trying to access `y`.",
+    "answer": "[B] A `ValueError` will be raised because the attribute `y` is not an integer.\n\nExplanation: In Python, metaclasses allow for customizing class creation. The `MetaConstraint` metaclass checks that all attributes defined in any subclass are integers. Since `MyClass` contains a non-integer attribute (`y = \"not_an_int\"`), attempting to create an instance of `MyClass` will trigger the metaclass's error handling, raising a `ValueError`.",
+    "timestamp": "2025-12-13 16:01:50",
+    "topic": "Object-Oriented Programming"
   }
 }
