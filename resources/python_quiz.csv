@@ -30496,3 +30496,41 @@ async def fetch_data(url):
 
 [ANSWER_SEPARATOR]
 Part 2 (Answer): A";"Answer format error. Please check the generated content."
+"2025-12-13 00:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+from functools import wraps
+
+def log_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args={args}, kwargs={kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned {result}"")
+        return result
+    return wrapper
+
+class LoggerMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = log_calls(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=LoggerMeta):
+    def method1(self, a):
+        return a * 2
+
+    def method2(self, b, c):
+        return b + c
+```
+
+Which of the following statements about this code is true?
+
+A) When `MyClass` instances call `method1` or `method2`, no additional output will be printed.
+B) The `log_calls` decorator is applied to all methods in `MyClass`.
+C) `LoggerMeta` is a metaclass that logs calls to any method it decorates.
+D) All methods in `MyClass` will raise a `TypeError` when called.";"[C] LoggerMeta is a metaclass that logs calls to any method it decorates.
+
+Explanation: The correct answer is C. The `LoggerMeta` metaclass uses the `__new__` method to iterate through all attributes of the class being created (`name`, `bases`, `dct`). If an attribute is callable (i.e., a method), it applies the `log_calls` decorator to that method. Therefore, any methods defined in `MyClass` will have their calls logged by `LoggerMeta`."

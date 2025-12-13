@@ -4842,5 +4842,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-12-12 16:01:21",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-12-13": {
+    "id": "1765584117_1",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nfrom functools import wraps\n\ndef log_calls(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args={args}, kwargs={kwargs}\")\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__} returned {result}\")\n        return result\n    return wrapper\n\nclass LoggerMeta(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name, attr_value in dct.items():\n            if callable(attr_value):\n                dct[attr_name] = log_calls(attr_value)\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=LoggerMeta):\n    def method1(self, a):\n        return a * 2\n\n    def method2(self, b, c):\n        return b + c\n```\n\nWhich of the following statements about this code is true?\n\nA) When `MyClass` instances call `method1` or `method2`, no additional output will be printed.\nB) The `log_calls` decorator is applied to all methods in `MyClass`.\nC) `LoggerMeta` is a metaclass that logs calls to any method it decorates.\nD) All methods in `MyClass` will raise a `TypeError` when called.",
+    "answer": "[C] LoggerMeta is a metaclass that logs calls to any method it decorates.\n\nExplanation: The correct answer is C. The `LoggerMeta` metaclass uses the `__new__` method to iterate through all attributes of the class being created (`name`, `bases`, `dct`). If an attribute is callable (i.e., a method), it applies the `log_calls` decorator to that method. Therefore, any methods defined in `MyClass` will have their calls logged by `LoggerMeta`.",
+    "timestamp": "2025-12-13 00:01:57",
+    "topic": "Functional Programming Utilities"
   }
 }
