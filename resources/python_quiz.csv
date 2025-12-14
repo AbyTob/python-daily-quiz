@@ -30673,3 +30673,32 @@ A) It immediately returns ""Some data"".
 B) It runs synchronously and waits for 2 seconds before returning.
 C) It schedules the asynchronous operation to run in the background and continues execution immediately.
 D) It raises an error because decorators cannot be used with async functions.";"[C] The decorator `AsyncDecorator` uses `asyncio.run()` to execute the decorated async function, which schedules it to run in the event loop and waits for its completion. This allows the main program to continue executing other tasks while the async operation completes in the background."
+"2025-12-14 16:01";"[QUESTION]  
+Consider the following Python code that uses a metaclass and a decorator together:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+def my_decorator(cls):
+    cls.new_method = lambda self: ""Decorator added method""
+    return cls
+
+class MyClass(metaclass=my_decorator):
+    pass
+
+obj = MyClass()
+print(obj.new_method())
+```
+
+What will be the output of this code and why?
+
+A) ""Creating class MyClass\nDecorator added method""  
+B) Only ""Decorator added method""  
+C) Error during execution  
+D) None of the above";"**A) ""Creating class MyClass\nDecorator added method""**
+
+Explanation: The code defines a metaclass `Meta` that prints a message when creating a class. It also defines a decorator `my_decorator` that adds a new method to any class it decorates. When `MyClass` is defined with `metaclass=my_decorator`, the metaclass `Meta` runs first, printing ""Creating class MyClass"". Then, the decorator `my_decorator` runs, adding a new method `new_method` to `MyClass`. The output of `obj.new_method()` is therefore ""Decorator added method""."

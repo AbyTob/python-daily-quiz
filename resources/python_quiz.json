@@ -4877,5 +4877,12 @@
     "answer": "[C] The decorator `AsyncDecorator` uses `asyncio.run()` to execute the decorated async function, which schedules it to run in the event loop and waits for its completion. This allows the main program to continue executing other tasks while the async operation completes in the background.",
     "timestamp": "2025-12-14 08:01:38",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2025-12-14": {
+    "id": "1765728107_3",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass and a decorator together:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        print(f\"Creating class {name}\")\n        return super().__new__(cls, name, bases, dct)\n\n@Meta\ndef my_decorator(cls):\n    cls.new_method = lambda self: \"Decorator added method\"\n    return cls\n\nclass MyClass(metaclass=my_decorator):\n    pass\n\nobj = MyClass()\nprint(obj.new_method())\n```\n\nWhat will be the output of this code and why?\n\nA) \"Creating class MyClass\\nDecorator added method\"  \nB) Only \"Decorator added method\"  \nC) Error during execution  \nD) None of the above",
+    "answer": "**A) \"Creating class MyClass\\nDecorator added method\"**\n\nExplanation: The code defines a metaclass `Meta` that prints a message when creating a class. It also defines a decorator `my_decorator` that adds a new method to any class it decorates. When `MyClass` is defined with `metaclass=my_decorator`, the metaclass `Meta` runs first, printing \"Creating class MyClass\". Then, the decorator `my_decorator` runs, adding a new method `new_method` to `MyClass`. The output of `obj.new_method()` is therefore \"Decorator added method\".",
+    "timestamp": "2025-12-14 16:01:47",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
