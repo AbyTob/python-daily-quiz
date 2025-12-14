@@ -4863,5 +4863,12 @@
     "answer": "[B] A `ValueError` will be raised because the attribute `y` is not an integer.\n\nExplanation: In Python, metaclasses allow for customizing class creation. The `MetaConstraint` metaclass checks that all attributes defined in any subclass are integers. Since `MyClass` contains a non-integer attribute (`y = \"not_an_int\"`), attempting to create an instance of `MyClass` will trigger the metaclass's error handling, raising a `ValueError`.",
     "timestamp": "2025-12-13 16:01:50",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2025-12-14": {
+    "id": "1765670527_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a decorator to log function calls. The goal is to understand how decorators can be used to enhance functionality dynamically.\n\n```python\ndef log_calls(func):\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args={args}, kwargs={kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_calls\ndef add(a, b):\n    return a + b\n\nclass Calculator:\n    @staticmethod\n    def subtract(a, b):\n        return a - b\n\n# Create an instance of Calculator and call the methods\ncalc = Calculator()\nresult1 = calc.subtract(5, 3)\nresult2 = add(4, 6)\n\nprint(f\"Subtraction result: {result1}\")\nprint(f\"Addition result: {result2}\")\n```\n\nWhich of the following statements accurately describes what happens when the code is executed?\n\nA) Only the subtraction method call in `calc.subtract(5, 3)` will be logged.\n\nB) Both the subtraction and addition calls will be logged.\n\nC) The addition method call in `add(4, 6)` will not be logged because it's a static method.\n\nD) An error will occur because decorators cannot be applied to static methods.\n\n**Part 2 (Answer):**\n\nB) Both the subtraction and addition calls will be logged.\n\nExplanation:\n- The decorator `@log_calls` is applied to both the `subtract` method of the `Calculator` class and the standalone function `add`.\n- When `calc.subtract(5, 3)` is called, it triggers the decorated version of `subtract`, which logs the call.\n- Similarly, when `add(4, 6)` is called, it triggers the decorated version of `add`, which also logs the call.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-12-14 00:02:07",
+    "topic": "Function and Method Decorators"
   }
 }

@@ -30593,3 +30593,50 @@ C) The metaclass will ignore the constraint since it's a class attribute, not an
 D) An `AttributeError` will be raised when trying to access `y`.";"[B] A `ValueError` will be raised because the attribute `y` is not an integer.
 
 Explanation: In Python, metaclasses allow for customizing class creation. The `MetaConstraint` metaclass checks that all attributes defined in any subclass are integers. Since `MyClass` contains a non-integer attribute (`y = ""not_an_int""`), attempting to create an instance of `MyClass` will trigger the metaclass's error handling, raising a `ValueError`."
+"2025-12-14 00:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a decorator to log function calls. The goal is to understand how decorators can be used to enhance functionality dynamically.
+
+```python
+def log_calls(func):
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args={args}, kwargs={kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_calls
+def add(a, b):
+    return a + b
+
+class Calculator:
+    @staticmethod
+    def subtract(a, b):
+        return a - b
+
+# Create an instance of Calculator and call the methods
+calc = Calculator()
+result1 = calc.subtract(5, 3)
+result2 = add(4, 6)
+
+print(f""Subtraction result: {result1}"")
+print(f""Addition result: {result2}"")
+```
+
+Which of the following statements accurately describes what happens when the code is executed?
+
+A) Only the subtraction method call in `calc.subtract(5, 3)` will be logged.
+
+B) Both the subtraction and addition calls will be logged.
+
+C) The addition method call in `add(4, 6)` will not be logged because it's a static method.
+
+D) An error will occur because decorators cannot be applied to static methods.
+
+**Part 2 (Answer):**
+
+B) Both the subtraction and addition calls will be logged.
+
+Explanation:
+- The decorator `@log_calls` is applied to both the `subtract` method of the `Calculator` class and the standalone function `add`.
+- When `calc.subtract(5, 3)` is called, it triggers the decorated version of `subtract`, which logs the call.
+- Similarly, when `add(4, 6)` is called, it triggers the decorated version of `add`, which also logs the call.";"Answer format error. Please check the generated content."
