@@ -30640,3 +30640,36 @@ Explanation:
 - The decorator `@log_calls` is applied to both the `subtract` method of the `Calculator` class and the standalone function `add`.
 - When `calc.subtract(5, 3)` is called, it triggers the decorated version of `subtract`, which logs the call.
 - Similarly, when `add(4, 6)` is called, it triggers the decorated version of `add`, which also logs the call.";"Answer format error. Please check the generated content."
+"2025-12-14 08:01";"[QUESTION] Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)
+    print(""Data fetched"")
+    return ""Some data""
+
+async def main():
+    result = await fetch_data()
+    print(f""Result: {result}"")
+
+# Run the async function
+asyncio.run(main())
+```
+
+Which of the following statements correctly describes what happens when `fetch_data` is called with the `@AsyncDecorator` decorator?
+
+A) It immediately returns ""Some data"".
+B) It runs synchronously and waits for 2 seconds before returning.
+C) It schedules the asynchronous operation to run in the background and continues execution immediately.
+D) It raises an error because decorators cannot be used with async functions.";"[C] The decorator `AsyncDecorator` uses `asyncio.run()` to execute the decorated async function, which schedules it to run in the event loop and waits for its completion. This allows the main program to continue executing other tasks while the async operation completes in the background."

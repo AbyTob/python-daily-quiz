@@ -4870,5 +4870,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-12-14 00:02:07",
     "topic": "Function and Method Decorators"
+  },
+  "q2_2025-12-14": {
+    "id": "1765699298_2",
+    "question": "[QUESTION] Consider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n    \n    def __call__(self, *args, **kwargs):\n        return asyncio.run(self.func(*args, **kwargs))\n\n@AsyncDecorator\nasync def fetch_data():\n    print(\"Fetching data...\")\n    await asyncio.sleep(2)\n    print(\"Data fetched\")\n    return \"Some data\"\n\nasync def main():\n    result = await fetch_data()\n    print(f\"Result: {result}\")\n\n# Run the async function\nasyncio.run(main())\n```\n\nWhich of the following statements correctly describes what happens when `fetch_data` is called with the `@AsyncDecorator` decorator?\n\nA) It immediately returns \"Some data\".\nB) It runs synchronously and waits for 2 seconds before returning.\nC) It schedules the asynchronous operation to run in the background and continues execution immediately.\nD) It raises an error because decorators cannot be used with async functions.",
+    "answer": "[C] The decorator `AsyncDecorator` uses `asyncio.run()` to execute the decorated async function, which schedules it to run in the event loop and waits for its completion. This allows the main program to continue executing other tasks while the async operation completes in the background.",
+    "timestamp": "2025-12-14 08:01:38",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
