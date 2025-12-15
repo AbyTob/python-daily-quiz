@@ -30702,3 +30702,41 @@ C) Error during execution
 D) None of the above";"**A) ""Creating class MyClass\nDecorator added method""**
 
 Explanation: The code defines a metaclass `Meta` that prints a message when creating a class. It also defines a decorator `my_decorator` that adds a new method to any class it decorates. When `MyClass` is defined with `metaclass=my_decorator`, the metaclass `Meta` runs first, printing ""Creating class MyClass"". Then, the decorator `my_decorator` runs, adding a new method `new_method` to `MyClass`. The output of `obj.new_method()` is therefore ""Decorator added method""."
+"2025-12-15 00:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet which uses a metaclass to create a singleton pattern. The goal is to ensure that only one instance of the `Singleton` class can be created.
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Singleton(metaclass=SingletonMeta):
+    pass
+
+# Usage
+instance1 = Singleton()
+instance2 = Singleton()
+
+print(instance1 is instance2)  # Output: True
+```
+
+Which of the following statements correctly explains why this metaclass ensures that only one instance of `Singleton` can be created?
+
+A. The `__call__` method checks if an instance already exists in `_instances`. If it does, it returns the existing instance; otherwise, it creates a new one.
+
+B. The metaclass uses class attributes to store instances. Each time the `Singleton` class is instantiated, it first checks if an instance exists for that class and returns it if found.
+
+C. The metaclass modifies the `__init__` method of the `Singleton` class to prevent additional instantiation after the first one.
+
+D. The metaclass defines a private constructor using `__new__`, ensuring only one instance can be created.
+
+**Part 2 (Answer):**
+
+A. The `__call__` method checks if an instance already exists in `_instances`. If it does, it returns the existing instance; otherwise, it creates a new one.
+
+Explanation: This statement is correct because the `SingletonMeta` metaclass overrides the `__call__` method, which is invoked when an instance of `Singleton` is created. The method checks if an instance already exists in `_instances`. If it does not exist, it creates a new instance using `super().__call__(*args, **kwargs)` and stores it in `_instances`. Any subsequent attempts to create an instance will return the already stored instance, thus ensuring that only one instance of `Singleton` is created."
