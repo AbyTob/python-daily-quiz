@@ -30789,3 +30789,55 @@ The other options are incorrect because:
 B) The decorator does add a message before calling the original greet method, but it also modifies the behavior of subclasses by changing their `greet` method.
 C) No error occurs when creating an instance of `Person` because the `Meta` metaclass ensures that the necessary method exists.
 D) While both the metaclass and the decorator are used in this example, they perform different roles. The metaclass checks for the presence of a required method, while the decorator adds functionality to existing methods."
+"2025-12-15 16:02";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data(url):
+    # Simulate an asynchronous HTTP request
+    await asyncio.sleep(1)
+    return {""data"": ""Example data""}
+
+class AsyncContextManager:
+    async def __aenter__(self):
+        print(""Entering context"")
+        return self
+    
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        print(""Exiting context"")
+
+async def main():
+    async with AsyncContextManager() as cm:
+        data = await fetch_data(""http://example.com"")
+        print(data)
+
+# Run the main function
+asyncio.run(main())
+```
+
+What will be the output of this script when executed?
+
+A) Entering context  
+   Exiting context  
+   {""data"": ""Example data""}  
+
+B) {""data"": ""Example data""}  
+   Entering context  
+   Exiting context  
+
+C) Entering context  
+   {""data"": ""Example data""}  
+   Exiting context  
+
+D) Error: __aenter__ is not a coroutine";"**Part 2 (Answer):**
+
+A) Entering context  
+   Exiting context  
+   {""data"": ""Example data""}
+
+This is the correct answer. The `AsyncContextManager` class defines both `__aenter__` and `__aexit__` as asynchronous methods, making it a proper asynchronous context manager. When `async with AsyncContextManager() as cm:` is executed, Python will call the `__aenter__` method first, printing ""Entering context"". Then, after the block of code within the `async with` statement is executed, it will call the `__aexit__` method, printing ""Exiting context"". Finally, the data fetched from `fetch_data` is printed.
+
+Options B, C, and D are incorrect because they suggest that the order of execution or the type of error raised does not match the actual behavior defined in the code."
