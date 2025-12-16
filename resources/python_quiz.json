@@ -4912,5 +4912,12 @@
     "answer": "A) The decorator is incorrectly capturing variables in its closure.\n\nExplanation: In Python, decorators create closures. However, in this case, the `wrapper` function directly captures the `start_time` and `end_time` variables from the enclosing scope, which can lead to unexpected behavior if these variables are reused or modified elsewhere. To correct this, the decorator should be designed to handle its own local variables for timing.\n\nCorrected code:\n```python\nimport time\n\ndef time_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Executing {func.__name__} took {end_time - start_time} seconds.\")\n        return result\n    return wrapper\n\n@time_decorator\ndef compute_sum(n):\n    return sum(range(n))\n\nprint(compute_sum(1000000))\n```",
     "timestamp": "2025-12-16 00:02:06",
     "topic": "Exception Handling and Custom Exceptions"
+  },
+  "q2_2025-12-16": {
+    "id": "1765872100_2",
+    "question": "[QUESTION]\nConsider the following code snippet that uses a metaclass and a decorator to modify the behavior of a class:\n\n```python\nimport time\n\nclass TimerMeta(type):\n    def __new__(cls, name, bases, dct):\n        original_method = dct.get('run')\n        if original_method:\n            def timed_method(self, *args, **kwargs):\n                start_time = time.time()\n                result = original_method(self, *args, **kwargs)\n                end_time = time.time()\n                print(f\"Method {name}.run took {end_time - start_time:.4f} seconds\")\n                return result\n            dct['run'] = timed_method\n        return super().__new__(cls, name, bases, dct)\n\nclass Benchmark(metaclass=TimerMeta):\n    def run(self):\n        for i in range(10**6):\n            pass\n\n@Benchmark()\ndef test_function():\n    print(\"Running test_function\")\n```\n\nWhich of the following statements is true about this code?\n\nA) The `test_function` will not be timed because it's not a method of a class.\nB) When `test_function()` is called, it prints \"Method Benchmark.run took X.XXXX seconds\" and then runs its original content.\nC) The metaclass `TimerMeta` does nothing to the `test_function`.\nD) An error occurs when trying to run `test_function()`, as the metaclass is incorrectly applied.",
+    "answer": "B",
+    "timestamp": "2025-12-16 08:01:40",
+    "topic": "Object-Oriented Programming"
   }
 }
