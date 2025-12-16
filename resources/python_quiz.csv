@@ -30926,3 +30926,29 @@ A) The `test_function` will not be timed because it's not a method of a class.
 B) When `test_function()` is called, it prints ""Method Benchmark.run took X.XXXX seconds"" and then runs its original content.
 C) The metaclass `TimerMeta` does nothing to the `test_function`.
 D) An error occurs when trying to run `test_function()`, as the metaclass is incorrectly applied.";"B"
+"2025-12-16 16:02";"[QUESTION]
+Consider the following Python code snippet that uses a decorator to modify a function's behavior:
+
+```python
+def log_calls(func):
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned: {result}"")
+        return result
+    return wrapper
+
+@log_calls
+def add(a, b):
+    return a + b
+```
+
+Which of the following statements accurately describes what happens when you call `add(3, 5)`?
+
+A) It prints ""Calling add with args: (3, 5), kwargs: {}"" and ""add returned: 8"", then returns 8.
+B) It raises an error because `log_calls` does not handle keyword arguments properly.
+C) It simply returns 8 without any additional output.
+D) It only prints ""Calling add with args: (3, 5), kwargs: {}"".";"A) It prints ""Calling add with args: (3, 5), kwargs: {}"" and ""add returned: 8"", then returns 8.
+
+Explanation:
+The `log_calls` decorator correctly wraps the `add` function. When you call `add(3, 5)`, it first executes the `wrapper` function, which prints the arguments and keyword arguments passed to it (`args: (3, 5), kwargs: {}`). It then calls the original `add` function with these arguments, prints its return value, and finally returns that value. This results in the output ""Calling add with args: (3, 5), kwargs: {}"" followed by ""add returned: 8"", and the function returns 8 as expected."
