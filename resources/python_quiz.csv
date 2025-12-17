@@ -31041,3 +31041,38 @@ B) Incorrect. While the `cache` decorator does remember and return cached result
 C) The `cache` decorator currently only handles positional arguments. It would need to be modified to handle keyword arguments or default parameters correctly.
 
 D) Correct. The `functools.wraps` decorator is used to preserve the metadata of the original function, such as its name and docstring, after it has been decorated. This ensures that introspection on the decorated function behaves correctly."
+"2025-12-17 16:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a decorator to modify the behavior of a function:
+
+```python
+from functools import wraps
+
+def log_arguments(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Arguments: {args}, Keyword arguments: {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_arguments
+def add(a, b):
+    return a + b
+```
+
+Which of the following statements is true about this code?
+
+A) The `wrapper` function will be called directly when `add(3, 5)` is invoked.
+
+B) The original behavior of `add(a, b)` can be accessed by calling `func(*args, **kwargs)` inside `wrapper`.
+
+C) The `log_arguments` decorator does not affect the return value of `add(a, b)`.
+
+D) The `add(3, 5)` call will print ""Arguments: (3, 5), Keyword arguments: {}"" and then raise an error.
+
+**Part 2 (Answer):**
+
+B) The original behavior of `add(a, b)` can be accessed by calling `func(*args, **kwargs)` inside `wrapper`.
+
+Explanation:
+In the provided code snippet, the `log_arguments` decorator is applied to the `add` function. Inside the `wrapper` function, `func(*args, **kwargs)` calls the original `add` function with the same arguments, allowing it to execute normally while logging the arguments. This demonstrates how decorators can be used to extend or modify the behavior of functions without altering their core functionality."
