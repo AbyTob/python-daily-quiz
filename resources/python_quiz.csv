@@ -31131,3 +31131,88 @@ C) All three tasks start at the same time, and all finish within approximately 1
 D) The order of task completion is not guaranteed.";"B) The program will output ""Task 0 started"", then ""Task 1 finished"", then ""Task 2 finished"".
 
 Explanation: In this code, three tasks are created but the `await asyncio.sleep(1)` inside each task means that only one task runs at a time due to the Global Interpreter Lock (GIL) in Python's threading. Therefore, the output will be ""Task 0 started"", followed by a delay of about 1 second during which Task 0 runs and completes. Then, since there are no more tasks left, Task 1 starts immediately after Task 0 finishes and also completes after approximately 1 second. The same happens for Task 2. Thus, the order of task completion is guaranteed to be as stated in option B."
+"2025-12-18 16:02";"[QUESTION]
+Consider the following Python code:
+
+```python
+import threading
+
+def thread_safe(func):
+    def wrapper(*args, **kwargs):
+        with threading.Lock():
+            return func(*args, **kwargs)
+    return wrapper
+
+@thread_safe
+class Counter:
+    def __init__(self):
+        self.value = 0
+
+    def increment(self):
+        self.value += 1
+
+    def get_value(self):
+        return self.value
+
+def run_counter():
+    counter = Counter()
+    threads = []
+    for _ in range(1000):
+        thread = threading.Thread(target=counter.increment)
+        threads.append(thread)
+        thread.start()
+
+    for thread in threads:
+        thread.join()
+
+    print(f""Final value: {counter.get_value()}"")
+
+if __name__ == ""__main__"":
+    run_counter()
+```
+
+What issue might arise with the execution of this code and how can it be fixed?
+
+A) The counter will always display a final value of 1000.
+B) The `thread_safe` decorator does not effectively lock access to the Counter's methods.
+C) A memory leak will occur due to improper thread management.
+D) The program will hang indefinitely.";"[B] The `thread_safe` decorator does not effectively lock access to the Counter's methods. 
+
+The issue with the code is that while each method of the `Counter` class is decorated with `@thread_safe`, this means that every call to `increment`, `get_value`, and other methods will be protected by a lock within each thread individually. However, the `Counter` instance itself is not thread-safe because there's no synchronization between different threads accessing the same instance.
+
+To fix this issue, you should ensure that all operations on the shared resource (`self.value`) are protected by a single lock across all threads. This can be achieved by moving the lock to the `Counter` class level instead of decorating each method individually:
+
+```python
+import threading
+
+class ThreadSafeCounter:
+    def __init__(self):
+        self.value = 0
+        self.lock = threading.Lock()
+
+    def increment(self):
+        with self.lock:
+            self.value += 1
+
+    def get_value(self):
+        with self.lock:
+            return self.value
+
+def run_counter():
+    counter = ThreadSafeCounter()
+    threads = []
+    for _ in range(1000):
+        thread = threading.Thread(target=counter.increment)
+        threads.append(thread)
+        thread.start()
+
+    for thread in threads:
+        thread.join()
+
+    print(f""Final value: {counter.get_value()}"")
+
+if __name__ == ""__main__"":
+    run_counter()
+```
+
+By using a class-level lock, you ensure that all operations on the `Counter` instance are synchronized, preventing race conditions and ensuring that the final value displayed is 1000."
