@@ -4954,5 +4954,12 @@
     "answer": "Part 2 (Answer):\nA) Accessible to all  \n\nExplanation:\nThe correct answer is A: \"Accessible to all\". The metaclass `Meta` defines a custom class creation process where it removes any attribute named 'secret' from the dictionary passed to the `__new__` method. In this case, since 'secret' is removed from the `MyClass` dictionary before the class is created, when an instance of `MyClass` is created and its `public` attribute is accessed, it outputs \"Accessible to all\". This demonstrates how metaclasses can be used to modify or control the creation of classes in Python.",
     "timestamp": "2025-12-18 00:01:48",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-12-18": {
+    "id": "1766044919_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def task(name):\n    print(f\"Task {name} started\")\n    await asyncio.sleep(1)\n    print(f\"Task {name} finished\")\n\nasync def main():\n    tasks = [task(i) for i in range(3)]\n    await asyncio.gather(*tasks)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements about this code is true?\n\nA) The program will output \"Task 0 started\", then \"Task 1 started\", and finally \"Task 2 finished\".\nB) The program will output \"Task 0 started\", then \"Task 1 finished\", then \"Task 2 finished\".\nC) All three tasks start at the same time, and all finish within approximately 1 second.\nD) The order of task completion is not guaranteed.",
+    "answer": "B) The program will output \"Task 0 started\", then \"Task 1 finished\", then \"Task 2 finished\".\n\nExplanation: In this code, three tasks are created but the `await asyncio.sleep(1)` inside each task means that only one task runs at a time due to the Global Interpreter Lock (GIL) in Python's threading. Therefore, the output will be \"Task 0 started\", followed by a delay of about 1 second during which Task 0 runs and completes. Then, since there are no more tasks left, Task 1 starts immediately after Task 0 finishes and also completes after approximately 1 second. The same happens for Task 2. Thus, the order of task completion is guaranteed to be as stated in option B.",
+    "timestamp": "2025-12-18 08:01:59",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
