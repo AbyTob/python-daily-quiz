@@ -31076,3 +31076,31 @@ B) The original behavior of `add(a, b)` can be accessed by calling `func(*args, 
 
 Explanation:
 In the provided code snippet, the `log_arguments` decorator is applied to the `add` function. Inside the `wrapper` function, `func(*args, **kwargs)` calls the original `add` function with the same arguments, allowing it to execute normally while logging the arguments. This demonstrates how decorators can be used to extend or modify the behavior of functions without altering their core functionality."
+"2025-12-18 00:01";"Part 1 (Question):
+Consider the following Python code that uses a metaclass to control class creation:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'secret' in dct:
+            del dct['secret']
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    secret = ""This is a secret""
+    public = ""Accessible to all""
+
+instance = MyClass()
+print(instance.public)  # Output: Accessible to all
+```
+
+What will the output be when `MyClass` is instantiated and its `public` attribute is accessed?
+
+A) Accessible to all  
+B) Error - 'secret' not defined  
+C) Error - '__new__' method not called  
+D) None";"Part 2 (Answer):
+A) Accessible to all  
+
+Explanation:
+The correct answer is A: ""Accessible to all"". The metaclass `Meta` defines a custom class creation process where it removes any attribute named 'secret' from the dictionary passed to the `__new__` method. In this case, since 'secret' is removed from the `MyClass` dictionary before the class is created, when an instance of `MyClass` is created and its `public` attribute is accessed, it outputs ""Accessible to all"". This demonstrates how metaclasses can be used to modify or control the creation of classes in Python."
