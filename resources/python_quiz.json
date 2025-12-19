@@ -4982,5 +4982,12 @@
     "answer": "### Part 2 (Answer):\n\nB) The `SingletonMeta` metaclass ensures that only one instance of `SingletonClass` exists, and subsequent instantiation attempts return the same object.\n\nExplanation:\nThe code provided uses a metaclass called `SingletonMeta` to ensure that the `SingletonClass` can be instantiated only once. When an instance of `SingletonClass` is created, the `__call__` method of the metaclass checks if an instance already exists in the `_instances` dictionary. If it does, it returns the existing instance; otherwise, it creates a new one and stores it in the dictionary. This guarantees that all references to `SingletonClass` will point to the same object. Therefore, the statement B is correct.\n\nOptions A, C, and D are incorrect because:\n- Option A: The code ensures only one instance exists.\n- Option C: The `__call__` method is essential for ensuring that only one instance is created.\n- Option D: Due to the singleton pattern, `instance1` and `instance2` will indeed point to the same object.",
     "timestamp": "2025-12-19 08:02:37",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q3_2025-12-19": {
+    "id": "1766160105_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to add a method dynamically to a class at the time of its creation:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self: f\"Hello from {name}\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\n# Usage\ninstance = MyClass()\nprint(instance.dynamic_method())\n```\n\nWhat will be the output of `print(instance.dynamic_method())` when this code is executed?\n\nA) TypeError: MyClass object has no attribute 'dynamic_method'\n\nB) Hello from MyClass\n\nC) AttributeError: module '__main__' has no attribute 'dynamic_method'\n\nD) NameError: name 'MyClass' is not defined",
+    "answer": "B) Hello from MyClass\n\nExplanation:\nThe metaclass `Meta` dynamically adds a method named `dynamic_method` to the class `MyClass` at the time of its creation. When an instance of `MyClass` is created and `dynamic_method` is called, it executes the lambda function defined in the metaclass, which returns a string indicating the name of the class. Therefore, the output will be \"Hello from MyClass\".",
+    "timestamp": "2025-12-19 16:01:45",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
