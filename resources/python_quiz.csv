@@ -31216,3 +31216,65 @@ if __name__ == ""__main__"":
 ```
 
 By using a class-level lock, you ensure that all operations on the `Counter` instance are synchronized, preventing race conditions and ensuring that the final value displayed is 1000."
+"2025-12-19 00:02";"[ANSWER_SEPARATOR]  
+**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a decorator to modify the behavior of a function. The decorator is intended to measure the execution time of any function it decorates. However, there's an issue with how the decorator is implemented. Identify and explain what is wrong with the current implementation.
+
+```python
+import time
+
+def time_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time} seconds"")
+        return result
+    return wrapper
+
+@time_decorator
+def compute_sum(n):
+    return sum(range(n))
+```
+
+Which of the following is a problem with the `time_decorator` implementation?
+
+A) The decorator does not handle exceptions if the function being decorated raises an exception.
+
+B) The decorator does not preserve the metadata (like docstrings, name, etc.) of the original function.
+
+C) The decorator does not allow for asynchronous execution of the decorated function.
+
+D) The decorator does not correctly measure the time taken by the function when called from multiple threads concurrently.
+
+[ANSWER_SEPARATOR]  
+**Part 2 (Answer):**
+
+B) The decorator does not preserve the metadata (like docstrings, name, etc.) of the original function.
+
+Explanation:
+The `time_decorator` implementation correctly wraps the original function with a new function that measures execution time and prints it. However, it fails to preserve important metadata such as the function's name, docstring, and other attributes. This can lead to confusion when debugging or introspecting decorated functions.
+
+In Python, decorators are applied by reassigning the function object to its wrapper. By default, the wrapper does not inherit the metadata from the original function. To fix this issue, we can use `functools.wraps` to preserve the original function's metadata:
+
+```python
+import time
+from functools import wraps
+
+def time_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time} seconds"")
+        return result
+    return wrapper
+
+@time_decorator
+def compute_sum(n):
+    return sum(range(n))
+```
+
+Now, calling `help(compute_sum)` will show the correct docstring and name of the function, even after it has been decorated.";"Answer format error. Please check the generated content."
