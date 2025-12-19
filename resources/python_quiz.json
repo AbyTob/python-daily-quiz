@@ -4975,5 +4975,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-12-19 00:02:41",
     "topic": "Function and Method Decorators"
+  },
+  "q2_2025-12-19": {
+    "id": "1766131357_2",
+    "question": "### Part 1 (Question):\n\nConsider the following Python code snippet that uses a metaclass to create a singleton class. A singleton is a design pattern where a class can only be instantiated once.\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]\n\nclass SingletonClass(metaclass=SingletonMeta):\n    pass\n\n# Example usage\ninstance1 = SingletonClass()\ninstance2 = SingletonClass()\n\nprint(instance1 is instance2)  # Output will be True if the code is correct\n```\n\nWhich of the following statements about the above code is true?\n\nA) The `SingletonClass` can be instantiated multiple times without any issues.\n\nB) The `SingletonMeta` metaclass ensures that only one instance of `SingletonClass` exists, and subsequent instantiation attempts return the same object.\n\nC) The `__call__` method in `SingletonMeta` is not necessary for creating a singleton class.\n\nD) The `instance1` and `instance2` variables will point to different instances of `SingletonClass`.",
+    "answer": "### Part 2 (Answer):\n\nB) The `SingletonMeta` metaclass ensures that only one instance of `SingletonClass` exists, and subsequent instantiation attempts return the same object.\n\nExplanation:\nThe code provided uses a metaclass called `SingletonMeta` to ensure that the `SingletonClass` can be instantiated only once. When an instance of `SingletonClass` is created, the `__call__` method of the metaclass checks if an instance already exists in the `_instances` dictionary. If it does, it returns the existing instance; otherwise, it creates a new one and stores it in the dictionary. This guarantees that all references to `SingletonClass` will point to the same object. Therefore, the statement B is correct.\n\nOptions A, C, and D are incorrect because:\n- Option A: The code ensures only one instance exists.\n- Option C: The `__call__` method is essential for ensuring that only one instance is created.\n- Option D: Due to the singleton pattern, `instance1` and `instance2` will indeed point to the same object.",
+    "timestamp": "2025-12-19 08:02:37",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
