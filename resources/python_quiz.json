@@ -4989,5 +4989,12 @@
     "answer": "B) Hello from MyClass\n\nExplanation:\nThe metaclass `Meta` dynamically adds a method named `dynamic_method` to the class `MyClass` at the time of its creation. When an instance of `MyClass` is created and `dynamic_method` is called, it executes the lambda function defined in the metaclass, which returns a string indicating the name of the class. Therefore, the output will be \"Hello from MyClass\".",
     "timestamp": "2025-12-19 16:01:45",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q1_2025-12-20": {
+    "id": "1766188931_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to create a class factory:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name in ['method1', 'method2']:\n            if attr_name not in dct:\n                raise AttributeError(f\"{name} must have {attr_name}\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\n# Using the class factory\nobj = MyClass()\n```\n\nWhich of the following statements is true about the above code?\n\nA) The `MyClass` will be instantiated without any errors.\nB) An AttributeError will be raised because `method1` and `method2` are missing from the class.\nC) The metaclass `Meta` will not have any effect on the creation of `MyClass`.\nD) The instantiation of `obj = MyClass()` will take significantly longer than usual due to the overhead of the metaclass.",
+    "answer": "B) An AttributeError will be raised because `method1` and `method2` are missing from the class.\n\nExplanation: In the provided code, the metaclass `Meta` checks for the presence of `method1` and `method2` in any subclass it creates. Since these methods are not defined in `MyClass`, when an instance is attempted to be created, an AttributeError will be raised indicating that \"MyClass must have method1\" or \"MyClass must have method2\". The metaclass plays a role in ensuring that the required attributes are present before allowing class instantiation, thus preventing issues at runtime.",
+    "timestamp": "2025-12-20 00:02:11",
+    "topic": "Object-Oriented Programming"
   }
 }

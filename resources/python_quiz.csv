@@ -31349,3 +31349,29 @@ D) NameError: name 'MyClass' is not defined";"B) Hello from MyClass
 
 Explanation:
 The metaclass `Meta` dynamically adds a method named `dynamic_method` to the class `MyClass` at the time of its creation. When an instance of `MyClass` is created and `dynamic_method` is called, it executes the lambda function defined in the metaclass, which returns a string indicating the name of the class. Therefore, the output will be ""Hello from MyClass""."
+"2025-12-20 00:02";"[QUESTION]
+Consider the following Python code that uses a metaclass to create a class factory:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name in ['method1', 'method2']:
+            if attr_name not in dct:
+                raise AttributeError(f""{name} must have {attr_name}"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+# Using the class factory
+obj = MyClass()
+```
+
+Which of the following statements is true about the above code?
+
+A) The `MyClass` will be instantiated without any errors.
+B) An AttributeError will be raised because `method1` and `method2` are missing from the class.
+C) The metaclass `Meta` will not have any effect on the creation of `MyClass`.
+D) The instantiation of `obj = MyClass()` will take significantly longer than usual due to the overhead of the metaclass.";"B) An AttributeError will be raised because `method1` and `method2` are missing from the class.
+
+Explanation: In the provided code, the metaclass `Meta` checks for the presence of `method1` and `method2` in any subclass it creates. Since these methods are not defined in `MyClass`, when an instance is attempted to be created, an AttributeError will be raised indicating that ""MyClass must have method1"" or ""MyClass must have method2"". The metaclass plays a role in ensuring that the required attributes are present before allowing class instantiation, thus preventing issues at runtime."
