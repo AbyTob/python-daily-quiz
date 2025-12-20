@@ -4996,5 +4996,12 @@
     "answer": "B) An AttributeError will be raised because `method1` and `method2` are missing from the class.\n\nExplanation: In the provided code, the metaclass `Meta` checks for the presence of `method1` and `method2` in any subclass it creates. Since these methods are not defined in `MyClass`, when an instance is attempted to be created, an AttributeError will be raised indicating that \"MyClass must have method1\" or \"MyClass must have method2\". The metaclass plays a role in ensuring that the required attributes are present before allowing class instantiation, thus preventing issues at runtime.",
     "timestamp": "2025-12-20 00:02:11",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-12-20": {
+    "id": "1766217715_2",
+    "question": "[QUESTION]\nConsider the following code that attempts to create a metaclass to track all instances of a class:\n\n```python\nclass Tracker(type):\n    _instances = []\n\n    def __call__(cls, *args, **kwargs):\n        instance = super().__call__(*args, **kwargs)\n        cls._instances.append(instance)\n        return instance\n\nclass MyClass(metaclass=Tracker):\n    pass\n\n# Creating instances of MyClass\na = MyClass()\nb = MyClass()\n\nprint(f\"Instances tracked: {len(MyClass._instances)}\")\n```\n\nWhat is the issue with this code?\n\nA) The metaclass does not track instances correctly.\nB) Instances are being created, but they are not accessible from the metaclass.\nC) There is a memory leak because each instance is added to a global list.\nD) The metaclass is not properly defined and will raise an error.",
+    "answer": "A) The metaclass does not track instances correctly.\n\nExplanation: The issue with this code lies in how the `__call__` method of the metaclass is implemented. It attempts to store instances in a class variable `_instances`, but since `_instances` is not initialized for each subclass separately, it ends up being shared across all subclasses that use this metaclass. As a result, when creating instances of `MyClass`, they are indeed tracked, but if another class uses the same metaclass, it will also track instances of `MyClass`. This can lead to incorrect tracking and potentially other unintended side effects.",
+    "timestamp": "2025-12-20 08:01:55",
+    "topic": "Object-Oriented Programming"
   }
 }
