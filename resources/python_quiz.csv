@@ -31450,3 +31450,62 @@ Explanation:
 - Option A is incorrect because although the methods are logged, their actual functionality is preserved.
 - Option C is incorrect because the metaclass does not affect non-method attributes.
 - Option D is incorrect because the metaclass clearly modifies the behavior of the class by wrapping its methods."
+"2025-12-21 00:02";"[QUESTION]
+Consider the following Python code that uses decorators and metaclasses together:
+
+```python
+class Decorator:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        print(""Decorator called"")
+        return self.func(*args, **kwargs)
+
+def decorator(func):
+    @Decorator
+    def wrapper(*args, **kwargs):
+        print(""Function decorated"")
+        return func(*args, **kwargs)
+    return wrapper
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+@decorator
+class MyClass(metaclass=Meta):
+    def my_method(self):
+        print(""Method called"")
+```
+
+When you create an instance of `MyClass` and call its method, what is the expected output?
+
+A) Decorator called  
+   Function decorated  
+   Method called  
+
+B) Creating class MyClass  
+   Decorator called  
+   Function decorated  
+   Method called  
+
+C) Creating class MyClass  
+   Decorator called  
+   Method called  
+
+D) Error";"A) Decorator called  
+   Function decorated  
+   Method called  
+
+Explanation:
+- The `decorator` function is applied to the `MyClass`, which in turn uses the `Decorator` class as a decorator.
+- When an instance of `MyClass` is created, it goes through the normal object creation process in Python.
+- The metaclass `Meta` is first used to create the class, so ""Creating class MyClass"" is printed.
+- The `decorator` function then wraps the `my_method`, and when you call the method on an instance of `MyClass`, it goes through this wrapper. This leads to:
+  - ""Decorator called""
+  - ""Function decorated""
+  - ""Method called""
+
+Therefore, the correct output is option A."
