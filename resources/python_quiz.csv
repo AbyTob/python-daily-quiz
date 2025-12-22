@@ -31656,3 +31656,47 @@ D) No output is generated; the method does not get invoked at all.";"Part 2 (Ans
 A) The output remains ""Hello, I am an instance of MyClass.""
 
 Explanation: When a class is defined with a metaclass like `Meta`, the metaclass's `__new__` method is called to create the class. If the method `greet` is not explicitly defined in the class dictionary, the metaclass provides a default implementation. Once the class is created, any subsequent changes to its dictionary, such as adding a method after the class has been instantiated, do not affect the methods already added by the metaclass during the creation of the class. Therefore, calling `obj.greet()` will still use the default greet method provided by the metaclass."
+"2025-12-22 16:02";"**Part 1 (Question):**
+Consider the following Python code snippet:
+
+```python
+import time
+
+class Timer:
+    def __init__(self):
+        self.start_time = None
+
+    async def start(self):
+        self.start_time = time.time()
+        await asyncio.sleep(0)
+
+    def elapsed(self) -> float:
+        if self.start_time is not None:
+            return time.time() - self.start_time
+        else:
+            raise RuntimeError(""Timer was not started."")
+
+async def main():
+    timer = Timer()
+    await timer.start()
+    print(f""Elapsed time: {timer.elapsed()} seconds"")
+
+asyncio.run(main())
+```
+
+Which of the following statements is true regarding the `Timer` class and its usage in the `main` function?
+
+A) The `start` method will not work as intended because it uses `await asyncio.sleep(0)` which does not actually perform any asynchronous sleep.
+
+B) The `elapsed` method will correctly calculate the time elapsed since calling the `start` method, assuming `start` is awaited before calling `elapsed`.
+
+C) Calling `timer.elapsed()` immediately after creating a new `Timer` object will return 0.0 because `start_time` is not set yet.
+
+D) The code has a memory leak as it keeps references to `Timer` instances indefinitely.
+
+**Part 2 (Answer):**
+B) The `elapsed` method will correctly calculate the time elapsed since calling the `start` method, assuming `start` is awaited before calling `elapsed`.
+
+Explanation: 
+- The `start` method uses `await asyncio.sleep(0)` which schedules a zero-delay task to be executed after the current coroutine yields control. This effectively allows other tasks in the event loop to run, and when it returns, the timer's start time is recorded.
+- Therefore, once the `start` method has been awaited, any subsequent calls to `elapsed` will correctly calculate the elapsed time since the `start` call was initiated.";"Answer format error. Please check the generated content."
