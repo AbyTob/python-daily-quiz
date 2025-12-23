@@ -5066,5 +5066,12 @@
     "answer": "A) Subclassing `Base` without implementing `required_method`\n\nExplanation: The metaclass `Meta` enforces that any subclass of `Base` must implement the `required_method`. If a subclass does not implement this method, attempting to create an instance of that subclass will raise a `TypeError`, as shown in option A. Options B through D do not directly violate the metaclass constraint and thus would not raise the error when creating an instance of `Derived`.",
     "timestamp": "2025-12-23 08:01:41",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-12-23": {
+    "id": "1766505729_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to track instances of a class:\n\n```python\nclass TrackInstances(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        instance = super().__call__(*args, **kwargs)\n        cls._instances[id(instance)] = instance\n        return instance\n\nclass MyClass(metaclass=TrackInstances):\n    pass\n```\n\nWhich of the following statements is true about this implementation?\n\nA) The `__call__` method in `TrackInstances` ensures that only one instance of `MyClass` can be created.\n\nB) All instances of `MyClass` are stored in a dictionary `_instances`, with their IDs as keys.\n\nC) When an instance of `MyClass` is created, it is added to the `_instances` dictionary and then returned.\n\nD) The metaclass `TrackInstances` prevents any subclassing of `MyClass`.",
+    "answer": "[ANSWER] C) When an instance of `MyClass` is created, it is added to the `_instances` dictionary and then returned.\n\nExplanation: \n- Option A is incorrect because the code does not ensure that only one instance can be created. Multiple instances can still be created.\n- Option B is partially correct but not entirely accurate. The dictionary `_instances` is correctly used to store instances, but using the `id(instance)` as keys might not always be unique or meaningful for all purposes.\n- Option C is correct. The `__call__` method of the metaclass `TrackInstances` is called whenever an instance of `MyClass` is created. This method then adds the new instance to the `_instances` dictionary using its ID as a key and returns the instance.\n- Option D is incorrect because there are no restrictions on subclassing in this implementation. Subclasses of `MyClass` can be created without any issues.",
+    "timestamp": "2025-12-23 16:02:09",
+    "topic": "Object-Oriented Programming"
   }
 }
