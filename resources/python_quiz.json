@@ -5052,5 +5052,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-12-22 16:02:08",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2025-12-23": {
+    "id": "1766448152_1",
+    "question": "### Part 1 (Question)\nConsider the following Python code that uses a metaclass and decorators:\n\n```python\nfrom functools import wraps\n\ndef log_function_call(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name, attr_value in dct.items():\n            if callable(attr_value):\n                dct[attr_name] = log_function_call(attr_value)\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    def method1(self, x):\n        return x * 2\n    \n    @staticmethod\n    def static_method(y):\n        return y + 5\n\n# Example usage:\ninstance = MyClass()\nprint(instance.method1(3))\nprint(MyClass.static_method(4))\n```\n\nWhat will be the output when running this code? \n\nA) \n```\nCalling method1 with args: (3,), kwargs: {}\n6\nCalling static_method with args: (4,), kwargs: {}\n9\n```\n\nB)\n```\nCalling method1 with args: (3,), kwargs: {}\n6\nstatic_method(4)\n```\n\nC)\n```\nmethod1(3)\n Calling 6\nstatic_method(4)\n Calling 9\n```\n\nD)\n```\n6\n9\n```",
+    "answer": "### Part 2 (Answer)\n**Correct Answer:** A\n\n**Explanation:**\n- The `log_function_call` decorator is used to log the calls to any callable method within the class.\n- When a class is created using the `Meta` metaclass, it automatically wraps all callable methods in the `MyClass` with the `log_function_call` decorator.\n- Therefore, when an instance of `MyClass` is created and its methods are called, the decorator logs the calls before executing the method.\n\nHere's how the output corresponds to option A:\n1. The call to `instance.method1(3)` logs \"Calling method1 with args: (3,), kwargs: {}\" and then returns `6`.\n2. The call to `MyClass.static_method(4)` logs \"Calling static_method with args: (4,), kwargs: {}\" and then returns `9`.",
+    "timestamp": "2025-12-23 00:02:32",
+    "topic": "Function and Method Decorators"
   }
 }
