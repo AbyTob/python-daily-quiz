@@ -31774,3 +31774,28 @@ D)
 Here's how the output corresponds to option A:
 1. The call to `instance.method1(3)` logs ""Calling method1 with args: (3,), kwargs: {}"" and then returns `6`.
 2. The call to `MyClass.static_method(4)` logs ""Calling static_method with args: (4,), kwargs: {}"" and then returns `9`."
+"2025-12-23 08:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to ensure all subclasses have a specific method:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'required_method' not in dct:
+            raise TypeError(""Class must implement required_method"")
+        return super().__new__(cls, name, bases, dct)
+
+class Base(metaclass=Meta):
+    pass
+
+class Derived(Base):
+    pass
+```
+
+Which of the following scenarios will raise a `TypeError` when trying to create an instance of `Derived`?
+
+A) Subclassing `Base` without implementing `required_method`
+B) Calling `Derived()` directly
+C) Using a decorator to check for `required_method` at runtime
+D) Implementing `required_method` in the `Derived` class";"A) Subclassing `Base` without implementing `required_method`
+
+Explanation: The metaclass `Meta` enforces that any subclass of `Base` must implement the `required_method`. If a subclass does not implement this method, attempting to create an instance of that subclass will raise a `TypeError`, as shown in option A. Options B through D do not directly violate the metaclass constraint and thus would not raise the error when creating an instance of `Derived`."

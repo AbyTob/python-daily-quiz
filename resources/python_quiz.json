@@ -5059,5 +5059,12 @@
     "answer": "### Part 2 (Answer)\n**Correct Answer:** A\n\n**Explanation:**\n- The `log_function_call` decorator is used to log the calls to any callable method within the class.\n- When a class is created using the `Meta` metaclass, it automatically wraps all callable methods in the `MyClass` with the `log_function_call` decorator.\n- Therefore, when an instance of `MyClass` is created and its methods are called, the decorator logs the calls before executing the method.\n\nHere's how the output corresponds to option A:\n1. The call to `instance.method1(3)` logs \"Calling method1 with args: (3,), kwargs: {}\" and then returns `6`.\n2. The call to `MyClass.static_method(4)` logs \"Calling static_method with args: (4,), kwargs: {}\" and then returns `9`.",
     "timestamp": "2025-12-23 00:02:32",
     "topic": "Function and Method Decorators"
+  },
+  "q2_2025-12-23": {
+    "id": "1766476901_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to ensure all subclasses have a specific method:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'required_method' not in dct:\n            raise TypeError(\"Class must implement required_method\")\n        return super().__new__(cls, name, bases, dct)\n\nclass Base(metaclass=Meta):\n    pass\n\nclass Derived(Base):\n    pass\n```\n\nWhich of the following scenarios will raise a `TypeError` when trying to create an instance of `Derived`?\n\nA) Subclassing `Base` without implementing `required_method`\nB) Calling `Derived()` directly\nC) Using a decorator to check for `required_method` at runtime\nD) Implementing `required_method` in the `Derived` class",
+    "answer": "A) Subclassing `Base` without implementing `required_method`\n\nExplanation: The metaclass `Meta` enforces that any subclass of `Base` must implement the `required_method`. If a subclass does not implement this method, attempting to create an instance of that subclass will raise a `TypeError`, as shown in option A. Options B through D do not directly violate the metaclass constraint and thus would not raise the error when creating an instance of `Derived`.",
+    "timestamp": "2025-12-23 08:01:41",
+    "topic": "Object-Oriented Programming"
   }
 }
