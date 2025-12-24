@@ -31874,3 +31874,43 @@ D. All of the above.";"[D] All of the above.
 - Option D is correct because both A and B are false, and C provides a partial truth but fails to address all aspects of the code's behavior correctly.
 
 This question tests understanding of decorators with asynchronous functions, the proper usage of decorators in Python, and how timing measurements can be applied to asynchronous operations."
+"2025-12-24 08:02";"";"Part 1 (Question):
+Consider the following Python code that attempts to implement a simple caching mechanism using decorators:
+
+```python
+import time
+
+def cache(func):
+    cache_dict = {}
+    def wrapper(*args, **kwargs):
+        if args not in cache_dict:
+            print(""Function is called"")
+            result = func(*args, **kwargs)
+            cache_dict[args] = result
+        else:
+            print(""Cached value returned"")
+        return cache_dict[args]
+    return wrapper
+
+@cache
+def compute_factorial(n):
+    time.sleep(1)  # Simulate a heavy computation
+    return n * compute_factorial(n - 1) if n > 1 else 1
+
+# Example usage:
+print(compute_factorial(5))
+print(compute_factorial(5))  # This call should use cached value
+```
+
+Which of the following statements is true regarding the behavior of this code?
+
+A) The `compute_factorial` function will always compute and cache new values because the arguments are immutable.
+B) The `cache` decorator does not work as intended due to a limitation in the `wrapper` function's closure over `cache_dict`.
+C) Calling `compute_factorial(5)` twice will take one second the first time and no time the second time.
+D) The code has a logical error that prevents caching from working correctly.
+
+Part 2 (Answer):
+B) The `cache` decorator does not work as intended due to a limitation in the `wrapper` function's closure over `cache_dict`.
+
+Explanation:
+In Python, closures do not capture mutable objects like dictionaries by reference. Instead, they create a new local copy of the variable each time the outer function is called. This means that inside the `wrapper` function, `cache_dict` is a separate dictionary from the one defined in the `cache` function. As a result, the caching mechanism does not work as intended because the cache dictionary is never updated across multiple calls to `compute_factorial`. To fix this issue, `cache_dict` should be defined in a nonlocal scope or passed as an argument to `wrapper`."
