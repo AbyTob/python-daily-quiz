@@ -31947,3 +31947,47 @@ D) The `TimingDecorator` class is used for creating new classes, not for modifyi
 
 Explanation:
 The `TimingDecorator` class implements both `__init__` and `__call__` methods. The `__call__` method is used to make instances of the class callable, allowing them to be used as decorators. When `@TimingDecorator` decorates a function like `compute_sum`, the decorator instance is called with `compute_sum` as its argument, and it wraps the original function to measure its execution time. The output will correctly show the time taken by the `compute_sum` function to execute."
+"2025-12-25 00:02";"[QUESTION] 
+
+Consider the following Python code snippet that attempts to implement a custom decorator for asynchronous functions. The decorator is intended to measure and print the execution time of each function it decorates. However, there are some issues with the implementation.
+
+```python
+import asyncio
+from functools import wraps
+
+def async_timer(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        start_time = asyncio.get_running_loop().time()
+        result = await func(*args, **kwargs)
+        end_time = asyncio.get_running_loop().time()
+        print(f""Execution time of {func.__name__}: {end_time - start_time} seconds"")
+        return result
+    return wrapper
+
+@async_timer
+async def async_task():
+    await asyncio.sleep(1)
+
+# Usage:
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+try:
+    loop.run_until_complete(async_task())
+finally:
+    loop.close()
+```
+
+Which of the following statements is true regarding this implementation?
+
+A) The `async_timer` decorator works correctly and will print the execution time of `async_task`.
+B) The `async_timer` decorator fails because it does not handle exceptions raised by the decorated function.
+C) The `async_timer` decorator works but prints a negative execution time due to incorrect use of `time()`.
+D) The `async_timer` decorator requires manual setting of an event loop, which is unnecessary and complicates usage.";"**Correct Answer: B**
+
+Explanation:
+- Option A is incorrect because the `async_timer` decorator does work for measuring execution time but it fails to handle exceptions raised by the decorated function. If `async_task` raises an exception, it will not be caught or handled by the decorator.
+  
+- Option C is incorrect because `asyncio.get_running_loop().time()` returns a non-negative value representing the current time in seconds since some unspecified point in time, so it won't return a negative value unless there's a bug in the code that sets it incorrectly.
+
+- Option D is incorrect because setting up an event loop for running asynchronous tasks is not complicated and is necessary when working with `asyncio`. This step ensures that the async operations can be executed correctly."
