@@ -32049,3 +32049,37 @@ Explanation:
 Option B is incorrect because there are no print statements for the instance's attribute.
 Option C is incorrect because there are no errors; all parts of the code execute as expected.
 Option D is incorrect because option A correctly describes the output."
+"2025-12-25 16:01";"[QUESTION]
+Consider the following code snippet:
+
+```python
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        async def wrapper(*args, **kwargs):
+            return await self.func(*args, **kwargs)
+        return wrapper
+
+@AsyncDecorator
+async def compute_sum(n):
+    total = 0
+    for i in range(n):
+        total += i
+    return total
+
+import asyncio
+
+# Example usage:
+asyncio.run(compute_sum(10))
+```
+
+Which of the following statements about this code is true?
+
+A) The `compute_sum` function is a coroutine and can be called with `await`.
+B) The `AsyncDecorator` class ensures that any method it decorates will be run asynchronously.
+C) The `AsyncDecorator` class must be used in conjunction with the `@asyncio.coroutine` decorator to work properly.
+D) The `compute_sum` function is not a coroutine and cannot be awaited.";"A) The `compute_sum` function is a coroutine and can be called with `await`.
+
+Explanation: In the provided code, `AsyncDecorator` is designed to convert any synchronous function into an asynchronous one by wrapping it in another async function. This transformation allows `compute_sum` to be used with `await`, enabling its execution within an asyncio event loop. Options B and C are incorrect because they imply additional decorators or methods that are not present in the provided code. Option D is false because, as a coroutine, `compute_sum` can indeed be awaited."
