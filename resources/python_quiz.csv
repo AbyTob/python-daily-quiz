@@ -32137,3 +32137,37 @@ def timer(func):
 ```
 
 By adding `return result` at the end of the `wrapper`, we ensure that the decorator correctly passes through any return value from the original function, allowing it to be printed when called."
+"2025-12-26 08:02";"**Part 1: Question**
+
+Consider the following Python code that uses a metaclass to add an additional method to a class dynamically:
+
+```python
+from abc import ABC, abstractmethod
+
+class MetaABC(type):
+    def __new__(cls, name, bases, dct):
+        if 'abstract_methods' in dct:
+            for method_name in dct['abstract_methods']:
+                if not any(method_name == attr for attr in dct if callable(dct[attr])):
+                    raise TypeError(f""Method {method_name} is abstract but not implemented"")
+        return super().__new__(cls, name, bases, dct)
+
+class AbstractBase(metaclass=MetaABC):
+    abstract_methods = ['mymethod']
+
+class ConcreteClass(AbstractBase):
+    def mymethod(self):
+        print(""Implementation of mymethod"")
+
+# Question:
+What will happen if we remove the `mymethod` implementation from the `ConcreteClass` and then try to create an instance of it?
+
+A) The metaclass will automatically implement `mymethod`
+B) An exception will be raised during class creation
+C) An exception will be raised when trying to instantiate `ConcreteClass`
+D) The class will still be instantiated without any errors";"**Part 2: Answer**
+
+C) An exception will be raised when trying to instantiate `ConcreteClass`
+
+Explanation:
+The metaclass `MetaABC` checks during class creation if all methods listed in `abstract_methods` are implemented. If a method is abstract (i.e., it's listed but not implemented), the metaclass raises a `TypeError`. In this case, `AbstractBase` specifies `mymethod` as an abstract method that needs to be implemented by any subclass. When we try to create an instance of `ConcreteClass`, which does not provide an implementation for `mymethod`, the metaclass detects this and raises a `TypeError`."
