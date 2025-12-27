@@ -32303,3 +32303,40 @@ B) The `async_task` function waits for 1 second before printing ""Completed"".
 C) An error occurs because you cannot call an asynchronous function directly with the `@AsyncDecorator`.
 
 D) The `main` function returns a coroutine that needs to be awaited.";"A) The `async_task` function starts immediately, and its result is printed as ""Completed""."
+"2025-12-27 16:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a decorator to log function calls:
+
+```python
+def log_calls(func):
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args={args}, kwargs={kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned {result}"")
+        return result
+    return wrapper
+
+@log_calls
+def add(a, b):
+    return a + b
+```
+
+Which of the following statements about this code is true?
+
+A) The `wrapper` function captures and prints all arguments passed to any decorated function.
+
+B) When `add(3, 4)` is called, it logs ""Calling add with args=(3, 4), kwargs={}"" before returning the result.
+
+C) The `log_calls` decorator can be used on class methods but not on static methods.
+
+D) The `wrapper` function does not modify the behavior of the original `add` function.";"**Part 2 (Answer):**
+
+B) When `add(3, 4)` is called, it logs ""Calling add with args=(3, 4), kwargs={}"" before returning the result.
+
+Explanation:
+- The `log_calls` decorator correctly wraps the `add` function.
+- When `add(3, 4)` is invoked, the `wrapper` function intercepts the call, prints the arguments and keyword arguments, executes the original `add` function, and then logs the result.
+- Options A, C, and D are incorrect because:
+  - The wrapper does not capture and print all arguments; it only shows positional arguments unless specified otherwise.
+  - Decorators can be applied to class methods as well as static methods.
+  - The `wrapper` function wraps the original function behavior."
