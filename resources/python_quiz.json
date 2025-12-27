@@ -5143,5 +5143,12 @@
     "answer": "A) The `@timer` decorator is used correctly to measure the execution time of functions.\n\nExplanation: \n- Statement A is correct. The `@timer` decorator, when applied to any function, will print the execution time.\n- Statement B is incorrect because `ComputeSumTimer` does not inherit from `compute_sum`. It only takes `compute_sum` as a callable in its constructor and then calls it within its `__call__` method.\n- Statement C is incorrect. The `ComputeSumTimer` instance must be called to execute the function and measure its time, i.e., `result = ComputeSumTimer(1000000)()`.\n- Statement D is incorrect. The code does not use a context manager for timing; it uses a decorator and a custom class with a callable method to achieve the same result.",
     "timestamp": "2025-12-27 00:02:44",
     "topic": "Object-Oriented Programming"
+  },
+  "q2_2025-12-27": {
+    "id": "1766822499_2",
+    "question": "[QUESTION]  \nConsider the following code snippet:\n\n```python\nimport asyncio\n\nasync def async_task():\n    print(\"Task started\")\n    await asyncio.sleep(1)\n    return \"Completed\"\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n    \n    def __call__(self, *args, **kwargs):\n        loop = asyncio.get_event_loop()\n        task = self.func(*args, **kwargs)\n        result = loop.run_until_complete(task)\n        return result\n\n@AsyncDecorator\nasync def main():\n    result = await async_task()\n    print(result)\n\nmain()\n```\n\nWhich of the following statements correctly describes what happens when `main` is called?\n\nA) The `async_task` function starts immediately, and its result is printed as \"Completed\".\n\nB) The `async_task` function waits for 1 second before printing \"Completed\".\n\nC) An error occurs because you cannot call an asynchronous function directly with the `@AsyncDecorator`.\n\nD) The `main` function returns a coroutine that needs to be awaited.",
+    "answer": "A) The `async_task` function starts immediately, and its result is printed as \"Completed\".",
+    "timestamp": "2025-12-27 08:01:39",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

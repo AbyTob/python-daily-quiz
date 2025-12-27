@@ -32265,3 +32265,41 @@ Explanation:
 - Statement B is incorrect because `ComputeSumTimer` does not inherit from `compute_sum`. It only takes `compute_sum` as a callable in its constructor and then calls it within its `__call__` method.
 - Statement C is incorrect. The `ComputeSumTimer` instance must be called to execute the function and measure its time, i.e., `result = ComputeSumTimer(1000000)()`.
 - Statement D is incorrect. The code does not use a context manager for timing; it uses a decorator and a custom class with a callable method to achieve the same result."
+"2025-12-27 08:01";"[QUESTION]  
+Consider the following code snippet:
+
+```python
+import asyncio
+
+async def async_task():
+    print(""Task started"")
+    await asyncio.sleep(1)
+    return ""Completed""
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    def __call__(self, *args, **kwargs):
+        loop = asyncio.get_event_loop()
+        task = self.func(*args, **kwargs)
+        result = loop.run_until_complete(task)
+        return result
+
+@AsyncDecorator
+async def main():
+    result = await async_task()
+    print(result)
+
+main()
+```
+
+Which of the following statements correctly describes what happens when `main` is called?
+
+A) The `async_task` function starts immediately, and its result is printed as ""Completed"".
+
+B) The `async_task` function waits for 1 second before printing ""Completed"".
+
+C) An error occurs because you cannot call an asynchronous function directly with the `@AsyncDecorator`.
+
+D) The `main` function returns a coroutine that needs to be awaited.";"A) The `async_task` function starts immediately, and its result is printed as ""Completed""."
