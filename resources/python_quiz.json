@@ -5171,5 +5171,12 @@
     "answer": "**Answer:** C\n\n**Explanation:**  \nThe provided implementation is generally correct for creating a singleton class using a metaclass. However, it fails to account for threading scenarios where multiple threads might attempt to create an instance simultaneously and potentially bypass the singleton constraint due to race conditions in accessing `_instances`. To fully address this issue, additional synchronization mechanisms like locks would be necessary to ensure that only one instance is created even in concurrent environments.",
     "timestamp": "2025-12-28 08:01:58",
     "topic": "Advanced Class Inheritance and Method Resolution"
+  },
+  "q3_2025-12-28": {
+    "id": "1766937696_3",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to dynamically add a method to a class:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self: \"Hello from dynamic method!\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\nprint(obj.dynamic_method())\n```\n\nWhat will the output of this code be when executed?\n\nA) AttributeError: 'MyClass' object has no attribute 'dynamic_method'\nB) TypeError: 'type' object is not callable\nC) \"Hello from dynamic method!\"\nD) 0",
+    "answer": "C) \"Hello from dynamic method!\"\n\nExplanation:\nThe metaclass `Meta` is defined to dynamically add a method named `dynamic_method` to any class that uses it as its metaclass. In this case, `MyClass` uses `Meta` as its metaclass, so the `dynamic_method` is added to `MyClass`. When an instance of `MyClass` is created and `dynamic_method()` is called on it, the output will be \"Hello from dynamic method!\".",
+    "timestamp": "2025-12-28 16:01:36",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }

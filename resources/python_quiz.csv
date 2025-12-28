@@ -32400,3 +32400,28 @@ D) The metaclass does not support abstract methods.";"**Answer:** C
 
 **Explanation:**  
 The provided implementation is generally correct for creating a singleton class using a metaclass. However, it fails to account for threading scenarios where multiple threads might attempt to create an instance simultaneously and potentially bypass the singleton constraint due to race conditions in accessing `_instances`. To fully address this issue, additional synchronization mechanisms like locks would be necessary to ensure that only one instance is created even in concurrent environments."
+"2025-12-28 16:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to dynamically add a method to a class:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_method'] = lambda self: ""Hello from dynamic method!""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.dynamic_method())
+```
+
+What will the output of this code be when executed?
+
+A) AttributeError: 'MyClass' object has no attribute 'dynamic_method'
+B) TypeError: 'type' object is not callable
+C) ""Hello from dynamic method!""
+D) 0";"C) ""Hello from dynamic method!""
+
+Explanation:
+The metaclass `Meta` is defined to dynamically add a method named `dynamic_method` to any class that uses it as its metaclass. In this case, `MyClass` uses `Meta` as its metaclass, so the `dynamic_method` is added to `MyClass`. When an instance of `MyClass` is created and `dynamic_method()` is called on it, the output will be ""Hello from dynamic method!""."
