@@ -32460,3 +32460,30 @@ C) The timer measures the execution time of `compute_sum` and can be reused acro
 D) The timer does not measure any execution time and simply returns the result of `compute_sum`.";"C) The timer measures the execution time of `compute_sum` and can be reused across different functions by passing the function as a parameter to the `Timer` class constructor instead of using it as a decorator.
 
 The given code uses a simple decorator pattern where the `Timer` class is designed to measure the execution time of any function it decorates. However, this implementation is not generic because it requires the user to define a `__init__` method that takes a function and store it in an instance variable. A more flexible approach would allow for reusing the same timer instance with different functions. This can be achieved by modifying the `Timer` class to take the function as a parameter when calling the decorated function, rather than storing it in an instance variable."
+"2025-12-29 08:01";"[QUESTION]
+Consider the following code that attempts to use a metaclass to enforce type constraints on class attributes:
+
+```python
+class TypeConstraint(type):
+    def __new__(cls, name, bases, dct):
+        for attr, value in dct.items():
+            if not isinstance(value, int):
+                raise TypeError(f""{attr} must be an integer"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=TypeConstraint):
+    a = 1
+    b = 'string'  # This should trigger the error
+
+if __name__ == ""__main__"":
+    obj = MyClass()
+```
+
+What will happen when you run this code? Explain your answer.
+
+A) It will successfully create an instance of `MyClass`.
+B) A `TypeError` will be raised because `b` is not an integer.
+C) The program will hang indefinitely.
+D) It will create a class with attributes `a` and `b`, but `b` will be ignored.";"B) A `TypeError` will be raised because `b` is not an integer.
+
+Explanation: When the metaclass `TypeConstraint` tries to create the class `MyClass`, it checks each attribute of the class dictionary. Since `b` is a string, the condition in the `for` loop fails for this attribute, and a `TypeError` is raised before any instance of `MyClass` can be created. This demonstrates how metaclasses can enforce type constraints at class creation time."
