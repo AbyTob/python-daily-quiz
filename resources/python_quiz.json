@@ -5213,5 +5213,12 @@
     "answer": "A) The `log_method_calls` decorator does not correctly handle class methods from parent classes. A solution is needed to ensure all method calls, including those inherited, are logged.\n\nExplanation: The issue lies in how the decorator iterates over attributes of the class. It only checks for callable attributes that do not start with \"__\". However, this approach misses inherited methods unless they are also explicitly checked in a similar manner for parent classes. A correct solution would involve iterating over both the class's own attributes and those of its base classes, ensuring all method calls are logged regardless of inheritance.",
     "timestamp": "2025-12-30 08:02:40",
     "topic": "Advanced Class Inheritance and Method Resolution"
+  },
+  "q3_2025-12-30": {
+    "id": "1767110518_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that uses both decorators and metaclasses. The goal is to create a class decorator that adds a method `log_method_calls` to any class it decorates, which logs each method call with its arguments.\n\n```python\nimport types\n\ndef log_method_calls(cls):\n    for name, attr in cls.__dict__.items():\n        if callable(attr):\n            setattr(cls, name, types.MethodType(logged_attr, cls))\n    return cls\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        new_class = super().__new__(cls, name, bases, dct)\n        new_class = log_method_calls(new_class)\n        return new_class\n\n@Meta\nclass MyClass:\n    def method1(self, a, b):\n        return a + b\n    \n    def method2(self, x):\n        return x * 2\n\n# Create an instance of MyClass and call its methods to see logging in action.\nobj = MyClass()\nprint(obj.method1(3, 4))  # Expected output: Calling method1 with args (3, 4)\nprint(obj.method2(5))    # Expected output: Calling method2 with args (5,)\n```\n\nWhich of the following statements is true regarding the code above?\n\nA) The `log_method_calls` decorator directly modifies the methods of a class to log their calls.\n\nB) The metaclass `Meta` is responsible for applying the `log_method_calls` decorator when a class is created.\n\nC) Both A and B are correct.\n\nD) None of the above.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2025-12-30 16:01:58",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
