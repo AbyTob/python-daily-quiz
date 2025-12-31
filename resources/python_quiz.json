@@ -5234,5 +5234,12 @@
     "answer": "B) The `MyMeta` metaclass will be called once when `MyClass` is created, and no further calls will occur.",
     "timestamp": "2025-12-31 08:01:39",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2025-12-31": {
+    "id": "1767196931_3",
+    "question": "### Part 1 (Question):\n\n**Question:** \nConsider the following Python code snippet that attempts to create a singleton pattern using decorators. A singleton is a design pattern where a class can have only one instance, and provide a global point of access to it.\n\n```python\ndef singleton(cls):\n    instances = {}\n    def get_instance(*args, **kwargs):\n        if cls not in instances:\n            instances[cls] = cls(*args, **kwargs)\n        return instances[cls]\n    return get_instance\n\n@singleton\nclass MyClass:\n    def __init__(self, value):\n        self.value = value\n```\n\n**Which of the following statements about this code is incorrect?**\n\nA) The `singleton` decorator ensures that only one instance of `MyClass` can be created.\n\nB) If you create two instances of `MyClass`, they will both reference the same object in memory.\n\nC) The `get_instance` function checks if an instance already exists and returns it if found, otherwise creates a new instance.\n\nD) The `value` attribute of `MyClass` is not accessible from outside the class because it's private.",
+    "answer": "### Part 2 (Answer):\n\n**Correct Answer:** D\n\n**Explanation:**\nThe statement \"D) The value attribute of MyClass is not accessible from outside the class because it's private\" is incorrect. \n\nIn Python, attributes are not truly private; they can be accessed from outside the class using name mangling, which prefixes the attribute name with `__`. Therefore, you can access `value` by calling `my_instance._MyClass__value`.\n\nThe other statements are correct:\n- A) The `singleton` decorator ensures that only one instance of `MyClass` can be created.\n- B) If you create two instances of `MyClass`, they will both reference the same object in memory because they refer to the same singleton instance.\n- C) The `get_instance` function checks if an instance already exists and returns it if found, otherwise creates a new instance.",
+    "timestamp": "2025-12-31 16:02:11",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
