@@ -5227,5 +5227,12 @@
     "answer": "**Part 2 (Answer):**\n\nA) The output will be \"Added by Meta\" and `MyClass` does not explicitly define any attributes.\n\nExplanation:\n- A metaclass is a class whose instances are classes. In this case, `Meta` is a metaclass that adds a custom attribute (`custom_attribute`) to any class it decorates.\n- When `@Meta()` is used above the definition of `MyClass`, `MyClass` becomes an instance of the metaclass `Meta`. As a result, when `MyClass` is created, the metaclass's `__new__` method is called. This method adds the `custom_attribute` to the dictionary of `MyClass`.\n- Therefore, when we create an instance of `MyClass` and print its `custom_attribute`, it correctly outputs \"Added by Meta\".",
     "timestamp": "2025-12-31 00:02:10",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2025-12-31": {
+    "id": "1767168099_2",
+    "question": "[QUESTION]\nConsider the following code:\n\n```python\nclass MyMeta(type):\n    def __new__(cls, name, bases, dct):\n        print(f\"Creating class {name}\")\n        return super().__new__(cls, name, bases, dct)\n\n@MyMeta\nclass MyClass:\n    pass\n\ndef create_class():\n    class LocalClass:\n        pass\n    return LocalClass\n\nif __name__ == \"__main__\":\n    obj = MyClass()\n    create_class()\n```\n\nWhich of the following statements is true regarding the execution and output of this code?\n\nA) The `MyMeta` metaclass will not be called because it's not used in creating any classes.\n\nB) The `MyMeta` metaclass will be called once when `MyClass` is created, and no further calls will occur.\n\nC) Each time `create_class()` is called, the `MyMeta` metaclass will be invoked to create a new class.\n\nD) The output of this script will be an error because the `MyMeta` metaclass does not handle the creation of local classes within functions.",
+    "answer": "B) The `MyMeta` metaclass will be called once when `MyClass` is created, and no further calls will occur.",
+    "timestamp": "2025-12-31 08:01:39",
+    "topic": "Object-Oriented Programming"
   }
 }
