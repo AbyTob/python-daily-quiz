@@ -5220,5 +5220,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2025-12-30 16:01:58",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2025-12-31": {
+    "id": "1767139330_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a metaclass to add a custom attribute to any class it decorates:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['custom_attribute'] = 'Added by Meta'\n        return super().__new__(cls, name, bases, dct)\n\n@Meta()\nclass MyClass:\n    pass\n\nobj = MyClass()\nprint(obj.custom_attribute)\n```\n\nWhat will be the output when running this code? Which of the following statements is true about how this code works?\n\nA) The output will be \"Added by Meta\" and `MyClass` does not explicitly define any attributes.\n\nB) The output will be an error because metaclasses are not allowed in Python.\n\nC) The output will be an error because decorators cannot be used with classes in Python.\n\nD) None of the above.",
+    "answer": "**Part 2 (Answer):**\n\nA) The output will be \"Added by Meta\" and `MyClass` does not explicitly define any attributes.\n\nExplanation:\n- A metaclass is a class whose instances are classes. In this case, `Meta` is a metaclass that adds a custom attribute (`custom_attribute`) to any class it decorates.\n- When `@Meta()` is used above the definition of `MyClass`, `MyClass` becomes an instance of the metaclass `Meta`. As a result, when `MyClass` is created, the metaclass's `__new__` method is called. This method adds the `custom_attribute` to the dictionary of `MyClass`.\n- Therefore, when we create an instance of `MyClass` and print its `custom_attribute`, it correctly outputs \"Added by Meta\".",
+    "timestamp": "2025-12-31 00:02:10",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
