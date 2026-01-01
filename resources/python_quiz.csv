@@ -32791,3 +32791,42 @@ The other statements are correct:
 - A) The `singleton` decorator ensures that only one instance of `MyClass` can be created.
 - B) If you create two instances of `MyClass`, they will both reference the same object in memory because they refer to the same singleton instance.
 - C) The `get_instance` function checks if an instance already exists and returns it if found, otherwise creates a new instance."
+"2026-01-01 00:02";"[QUESTION]
+Consider the following Python code:
+
+```python
+from functools import wraps
+
+def log_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned {result}"")
+        return result
+    return wrapper
+
+class LoggedClass:
+    def __init__(self):
+        pass
+    
+    @log_calls
+    def method(self, x, y=10):
+        return x + y
+```
+
+Which of the following statements about this code is true?
+
+A) The `method` function within `LoggedClass` will not be logged due to its use of a class decorator.
+
+B) When calling an instance method of `LoggedClass`, such as `obj.method(5)`, it will print ""Calling method with args: (5,), kwargs: {}"" and then return 15.
+
+C) The `log_calls` decorator can only be applied to standalone functions, not methods.
+
+D) Using `wraps(func)` in the decorator ensures that metadata like the original function name is preserved.";"[D] Using `wraps(func)` in the decorator ensures that metadata like the original function name is preserved.
+
+Explanation:
+- Option A is incorrect because the `log_calls` decorator is applied to an instance method, and it will correctly log the method call.
+- Option B is incorrect because calling `obj.method(5)` will indeed log the call but the return value should be 15, not 20 (since y defaults to 10).
+- Option C is incorrect as the decorator can be applied to both standalone functions and methods.
+- Option D is correct. The `@wraps(func)` decorator from the `functools` module is crucial for preserving the metadata of the original function, such as its name, docstring, etc., when it's decorated."
