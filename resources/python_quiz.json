@@ -5276,5 +5276,12 @@
     "answer": "B) It converts synchronous functions into asynchronous ones by wrapping them in a coroutine.",
     "timestamp": "2026-01-02 08:01:19",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-01-02": {
+    "id": "1767369718_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncContextManager:\n    async def __aenter__(self):\n        print(\"Entering context\")\n        return self\n    \n    async def __aexit__(self, exc_type, exc, tb):\n        print(\"Exiting context\")\n\nasync def main():\n    async with AsyncContextManager() as ctx:\n        await asyncio.sleep(1)\n        print(\"Inside context\")\n\n# Run the coroutine\nasyncio.run(main())\n```\n\nWhich of the following statements is true regarding the execution of this code?\n\nA) The `__aexit__` method will be called immediately after entering the context.\n\nB) The `print(\"Exiting context\")` statement will only execute after the `await asyncio.sleep(1)` call completes.\n\nC) The `async with` statement will block the event loop during its execution.\n\nD) None of the above.",
+    "answer": "**Part 2 (Answer):**\n\nB) The `print(\"Exiting context\")` statement will only execute after the `await asyncio.sleep(1)` call completes.\n\nExplanation: In Python, the `async with` statement is used to manage resources asynchronously using an asynchronous context manager. When entering the context, the `__aenter__` method of the context manager is called first, which prints \"Entering context\". Then, the code inside the `async with` block executes, which in this case includes a sleep operation that suspends execution for 1 second without blocking the event loop. After the sleep completes, control returns to the context manager, and the `__aexit__` method is called, printing \"Exiting context\". This demonstrates that the `__aexit__` method does not execute immediately but waits until the asynchronous block has finished executing its work.",
+    "timestamp": "2026-01-02 16:01:58",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

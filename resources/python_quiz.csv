@@ -33003,3 +33003,40 @@ A) It synchronizes multiple asynchronous functions.
 B) It converts synchronous functions into asynchronous ones by wrapping them in a coroutine.
 C) It manages the execution order of asynchronous tasks.
 D) It optimizes memory usage during asynchronous operations.";"B) It converts synchronous functions into asynchronous ones by wrapping them in a coroutine."
+"2026-01-02 16:01";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncContextManager:
+    async def __aenter__(self):
+        print(""Entering context"")
+        return self
+    
+    async def __aexit__(self, exc_type, exc, tb):
+        print(""Exiting context"")
+
+async def main():
+    async with AsyncContextManager() as ctx:
+        await asyncio.sleep(1)
+        print(""Inside context"")
+
+# Run the coroutine
+asyncio.run(main())
+```
+
+Which of the following statements is true regarding the execution of this code?
+
+A) The `__aexit__` method will be called immediately after entering the context.
+
+B) The `print(""Exiting context"")` statement will only execute after the `await asyncio.sleep(1)` call completes.
+
+C) The `async with` statement will block the event loop during its execution.
+
+D) None of the above.";"**Part 2 (Answer):**
+
+B) The `print(""Exiting context"")` statement will only execute after the `await asyncio.sleep(1)` call completes.
+
+Explanation: In Python, the `async with` statement is used to manage resources asynchronously using an asynchronous context manager. When entering the context, the `__aenter__` method of the context manager is called first, which prints ""Entering context"". Then, the code inside the `async with` block executes, which in this case includes a sleep operation that suspends execution for 1 second without blocking the event loop. After the sleep completes, control returns to the context manager, and the `__aexit__` method is called, printing ""Exiting context"". This demonstrates that the `__aexit__` method does not execute immediately but waits until the asynchronous block has finished executing its work."
