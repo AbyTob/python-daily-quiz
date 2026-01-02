@@ -32975,3 +32975,31 @@ print(obj2.unique_id) # Expected: 2
 ```
 
 This correction ensures that each instance of `MyClass` has a unique identifier stored in the `unique_id` attribute."
+"2026-01-02 08:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    async def __call__(self, *args, **kwargs):
+        return await self.func(*args, **kwargs)
+
+@AsyncDecorator
+async def my_async_function():
+    await asyncio.sleep(1)
+    print(""Function executed"")
+
+# Usage
+asyncio.run(my_async_function())
+```
+
+What is the purpose of the `AsyncDecorator` class in this code? How does it work with the `my_async_function`?
+
+A) It synchronizes multiple asynchronous functions.
+B) It converts synchronous functions into asynchronous ones by wrapping them in a coroutine.
+C) It manages the execution order of asynchronous tasks.
+D) It optimizes memory usage during asynchronous operations.";"B) It converts synchronous functions into asynchronous ones by wrapping them in a coroutine."
