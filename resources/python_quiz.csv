@@ -33185,3 +33185,39 @@ D) The execution of the `compute_sum` function is interrupted by an error becaus
 **Correct Answer: C)**
 
 The `compute_sum` function will execute as usual, printing both the result of the sum and the time taken to compute it. Decorators like `timing_decorator` modify the behavior of the function they decorate by wrapping the original function inside another function (`wrapper`). In this case, the wrapper calculates the execution time before returning the result of the original function. Thus, when `compute_sum(1000000)` is called, it computes the sum as expected and also prints the time taken to do so."
+"2026-01-04 00:02";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def manage_resources(a, b):
+    print(f""Acquiring resources: {a}, {b}"")
+    try:
+        yield a, b
+    finally:
+        print(f""Releasing resources: {a}, {b}"")
+
+with manage_resources(10, 20) as (x, y):
+    print(x + y)
+```
+
+Which of the following statements is true regarding the behavior and output of this code?
+
+A. The context manager will not release any resources because it does not use `finally`.
+B. When the context is exited, an exception will be raised.
+C. The code will output ""Acquiring resources: 10, 20"", ""30"", and ""Releasing resources: 10, 20"".
+D. The context manager will only print the acquisition message and then fail to yield.";"C. The code will output ""Acquiring resources: 10, 20"", ""30"", and ""Releasing resources: 10, 20"".
+
+Explanation:
+The provided code defines a context manager using Python's `contextmanager` decorator. When the `with` statement is executed, it automatically handles the acquisition and release of resources by calling the `__enter__` (automatically) and `__exit__` methods when exiting the block.
+
+In this case, since we are not explicitly implementing these methods in the generator function, Python's context manager implementation takes care of the necessary steps:
+- The `yield` statement is used to return the resources for use within the `with` block.
+- When the block exits (either normally or with an exception), Python calls the `__exit__` method to clean up, which in our custom context manager is handled by the `finally` block.
+
+Thus, when the code runs:
+1. It prints ""Acquiring resources: 10, 20"".
+2. It then calculates and prints `x + y = 30`.
+3. Finally, it prints ""Releasing resources: 10, 20"" as the context is exited."
