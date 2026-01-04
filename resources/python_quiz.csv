@@ -33221,3 +33221,58 @@ Thus, when the code runs:
 1. It prints ""Acquiring resources: 10, 20"".
 2. It then calculates and prints `x + y = 30`.
 3. Finally, it prints ""Releasing resources: 10, 20"" as the context is exited."
+"2026-01-04 08:02";"**Part 1 (Question):**
+
+Implement an asynchronous function that uses a decorator to measure the execution time of any coroutine it decorates. The decorator should print the execution time whenever the decorated coroutine is called.
+
+```python
+import asyncio
+from functools import wraps
+
+# Your implementation goes here
+
+@async_time_decorator
+async def my_coroutine():
+    await asyncio.sleep(2)
+    return ""Done""
+
+# Example usage:
+# loop = asyncio.get_event_loop()
+# loop.run_until_complete(my_coroutine())
+```
+
+A) Define `async_time_decorator` to wrap the coroutine and measure its execution time.  
+B) Use a context manager within the decorator to handle the timing.  
+C) Apply the decorator using `@async_time_decorator`.  
+D) None of the above.
+
+**Part 2 (Answer):**
+
+A) Define `async_time_decorator` to wrap the coroutine and measure its execution time.
+
+```python
+import asyncio
+from functools import wraps
+import time
+
+def async_time_decorator(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = await func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time:.2f} seconds"")
+        return result
+    return wrapper
+
+@async_time_decorator
+async def my_coroutine():
+    await asyncio.sleep(2)
+    return ""Done""
+
+# Example usage:
+loop = asyncio.get_event_loop()
+result = loop.run_until_complete(my_coroutine())
+```
+
+The correct answer is A. The decorator `async_time_decorator` is implemented using a combination of the `@wraps` decorator and an asynchronous function wrapper to measure and print the execution time of any coroutine it decorates. This demonstrates how decorators can be used in conjunction with asyncio for performance monitoring in asynchronous applications.";"Answer format error. Please check the generated content."
