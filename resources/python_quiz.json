@@ -5318,5 +5318,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-04 08:02:02",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-01-04": {
+    "id": "1767542512_3",
+    "question": "Part 1 (Question):\nConsider the following Python code that uses a metaclass to create a class with specific behavior:\n\n```python\nclass MyMeta(type):\n    def __new__(cls, name, bases, dct):\n        # Add a new method 'greet' to any class created by this metaclass\n        dct['greet'] = lambda self: f\"Hello from {self.__class__.__name__}\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=MyMeta):\n    pass\n\n# Create an instance of MyClass and call the 'greet' method\ninstance = MyClass()\nprint(instance.greet())\n```\n\nWhich of the following statements correctly describes what happens when you run this code?\n\nA) An error is raised because the metaclass is not properly defined.\n\nB) The output will be \"Hello from MyMeta\".\n\nC) The output will be \"Hello from MyClass\".\n\nD) None of the above.",
+    "answer": "Part 2 (Answer):\nC) The output will be \"Hello from MyClass\".\n\nExplanation: When you create a class `MyClass` with `metaclass=MyMeta`, the metaclass `MyMeta` is invoked to create `MyClass`. Inside `__new__`, it adds a method `greet` to any class created by this metaclass. Therefore, when we create an instance of `MyClass` and call its `greet` method, the method added by the metaclass is used, resulting in \"Hello from MyClass\".",
+    "timestamp": "2026-01-04 16:01:52",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }

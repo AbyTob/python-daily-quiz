@@ -33276,3 +33276,33 @@ result = loop.run_until_complete(my_coroutine())
 ```
 
 The correct answer is A. The decorator `async_time_decorator` is implemented using a combination of the `@wraps` decorator and an asynchronous function wrapper to measure and print the execution time of any coroutine it decorates. This demonstrates how decorators can be used in conjunction with asyncio for performance monitoring in asynchronous applications.";"Answer format error. Please check the generated content."
+"2026-01-04 16:01";"Part 1 (Question):
+Consider the following Python code that uses a metaclass to create a class with specific behavior:
+
+```python
+class MyMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Add a new method 'greet' to any class created by this metaclass
+        dct['greet'] = lambda self: f""Hello from {self.__class__.__name__}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=MyMeta):
+    pass
+
+# Create an instance of MyClass and call the 'greet' method
+instance = MyClass()
+print(instance.greet())
+```
+
+Which of the following statements correctly describes what happens when you run this code?
+
+A) An error is raised because the metaclass is not properly defined.
+
+B) The output will be ""Hello from MyMeta"".
+
+C) The output will be ""Hello from MyClass"".
+
+D) None of the above.";"Part 2 (Answer):
+C) The output will be ""Hello from MyClass"".
+
+Explanation: When you create a class `MyClass` with `metaclass=MyMeta`, the metaclass `MyMeta` is invoked to create `MyClass`. Inside `__new__`, it adds a method `greet` to any class created by this metaclass. Therefore, when we create an instance of `MyClass` and call its `greet` method, the method added by the metaclass is used, resulting in ""Hello from MyClass""."
