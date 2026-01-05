@@ -33306,3 +33306,48 @@ D) None of the above.";"Part 2 (Answer):
 C) The output will be ""Hello from MyClass"".
 
 Explanation: When you create a class `MyClass` with `metaclass=MyMeta`, the metaclass `MyMeta` is invoked to create `MyClass`. Inside `__new__`, it adds a method `greet` to any class created by this metaclass. Therefore, when we create an instance of `MyClass` and call its `greet` method, the method added by the metaclass is used, resulting in ""Hello from MyClass""."
+"2026-01-05 00:02";"[QUESTION]
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def async_task():
+    print(""Task started"")
+    await asyncio.sleep(1)
+    print(""Task completed"")
+
+async def main():
+    task = async_task()
+    await task
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What is the output of running this script, and why does it work?
+
+A) Task started
+   Task completed
+   
+B) The script raises an exception because `async_task` is not a coroutine function.
+   
+C) An infinite loop occurs because `await asyncio.sleep(1)` creates a new task that never completes.
+
+D) Task started";"[ANSWER]
+A) Task started  
+Task completed  
+
+The output of the script is ""Task started"" followed by ""Task completed"". The `AsyncDecorator` class is used to wrap an asynchronous function (`async_task`) and ensure it runs within an asyncio event loop using `asyncio.run()`. When `main()` calls `await task`, it effectively runs the decorated `async_task` coroutine. The decorator uses `asyncio.run(self.func(*args, **kwargs))` to execute the coroutine and wait for its completion.
+
+Option B is incorrect because the decorator properly handles an asynchronous function by running it within a new event loop instance.
+Option C is incorrect because there is no infinite loop; the coroutine completes as expected after printing ""Task completed"".
+Option D is incomplete as it only prints ""Task started"" without waiting for the coroutine to complete."

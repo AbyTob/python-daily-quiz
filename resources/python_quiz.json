@@ -5325,5 +5325,12 @@
     "answer": "Part 2 (Answer):\nC) The output will be \"Hello from MyClass\".\n\nExplanation: When you create a class `MyClass` with `metaclass=MyMeta`, the metaclass `MyMeta` is invoked to create `MyClass`. Inside `__new__`, it adds a method `greet` to any class created by this metaclass. Therefore, when we create an instance of `MyClass` and call its `greet` method, the method added by the metaclass is used, resulting in \"Hello from MyClass\".",
     "timestamp": "2026-01-04 16:01:52",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q1_2026-01-05": {
+    "id": "1767571322_1",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n\n    def __call__(self, *args, **kwargs):\n        return asyncio.run(self.func(*args, **kwargs))\n\n@AsyncDecorator\nasync def async_task():\n    print(\"Task started\")\n    await asyncio.sleep(1)\n    print(\"Task completed\")\n\nasync def main():\n    task = async_task()\n    await task\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhat is the output of running this script, and why does it work?\n\nA) Task started\n   Task completed\n   \nB) The script raises an exception because `async_task` is not a coroutine function.\n   \nC) An infinite loop occurs because `await asyncio.sleep(1)` creates a new task that never completes.\n\nD) Task started",
+    "answer": "[ANSWER]\nA) Task started  \nTask completed  \n\nThe output of the script is \"Task started\" followed by \"Task completed\". The `AsyncDecorator` class is used to wrap an asynchronous function (`async_task`) and ensure it runs within an asyncio event loop using `asyncio.run()`. When `main()` calls `await task`, it effectively runs the decorated `async_task` coroutine. The decorator uses `asyncio.run(self.func(*args, **kwargs))` to execute the coroutine and wait for its completion.\n\nOption B is incorrect because the decorator properly handles an asynchronous function by running it within a new event loop instance.\nOption C is incorrect because there is no infinite loop; the coroutine completes as expected after printing \"Task completed\".\nOption D is incomplete as it only prints \"Task started\" without waiting for the coroutine to complete.",
+    "timestamp": "2026-01-05 00:02:02",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
