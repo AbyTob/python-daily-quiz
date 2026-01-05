@@ -33396,3 +33396,44 @@ Explanation:
 - The code defines a custom metaclass named `Meta` that dynamically adds an asynchronous method `my_async_method` to any class it is applied to.
 - This allows instances of classes using this metaclass (`MyClass`, in this case) to call `my_async_method()`, which will print ""Hello from MyClass!"" when awaited.
 - The use of `async def __new__` within the metaclass ensures that the asynchronous method is properly created and attached to the class."
+"2026-01-05 16:02";"Part 1 (Question):
+Consider the following Python code snippet that uses a decorator and a metaclass:
+
+```python
+# Define a simple decorator
+def add_prefix(func):
+    def wrapper(*args, **kwargs):
+        print(""Prefix"")
+        return func(*args, **kwargs)
+    return wrapper
+
+# Define a metaclass that applies the decorator to methods of a class
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name in dct:
+            if callable(dct[attr_name]):
+                dct[attr_name] = add_prefix(dct[attr_name])
+        return super().__new__(cls, name, bases, dct)
+
+# Create a class using the metaclass
+class MyClass(metaclass=Meta):
+    def method1(self):
+        print(""Method 1"")
+
+    def method2(self):
+        print(""Method 2"")
+```
+
+What will be printed to the console when an instance of `MyClass` calls its methods? Explain why this happens.
+
+A) Only ""Prefix"" will be printed, as the decorator applies to all methods.
+
+B) Both ""Prefix"" and ""Method X"" (where X is method1 or method2) will be printed for each method call.
+
+C) ""Method 1"" and ""Method 2"" will be printed without any prefix.
+
+D) An error will occur because decorators cannot be used with metaclasses in this way.";"Part 2 (Answer):
+B) Both ""Prefix"" and ""Method X"" (where X is method1 or method2) will be printed for each method call.
+
+Explanation:
+In the provided code, `Meta` is a metaclass that iterates through all attributes of any class it is applied to. If an attribute is callable (i.e., a method), the decorator `add_prefix` is applied to that method. When an instance of `MyClass` calls its methods, the decorated version of these methods is invoked, which first prints ""Prefix"" and then proceeds with the original method's logic. This results in both ""Prefix"" and the method name being printed each time a method is called."
