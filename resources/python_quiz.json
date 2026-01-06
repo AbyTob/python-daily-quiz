@@ -5346,5 +5346,12 @@
     "answer": "Part 2 (Answer):\nB) Both \"Prefix\" and \"Method X\" (where X is method1 or method2) will be printed for each method call.\n\nExplanation:\nIn the provided code, `Meta` is a metaclass that iterates through all attributes of any class it is applied to. If an attribute is callable (i.e., a method), the decorator `add_prefix` is applied to that method. When an instance of `MyClass` calls its methods, the decorated version of these methods is invoked, which first prints \"Prefix\" and then proceeds with the original method's logic. This results in both \"Prefix\" and the method name being printed each time a method is called.",
     "timestamp": "2026-01-05 16:02:22",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2026-01-06": {
+    "id": "1767657711_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code:\n\n```python\nimport asyncio\n\nclass AsyncTimer:\n    def __init__(self, interval):\n        self.interval = interval\n    \n    async def run(self):\n        while True:\n            await asyncio.sleep(self.interval)\n            print(f\"Timer triggered at {self.interval} seconds\")\n\nasync def main():\n    timer1 = AsyncTimer(2)\n    timer2 = AsyncTimer(3)\n\n    task1 = asyncio.create_task(timer1.run())\n    task2 = asyncio.create_task(timer2.run())\n\n    await asyncio.gather(task1, task2)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements is true about the given code?\n\nA) Both timers will run simultaneously without any interference.\n\nB) Timer1 will always trigger before Timer2 because it is created first.\n\nC) There will be a race condition between Timer1 and Timer2 as they try to access shared resources.\n\nD) The program will hang indefinitely because the tasks are not properly awaited.\n\n**Part 2 (Answer):**\n\nA) Both timers will run simultaneously without any interference.\n\nExplanation: In the given code, `asyncio.create_task` is used to schedule the coroutines for execution. This does not block the main thread, and both coroutines run concurrently. The output will show \"Timer triggered at 2 seconds\" followed by \"Timer triggered at 3 seconds\" repeatedly, indicating that they are running simultaneously without interference.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-01-06 00:01:51",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
