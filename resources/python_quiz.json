@@ -5353,5 +5353,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-06 00:01:51",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2026-01-06": {
+    "id": "1767686503_2",
+    "question": "[ANSWER_SEPARATOR]  \n**Question:**\n\nConsider the following code snippet that uses a metaclass to dynamically add methods to a class:\n\n```python\nclass AddMethodMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self, value: value * 2\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=AddMethodMeta):\n    pass\n\nobj = MyClass()\nprint(obj.dynamic_method(5))  # Output?\n```\n\nWhat is the output of `print(obj.dynamic_method(5))`?\n\nA) `10`  \nB) `25`  \nC) `None`  \nD) An error message  \n\n[ANSWER_SEPARATOR]  \n**Answer:**\n\nA) `10`\n\nExplanation:\nThe metaclass `AddMethodMeta` dynamically adds a method named `dynamic_method` to any class that uses it as a metaclass. When you create an instance of `MyClass`, the metaclass modifies its dictionary (`dct`) by adding a lambda function under the key `'dynamic_method'`. This lambda function takes one argument, `value`, and returns `value * 2`. Therefore, when you call `obj.dynamic_method(5)`, it correctly computes and prints `10`.\n\nThis question tests the understanding of metaclasses, specifically how they can be used to dynamically modify class behavior. It also requires knowledge of lambda functions and dictionary manipulation in Python.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-01-06 08:01:43",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
