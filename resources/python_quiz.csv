@@ -33515,3 +33515,50 @@ Explanation:
 The metaclass `AddMethodMeta` dynamically adds a method named `dynamic_method` to any class that uses it as a metaclass. When you create an instance of `MyClass`, the metaclass modifies its dictionary (`dct`) by adding a lambda function under the key `'dynamic_method'`. This lambda function takes one argument, `value`, and returns `value * 2`. Therefore, when you call `obj.dynamic_method(5)`, it correctly computes and prints `10`.
 
 This question tests the understanding of metaclasses, specifically how they can be used to dynamically modify class behavior. It also requires knowledge of lambda functions and dictionary manipulation in Python.";"Answer format error. Please check the generated content."
+"2026-01-06 16:02";"Part 1 (Question):  
+Consider the following Python code snippet that uses a decorator to wrap a function, and then defines a metaclass to control the creation of classes. The goal is to create a class `MyClass` that has its constructor automatically called when an instance is created.
+
+```python
+def call_constructor(cls):
+    # Decorator to call the __init__ method immediately
+    def wrapper(*args, **kwargs):
+        obj = cls(*args, **kwargs)
+        obj.__init__(*args, **kwargs)  # Redundant but illustrates the point
+        return obj
+    return wrapper
+
+class MyMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Metaclass to add an attribute to all classes it creates
+        dct['__my_attribute__'] = 'Hello, World!'
+        return super().__new__(cls, name, bases, dct)
+
+@call_constructor
+class MyClass(metaclass=MyMeta):
+    def __init__(self, value):
+        self.value = value
+
+# Usage:
+obj = MyClass(10)
+print(obj.__my_attribute__)
+```
+
+Which of the following statements is true regarding the execution and behavior of this code?
+
+A) When `MyClass(10)` is called, the constructor will be called twice due to the decorator.
+
+B) The metaclass adds an attribute `__my_attribute__` with value `'Hello, World!'` to all classes that use it.
+
+C) Since the constructor is decorated and called manually in the decorator, the value of `value` will not be accessible via instance attributes.
+
+D) Both A and B are true.";"Part 2 (Answer):  
+B) The metaclass adds an attribute `__my_attribute__` with value `'Hello, World!'` to all classes that use it.
+
+Explanation:  
+The decorator `call_constructor` is designed to immediately call the constructor of the class it decorates, but this redundancy does not affect the functionality. When a new instance of `MyClass` is created, the metaclass `MyMeta` is invoked first during class creation. The `__new__` method in `MyMeta` adds an attribute `__my_attribute__` to every class it creates, regardless of whether they are decorated with `call_constructor` or not. Thus, statement B is correct.
+
+Statement A is incorrect because the constructor is only called once when the instance is created, even though it is redundantly called in the decorator.
+
+Statement C is false because the value of `value` is accessible via the instance attribute due to the correct implementation of the `__init__` method within `MyClass`.
+
+Therefore, statement B is the correct answer as it accurately describes the behavior of both the decorator and the metaclass."
