@@ -33562,3 +33562,108 @@ Statement A is incorrect because the constructor is only called once when the in
 Statement C is false because the value of `value` is accessible via the instance attribute due to the correct implementation of the `__init__` method within `MyClass`.
 
 Therefore, statement B is the correct answer as it accurately describes the behavior of both the decorator and the metaclass."
+"2026-01-07 00:03";"[QUESTION]
+You are developing a framework for creating asynchronous pipelines. Each pipeline step is represented by an asynchronous function that takes the output of the previous step as input and produces an output. Your goal is to implement a `PipelineBuilder` class that can dynamically create these pipelines.
+
+Design a Python implementation using metaclasses to ensure that each pipeline step (async function) can be added to the pipeline in a fluent manner, and the final pipeline can be executed efficiently.
+
+Here is a starting point for the `PipelineBuilder` class:
+
+```python
+class PipelineStep:
+    def __call__(self, value):
+        raise NotImplementedError
+
+class PipelineBuilder(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        cls.steps = []
+
+    def add_step(cls, step):
+        if not issubclass(step, PipelineStep):
+            raise TypeError(""Step must be a subclass of PipelineStep"")
+        cls.steps.append(step)
+
+    @classmethod
+    async def execute(cls, input_value):
+        output = input_value
+        for step in cls.steps:
+            output = await step(output)
+        return output
+
+class MyPipeline(metaclass=PipelineBuilder):
+    pass
+
+@MyPipeline.add_step
+class AddOne(PipelineStep):
+    async def __call__(self, value):
+        return value + 1
+
+@MyPipeline.add_step
+class MultiplyByTwo(PipelineStep):
+    async def __call__(self, value):
+        return value * 2
+
+# Example usage
+async def main():
+    result = await MyPipeline.execute(3)
+    print(result)  # Output should be 8 (3 -> AddOne -> 4 -> MultiplyByTwo -> 8)
+
+import asyncio
+asyncio.run(main())
+```
+
+What issues exist with the current implementation, and how would you fix them to ensure that the pipeline steps are executed in a fluent manner and efficiently?
+
+A) The `PipelineBuilder` metaclass is not setting up the pipeline correctly.
+B) The pipeline execution should be done synchronously rather than asynchronously.
+C) The `MyPipeline` class should inherit from `object` instead of using `metaclass=PipelineBuilder`.
+D) None of the above.
+
+[ANSWER]
+A) The `PipelineBuilder` metaclass is not setting up the pipeline correctly.
+
+Explanation:
+The current implementation does not properly set up the pipeline steps when they are added. Instead of storing each step in a class attribute, it should store them as instance attributes on the instances of the `MyPipeline` class. This ensures that each pipeline can have its own state and execution order.
+
+Corrected code:
+
+```python
+class PipelineStep:
+    def __call__(self, value):
+        raise NotImplementedError
+
+class PipelineBuilder(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        cls.step_classes = []
+
+    @classmethod
+    def add_step(cls, step_class):
+        if not issubclass(step_class, PipelineStep):
+            raise TypeError(""Step must be a subclass of PipelineStep"")
+        cls.step_classes.append(step_class)
+
+    @classmethod
+    async def execute(cls, input_value):
+        pipeline_steps = [step() for step in cls.step_classes]
+        output = input_value
+        for step in pipeline_steps:
+            output = await step(output)
+        return output
+
+class MyPipeline(metaclass=PipelineBuilder):
+    pass
+
+@MyPipeline.add_step
+class AddOne(PipelineStep):
+    async def __call__(self, value):
+        return value + 1
+
+@MyPipeline.add_step
+class MultiplyByTwo(PipelineStep):
+    async def __call__(self, value):
+        return value * 2
+
+# Example usage remains the same
+```";"Answer format error. Please check the generated content."
