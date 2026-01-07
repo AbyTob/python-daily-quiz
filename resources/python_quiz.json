@@ -5381,5 +5381,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-07 08:01:51",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-01-07": {
+    "id": "1767801722_3",
+    "question": "[QUESTION] Consider the following Python code snippet that utilizes a decorator and a metaclass:\n\n```python\n# Define a metaclass that automatically adds a 'description' attribute\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['description'] = f\"This is a class named {name}\"\n        return super().__new__(cls, name, bases, dct)\n\n# Define a decorator to add an additional method to any class\ndef add_greet(cls):\n    def greet(self):\n        print(f\"Hello from {self.__class__.__name__}!\")\n    cls.greet = greet\n    return cls\n\n# Apply the metaclass and decorator to a simple class\n@add_greet\nclass Person(metaclass=Meta):\n    pass\n\n# Create an instance of the decorated class\nperson = Person()\nprint(person.description)\nperson.greet()\n\n```\n\nWhat will be printed when this code is executed?\n\nA) This is a class named Person  \n   Hello from Person!  \n\nB) This is a class named Meta  \n   Hello from Person!  \n\nC) AttributeError: 'Person' object has no attribute 'greet'\n\nD) TypeError: Cannot instantiate abstract class Person with abstract method greet",
+    "answer": "[A] This is a class named Person  \nHello from Person!\n\n**Explanation:** When the `Person` class is defined, it is first passed to the metaclass `Meta`, which adds a `description` attribute. Then, it is decorated by the `add_greet` decorator, which adds a `greet` method to the class. Therefore, when an instance of `Person` is created and its attributes are accessed, the output will be \"This is a class named Person\" followed by \"Hello from Person!\".",
+    "timestamp": "2026-01-07 16:02:02",
+    "topic": "Object-Oriented Programming"
   }
 }

@@ -33721,3 +33721,45 @@ Error: Non-async function decorated with async decorator
 ```
 
 **Explanation:** The correct answer is A. Decorators in Python, when used on asynchronous functions (coroutines), are called before the `await` keyword triggers the execution of the coroutine itself. This means that ""Pre-execution"" will be printed immediately after the decorator is applied to the coroutine, then ""Coroutine execution"" will occur as part of the coroutine's task, and finally ""Post-execution"" will run after the coroutine completes its execution.";"Answer format error. Please check the generated content."
+"2026-01-07 16:02";"[QUESTION] Consider the following Python code snippet that utilizes a decorator and a metaclass:
+
+```python
+# Define a metaclass that automatically adds a 'description' attribute
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['description'] = f""This is a class named {name}""
+        return super().__new__(cls, name, bases, dct)
+
+# Define a decorator to add an additional method to any class
+def add_greet(cls):
+    def greet(self):
+        print(f""Hello from {self.__class__.__name__}!"")
+    cls.greet = greet
+    return cls
+
+# Apply the metaclass and decorator to a simple class
+@add_greet
+class Person(metaclass=Meta):
+    pass
+
+# Create an instance of the decorated class
+person = Person()
+print(person.description)
+person.greet()
+
+```
+
+What will be printed when this code is executed?
+
+A) This is a class named Person  
+   Hello from Person!  
+
+B) This is a class named Meta  
+   Hello from Person!  
+
+C) AttributeError: 'Person' object has no attribute 'greet'
+
+D) TypeError: Cannot instantiate abstract class Person with abstract method greet";"[A] This is a class named Person  
+Hello from Person!
+
+**Explanation:** When the `Person` class is defined, it is first passed to the metaclass `Meta`, which adds a `description` attribute. Then, it is decorated by the `add_greet` decorator, which adds a `greet` method to the class. Therefore, when an instance of `Person` is created and its attributes are accessed, the output will be ""This is a class named Person"" followed by ""Hello from Person!""."
