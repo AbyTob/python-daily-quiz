@@ -5374,5 +5374,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-07 00:03:31",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-01-07": {
+    "id": "1767772911_2",
+    "question": "**Part 1 (Question):**\nConsider the following Python code:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n\n    async def __call__(self, *args, **kwargs):\n        print(\"Pre-execution\")\n        result = await self.func(*args, **kwargs)\n        print(\"Post-execution\")\n        return result\n\n@AsyncDecorator\nasync def my_coroutine():\n    print(\"Coroutine execution\")\n\nasync def main():\n    await my_coroutine()\n\n# Run the event loop to execute the coroutine\nasyncio.run(main())\n```\n\nWhat is the output when you run this code? Explain how decorators interact with asynchronous functions.\n\n**Part 2 (Answer):**\nA) \n```plaintext\nPre-execution\nCoroutine execution\nPost-execution\n```\nB) \n```plaintext\nCoroutine execution\nPre-execution\nPost-execution\n```\nC) \n```plaintext\nPre-execution\nPost-execution\nCoroutine execution\n```\nD) \n```plaintext\nError: Non-async function decorated with async decorator\n```\n\n**Explanation:** The correct answer is A. Decorators in Python, when used on asynchronous functions (coroutines), are called before the `await` keyword triggers the execution of the coroutine itself. This means that \"Pre-execution\" will be printed immediately after the decorator is applied to the coroutine, then \"Coroutine execution\" will occur as part of the coroutine's task, and finally \"Post-execution\" will run after the coroutine completes its execution.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-01-07 08:01:51",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
