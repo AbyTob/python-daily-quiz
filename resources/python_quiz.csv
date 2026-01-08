@@ -33763,3 +33763,65 @@ D) TypeError: Cannot instantiate abstract class Person with abstract method gree
 Hello from Person!
 
 **Explanation:** When the `Person` class is defined, it is first passed to the metaclass `Meta`, which adds a `description` attribute. Then, it is decorated by the `add_greet` decorator, which adds a `greet` method to the class. Therefore, when an instance of `Person` is created and its attributes are accessed, the output will be ""This is a class named Person"" followed by ""Hello from Person!""."
+"2026-01-08 00:02";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self.running = False
+
+    async def start(self):
+        while self.running:
+            print(f""Timer ticked at {time.ctime()}"")
+            await asyncio.sleep(self.interval)
+
+async def main():
+    timer = AsyncTimer(2)
+    timer.running = True
+    try:
+        await asyncio.gather(timer.start(), asyncio.sleep(10))
+    finally:
+        timer.running = False
+
+asyncio.run(main())
+```
+
+The code aims to create a simple asynchronous timer that prints the current time every interval seconds. However, there is an issue with this implementation. Identify and explain what problem exists in the code and propose a solution.
+
+A) The `start` method does not await for its own execution, causing it to run indefinitely.
+B) The use of `asyncio.sleep` blocks the event loop, preventing other tasks from running.
+C) The `timer.running` flag is not thread-safe; concurrent access can lead to race conditions.
+D) The `time.ctime()` function is blocking and should be replaced with an asynchronous alternative.";"A) Correct. The issue in the code is that the `start` method does not await for its own execution, which causes it to run indefinitely without yielding control back to the event loop. This blocks other coroutines from running, leading to a deadlock situation where nothing happens after the initial print statement.
+
+**Explanation:**
+To fix this, the `start` method should be made into an infinite generator that yields at each interval and then resumes execution. Here is the corrected code:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self.running = False
+
+    async def start(self):
+        while self.running:
+            print(f""Timer ticked at {time.ctime()}"")
+            await asyncio.sleep(self.interval)
+
+async def main():
+    timer = AsyncTimer(2)
+    timer.running = True
+    try:
+        await asyncio.gather(timer.start(), asyncio.sleep(10))
+    finally:
+        timer.running = False
+
+asyncio.run(main())
+```
+
+This change ensures that the `start` method properly yields control back to the event loop, allowing other coroutines to run."
