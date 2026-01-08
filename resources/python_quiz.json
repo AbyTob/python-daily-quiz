@@ -5402,5 +5402,12 @@
     "answer": "A) The `task` function will run concurrently, but not necessarily in parallel.\n\nExplanation:\nThe given code demonstrates the use of asynchronous functions and the `asyncio` library to manage concurrency. The `asyncio.create_task` function schedules a coroutine object to run soon, which means that tasks are scheduled for concurrent execution within an event loop. However, whether they run truly concurrently or only appear to do so depends on the underlying operating system's thread management capabilities. In many cases, due to Python’s Global Interpreter Lock (GIL), true parallel execution of CPU-bound tasks is not possible. Therefore, while tasks will run concurrently (i.e., they won't block each other waiting for I/O operations), they may not run in full parallel. Option A accurately reflects this behavior.\n\nOption B is incorrect because `asyncio` manages its own event loop and does not explicitly use threads by default.\nOption C is also incorrect; `asyncio.gather` collects results from all tasks as they complete, but it does not guarantee sequential execution.\nOption D is incorrect since the program will indeed block until all tasks are completed.",
     "timestamp": "2026-01-08 08:02:05",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-01-08": {
+    "id": "1767888092_3",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to add a class method to all classes dynamically:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['add_method'] = lambda self, value: setattr(self, 'extra_attr', value)\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\n```\n\nWhat happens when you run `obj.add_method('test')`?\n\nA) An AttributeError is raised because 'add_method' is not a class method  \nB) The method 'add_method' is added to the object 'obj', but it cannot be called on other instances of MyClass  \nC) The method 'add_method' is added as a class method to all instances of MyClass, and you can call `MyClass.add_method()`  \nD) A TypeError is raised because metaclasses cannot add methods to classes",
+    "answer": "A) An AttributeError is raised because 'add_method' is not a class method",
+    "timestamp": "2026-01-08 16:01:32",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
