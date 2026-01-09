@@ -5409,5 +5409,12 @@
     "answer": "A) An AttributeError is raised because 'add_method' is not a class method",
     "timestamp": "2026-01-08 16:01:32",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2026-01-09": {
+    "id": "1767916938_1",
+    "question": "**Part 1: Question**\n\nConsider the following Python code:\n\n```python\nfrom functools import wraps\n\ndef log_calls(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args={args}, kwargs={kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name, attr_value in dct.items():\n            if callable(attr_value) and not attr_name.startswith(\"__\"):\n                dct[attr_name] = log_calls(attr_value)\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    def method1(self, a, b):\n        return a + b\n\n    def method2(self, x):\n        return x * 2\n```\n\nWhat will be the output of the following code:\n\n```python\nobj = MyClass()\nresult = obj.method1(3, 4)\nprint(result)\n```\n\nA) `Calling method1 with args=(3, 4), kwargs={}; 7`\n\nB) `Calling method2 with args=(3,), kwargs={}; 6`\n\nC) `Calling method1 with args=(3, 4), kwargs={}; Calling method2 with args=(6,), kwargs={}; 12`\n\nD) `Error: 'MyClass' object has no attribute 'method2'`",
+    "answer": "**Part 2: Answer**\n\nA) `Calling method1 with args=(3, 4), kwargs={}; 7`\n\n**Explanation:** The metaclass `Meta` decorates all callable methods of the class `MyClass` using the `log_calls` decorator. When an instance of `MyClass` is created and a method is called, the `wrapper` function logs the call details before executing the original method. In this case, calling `obj.method1(3, 4)` will log the call parameters and then return the result of `method1(3, 4)`, which is `7`.",
+    "timestamp": "2026-01-09 00:02:18",
+    "topic": "Functional Programming Utilities"
   }
 }
