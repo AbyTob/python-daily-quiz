@@ -33928,3 +33928,61 @@ D) `Error: 'MyClass' object has no attribute 'method2'`";"**Part 2: Answer**
 A) `Calling method1 with args=(3, 4), kwargs={}; 7`
 
 **Explanation:** The metaclass `Meta` decorates all callable methods of the class `MyClass` using the `log_calls` decorator. When an instance of `MyClass` is created and a method is called, the `wrapper` function logs the call details before executing the original method. In this case, calling `obj.method1(3, 4)` will log the call parameters and then return the result of `method1(3, 4)`, which is `7`."
+"2026-01-09 08:02";"";"**Part 1 (Question):**
+Consider the following Python code snippet that attempts to create a simple caching mechanism using decorators. The goal is to cache the results of functions for a specified time.
+
+```python
+import functools
+import time
+
+class Cache:
+    def __init__(self, timeout=60):
+        self.cache = {}
+        self.timeout = timeout
+
+    def __call__(self, func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            key = (func.__name__, args, tuple(kwargs.items()))
+            if key in self.cache and time.time() - self.cache[key]['timestamp'] < self.timeout:
+                print(""Cache hit"")
+                return self.cache[key]['value']
+            else:
+                print(""Cache miss"")
+                value = func(*args, **kwargs)
+                self.cache[key] = {'value': value, 'timestamp': time.time()}
+                return value
+        return wrapper
+
+@Cache(timeout=10)
+def fetch_data():
+    print(""Fetching data from the network..."")
+    time.sleep(2)  # Simulate a network delay
+    return ""Data""
+
+if __name__ == ""__main__"":
+    result = fetch_data()
+    print(result)
+    time.sleep(5)
+    result = fetch_data()  # This should hit the cache
+    print(result)
+```
+
+Which of the following statements about the given code is true?
+
+A) The `Cache` class can be used as a decorator to memoize functions.
+B) The `timeout` parameter controls how long a cached value remains valid.
+C) If the cache misses, it always fetches data from the network, regardless of whether the function parameters have changed.
+D) The `wrapper` function within the `Cache` class uses `functools.wraps` to preserve the original function's metadata.
+
+**Part 2 (Answer):**
+D) The `wrapper` function within the `Cache` class uses `functools.wraps` to preserve the original function's metadata.
+
+Explanation:
+- **Option A**: While the `Cache` class can be used as a decorator, it doesn't explicitly state that it memoizes functions. It only caches results based on arguments and whether they fall within the timeout period.
+  
+- **Option B**: The `timeout` parameter does control how long a cached value remains valid. However, the code also checks if the function parameters have changed since the last call.
+
+- **Option C**: If the cache misses, it checks if the function parameters have changed before fetching data from the network. Only if both conditions are met will it fetch new data.
+
+- **Option D**: The `wrapper` function does use `functools.wraps(func)` to preserve metadata such as the original function's name and docstring, which is crucial for debugging and introspection purposes."
