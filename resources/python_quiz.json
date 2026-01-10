@@ -5437,5 +5437,12 @@
     "answer": "B) The `log_function_calls` decorator will log the arguments and results of the `add` method when called on an instance of `LoggedClass`.\n\nThe `@wraps(func)` decorator from the `functools` module ensures that the metadata of the original function (`func`) is preserved in the wrapper function. This means that when you call `logged_instance.add(5)`, it will correctly log the arguments (`args: (5,)` and `kwargs: {}`), the method name (`add`), and the result returned by the method (`15`).",
     "timestamp": "2026-01-10 00:02:08",
     "topic": "Functional Programming Utilities"
+  },
+  "q2_2026-01-10": {
+    "id": "1768032119_2",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport time\n\ndef timing_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"{func.__name__} took {end_time - start_time:.4f} seconds\")\n        return result\n    return wrapper\n\n@timing_decorator\ndef compute_squares(n):\n    return [i * i for i in range(n)]\n\nasync def async_compute_squares(n):\n    return [i * i for i in range(n)]\n```\n\nWhich of the following statements is true about the provided code?\n\nA) `compute_squares` and `async_compute_squares` are equivalent in terms of functionality.\n\nB) The `timing_decorator` can be applied to both synchronous and asynchronous functions without any changes.\n\nC) Calling `compute_squares(1000000)` will execute synchronously and print the time taken.\n\nD) Using `asyncio.run(async_compute_squares(1000000))` will execute asynchronously and print the time taken.",
+    "answer": "C) Calling `compute_squares(1000000)` will execute synchronously and print the time taken.\n\nExplanation: The `compute_squares` function is a synchronous function, and when decorated with `@timing_decorator`, it measures and prints the execution time. However, the `async_compute_squares` function is an asynchronous function designed to run within an asyncio event loop. Calling it directly without using an async context (like `asyncio.run()`) will not execute it asynchronously; instead, it will block until completion, similar to a synchronous call, which could lead to performance issues if called frequently in a non-async context.",
+    "timestamp": "2026-01-10 08:01:59",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
