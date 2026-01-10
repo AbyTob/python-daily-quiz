@@ -34046,3 +34046,42 @@ Explanation:
 - When an instance of `MyClass` is created, the `__new__` method of `Meta` is called, setting up the `log_info` method.
 - When `method1()` and `method2()` are called on an instance of `MyClass`, the logs added by `@log_method_calls` are printed first, followed by the actual method call output.
 - Finally, calling `obj.log_info()` results in the string ""MyClass instance created"" being printed, demonstrating how the metaclass method is accessible through instances of `MyClass`."
+"2026-01-10 00:02";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+from functools import wraps
+
+def log_function_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned: {result}"")
+        return result
+    return wrapper
+
+class LoggedClass:
+    def __init__(self, value):
+        self.value = value
+
+    @log_function_calls
+    def add(self, other):
+        return self.value + other
+
+# Usage
+logged_instance = LoggedClass(10)
+result = logged_instance.add(5)
+```
+
+Which of the following statements is true regarding the behavior of this code?
+
+A) The `add` method of `LoggedClass` will print a call and return statement but not capture the arguments or results.
+
+B) The `log_function_calls` decorator will log the arguments and results of the `add` method when called on an instance of `LoggedClass`.
+
+C) When calling `logged_instance.add(5)`, no logs will be printed because the `wrapper` function does not handle the method call correctly.
+
+D) The `@wraps(func)` decorator is unnecessary for this code to work as intended.";"B) The `log_function_calls` decorator will log the arguments and results of the `add` method when called on an instance of `LoggedClass`.
+
+The `@wraps(func)` decorator from the `functools` module ensures that the metadata of the original function (`func`) is preserved in the wrapper function. This means that when you call `logged_instance.add(5)`, it will correctly log the arguments (`args: (5,)` and `kwargs: {}`), the method name (`add`), and the result returned by the method (`15`)."
