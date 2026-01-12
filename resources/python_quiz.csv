@@ -34317,3 +34317,56 @@ Explanation:
 - Similarly, calling `static_method2` directly on the class (as it's a static method) also triggers the decorator before executing the method body, resulting in ""Decorator called"" before ""Static Method 2 called"".
 
 This example demonstrates how decorators and metaclasses can be used together to modify behavior at both the attribute level (through metaclass action) and the callable function level (through direct application of decorators)."
+"2026-01-12 00:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def async_task():
+    print(""Task started"")
+    await asyncio.sleep(1)
+    print(""Task completed"")
+
+def main():
+    result = async_task()
+    print(f""Result: {result}"")
+
+if __name__ == ""__main__"":
+    main()
+```
+
+What will be the output of this script when run? Explain your reasoning.
+
+A) Task started  
+B) Task completed  
+C) Result: None  
+D) Task started  
+   Result: Task completed
+
+**Part 2 (Answer):**
+
+**Correct answer: D)
+
+Explanation:** The correct output of the script is:
+
+```
+Task started
+Result: Task completed
+```
+
+This result is achieved as follows:
+- The `AsyncDecorator` class is defined to take a function and make it asynchronous by wrapping its call with `asyncio.run()`.
+- The `async_task` function is decorated with `@AsyncDecorator`, which means that when `async_task()` is called, it will execute asynchronously using `asyncio.run()`.
+- Inside the `main` function, `async_task()` is invoked. Since `async_task` has been decorated with `@AsyncDecorator`, `asyncio.run(async_task())` is executed.
+- The `async_task` coroutine prints ""Task started"", waits for 1 second with `await asyncio.sleep(1)`, and then prints ""Task completed"".
+- As a result, the script outputs both messages in order, followed by ""Result: Task completed""."
