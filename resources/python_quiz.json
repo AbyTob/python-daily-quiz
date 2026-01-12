@@ -5486,5 +5486,12 @@
     "answer": "Answer: A) 6  \n\nExplanation:\nThe metaclass `AddOneMeta` is used to add a method `add_one` to any class it decorates. In this case, the class `MyClass` is decorated with `AddOneMeta`, and thus gets an `add_one` method added dynamically during its creation. When `obj = MyClass(5)` is executed, `MyClass` becomes an instance of `MyClass` with a value of 5. Calling `print(obj.add_one())` invokes the dynamically added `add_one` method, which returns `self.value + 1`, resulting in 6 being printed to the console. This demonstrates how metaclasses can be used to extend or modify classes at the time they are defined.",
     "timestamp": "2026-01-12 08:01:53",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q3_2026-01-12": {
+    "id": "1768233729_3",
+    "question": "[QUESTION]  \nConsider the following Python code:\n\n```python\nfrom functools import wraps\n\ndef log_calls(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_calls\ndef add(a, b):\n    return a + b\n\nclass Meta(type):\n    @classmethod\n    def __new__(cls, name, bases, dct):\n        for attr_name, attr in dct.items():\n            if callable(attr) and not attr.__name__.startswith(\"__\"):\n                dct[attr_name] = log_calls(attr)\n        return super().__new__(cls, name, bases, dct)\n\nclass Calculator(metaclass=Meta):\n    def add(self, a, b):\n        return a + b\n\n# Usage\ncalc = Calculator()\nresult = calc.add(3, 4)\n```\n\nWhat will be the output of `print(result)` after running this code?\n\nA) 7  \nB) Calling add with args: (3,), kwargs: {}  \nC) Calling log_calls with args: (<bound method Calculator.add of <__main__.Calculator object at 0x...>>, 3, 4), kwargs: {}  \nD) An error",
+    "answer": "A) 7  \n\nExplanation: The code defines a decorator `log_calls` that logs the calls to any callable. It also defines a metaclass `Meta` that applies the `log_calls` decorator to all non-magic methods of classes it creates. When creating an instance of `Calculator`, the `add` method is automatically wrapped with `log_calls`. However, when calling `calc.add(3, 4)`, only the original `add` function is called without logging because the metaclass does not apply its behavior to already defined methods. Therefore, the output will be the result of `3 + 4`, which is 7.",
+    "timestamp": "2026-01-12 16:02:09",
+    "topic": "Class Methods and Static Methods"
   }
 }

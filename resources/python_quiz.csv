@@ -34396,3 +34396,45 @@ D) SyntaxError: invalid syntax";"Answer: A) 6
 
 Explanation:
 The metaclass `AddOneMeta` is used to add a method `add_one` to any class it decorates. In this case, the class `MyClass` is decorated with `AddOneMeta`, and thus gets an `add_one` method added dynamically during its creation. When `obj = MyClass(5)` is executed, `MyClass` becomes an instance of `MyClass` with a value of 5. Calling `print(obj.add_one())` invokes the dynamically added `add_one` method, which returns `self.value + 1`, resulting in 6 being printed to the console. This demonstrates how metaclasses can be used to extend or modify classes at the time they are defined."
+"2026-01-12 16:02";"[QUESTION]  
+Consider the following Python code:
+
+```python
+from functools import wraps
+
+def log_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_calls
+def add(a, b):
+    return a + b
+
+class Meta(type):
+    @classmethod
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr in dct.items():
+            if callable(attr) and not attr.__name__.startswith(""__""):
+                dct[attr_name] = log_calls(attr)
+        return super().__new__(cls, name, bases, dct)
+
+class Calculator(metaclass=Meta):
+    def add(self, a, b):
+        return a + b
+
+# Usage
+calc = Calculator()
+result = calc.add(3, 4)
+```
+
+What will be the output of `print(result)` after running this code?
+
+A) 7  
+B) Calling add with args: (3,), kwargs: {}  
+C) Calling log_calls with args: (<bound method Calculator.add of <__main__.Calculator object at 0x...>>, 3, 4), kwargs: {}  
+D) An error";"A) 7  
+
+Explanation: The code defines a decorator `log_calls` that logs the calls to any callable. It also defines a metaclass `Meta` that applies the `log_calls` decorator to all non-magic methods of classes it creates. When creating an instance of `Calculator`, the `add` method is automatically wrapped with `log_calls`. However, when calling `calc.add(3, 4)`, only the original `add` function is called without logging because the metaclass does not apply its behavior to already defined methods. Therefore, the output will be the result of `3 + 4`, which is 7."
