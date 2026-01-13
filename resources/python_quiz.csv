@@ -34518,3 +34518,44 @@ C) Only `singleton1` will have a value of 10, and `singleton2` will be None.
 D) The code will raise an error because a singleton cannot be instantiated with different values.";"A) Both `singleton1` and `singleton2` will have a value of 10.
 
 **Explanation:** In the given implementation of the Singleton pattern using a metaclass, all instances are stored in `_instances`. When an instance is created for the first time (e.g., `Singleton(10)`), it gets added to `_instances`. If another instance is created later (e.g., `Singleton(20)`), instead of creating a new instance, it returns the already existing instance from `_instances`. Therefore, both `singleton1` and `singleton2` refer to the same object, which has the value set during its first instantiation (`10`). Thus, both print statements output `10`."
+"2026-01-13 16:02";"[QUESTION]  
+Imagine you are developing a system where you need to ensure that certain resources, such as file handles or network connections, are always properly closed after use. You decide to implement this using Python's context management protocol. However, the requirement is that these resources should also be thread-safe.
+
+Design a class that implements the `__enter__` and `__exit__` methods to manage a file handle safely within a thread-safe context manager. Additionally, ensure that your class can handle exceptions gracefully without affecting the file handle's state.
+
+Here is a partial implementation of such a class:
+
+```python
+import threading
+
+class SafeFileHandler:
+    def __init__(self, filename):
+        self.filename = filename
+        self.file_handle = None
+        self.lock = threading.Lock()
+
+    def __enter__(self):
+        with self.lock:
+            if self.file_handle is None:
+                self.file_handle = open(self.filename, 'w')
+            return self.file_handle
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        with self.lock:
+            if self.file_handle:
+                self.file_handle.close()
+                self.file_handle = None
+```
+
+Which of the following modifications would ensure that this context manager is completely thread-safe?
+
+A) Ensure that the `__enter__` and `__exit__` methods are decorated with `@synchronized`.
+
+B) Use a threading condition variable to replace the lock.
+
+C) Implement the `__aenter__` and `__aexit__` methods for asynchronous operations.
+
+D) Use a separate lock object for each instance of `SafeFileHandler`.";"A) Ensure that the `__enter__` and `__exit__` methods are decorated with `@synchronized`.
+
+Explanation: 
+The use of a lock ensures thread safety by preventing multiple threads from accessing the file handle simultaneously. However, if additional synchronization mechanisms are needed, such as blocking other threads until the current operation completes, using a condition variable (`threading.Condition`) or separate lock objects per instance might be more appropriate. The option to implement asynchronous methods (`__aenter__` and `__aexit__`) is not relevant for this question since it only focuses on thread safety in a synchronous context manager."
