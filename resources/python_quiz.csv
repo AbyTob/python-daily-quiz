@@ -34592,3 +34592,49 @@ Explanation:
 - The statement B is incorrect because while the tasks are started concurrently, their individual completion times depend on the sleep duration.
 - Statement C is incorrect as `asyncio.gather` only waits for all tasks to complete and does not propagate exceptions from any of them unless explicitly handled.
 - Statement D is incorrect because each worker will finish after sleeping for 1 second, not immediately."
+"2026-01-14 08:02";"[QUESTION]
+Consider the following Python code that uses both decorators and metaclasses. The goal is to create a class decorator that logs every method call made on an instance of any class it decorates. Additionally, a metaclass is used to ensure that only classes decorated by this specific decorator can be instantiated.
+
+```python
+import functools
+
+def log_methods(cls):
+    for attr_name, attr in cls.__dict__.items():
+        if callable(attr):
+            setattr(cls, attr_name, functools.wraps(attr)(lambda self, *args, **kwargs: print(f""Calling {attr_name} with args {args} and kwargs {kwargs};"") or attr(self, *args, **kwargs)))
+    return cls
+
+class Meta(type):
+    def __new__(mcls, name, bases, dct):
+        if not 'log_methods' in dct:
+            raise TypeError(""Class must be decorated with @log_methods"")
+        return super().__new__(mcls, name, bases, dct)
+
+@log_methods
+class MyClass(metaclass=Meta):
+    def method1(self, x, y):
+        return x + y
+
+    def method2(self, z):
+        return z * 2
+```
+
+What is the output when `MyClass().method1(3, 4)` and `MyClass().method2(5)` are called in sequence?
+
+A) Calling method1 with args (3, 4) and kwargs {}; 7
+   Calling method2 with args (5,) and kwargs {}: 10
+
+B) Calling method1 with args (3, 4); 7
+   Calling method2 with args (5,); 10
+
+C) TypeError: __new__() missing 1 required positional argument: 'dct'
+
+D) 7
+   10";"A) Calling method1 with args (3, 4) and kwargs {}: 7
+   Calling method2 with args (5,) and kwargs {}: 10
+
+Explanation:
+- The `log_methods` decorator iterates over all attributes of the class it decorates. If an attribute is callable (i.e., a method), it wraps that method using `functools.wraps(attr)` to preserve the original method's identity, and then logs the call before calling the method itself.
+- The `Meta` metaclass checks if the class being created has been decorated with `@log_methods`. If not, it raises a `TypeError`.
+- When `MyClass().method1(3, 4)` is called, the output should be ""Calling method1 with args (3, 4) and kwargs {}: 7"" followed by the result of `method1`, which is 7.
+- Similarly, when `MyClass().method2(5)` is called, the output should be ""Calling method2 with args (5,) and kwargs {}: 10"" followed by the result of `method2`, which is 10."
