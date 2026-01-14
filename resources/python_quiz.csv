@@ -34559,3 +34559,36 @@ D) Use a separate lock object for each instance of `SafeFileHandler`.";"A) Ensur
 
 Explanation: 
 The use of a lock ensures thread safety by preventing multiple threads from accessing the file handle simultaneously. However, if additional synchronization mechanisms are needed, such as blocking other threads until the current operation completes, using a condition variable (`threading.Condition`) or separate lock objects per instance might be more appropriate. The option to implement asynchronous methods (`__aenter__` and `__aexit__`) is not relevant for this question since it only focuses on thread safety in a synchronous context manager."
+"2026-01-14 00:02";"[QUESTION]  
+Consider the following code snippet:
+
+```python
+import asyncio
+
+async def worker(n):
+    print(f""Worker {n} started"")
+    await asyncio.sleep(1)
+    print(f""Worker {n} finished"")
+
+async def main():
+    tasks = [worker(i) for i in range(5)]
+    await asyncio.gather(*tasks)
+
+# Run the main function
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+Which of the following statements about this code is true?
+
+A) The workers will run concurrently, and their order of execution cannot be determined.  
+B) The workers will execute one by one in the order they are created.  
+C) The `asyncio.gather` function will raise an exception if any worker fails.  
+D) The workers will print ""Worker X finished"" immediately after starting.";"A) The workers will run concurrently, and their order of execution cannot be determined.
+
+Explanation: 
+- In the provided code, multiple tasks are created and passed to `asyncio.gather`. This function schedules all the given coroutines concurrently.
+- Since the execution time for each task is not specified (it depends on the time it takes to complete an iteration of `await asyncio.sleep(1)`), there is no guarantee that they will complete in any particular order. 
+- The statement B is incorrect because while the tasks are started concurrently, their individual completion times depend on the sleep duration.
+- Statement C is incorrect as `asyncio.gather` only waits for all tasks to complete and does not propagate exceptions from any of them unless explicitly handled.
+- Statement D is incorrect because each worker will finish after sleeping for 1 second, not immediately."
