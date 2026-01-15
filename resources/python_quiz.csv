@@ -34768,3 +34768,62 @@ A) Something is happening before the function is called.
    Something is happening after the function is called.
 
 **Explanation:** The code defines a decorator `my_decorator` that adds pre and post-function call messages. It also defines a metaclass `Meta` that checks if any class using it defines a method named `my_method`. The class `MyClass` uses both the decorator and metaclass, and implements the required method. When an instance of `MyClass` is created and `my_method` is called, all messages are printed as expected."
+"2026-01-15 16:02";"";"**Part 1 (Question):**  
+Consider the following Python code snippet that uses a metaclass to automatically add a method to any class it decorates. The goal is to create a decorator `@add_method` that adds a method `greet()` to any decorated class, which prints ""Hello, World!"" when called.
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['greet'] = lambda self: print(""Hello, World!"")
+        return super().__new__(cls, name, bases, dct)
+
+def add_method(cls):
+    # TODO: Implement this decorator using the above metaclass
+    pass
+
+@add_method
+class MyClass:
+    pass
+```
+
+Which of the following options correctly implements the `@add_method` decorator?
+
+A)  
+```python
+def add_method(cls):
+    cls.__metaclass__ = Meta
+    return cls
+```
+
+B)  
+```python
+def add_method(cls):
+    meta = type(cls)
+    bases = (Meta,) + cls.__bases__
+    dct = dict(cls.__dict__)
+    return type(cls.__name__, bases, dct)
+```
+
+C)  
+```python
+def add_method(cls):
+    metaclass = Meta()
+    new_class = metaclass('new_' + cls.__name__, (), {})
+    for name in dir(cls):
+        setattr(new_class, name, getattr(cls, name))
+    return new_class
+```
+
+D)  
+```python
+def add_method(cls):
+    meta = type(cls)
+    bases = (Meta,) + cls.__bases__
+    dct = dict(cls.__dict__)
+    del dct['__module__']
+    return type(cls.__name__, bases, dct)
+```
+
+**Part 2 (Answer):**  
+C)  
+The correct answer is option C. This implementation of the `@add_method` decorator uses the provided metaclass to dynamically add a `greet()` method to any class it decorates. It creates a new class with the original class's attributes and methods, then adds the `greet()` method using the metaclass."
