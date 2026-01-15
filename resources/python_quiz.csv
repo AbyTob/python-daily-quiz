@@ -34672,3 +34672,50 @@ C. The `__call__` method in `SingletonMeta` is called whenever `MySingleton()` i
 D. Memory usage increases with each instantiation of `MySingleton` because a new instance is created each time.";"B. The metaclass `SingletonMeta` ensures that only one instance of `MySingleton` can exist at any given time.
 
 Explanation: In this code, the `SingletonMeta` metaclass overrides the `__call__` method to control how instances of `MySingleton` are created. When an instance of `MySingleton` is requested (e.g., by calling `MySingleton()`), the `__call__` method checks if an instance already exists in `_instances`. If it does, the existing instance is returned; otherwise, a new instance is created and stored in `_instances`. This ensures that all references to `MySingleton` point to the same object, thus maintaining a singleton pattern."
+"2026-01-15 00:02";"[QUESTION]
+Consider the following Python code:
+
+```python
+import threading
+
+def thread_safe(func):
+    lock = threading.Lock()
+    def wrapper(*args, **kwargs):
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+@thread_safe
+class Counter:
+    def __init__(self):
+        self.value = 0
+    
+    def increment(self):
+        self.value += 1
+        print(f""Current value: {self.value}"")
+
+def thread_task(counter, num_iterations):
+    for _ in range(num_iterations):
+        counter.increment()
+
+if __name__ == ""__main__"":
+    counter = Counter()
+    threads = [threading.Thread(target=thread_task, args=(counter, 1000)) for _ in range(10)]
+    
+    for thread in threads:
+        thread.start()
+    
+    for thread in threads:
+        thread.join()
+
+    print(f""Final value: {counter.value}"")
+```
+
+What is the expected output of this code? 
+
+A) Final value: 10000  
+B) Final value: 1000 (or any number less than 10000, depending on the order of execution)  
+C) An error related to thread safety  
+D) The program hangs indefinitely";"C) An error related to thread safety
+
+Explanation: The `thread_safe` decorator is applied to the `Counter` class. This decorator wraps any method within the class with a lock, ensuring that only one thread can execute the method at a time. However, in this case, the decorator is applied to the class itself instead of its methods. As a result, when a new instance of `Counter` is created, each method call on an instance does not have the lock applied, leading to a race condition. The final value printed will be less than 10000 and will depend on the order of execution, but it will certainly not be 10000 due to concurrent access without proper synchronization."
