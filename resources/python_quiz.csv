@@ -34719,3 +34719,52 @@ C) An error related to thread safety
 D) The program hangs indefinitely";"C) An error related to thread safety
 
 Explanation: The `thread_safe` decorator is applied to the `Counter` class. This decorator wraps any method within the class with a lock, ensuring that only one thread can execute the method at a time. However, in this case, the decorator is applied to the class itself instead of its methods. As a result, when a new instance of `Counter` is created, each method call on an instance does not have the lock applied, leading to a race condition. The final value printed will be less than 10000 and will depend on the order of execution, but it will certainly not be 10000 due to concurrent access without proper synchronization."
+"2026-01-15 08:02";"### Part 1 (Question):
+Consider the following Python code snippet that uses decorators and metaclasses together:
+
+```python
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        result = func(*args, **kwargs)
+        print(""Something is happening after the function is called."")
+        return result
+    return wrapper
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'my_method' not in dct:
+            raise AttributeError(f""{name} must define a method named 'my_method'"")
+        return super().__new__(cls, name, bases, dct)
+
+@my_decorator
+class MyClass(metaclass=Meta):
+    def my_method(self):
+        print(""Hello from my_method!"")
+```
+
+When you run the following code:
+
+```python
+obj = MyClass()
+obj.my_method()
+```
+
+Which of the following will be printed?
+
+A) Something is happening before the function is called.
+   Hello from my_method!
+   Something is happening after the function is called.
+
+B) AttributeError: MyClass must define a method named 'my_method'
+
+C) Something is happening before the function is called.
+   AttributeError: MyClass must define a method named 'my_method'
+   Something is happening after the function is called.
+
+D) TypeError: __call__() takes 1 positional argument but 2 were given";"### Part 2 (Answer):
+A) Something is happening before the function is called.
+   Hello from my_method!
+   Something is happening after the function is called.
+
+**Explanation:** The code defines a decorator `my_decorator` that adds pre and post-function call messages. It also defines a metaclass `Meta` that checks if any class using it defines a method named `my_method`. The class `MyClass` uses both the decorator and metaclass, and implements the required method. When an instance of `MyClass` is created and `my_method` is called, all messages are printed as expected."
