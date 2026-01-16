@@ -34827,3 +34827,65 @@ def add_method(cls):
 **Part 2 (Answer):**  
 C)  
 The correct answer is option C. This implementation of the `@add_method` decorator uses the provided metaclass to dynamically add a `greet()` method to any class it decorates. It creates a new class with the original class's attributes and methods, then adds the `greet()` method using the metaclass."
+"2026-01-16 00:02";"[QUESTION]
+Consider the following Python code snippet that uses a decorator to log the execution time of functions:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} executed in {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    return sum(range(n))
+
+# Example usage
+print(compute_sum(1000000))
+```
+
+Now, imagine you want to apply the `timer` decorator not just to individual functions, but to an entire class. Modify the code so that the `timer` decorator is applied to all methods of a given class when it's instantiated.
+
+[A] Create a metaclass that applies the `timer` decorator to each method in the class.
+[B] Use the `type` built-in function to dynamically add the `timer` decorator to each method in the class.
+[C] Modify the `timer` decorator to accept an argument that specifies which methods should be decorated.
+[D] None of the above.";"[A] Create a metaclass that applies the `timer` decorator to each method in the class.
+
+Explanation:
+The correct answer is [A]. To apply the `timer` decorator to all methods of a given class when it's instantiated, you can create a metaclass. The metaclass will intercept the creation of the class and apply the `timer` decorator to each method. Here's how you can implement this:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} executed in {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+class TimerMeta(type):
+    def __new__(cls, name, bases, dct):
+        for key, value in dct.items():
+            if callable(value):
+                dct[key] = timer(value)
+        return super().__new__(cls, name, bases, dct)
+
+class Compute(metaclass=TimerMeta):
+    def sum(self, n):
+        return sum(range(n))
+
+# Example usage
+compute_instance = Compute()
+print(compute_instance.sum(1000000))
+```
+
+In this solution, `TimerMeta` is a metaclass that intercepts the creation of any class it's used with. It iterates over all attributes of the class and applies the `timer` decorator to any callable attribute (methods). When an instance of the decorated class (`Compute`) is created, all its methods are automatically wrapped with the `timer` decorator, allowing you to measure their execution time when called."
