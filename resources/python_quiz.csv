@@ -34918,3 +34918,67 @@ B) When an instance of `MyClass` is created, it will automatically have a `dynam
 
 Explanation:
 In Python, metaclasses allow you to customize class creation. In this example, the `Meta` metaclass dynamically adds a method named `dynamic_method` to any class that uses it as its metaclass. When an instance of `MyClass` is created, this new method is available on all instances of `MyClass`, allowing them to call `obj.dynamic_method()` and receive the output ""Hello from MyClass""."
+"2026-01-16 16:03";"[QUESTION]
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self._timer = None
+
+    async def _run(self):
+        while True:
+            await asyncio.sleep(self.interval)
+            print(f""Timer ticked at {asyncio.get_running_loop().time()}"")
+
+    def start(self):
+        if not self._timer:
+            self._timer = asyncio.create_task(self._run())
+
+    def stop(self):
+        if self._timer:
+            self._timer.cancel()
+            self._timer = None
+
+class AsyncCounter(AsyncTimer):
+    def __init__(self, interval):
+        super().__init__(interval)
+        self.count = 0
+
+    async def _run(self):
+        while True:
+            await asyncio.sleep(self.interval)
+            self.count += 1
+            print(f""Counter ticked at {asyncio.get_running_loop().time()}, count: {self.count}"")
+
+# Usage example
+if __name__ == ""__main__"":
+    counter = AsyncCounter(2)
+    counter.start()
+    
+    try:
+        await asyncio.sleep(10)
+    except KeyboardInterrupt:
+        pass
+    
+    counter.stop()
+```
+
+What is the correct order of execution for this code snippet? Explain how the `AsyncTimer` and `AsyncCounter` classes interact with each other in terms of their methods.
+
+A) The `AsyncCounter._run()` method will print ""Counter ticked at ... count: 1"" after 2 seconds, then ""Counter ticked at ... count: 2"" after another 2 seconds, and so on. The `AsyncTimer._run()` method will run concurrently, printing a tick every 2 seconds.
+
+B) The `AsyncTimer._run()` method will print a tick every 2 seconds, and the `AsyncCounter._run()` method will also run concurrently but its first tick will be delayed until after 2 seconds. It will then print ""Counter ticked at ... count: 1"" and continue to increment every 2 seconds.
+
+C) The `AsyncTimer._run()` method will run first, printing a tick every 2 seconds, and the `AsyncCounter._run()` method will run second, also printing a tick every 2 seconds. Both methods will start immediately upon calling the `start()` method on their respective instances.
+
+D) The `AsyncCounter._run()` method will print ""Counter ticked at ... count: 1"" after 4 seconds, then ""Counter ticked at ... count: 2"" after another 4 seconds, and so on. The `AsyncTimer._run()` method will run concurrently, printing a tick every 2 seconds.";"B) The `AsyncTimer._run()` method will print a tick every 2 seconds, and the `AsyncCounter._run()` method will also run concurrently but its first tick will be delayed until after 2 seconds. It will then print ""Counter ticked at ... count: 1"" and continue to increment every 2 seconds.
+
+Explanation:
+- Both `AsyncTimer` and `AsyncCounter` are instances of the same base class `AsyncTimer`.
+- When `start()` is called on an instance of `AsyncCounter`, it calls the `start()` method from its superclass (`AsyncTimer`). This starts a new task with `_run()`, which is a coroutine in both classes.
+- The `_run()` method in `AsyncCounter` increments a counter and prints the tick, while `_run()` in `AsyncTimer` simply prints a tick without any additional logic.
+- Since `_run()` in both classes are run as tasks by calling `asyncio.create_task(self._run())`, they will execute concurrently. The first tick of `AsyncCounter` will occur after the initial 2-second delay set by its constructor."
