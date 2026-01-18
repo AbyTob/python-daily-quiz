@@ -5598,5 +5598,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-17 16:02:09",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q1_2026-01-18": {
+    "id": "1768694517_1",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that utilizes a metaclass to track all instances of a class:\n\n```python\nclass InstanceTracker(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        instance = super().__call__(*args, **kwargs)\n        cls._instances[instance] = True\n        return instance\n    \n    @classmethod\n    def get_all_instances(cls):\n        return list(cls._instances.keys())\n\nclass MyClass(metaclass=InstanceTracker):\n    pass\n\nobj1 = MyClass()\nobj2 = MyClass()\n\nprint(MyClass.get_all_instances())\n```\n\nWhat will be the output of `MyClass.get_all_instances()`?\n\nA) An empty list  \nB) [obj1]  \nC) [obj2]  \nD) [obj1, obj2]",
+    "answer": "A) An empty list  \n\nExplanation: The metaclass `InstanceTracker` is designed to track all instances of the class it decorates. When an instance of `MyClass` is created (`obj1 = MyClass()` and `obj2 = MyClass()`), they are added to the `_instances` dictionary within the metaclass. However, in this specific example, there are no other operations being performed after creating the instances, so no additional logic would be required to track them. Therefore, when `MyClass.get_all_instances()` is called, it returns an empty list because no instances have been added through any method other than direct instantiation.",
+    "timestamp": "2026-01-18 00:01:57",
+    "topic": "Class Methods and Static Methods"
   }
 }
