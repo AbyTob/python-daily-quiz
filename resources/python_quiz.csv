@@ -35168,3 +35168,25 @@ D. NameError";"B. False
 
 Explanation: 
 The metaclass `SingletonMeta` ensures that only one instance of `MyClass` can be created, regardless of how many times the class is instantiated. In this case, when both `obj1` and `obj2` are created, they point to the same instance stored in `_instances`. Therefore, `obj1 is obj2` will evaluate to True, indicating that they refer to the exact same object in memory."
+"2026-01-18 16:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to create a singleton class:
+
+```python
+class Singleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=Singleton):
+    pass
+```
+
+1. Which of the following statements is true about the `MyClass` when it is used to create multiple instances?
+   A) Each call to `MyClass()` will create a new instance.
+   B) Only one instance of `MyClass` can exist at a time, no matter how many times it is instantiated.
+   C) The metaclass has no effect, and the class acts like a regular class.
+   D) It raises an error because metaclasses cannot be used to enforce singletons.";"B) Only one instance of `MyClass` can exist at a time, no matter how many times it is instantiated."
