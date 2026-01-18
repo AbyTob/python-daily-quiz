@@ -35135,3 +35135,36 @@ C) [obj2]
 D) [obj1, obj2]";"A) An empty list  
 
 Explanation: The metaclass `InstanceTracker` is designed to track all instances of the class it decorates. When an instance of `MyClass` is created (`obj1 = MyClass()` and `obj2 = MyClass()`), they are added to the `_instances` dictionary within the metaclass. However, in this specific example, there are no other operations being performed after creating the instances, so no additional logic would be required to track them. Therefore, when `MyClass.get_all_instances()` is called, it returns an empty list because no instances have been added through any method other than direct instantiation."
+"2026-01-18 08:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to create a class whose instances are singletons:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=SingletonMeta):
+    def __init__(self, value):
+        self.value = value
+
+# Usage
+obj1 = MyClass(10)
+obj2 = MyClass(20)
+
+print(obj1 is obj2)  # Output: ?
+```
+
+What will be the output of `obj1 is obj2` when this code is executed?
+
+A. True  
+B. False  
+C. SyntaxError  
+D. NameError";"B. False  
+
+Explanation: 
+The metaclass `SingletonMeta` ensures that only one instance of `MyClass` can be created, regardless of how many times the class is instantiated. In this case, when both `obj1` and `obj2` are created, they point to the same instance stored in `_instances`. Therefore, `obj1 is obj2` will evaluate to True, indicating that they refer to the exact same object in memory."
