@@ -35267,3 +35267,36 @@ if __name__ == ""__main__"":
 ```
 
 By adding a try-except block inside the `wrapper` function, the decorator will now correctly handle and propagate any exceptions raised by the decorated method, ensuring that the execution time is printed only if the method completes successfully."
+"2026-01-19 08:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data(id):
+    print(f""Fetching data for id {id}"")
+    await asyncio.sleep(2)
+    return f""Data for id {id}""
+
+async def main():
+    tasks = [fetch_data(i) for i in range(5)]
+    results = await asyncio.gather(*tasks)
+    print(results)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+Which of the following statements is true about this code?
+
+A) The `fetch_data` function will execute sequentially, one after another.  
+B) All five `fetch_data` calls start at the same time and run concurrently.  
+C) The `asyncio.gather` function will raise an error because it cannot handle multiple async functions.  
+D) The output of this script is undefined as it depends on the system's threading implementation.
+
+**Part 2 (Answer):**
+
+B) All five `fetch_data` calls start at the same time and run concurrently.
+
+Explanation: This code uses Python's `asyncio` library to manage asynchronous operations. The function `main` creates a list of tasks, each of which is an instance of `fetch_data`. When `asyncio.gather(*tasks)` is called inside `main`, it schedules all these tasks concurrently. Since `await asyncio.sleep(2)` simulates an I/O operation that blocks for 2 seconds in each task, the five fetch operations start at approximately the same time and run concurrently, not sequentially as would be the case if they were awaited one after another."
