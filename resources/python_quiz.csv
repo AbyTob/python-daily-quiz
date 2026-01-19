@@ -35300,3 +35300,41 @@ D) The output of this script is undefined as it depends on the system's threadin
 B) All five `fetch_data` calls start at the same time and run concurrently.
 
 Explanation: This code uses Python's `asyncio` library to manage asynchronous operations. The function `main` creates a list of tasks, each of which is an instance of `fetch_data`. When `asyncio.gather(*tasks)` is called inside `main`, it schedules all these tasks concurrently. Since `await asyncio.sleep(2)` simulates an I/O operation that blocks for 2 seconds in each task, the five fetch operations start at approximately the same time and run concurrently, not sequentially as would be the case if they were awaited one after another."
+"2026-01-19 16:01";"[QUESTION]
+Consider the following Python code that uses a metaclass and a class decorator to create a singleton pattern:
+
+```python
+# Define a metaclass for creating singletons
+class SingletonMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+# Define a decorator for applying the singleton metaclass
+def singleton(cls):
+    return type(cls)(cls.__name__, (cls,), {'__metaclass__': SingletonMeta})
+
+@singleton
+class DatabaseConnection:
+    def __init__(self, connection_string):
+        self.connection_string = connection_string
+
+db1 = DatabaseConnection('conn_str_1')
+db2 = DatabaseConnection('conn_str_2')
+
+print(db1 == db2)  # Output: ?
+```
+
+Which of the following statements correctly describes the behavior of the code above?
+
+A) `db1 == db2` is `False` because each instance has its own connection string.
+
+B) `db1 == db2` is `True` because both variables refer to the same singleton instance.
+
+C) The code raises an exception during execution due to incorrect usage of metaclasses and decorators.
+
+D) The output cannot be determined without further information about the implementation of the `SingletonMeta`.";"B"
