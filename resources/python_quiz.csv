@@ -35190,3 +35190,80 @@ class MyClass(metaclass=Singleton):
    B) Only one instance of `MyClass` can exist at a time, no matter how many times it is instantiated.
    C) The metaclass has no effect, and the class acts like a regular class.
    D) It raises an error because metaclasses cannot be used to enforce singletons.";"B) Only one instance of `MyClass` can exist at a time, no matter how many times it is instantiated."
+"2026-01-19 00:02";"[QUESTION]
+Consider the following Python code snippet that uses a decorator to enhance the behavior of a class method. The decorator aims to measure and print the execution time of the method. However, there is an issue with how it's implemented.
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time} seconds"")
+        return result
+    return wrapper
+
+class Timer:
+    @timing_decorator
+    def process_data(self, data):
+        # Simulate data processing
+        for item in data:
+            time.sleep(0.1)
+        return ""Data processed""
+
+def main():
+    timer = Timer()
+    data = [i for i in range(10)]
+    result = timer.process_data(data)
+    print(result)
+
+if __name__ == ""__main__"":
+    main()
+```
+
+What is the issue with this code, and how would you correct it to ensure that the execution time is correctly calculated?
+
+A) The decorator does not handle exceptions, which could cause issues during the timing.
+B) The decorator is applied incorrectly, leading to a TypeError when calling the method.
+C) The `wrapper` function inside the decorator does not return anything, causing a missing return value error in the class method.
+D) None of the above.";"A) The issue with this code is that the decorator does not handle exceptions. If an exception occurs within the `process_data` method during its execution, the decorator will still print the execution time before the exception is propagated. To correct this, you should modify the decorator to catch and propagate any exceptions raised by the decorated function.
+
+Corrected code snippet:
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        try:
+            result = func(*args, **kwargs)
+        except Exception as e:
+            print(f""Exception: {e}"")
+            raise
+        end_time = time.time()
+        print(f""Execution time: {end_time - start_time} seconds"")
+        return result
+    return wrapper
+
+class Timer:
+    @timing_decorator
+    def process_data(self, data):
+        # Simulate data processing
+        for item in data:
+            time.sleep(0.1)
+        return ""Data processed""
+
+def main():
+    timer = Timer()
+    data = [i for i in range(10)]
+    result = timer.process_data(data)
+    print(result)
+
+if __name__ == ""__main__"":
+    main()
+```
+
+By adding a try-except block inside the `wrapper` function, the decorator will now correctly handle and propagate any exceptions raised by the decorated method, ensuring that the execution time is printed only if the method completes successfully."
