@@ -35390,3 +35390,51 @@ The decorators are correctly applied and executed in the order they appear:
 2. The decorator is then applied to each method individually when an instance of the class is created.
 
 Thus, the output will include both messages from the metaclass application and from the method decorator execution."
+"2026-01-20 08:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses both metaclasses and decorators:
+
+```python
+import time
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds to run"")
+        return result
+    return wrapper
+
+@timing_decorator
+class MyClass(metaclass=Meta):
+    def my_method(self):
+        for i in range(1000000):
+            pass
+
+def main():
+    obj = MyClass()
+    obj.my_method()
+
+if __name__ == ""__main__"":
+    main()
+```
+
+What does the code above do when executed?
+
+A) It prints ""Creating class MyClass"" and then measures the time taken by `my_method`.
+
+B) It creates an instance of `MyClass` but does not measure the time for `my_method`.
+
+C) It prints ""Creating class MyClass"", but it does not measure or print any time.
+
+D) It raises a TypeError because decorators cannot be used with metaclasses.";"**Part 2 (Answer):**
+
+A) It prints ""Creating class MyClass"" and then measures the time taken by `my_method`.
+
+Explanation: The code defines a metaclass `Meta` that prints a message whenever a class is created. The decorator `timing_decorator` is applied to `MyClass`, which measures and prints the execution time of any method called on an instance of `MyClass`. When the script is executed, it creates an instance of `MyClass` and calls `my_method`, resulting in both messages being printed as expected."
