@@ -5640,5 +5640,12 @@
     "answer": "B",
     "timestamp": "2026-01-19 16:01:52",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2026-01-20": {
+    "id": "1768867346_1",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code snippet that involves both metaclasses and decorators:\n\n```python\nimport inspect\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'my_decorator' in dct:\n            print(f\"Applying {name} to method my_decorator.\")\n        return super().__new__(cls, name, bases, dct)\n\ndef my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print(\"Decorator is running\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@my_decorator\nclass MyClass(metaclass=Meta):\n    @my_decorator\n    def method(self):\n        print(\"Method called\")\n\nif __name__ == \"__main__\":\n    obj = MyClass()\n    obj.method()\n```\n\nWhich of the following statements is true about the execution and output of this code?\n\nA) It will raise a `TypeError` because `MyClass` cannot be decorated with itself.\n\nB) It will print \"Applying MyClass to method my_decorator.\" and then \"Decorator is running\" and finally \"Method called\".\n\nC) It will not apply any decorators and simply call the method without any output.\n\nD) It will raise an `AttributeError` because `my_decorator` is not callable on instances of `MyClass`.\n\n**Part 2 (Answer):**\n\nB) It will print \"Applying MyClass to method my_decorator.\" and then \"Decorator is running\" and finally \"Method called\".\n\n**Explanation:**\nIn this code, the metaclass `Meta` checks if the dictionary `dct` contains the key `'my_decorator'`, which it does. Therefore, when `MyClass` is created, it prints a message indicating that `my_decorator` is being applied to itself. The `my_decorator` function is then applied to the class method `method` as well, leading to additional print statements during the execution of this method.\n\nThe decorators are correctly applied and executed in the order they appear:\n1. The metaclass checks for the decorator during class creation.\n2. The decorator is then applied to each method individually when an instance of the class is created.\n\nThus, the output will include both messages from the metaclass application and from the method decorator execution.",
+    "timestamp": "2026-01-20 00:02:26",
+    "topic": "Advanced Python Programming"
   }
 }

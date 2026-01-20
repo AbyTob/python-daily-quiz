@@ -35338,3 +35338,55 @@ B) `db1 == db2` is `True` because both variables refer to the same singleton ins
 C) The code raises an exception during execution due to incorrect usage of metaclasses and decorators.
 
 D) The output cannot be determined without further information about the implementation of the `SingletonMeta`.";"B"
+"2026-01-20 00:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that involves both metaclasses and decorators:
+
+```python
+import inspect
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'my_decorator' in dct:
+            print(f""Applying {name} to method my_decorator."")
+        return super().__new__(cls, name, bases, dct)
+
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator is running"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@my_decorator
+class MyClass(metaclass=Meta):
+    @my_decorator
+    def method(self):
+        print(""Method called"")
+
+if __name__ == ""__main__"":
+    obj = MyClass()
+    obj.method()
+```
+
+Which of the following statements is true about the execution and output of this code?
+
+A) It will raise a `TypeError` because `MyClass` cannot be decorated with itself.
+
+B) It will print ""Applying MyClass to method my_decorator."" and then ""Decorator is running"" and finally ""Method called"".
+
+C) It will not apply any decorators and simply call the method without any output.
+
+D) It will raise an `AttributeError` because `my_decorator` is not callable on instances of `MyClass`.
+
+**Part 2 (Answer):**
+
+B) It will print ""Applying MyClass to method my_decorator."" and then ""Decorator is running"" and finally ""Method called"".
+
+**Explanation:**
+In this code, the metaclass `Meta` checks if the dictionary `dct` contains the key `'my_decorator'`, which it does. Therefore, when `MyClass` is created, it prints a message indicating that `my_decorator` is being applied to itself. The `my_decorator` function is then applied to the class method `method` as well, leading to additional print statements during the execution of this method.
+
+The decorators are correctly applied and executed in the order they appear:
+1. The metaclass checks for the decorator during class creation.
+2. The decorator is then applied to each method individually when an instance of the class is created.
+
+Thus, the output will include both messages from the metaclass application and from the method decorator execution."
