@@ -5661,5 +5661,12 @@
     "answer": "[ANSWER]\nA) The current implementation already runs all tasks concurrently because `asyncio.gather` is used, which schedules and runs all given coroutines concurrently.\n\n**Explanation**: The provided code uses `asyncio.gather`, which is designed to run multiple coroutines concurrently. Each coroutine in the list `tasks` starts immediately upon creation and continues running independently until completion. Therefore, the tasks are not waiting for one task to complete before starting another, making them run concurrently as intended.",
     "timestamp": "2026-01-20 16:01:37",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2026-01-21": {
+    "id": "1768953685_1",
+    "question": "[QUESTION] Consider the following Python code snippet that utilizes a decorator to track function calls:\n\n```python\ndef call_counter(func):\n    def wrapper(*args, **kwargs):\n        wrapper.calls += 1\n        return func(*args, **kwargs)\n    wrapper.calls = 0\n    return wrapper\n\n@call_counter\ndef sample_function():\n    pass\n\n# Simulate some function calls\nsample_function()\nsample_function()\n\nprint(sample_function.calls)  # Output: ?\n```\n\nWhat will be the output of `sample_function().calls` after executing the code above?\n\nA. 1  \nB. 2  \nC. 0  \nD. Error",
+    "answer": "B. 2\n\nThe decorator `call_counter` increments a class attribute `calls` each time the decorated function is called. The increment occurs within the nested `wrapper` function, which then returns the result of calling the original function. After simulating two calls to `sample_function`, accessing `sample_function.calls` should yield 2 because it tracks the number of times `sample_function` has been invoked.",
+    "timestamp": "2026-01-21 00:01:25",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }
