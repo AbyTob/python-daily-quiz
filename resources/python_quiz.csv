@@ -35499,3 +35499,75 @@ C. 0
 D. Error";"B. 2
 
 The decorator `call_counter` increments a class attribute `calls` each time the decorated function is called. The increment occurs within the nested `wrapper` function, which then returns the result of calling the original function. After simulating two calls to `sample_function`, accessing `sample_function.calls` should yield 2 because it tracks the number of times `sample_function` has been invoked."
+"2026-01-21 08:02";"### Part 1 (Question)
+
+Consider the following code snippet that aims to create a decorator to measure execution time of any function:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} executed in {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+@timer
+def compute_factorial(n):
+    if n == 1:
+        return 1
+    else:
+        return n * compute_factorial(n-1)
+
+# Call the decorated function
+result = compute_factorial(5)
+print(f""Factorial of 5 is {result}"")
+```
+
+This code uses a decorator `timer` to measure the execution time of `compute_factorial`. The factorial calculation is straightforward but recursive, which could lead to performance issues for large numbers due to repeated calculations.
+
+Which of the following statements accurately describes how to optimize this scenario?
+
+A) Decorators are not suitable for optimizing performance; we should use multiprocessing instead.
+B) We can improve performance by using memoization within our decorator to cache results and avoid redundant calculations.
+C) The recursive nature of the factorial function cannot be optimized further with decorators or other Python techniques.
+D) Using `async`/`await` would be more efficient than decorators for this scenario since it is I/O bound.
+
+### Part 2 (Answer)
+
+B) We can improve performance by using memoization within our decorator to cache results and avoid redundant calculations.
+
+Explanation: Decorators are excellent tools for adding functionality, such as timing execution, without modifying the function's core logic. However, for scenarios like recursive functions where the same inputs are computed multiple times, we can optimize the decorator to use memoization. Memoization stores the results of expensive function calls and returns the cached result when the same inputs occur again, significantly reducing the computational overhead.
+
+In this context, we can modify the `timer` decorator to include a simple caching mechanism for the factorial results:
+
+```python
+import time
+
+def memoize(func):
+    cache = {}
+    def wrapper(*args):
+        if args in cache:
+            return cache[args]
+        result = func(*args)
+        cache[args] = result
+        return result
+    return wrapper
+
+@memoize
+@timer
+def compute_factorial(n):
+    if n == 1:
+        return 1
+    else:
+        return n * compute_factorial(n-1)
+
+# Call the decorated function
+result = compute_factorial(5)
+print(f""Factorial of 5 is {result}"")
+```
+
+This modification ensures that each unique input to `compute_factorial` is computed only once, thus optimizing the performance for large inputs.";"Answer format error. Please check the generated content."
