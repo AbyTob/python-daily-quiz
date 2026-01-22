@@ -5682,5 +5682,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-21 16:03:22",
     "topic": "Stack Traces and Error Reporting"
+  },
+  "q1_2026-01-22": {
+    "id": "1769040094_1",
+    "question": "[QUESTION]\nConsider the following Python code that uses a decorator to cache results of function calls:\n\n```python\ndef cache(func):\n    cache_dict = {}\n    \n    def wrapper(*args):\n        if args not in cache_dict:\n            cache_dict[args] = func(*args)\n        return cache_dict[args]\n    \n    return wrapper\n\n@cache\ndef expensive_computation(x):\n    print(f\"Computing {x}...\")\n    return x * x\n\n# Usage\nprint(expensive_computation(5))  # Computes and caches the result\nprint(expensive_computation(5))  # Retrieves cached result without recomputing\n```\n\nWhich of the following statements is true about this implementation?\n\nA) The cache dictionary is created each time the `cache` decorator is applied.\nB) The `wrapper` function maintains the state of the cache across multiple calls.\nC) The `expensive_computation` function is not called if its result is in the cache.\nD) All arguments passed to `expensive_computation` must be hashable for caching.",
+    "answer": "[C] The `expensive_computation` function is not called if its result is in the cache.",
+    "timestamp": "2026-01-22 00:01:34",
+    "topic": "Functions and Functional Programming"
   }
 }
