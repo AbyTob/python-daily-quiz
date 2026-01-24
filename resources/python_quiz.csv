@@ -35954,3 +35954,47 @@ Incorrect. The method names are incorrectly prefixed in the log messages. This i
 Incorrect. Similar to option [B], this answer incorrectly formats the arguments and keyword arguments, adding a comma at the end of the tuple when printing them.
 
 The correct output is `Calling add with args: (5, 3), kwargs: {} Calling multiply with args: (4, 6), kwargs: {} 8 24`, which matches option [A]."
+"2026-01-24 00:01";"[QUESTION]  
+Consider the following code snippet that uses asyncio and metaclasses to manage a pool of background tasks:
+
+```python
+import asyncio
+
+class TaskPoolMeta(type):
+    _tasks = []
+
+    def __new__(cls, name, bases, dct):
+        cls_instance = super().__new__(cls, name, bases, dct)
+        if 'run_task' in dct:
+            cls._tasks.append(cls_instance.run_task)
+        return cls_instance
+
+    @classmethod
+    async def run_all_tasks(cls):
+        tasks = [task() for task in cls._tasks]
+        await asyncio.gather(*tasks)
+
+class Task(metaclass=TaskPoolMeta):
+    async def run_task(self):
+        print(""Running a task"")
+        await asyncio.sleep(1)
+        print(""Task completed"")
+
+async def main():
+    task1 = Task()
+    task2 = Task()
+
+    await Task.run_all_tasks()
+
+asyncio.run(main())
+```
+
+Which of the following statements is true regarding this code?
+
+A) The `run_task` method will be run immediately when an instance of `Task` is created.
+
+B) All tasks will start running concurrently and complete after 1 second each.
+
+C) When `main()` is called, it will block until all tasks are completed.
+
+D) The `TaskPoolMeta` metaclass ensures that only instances with a `run_task` method are added to the `_tasks` list.";"B) All tasks will start running concurrently and complete after 1 second each."
