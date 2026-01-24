@@ -35998,3 +35998,52 @@ B) All tasks will start running concurrently and complete after 1 second each.
 C) When `main()` is called, it will block until all tasks are completed.
 
 D) The `TaskPoolMeta` metaclass ensures that only instances with a `run_task` method are added to the `_tasks` list.";"B) All tasks will start running concurrently and complete after 1 second each."
+"2026-01-24 08:02";"";"**Part 1 (Question):**
+
+Consider the following Python code that uses a decorator and a metaclass:
+
+```python
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        result = func(*args, **kwargs)
+        print(""Something is happening after the function is called."")
+        return result
+    return wrapper
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'my_method' in dct:
+            dct['my_method'] = my_decorator(dct['my_method'])
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    def my_method(self):
+        print(""Hello from my_method."")
+
+if __name__ == ""__main__"":
+    obj = MyClass()
+    obj.my_method()
+```
+
+Which of the following statements is true about the code above?
+
+A) The `my_method` of `MyClass` will not be decorated by the `my_decorator`.
+
+B) When an instance of `MyClass` is created, it will print ""Something is happening before the function is called.""
+
+C) The decorator `my_decorator` does not affect the execution of the method.
+
+D) The metaclass `Meta` will only modify methods in classes that explicitly define a method named `my_method`.
+
+**Part 2 (Answer):**
+
+B) When an instance of `MyClass` is created, it will print ""Something is happening before the function is called.""
+
+Explanation:
+- The metaclass `Meta` dynamically modifies the class by wrapping any method named `my_method` with `my_decorator`. 
+- In the example provided, the `my_method` defined in `MyClass` is decorated because `my_method` exists in the dictionary when the metaclass `Meta` tries to create a new class. 
+- As a result, calling `obj.my_method()` will first print ""Something is happening before the function is called,"" then execute the original `my_method`, and finally print ""Something is happening after the function is called."""

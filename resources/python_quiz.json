@@ -5731,5 +5731,12 @@
     "answer": "B) All tasks will start running concurrently and complete after 1 second each.",
     "timestamp": "2026-01-24 00:01:56",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-01-24": {
+    "id": "1769241737_2",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code that uses a decorator and a metaclass:\n\n```python\nfrom functools import wraps\n\ndef my_decorator(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(\"Something is happening before the function is called.\")\n        result = func(*args, **kwargs)\n        print(\"Something is happening after the function is called.\")\n        return result\n    return wrapper\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'my_method' in dct:\n            dct['my_method'] = my_decorator(dct['my_method'])\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    def my_method(self):\n        print(\"Hello from my_method.\")\n\nif __name__ == \"__main__\":\n    obj = MyClass()\n    obj.my_method()\n```\n\nWhich of the following statements is true about the code above?\n\nA) The `my_method` of `MyClass` will not be decorated by the `my_decorator`.\n\nB) When an instance of `MyClass` is created, it will print \"Something is happening before the function is called.\"\n\nC) The decorator `my_decorator` does not affect the execution of the method.\n\nD) The metaclass `Meta` will only modify methods in classes that explicitly define a method named `my_method`.\n\n**Part 2 (Answer):**\n\nB) When an instance of `MyClass` is created, it will print \"Something is happening before the function is called.\"\n\nExplanation:\n- The metaclass `Meta` dynamically modifies the class by wrapping any method named `my_method` with `my_decorator`. \n- In the example provided, the `my_method` defined in `MyClass` is decorated because `my_method` exists in the dictionary when the metaclass `Meta` tries to create a new class. \n- As a result, calling `obj.my_method()` will first print \"Something is happening before the function is called,\" then execute the original `my_method`, and finally print \"Something is happening after the function is called.\"",
+    "timestamp": "2026-01-24 08:02:17",
+    "topic": "Advanced Python Programming"
   }
 }
