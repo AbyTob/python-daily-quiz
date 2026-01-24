@@ -36047,3 +36047,47 @@ Explanation:
 - The metaclass `Meta` dynamically modifies the class by wrapping any method named `my_method` with `my_decorator`. 
 - In the example provided, the `my_method` defined in `MyClass` is decorated because `my_method` exists in the dictionary when the metaclass `Meta` tries to create a new class. 
 - As a result, calling `obj.my_method()` will first print ""Something is happening before the function is called,"" then execute the original `my_method`, and finally print ""Something is happening after the function is called."""
+"2026-01-24 16:02";"[QUESTION]  
+Consider the following Python code snippet that uses a metaclass to create a singleton pattern:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    _data = {}
+
+    def __init__(self):
+        if not self._data:
+            self.load_data()
+
+    def load_data(self):
+        # Simulate loading data from a file or database
+        self._data = {'key': 'value'}
+
+    def get_data(self, key):
+        return self._data.get(key)
+```
+
+What happens when we create multiple instances of `Database` using the following code?
+
+```python
+db1 = Database()
+db2 = Database()
+
+print(db1 is db2)  # What will be printed?
+print(db1.get_data('key'))  # What will be printed?
+```
+
+A. `False`, 'value'
+B. `True`, 'value'
+C. `False`, 'key'
+D. `True`, 'key'";"B. `True`, 'value'
+
+Explanation: When we try to create multiple instances of the `Database` class, thanks to the singleton pattern enforced by the `SingletonMeta` metaclass, only one instance is created and stored in `_instances`. Subsequent attempts to create an instance return the already created instance. Therefore, `db1` and `db2` are actually the same object, confirmed by `print(db1 is db2)`, which outputs `True`. The data loaded into the database is shared across instances, so calling `get_data('key')` on either `db1` or `db2` returns `'value'`."
