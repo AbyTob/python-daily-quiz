@@ -5745,5 +5745,12 @@
     "answer": "B. `True`, 'value'\n\nExplanation: When we try to create multiple instances of the `Database` class, thanks to the singleton pattern enforced by the `SingletonMeta` metaclass, only one instance is created and stored in `_instances`. Subsequent attempts to create an instance return the already created instance. Therefore, `db1` and `db2` are actually the same object, confirmed by `print(db1 is db2)`, which outputs `True`. The data loaded into the database is shared across instances, so calling `get_data('key')` on either `db1` or `db2` returns `'value'`.",
     "timestamp": "2026-01-24 16:02:01",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q1_2026-01-25": {
+    "id": "1769299304_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to create a class with a custom attribute:\n\n```python\nclass CustomMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['custom_attr'] = 'Hello, Metaclass!'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=CustomMeta):\n    pass\n\nobj = MyClass()\nprint(obj.custom_attr)\n```\n\nWhich of the following statements is true regarding the behavior of this code?\n\nA) It will raise a `TypeError` because metaclasses cannot be used with regular classes.\nB) It will output 'Hello, Metaclass!' when run.\nC) The class `MyClass` will not have any attributes or methods defined in it.\nD) It will result in a runtime error due to improper usage of the metaclass.",
+    "answer": "B) It will output 'Hello, Metaclass!' when run.\n\nExplanation:\n- A metaclass is a class that defines how a class behaves. In this case, `CustomMeta` is used to create `MyClass`, and it successfully adds the attribute `custom_attr` with the value 'Hello, Metaclass!' to `MyClass`.\n- When an instance of `MyClass` is created (`obj = MyClass()`), and we access `obj.custom_attr`, it retrieves the custom attribute set by the metaclass, which outputs 'Hello, Metaclass!'.\n- Therefore, option B is correct as it accurately describes the output of running this code.",
+    "timestamp": "2026-01-25 00:01:44",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }

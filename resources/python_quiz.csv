@@ -36091,3 +36091,30 @@ C. `False`, 'key'
 D. `True`, 'key'";"B. `True`, 'value'
 
 Explanation: When we try to create multiple instances of the `Database` class, thanks to the singleton pattern enforced by the `SingletonMeta` metaclass, only one instance is created and stored in `_instances`. Subsequent attempts to create an instance return the already created instance. Therefore, `db1` and `db2` are actually the same object, confirmed by `print(db1 is db2)`, which outputs `True`. The data loaded into the database is shared across instances, so calling `get_data('key')` on either `db1` or `db2` returns `'value'`."
+"2026-01-25 00:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to create a class with a custom attribute:
+
+```python
+class CustomMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['custom_attr'] = 'Hello, Metaclass!'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=CustomMeta):
+    pass
+
+obj = MyClass()
+print(obj.custom_attr)
+```
+
+Which of the following statements is true regarding the behavior of this code?
+
+A) It will raise a `TypeError` because metaclasses cannot be used with regular classes.
+B) It will output 'Hello, Metaclass!' when run.
+C) The class `MyClass` will not have any attributes or methods defined in it.
+D) It will result in a runtime error due to improper usage of the metaclass.";"B) It will output 'Hello, Metaclass!' when run.
+
+Explanation:
+- A metaclass is a class that defines how a class behaves. In this case, `CustomMeta` is used to create `MyClass`, and it successfully adds the attribute `custom_attr` with the value 'Hello, Metaclass!' to `MyClass`.
+- When an instance of `MyClass` is created (`obj = MyClass()`), and we access `obj.custom_attr`, it retrieves the custom attribute set by the metaclass, which outputs 'Hello, Metaclass!'.
+- Therefore, option B is correct as it accurately describes the output of running this code."
