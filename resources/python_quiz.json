@@ -5752,5 +5752,12 @@
     "answer": "B) It will output 'Hello, Metaclass!' when run.\n\nExplanation:\n- A metaclass is a class that defines how a class behaves. In this case, `CustomMeta` is used to create `MyClass`, and it successfully adds the attribute `custom_attr` with the value 'Hello, Metaclass!' to `MyClass`.\n- When an instance of `MyClass` is created (`obj = MyClass()`), and we access `obj.custom_attr`, it retrieves the custom attribute set by the metaclass, which outputs 'Hello, Metaclass!'.\n- Therefore, option B is correct as it accurately describes the output of running this code.",
     "timestamp": "2026-01-25 00:01:44",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-01-25": {
+    "id": "1769328109_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nfrom functools import wraps\n\ndef memoize(func):\n    cache = {}\n    @wraps(func)\n    def wrapper(*args):\n        if args in cache:\n            return cache[args]\n        result = func(*args)\n        cache[args] = result\n        return result\n    return wrapper\n\n@memoize\ndef fibonacci(n):\n    if n < 2:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\nimport time\n\nstart_time = time.time()\nprint(fibonacci(30))\nend_time = time.time()\n\nprint(f\"Time taken: {end_time - start_time} seconds\")\n```\n\nWhich of the following statements is true about this code?\n\nA) The `memoize` decorator significantly reduces the computation time for large input values by caching results.\nB) The `fibonacci` function will run in constant time due to the memoization.\nC) The `@memoize` decorator does not modify the behavior of the `fibonacci` function, except adding a docstring.\nD) The `memoize` decorator can be applied to any function without modifying its existing code.",
+    "answer": "A) The `memoize` decorator significantly reduces the computation time for large input values by caching results.\n\nExplanation:\nThe `memoize` decorator is used here to cache the results of the `fibonacci` function calls. When a result is computed, it is stored in a dictionary (`cache`). Subsequent calls with the same arguments will return the cached result instead of recomputing it, thus significantly reducing computation time for large input values.",
+    "timestamp": "2026-01-25 08:01:49",
+    "topic": "Functional Programming Utilities"
   }
 }
