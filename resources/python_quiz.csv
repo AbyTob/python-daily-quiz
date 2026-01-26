@@ -36209,3 +36209,43 @@ Explanation:
 - Inside the decorator, a new asynchronous wrapper function (`wrapper`) is created and returned.
 - When `await my_async_function()` is executed in `main`, the actual function call happens inside this wrapper.
 - The wrapper first prints ""Before calling function"", then calls the original async function, which executes its body printing ""Inside my_async_function"", and finally prints ""After calling function"".";"Answer format error. Please check the generated content."
+"2026-01-26 00:01";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data():
+    print(""Fetching data..."")
+    await asyncio.sleep(2)
+    return ""Data""
+
+async def process_data(data):
+    print(f""Processing {data}..."")
+    await asyncio.sleep(1)
+
+async def main():
+    task = asyncio.create_task(fetch_data())
+    data = await task
+    await process_data(data)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+How can you modify the `main` function to run both `fetch_data` and `process_data` concurrently and measure the total time taken for both operations? Use proper asyncio constructs to achieve this.
+
+A) Modify `main` to use `asyncio.gather` on the tasks created by `create_task`.
+
+B) Directly call `fetch_data()` and `process_data()` without creating tasks.
+
+C) Use `await` on `task` before starting `process_data`.
+
+D) Create a new task for `process_data` but do not wait for it to complete.
+
+**Part 2 (Answer):**
+
+A) Modify `main` to use `asyncio.gather` on the tasks created by `create_task`.
+
+Explanation: The correct answer is A. To run both `fetch_data` and `process_data` concurrently, you need to create tasks for both functions using `asyncio.create_task`. Then, you should use `asyncio.gather` to wait for both tasks to complete. This will measure the total time taken for both operations efficiently by utilizing asyncio's asynchronous execution capabilities.";"Answer format error. Please check the generated content."

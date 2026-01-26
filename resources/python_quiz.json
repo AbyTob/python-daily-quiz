@@ -5766,5 +5766,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-25 16:01:54",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2026-01-26": {
+    "id": "1769385706_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    print(\"Fetching data...\")\n    await asyncio.sleep(2)\n    return \"Data\"\n\nasync def process_data(data):\n    print(f\"Processing {data}...\")\n    await asyncio.sleep(1)\n\nasync def main():\n    task = asyncio.create_task(fetch_data())\n    data = await task\n    await process_data(data)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nHow can you modify the `main` function to run both `fetch_data` and `process_data` concurrently and measure the total time taken for both operations? Use proper asyncio constructs to achieve this.\n\nA) Modify `main` to use `asyncio.gather` on the tasks created by `create_task`.\n\nB) Directly call `fetch_data()` and `process_data()` without creating tasks.\n\nC) Use `await` on `task` before starting `process_data`.\n\nD) Create a new task for `process_data` but do not wait for it to complete.\n\n**Part 2 (Answer):**\n\nA) Modify `main` to use `asyncio.gather` on the tasks created by `create_task`.\n\nExplanation: The correct answer is A. To run both `fetch_data` and `process_data` concurrently, you need to create tasks for both functions using `asyncio.create_task`. Then, you should use `asyncio.gather` to wait for both tasks to complete. This will measure the total time taken for both operations efficiently by utilizing asyncio's asynchronous execution capabilities.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-01-26 00:01:46",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
