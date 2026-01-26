@@ -5780,5 +5780,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-26 08:02:13",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-01-26": {
+    "id": "1769443319_3",
+    "question": "### Question\n\nConsider the following Python code that uses asyncio and metaclasses:\n\n```python\nimport asyncio\n\nclass AsyncMeta(type):\n    async def __call__(cls, *args, **kwargs):\n        instance = super().__call__(*args, **kwargs)\n        await instance.setup()\n        return instance\n\nclass MyClass(metaclass=AsyncMeta):\n    async def setup(self):\n        print(\"Setting up...\")\n        await asyncio.sleep(1)\n\nasync def main():\n    my_instance = MyClass()  # This line will raise an error\n    await my_instance.setup()\n\n# Uncomment the following to run the code\n# asyncio.run(main())\n```\n\nWhich of the following best describes why running this code would result in an error?\n\nA) The `MyClass` constructor is not asynchronous and cannot be awaited.\n\nB) The `AsyncMeta` metaclass does not properly handle the creation of async instances.\n\nC) The `setup` method is being called before the instance has been fully created.\n\nD) The `asyncio.sleep(1)` inside the `setup` method blocks the entire event loop, causing a deadlock.",
+    "answer": "### Answer\n\nB) The `AsyncMeta` metaclass does not properly handle the creation of async instances.\n\nExplanation:\nThe issue with the provided code is that while the `__call__` method in the `AsyncMeta` metaclass is defined to be asynchronous, it attempts to call itself recursively without using `await`, which can lead to an infinite recursion or other unexpected behavior. Additionally, when creating an instance of `MyClass`, you don't need to await the result of the metaclass call since the metaclass is responsible for calling `setup` asynchronously after the instance is created. The error likely arises because the method call and the setup are not properly awaited, leading to a potential race condition or other issues related to async execution flow.",
+    "timestamp": "2026-01-26 16:01:59",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
