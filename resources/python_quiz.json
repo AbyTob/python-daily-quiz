@@ -5773,5 +5773,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-26 00:01:46",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2026-01-26": {
+    "id": "1769414533_2",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code:\n\n```python\nimport asyncio\n\nclass AsyncTimer:\n    def __init__(self, interval):\n        self.interval = interval\n\n    async def __aenter__(self):\n        print(f\"Starting timer with interval {self.interval}\")\n        return self\n\n    async def __aexit__(self, exc_type, exc_value, traceback):\n        print(\"Stopping timer\")\n\nasync def do_something():\n    async with AsyncTimer(2) as timer:\n        await asyncio.sleep(1)\n        print(\"Doing something\")\n        await asyncio.sleep(1)\n\n# Example usage\nasyncio.run(do_something())\n```\n\nWhat is the output of this code, and why?\n\nA) Starting timer with interval 2  \n   Doing something  \n   Stopping timer  \n\nB) Starting timer with interval 2  \n   Stopping timer  \n   Doing something  \n\nC) Doing something  \n   Starting timer with interval 2  \n   Stopping timer  \n\nD) Error: context manager must define __aenter__ and __aexit__\n\n**Part 2 (Answer):**\n\nA) Starting timer with interval 2  \n   Doing something  \n   Stopping timer  \n\n**Explanation:**\n\nThe output is `Starting timer with interval 2`, followed by `Doing something`, and finally `Stopping timer`. This sequence is determined by the order of operations in the context manager protocol.\n\n- When entering the `AsyncTimer` context manager, the `__aenter__` method is called. It prints \"Starting timer with interval 2\" and returns the `self` instance.\n- The code then proceeds to execute the block within the `async with` statement, which consists of two calls to `await asyncio.sleep(1)`, followed by a print statement.\n- After exiting the `AsyncTimer` context manager, the `__aexit__` method is called. It prints \"Stopping timer\".\n\nThe order of the print statements is therefore `Starting timer with interval 2`, followed by `Doing something`, and finally `Stopping timer`. This output demonstrates the correct behavior of an asynchronous context manager in Python.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-01-26 08:02:13",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
