@@ -36379,3 +36379,51 @@ C) The `Singleton` metaclass ensures that there is only one instance of `Databas
 D) The `connect` method will be called every time an instance of `Database` is accessed.";"C) The `Singleton` metaclass ensures that there is only one instance of `Database`.
 
 Explanation: The Singleton metaclass overrides the `__call__` method to control the instantiation process. When an instance of `Database` is created, it checks if an instance already exists in the `_instances` dictionary. If not, it creates a new instance and stores it in the dictionary. Any subsequent attempts to create an instance return the previously stored instance, ensuring that only one instance of `Database` exists throughout the application. Therefore, `db1 is db2` will be `True`, confirming that the Singleton pattern is correctly implemented."
+"2026-01-27 08:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import threading
+
+class ThreadSafeSingleton:
+    _instances = {}
+    _lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            with cls._lock:
+                if cls not in cls._instances:
+                    instance = super(ThreadSafeSingleton, cls).__new__(cls)
+                    cls._instances[cls] = instance
+        return cls._instances[cls]
+
+    def __init__(self, value):
+        self.value = value
+
+# Create a singleton instance of ThreadSafeSingleton
+singleton1 = ThreadSafeSingleton(42)
+
+def modify_singleton(value):
+    global singleton1
+    singleton1 = ThreadSafeSingleton(value)
+
+def thread_task():
+    print(singleton1.value)
+
+if __name__ == ""__main__"":
+    t1 = threading.Thread(target=thread_task)
+    t2 = threading.Thread(target=modify_singleton, args=(100,))
+    
+    t1.start()
+    t2.join()  # Wait for t2 to complete
+    t1.join()  # Wait for t1 to complete
+    
+    print(singleton1.value)
+```
+
+Which of the following statements about the code is correct?  
+A) The output will always be `42` because the singleton ensures that only one instance can exist.  
+B) The output could be `42` or `100`, depending on the order in which threads execute.  
+C) The output will always be `100` because the thread modifying the singleton happens after `t1` starts and before `t1` completes.  
+D) The code will raise a `RecursionError` due to improper use of `__new__`."

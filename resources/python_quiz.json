@@ -5794,5 +5794,12 @@
     "answer": "C) The `Singleton` metaclass ensures that there is only one instance of `Database`.\n\nExplanation: The Singleton metaclass overrides the `__call__` method to control the instantiation process. When an instance of `Database` is created, it checks if an instance already exists in the `_instances` dictionary. If not, it creates a new instance and stores it in the dictionary. Any subsequent attempts to create an instance return the previously stored instance, ensuring that only one instance of `Database` exists throughout the application. Therefore, `db1 is db2` will be `True`, confirming that the Singleton pattern is correctly implemented.",
     "timestamp": "2026-01-27 00:01:49",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q2_2026-01-27": {
+    "id": "1769500912_2",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nimport threading\n\nclass ThreadSafeSingleton:\n    _instances = {}\n    _lock = threading.Lock()\n\n    def __new__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            with cls._lock:\n                if cls not in cls._instances:\n                    instance = super(ThreadSafeSingleton, cls).__new__(cls)\n                    cls._instances[cls] = instance\n        return cls._instances[cls]\n\n    def __init__(self, value):\n        self.value = value\n\n# Create a singleton instance of ThreadSafeSingleton\nsingleton1 = ThreadSafeSingleton(42)\n\ndef modify_singleton(value):\n    global singleton1\n    singleton1 = ThreadSafeSingleton(value)\n\ndef thread_task():\n    print(singleton1.value)\n\nif __name__ == \"__main__\":\n    t1 = threading.Thread(target=thread_task)\n    t2 = threading.Thread(target=modify_singleton, args=(100,))\n    \n    t1.start()\n    t2.join()  # Wait for t2 to complete\n    t1.join()  # Wait for t1 to complete\n    \n    print(singleton1.value)\n```\n\nWhich of the following statements about the code is correct?  \nA) The output will always be `42` because the singleton ensures that only one instance can exist.  \nB) The output could be `42` or `100`, depending on the order in which threads execute.  \nC) The output will always be `100` because the thread modifying the singleton happens after `t1` starts and before `t1` completes.  \nD) The code will raise a `RecursionError` due to improper use of `__new__`.",
+    "timestamp": "2026-01-27 08:01:52",
+    "topic": "Advanced Python Programming"
   }
 }
