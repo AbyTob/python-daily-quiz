@@ -5815,5 +5815,12 @@
     "answer": "[ANSWER] C) Create a dictionary to store `_shared_counter` as an instance attribute in the metaclass's `__new__` method.\n\n**Explanation:**\nIn Python, metaclasses control class creation. When you create a new class using a metaclass, the `__new__` method of the metaclass is called before the `__init__` method to actually construct the class object. In this case, we need to ensure that each instance has its own `_shared_counter`. We can achieve this by storing `_shared_counter` as an attribute in the `Counter` class itself, rather than as a class variable on the metaclass. This way, each instance will have its own copy of `_shared_counter`, and modifying it in one instance will not affect the value in another instance.",
     "timestamp": "2026-01-28 00:02:18",
     "topic": "Counter Objects and Frequency Analysis"
+  },
+  "q2_2026-01-28": {
+    "id": "1769587306_2",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code that uses a metaclass to enforce type checking on class attributes:\n\n```python\nclass TypeEnforcer(type):\n    def __new__(cls, name, bases, dct):\n        for attr, value in dct.items():\n            if not isinstance(value, int):\n                raise TypeError(f\"{attr} must be an integer\")\n        return super().__new__(cls, name, bases, dct)\n\nclass DataClass(metaclass=TypeEnforcer):\n    a = 1\n    b = \"string\"  # This will cause an error when the class is defined\n\n# Uncommenting the following line will raise an error\n# data = DataClass()\n```\n\nWhat happens if you uncomment the `data = DataClass()` line, and why?\n\nA) The code will run without errors.\n\nB) A `TypeError` will be raised because \"b\" is not an integer.\n\nC) The class definition will fail to complete due to a syntax error.\n\nD) An infinite recursion error will occur.\n\n**Part 2 (Answer):**\n\nB) A `TypeError` will be raised because \"b\" is not an integer.\n\nExplanation: When the `DataClass` is being defined, the metaclass `TypeEnforcer` checks each attribute of the class. It encounters that `b` has a value of `\"string\"` which is not an integer, thus it raises a `TypeError`. This error occurs before any instance of `DataClass` can be created, making options A and C incorrect. Infinite recursion is not possible in this context due to the metaclass enforcement happening during class creation rather than during runtime.",
+    "timestamp": "2026-01-28 08:01:46",
+    "topic": "Advanced Python Programming"
   }
 }

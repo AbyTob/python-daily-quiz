@@ -36493,3 +36493,38 @@ D) Modify the `increment` method to use a thread-safe atomic operation on `_shar
 
 **Explanation:**
 In Python, metaclasses control class creation. When you create a new class using a metaclass, the `__new__` method of the metaclass is called before the `__init__` method to actually construct the class object. In this case, we need to ensure that each instance has its own `_shared_counter`. We can achieve this by storing `_shared_counter` as an attribute in the `Counter` class itself, rather than as a class variable on the metaclass. This way, each instance will have its own copy of `_shared_counter`, and modifying it in one instance will not affect the value in another instance."
+"2026-01-28 08:01";"";"**Part 1 (Question):**
+
+Consider the following Python code that uses a metaclass to enforce type checking on class attributes:
+
+```python
+class TypeEnforcer(type):
+    def __new__(cls, name, bases, dct):
+        for attr, value in dct.items():
+            if not isinstance(value, int):
+                raise TypeError(f""{attr} must be an integer"")
+        return super().__new__(cls, name, bases, dct)
+
+class DataClass(metaclass=TypeEnforcer):
+    a = 1
+    b = ""string""  # This will cause an error when the class is defined
+
+# Uncommenting the following line will raise an error
+# data = DataClass()
+```
+
+What happens if you uncomment the `data = DataClass()` line, and why?
+
+A) The code will run without errors.
+
+B) A `TypeError` will be raised because ""b"" is not an integer.
+
+C) The class definition will fail to complete due to a syntax error.
+
+D) An infinite recursion error will occur.
+
+**Part 2 (Answer):**
+
+B) A `TypeError` will be raised because ""b"" is not an integer.
+
+Explanation: When the `DataClass` is being defined, the metaclass `TypeEnforcer` checks each attribute of the class. It encounters that `b` has a value of `""string""` which is not an integer, thus it raises a `TypeError`. This error occurs before any instance of `DataClass` can be created, making options A and C incorrect. Infinite recursion is not possible in this context due to the metaclass enforcement happening during class creation rather than during runtime."
