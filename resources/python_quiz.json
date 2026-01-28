@@ -5808,5 +5808,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-01-27 16:01:47",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2026-01-28": {
+    "id": "1769558538_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to create a class attribute that is shared across all instances of the class. However, you want to ensure that each instance can modify its own copy of this attribute independently.\n\n```python\nclass SharedCounterMeta(type):\n    def __init__(cls, name, bases, dct):\n        super().__init__(name, bases, dct)\n        cls._shared_counter = 0\n\nclass Counter(metaclass=SharedCounterMeta):\n    def increment(self):\n        self.__class__._shared_counter += 1\n        return self.__class__._shared_counter\n\n# Example usage:\nc1 = Counter()\nprint(c1.increment())  # Output: 1\n\nc2 = Counter()\nprint(c2.increment())  # Output: 2\n```\n\nWhat modification can you make to the `SharedCounterMeta` metaclass so that each instance of `Counter` has its own copy of `_shared_counter`, and modifying it in one instance does not affect the value in another instance?\n\nA) Add a unique attribute for each instance in the metaclass's `__init__` method.\n\nB) Use a class variable instead of an instance variable within the `increment` method.\n\nC) Create a dictionary to store `_shared_counter` as an instance attribute in the metaclass's `__new__` method.\n\nD) Modify the `increment` method to use a thread-safe atomic operation on `_shared_counter`.",
+    "answer": "[ANSWER] C) Create a dictionary to store `_shared_counter` as an instance attribute in the metaclass's `__new__` method.\n\n**Explanation:**\nIn Python, metaclasses control class creation. When you create a new class using a metaclass, the `__new__` method of the metaclass is called before the `__init__` method to actually construct the class object. In this case, we need to ensure that each instance has its own `_shared_counter`. We can achieve this by storing `_shared_counter` as an attribute in the `Counter` class itself, rather than as a class variable on the metaclass. This way, each instance will have its own copy of `_shared_counter`, and modifying it in one instance will not affect the value in another instance.",
+    "timestamp": "2026-01-28 00:02:18",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }

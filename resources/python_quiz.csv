@@ -36459,3 +36459,37 @@ A) It will print ""Hello from MyClass!""
 
 Explanation:
 The `AddHello` metaclass successfully adds the `hello` method to any class it decorates. When an instance of `MyClass` is created and its `hello` method is called, it executes as defined in the metaclass, printing ""Hello from MyClass!"" This demonstrates how metaclasses can dynamically modify class attributes at runtime, enhancing their behavior without altering the original source code.";"Answer format error. Please check the generated content."
+"2026-01-28 00:02";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to create a class attribute that is shared across all instances of the class. However, you want to ensure that each instance can modify its own copy of this attribute independently.
+
+```python
+class SharedCounterMeta(type):
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        cls._shared_counter = 0
+
+class Counter(metaclass=SharedCounterMeta):
+    def increment(self):
+        self.__class__._shared_counter += 1
+        return self.__class__._shared_counter
+
+# Example usage:
+c1 = Counter()
+print(c1.increment())  # Output: 1
+
+c2 = Counter()
+print(c2.increment())  # Output: 2
+```
+
+What modification can you make to the `SharedCounterMeta` metaclass so that each instance of `Counter` has its own copy of `_shared_counter`, and modifying it in one instance does not affect the value in another instance?
+
+A) Add a unique attribute for each instance in the metaclass's `__init__` method.
+
+B) Use a class variable instead of an instance variable within the `increment` method.
+
+C) Create a dictionary to store `_shared_counter` as an instance attribute in the metaclass's `__new__` method.
+
+D) Modify the `increment` method to use a thread-safe atomic operation on `_shared_counter`.";"[ANSWER] C) Create a dictionary to store `_shared_counter` as an instance attribute in the metaclass's `__new__` method.
+
+**Explanation:**
+In Python, metaclasses control class creation. When you create a new class using a metaclass, the `__new__` method of the metaclass is called before the `__init__` method to actually construct the class object. In this case, we need to ensure that each instance has its own `_shared_counter`. We can achieve this by storing `_shared_counter` as an attribute in the `Counter` class itself, rather than as a class variable on the metaclass. This way, each instance will have its own copy of `_shared_counter`, and modifying it in one instance will not affect the value in another instance."
