@@ -36579,3 +36579,35 @@ The code snippet demonstrates a decorator pattern implemented as a class method.
 Option A is incorrect because `time.sleep(2)` only happens when the function is called for the first time.
 Option B is incorrect as metaclasses in Python allow you to modify or replace class definitions at runtime, which this code does not do. It’s using a decorator pattern instead of a metaclass.
 Option D is incorrect because the `@wraps(func)` decorator preserves the metadata of the original function (`compute_expensive_operation`), which includes its name and docstring."
+"2026-01-29 00:01";"";"Part 1 (Question): Consider the following Python code snippet that uses a decorator to measure execution time:
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Executing {func.__name__} took {end_time - start_time:.4f} seconds."")
+        return result
+    return wrapper
+
+@timing_decorator
+def compute_sum(n):
+    return sum(range(1, n+1))
+
+# Run the function
+result = compute_sum(1000000)
+```
+
+Which of the following statements correctly describes what happens when `compute_sum` is called with an argument of 1000000?
+
+A) The decorator prints the time taken to execute `compute_sum`, and then returns the sum from 1 to 1000000.
+B) The decorator calculates the sum but does not print any execution time.
+C) The function execution is slowed down by the decorator, making it take longer than usual.
+D) The decorator fails to run, causing a runtime error.
+
+Part 2 (Answer): A) The decorator prints the time taken to execute `compute_sum`, and then returns the sum from 1 to 1000000.
+
+Explanation: The `timing_decorator` is defined to measure and print the execution time of any function it decorates. When `@timing_decorator` is used on `compute_sum`, calling `compute_sum(1000000)` will first execute the `wrapper` function, which starts a timer before and after calling `compute_sum`. It then prints the execution time and returns the result of `compute_sum`. Therefore, both the sum and the execution time are correctly computed and printed."
