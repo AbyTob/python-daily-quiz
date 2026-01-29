@@ -36611,3 +36611,32 @@ D) The decorator fails to run, causing a runtime error.
 Part 2 (Answer): A) The decorator prints the time taken to execute `compute_sum`, and then returns the sum from 1 to 1000000.
 
 Explanation: The `timing_decorator` is defined to measure and print the execution time of any function it decorates. When `@timing_decorator` is used on `compute_sum`, calling `compute_sum(1000000)` will first execute the `wrapper` function, which starts a timer before and after calling `compute_sum`. It then prints the execution time and returns the result of `compute_sum`. Therefore, both the sum and the execution time are correctly computed and printed."
+"2026-01-29 08:01";"";"Part 1 (Question):
+Consider the following Python code snippet that attempts to create a decorator which tracks the number of times a function is called:
+
+```python
+def call_counter(func):
+    func._count = 0
+    
+    def wrapper(*args, **kwargs):
+        func._count += 1
+        return func(*args, **kwargs)
+    
+    return wrapper
+
+@call_counter
+def greet(name):
+    print(f""Hello, {name}!"")
+```
+
+What is the issue with this implementation? How can it be fixed to correctly track the number of times `greet` is called?
+
+A) The function `_count` should be stored in a nonlocal variable within the wrapper.
+B) The decorator should use the `functools.wraps` to preserve the metadata of the original function.
+C) The function `_count` should be defined as a local variable within the wrapper.
+D) The decorator should be applied using `@wraps(func)` to avoid attribute errors.
+
+Part 2 (Answer):
+B) The decorator should use the `functools.wraps` to preserve the metadata of the original function.
+
+Explanation: The issue with this implementation is that it does not properly preserve the metadata of the original function. When you decorate a function, Python loses information about the original function such as its name, docstring, and other attributes unless you use `functools.wraps`. If you don't, calling `greet.__name__`, for example, will return 'wrapper' instead of 'greet'. Applying `@wraps(func)` to the wrapper function ensures that all metadata from `func` is retained."
