@@ -36781,3 +36781,36 @@ Explanation:
 - A metaclass is invoked when a class is being created, and it can customize the creation process. In this case, the `Meta` metaclass will be called because `ConcreteClass` is a subclass of `MyClass`, which specifies `metaclass=Meta`.
 - The `register` method of an ABC (Abstract Base Class) allows a concrete class to register itself as an implementation of the abstract methods defined in the ABC. This registration does not affect whether the method is considered abstract or not; it simply adds the class to the set of known subclasses that implement all abstract methods.
 - Therefore, when running the program, ""Creating class ConcreteClass"" will be printed by the metaclass, and no errors will occur related to `my_method`. The `ConcreteClass` successfully registers itself as a subclass of `MyClass`, making option D correct."
+"2026-01-30 16:01";"Part 1 (Question):
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def my_async_function():
+    print(""Starting async function"")
+    await asyncio.sleep(1)
+    print(""Finished async function"")
+
+# Using the decorated function
+result = my_async_function()
+print(result)
+```
+
+Which of the following statements is true about the behavior of this code?
+
+A) The `my_async_function` will run synchronously and not wait for the sleep.
+B) The output will be ""Starting async function"", then ""Finished async function"" after 1 second, followed by ""None"".
+C) An error will occur because `asyncio.run()` cannot be used with a decorator directly.
+D) The code will hang indefinitely.";"Part 2 (Answer):
+B) The output will be ""Starting async function"", then ""Finished async function"" after 1 second, followed by ""None"".
+
+Explanation: The `AsyncDecorator` class is designed to take an asynchronous function and run it using `asyncio.run()`, which handles the execution of the coroutine until it completes. When `my_async_function()` is called without parentheses, it returns a coroutine object. The `__call__` method of the decorator then calls `asyncio.run()` on this coroutine, causing the program to wait for 1 second and print ""Finished async function"". The result of `my_async_function()` is `None`, as there's no return value in the function, and it's not explicitly awaited or assigned."
