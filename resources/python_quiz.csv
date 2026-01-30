@@ -36739,3 +36739,45 @@ D) None";"**Part 2 (Answer):**
 Calling my_method
 my_method returned 6
 ```"
+"2026-01-30 08:02";"Part 1 (Question):
+Consider the following Python code that uses a decorator and a metaclass together:
+
+```python
+from abc import ABC, abstractmethod
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(ABC, metaclass=Meta):
+    @abstractmethod
+    async def my_method(self):
+        pass
+
+@MyClass.register
+class ConcreteClass:
+    async def my_method(self):
+        print(""Method implementation"")
+
+# Usage
+async def main():
+    obj = ConcreteClass()
+    await obj.my_method()
+
+import asyncio
+asyncio.run(main())
+```
+
+Which of the following statements is true about this code?
+
+A) The `Meta` metaclass will not be called when creating `ConcreteClass`.
+B) The `my_method` method in `ConcreteClass` will be registered as an abstract method.
+C) When running the program, it will print ""Creating class ConcreteClass"" and then raise a TypeError.
+D) The `ConcreteClass` can successfully register itself as a subclass of `MyClass`.";"Part 2 (Answer):
+The correct answer is D.
+
+Explanation:
+- A metaclass is invoked when a class is being created, and it can customize the creation process. In this case, the `Meta` metaclass will be called because `ConcreteClass` is a subclass of `MyClass`, which specifies `metaclass=Meta`.
+- The `register` method of an ABC (Abstract Base Class) allows a concrete class to register itself as an implementation of the abstract methods defined in the ABC. This registration does not affect whether the method is considered abstract or not; it simply adds the class to the set of known subclasses that implement all abstract methods.
+- Therefore, when running the program, ""Creating class ConcreteClass"" will be printed by the metaclass, and no errors will occur related to `my_method`. The `ConcreteClass` successfully registers itself as a subclass of `MyClass`, making option D correct."
