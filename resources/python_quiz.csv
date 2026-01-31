@@ -36851,3 +36851,34 @@ Explanation:
   - Option A does not apply since there are no abstract methods involved.
   - Option C is wrong because the metaclass adds `foo` to all classes derived from `Base`, including `Derived`.
   - Option D is incorrect because `Derived` instances have access to all methods inherited from their base classes."
+"2026-01-31 08:01";"[QUESTION]
+Consider the following Python code that uses metaclasses to track the instantiation of a class:
+
+```python
+class Meta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=Meta):
+    pass
+
+a = MyClass()
+b = MyClass()
+
+print(a is b)  # Output: True
+```
+
+Which of the following statements accurately describes what this code does?
+
+A) The class `MyClass` uses a metaclass to ensure that only one instance of `MyClass` can be created.
+B) The metaclass `Meta` ensures that every time an instance of `MyClass` is created, it stores the instance in `_instances` and returns it when called again.
+C) The code demonstrates a use case for decorators rather than metaclasses.
+D) The output will be `False` because `a` and `b` are two different instances.";"[ANSWER]
+A) The class `MyClass` uses a metaclass to ensure that only one instance of `MyClass` can be created.
+
+Explanation: This code defines a metaclass `Meta` that overrides the `__call__` method. When an instance of a class with this metaclass is created, it checks if an instance already exists in `_instances`. If not, it creates a new instance, stores it in `_instances`, and returns it. Subsequent calls return the stored instance, ensuring only one instance exists. The test `print(a is b)` will output `True` because both `a` and `b` refer to the same instance of `MyClass`."
