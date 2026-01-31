@@ -36882,3 +36882,40 @@ D) The output will be `False` because `a` and `b` are two different instances.";
 A) The class `MyClass` uses a metaclass to ensure that only one instance of `MyClass` can be created.
 
 Explanation: This code defines a metaclass `Meta` that overrides the `__call__` method. When an instance of a class with this metaclass is created, it checks if an instance already exists in `_instances`. If not, it creates a new instance, stores it in `_instances`, and returns it. Subsequent calls return the stored instance, ensuring only one instance exists. The test `print(a is b)` will output `True` because both `a` and `b` refer to the same instance of `MyClass`."
+"2026-01-31 16:01";"[QUESTION]  
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, timeout):
+        self.timeout = timeout
+
+    async def wait(self):
+        await asyncio.sleep(self.timeout)
+        print(f""Timer expired after {self.timeout} seconds"")
+
+async def main():
+    timers = [AsyncTimer(i) for i in range(1, 4)]
+    tasks = [timer.wait() for timer in timers]
+    await asyncio.gather(*tasks)
+
+if __name__ == ""__main__"":
+    import time
+    start_time = time.time()
+    asyncio.run(main())
+    print(f""Total execution time: {time.time() - start_time} seconds"")
+```
+
+Which of the following statements is true about the performance of this script?
+
+A) The timers are executed concurrently, and the total execution time should be approximately 3 seconds.
+
+B) The timers are executed sequentially, and the total execution time should be approximately 6 seconds.
+
+C) The timers are not truly asynchronous; they block the event loop and do not improve performance.
+
+D) There is an error in the code that prevents it from running correctly.";"A) The timers are executed concurrently, and the total execution time should be approximately 3 seconds.
+
+Explanation: The `asyncio.gather` function runs the tasks concurrently. Since each task simply waits for a fixed amount of time using `asyncio.sleep`, the total execution time is dominated by the longest individual wait time, which is 3 seconds in this case (waiting times are 1, 2, and 3 seconds respectively). Therefore, the script executes approximately as fast as if it were running three sequential sleeps, resulting in a total execution time close to 3 seconds."
