@@ -37028,3 +37028,33 @@ D) The `asyncio.run(run())` call is unnecessary since the code does not perform 
 B) is incorrect because `async_increment` is designed to be run in an async context and can work as expected with proper handling.
 C) is correct. Both methods are thread-safe when used correctly but without additional synchronization from the calling context, there could be issues if both methods are invoked simultaneously from different threads without careful coordination.
 D) is incorrect because `asyncio.run(run())` is necessary to execute an asynchronous function that contains coroutine functions."
+"2026-02-01 16:01";"[QUESTION]
+Consider the following Python code snippet that uses a decorator to measure the execution time of functions:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Executing {func.__name__} took {end_time - start_time:.4f}s"")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    return sum(range(n))
+
+# Run the function to observe its behavior
+result = compute_sum(1000000)
+print(f""Result: {result}"")
+```
+
+Which of the following statements about this code is true?
+
+A) The `timer` decorator will print the execution time every time `compute_sum` is called.
+B) The `wrapper` function captures and returns the result of `func`, but it does not modify the result.
+C) If `compute_sum` takes a long time to execute, the program will hang due to excessive logging.
+D) The `timer` decorator modifies the original `compute_sum` function in place.";"A) The `timer` decorator will print the execution time every time `compute_sum` is called."

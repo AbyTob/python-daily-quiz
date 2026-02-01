@@ -5906,5 +5906,12 @@
     "answer": "A) is incorrect because it doesn't acknowledge that both increment methods use locks and will therefore prevent race conditions, leading to a consistent output.\nB) is incorrect because `async_increment` is designed to be run in an async context and can work as expected with proper handling.\nC) is correct. Both methods are thread-safe when used correctly but without additional synchronization from the calling context, there could be issues if both methods are invoked simultaneously from different threads without careful coordination.\nD) is incorrect because `asyncio.run(run())` is necessary to execute an asynchronous function that contains coroutine functions.",
     "timestamp": "2026-02-01 08:02:08",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-02-01": {
+    "id": "1769961700_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a decorator to measure the execution time of functions:\n\n```python\nimport time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Executing {func.__name__} took {end_time - start_time:.4f}s\")\n        return result\n    return wrapper\n\n@timer\ndef compute_sum(n):\n    return sum(range(n))\n\n# Run the function to observe its behavior\nresult = compute_sum(1000000)\nprint(f\"Result: {result}\")\n```\n\nWhich of the following statements about this code is true?\n\nA) The `timer` decorator will print the execution time every time `compute_sum` is called.\nB) The `wrapper` function captures and returns the result of `func`, but it does not modify the result.\nC) If `compute_sum` takes a long time to execute, the program will hang due to excessive logging.\nD) The `timer` decorator modifies the original `compute_sum` function in place.",
+    "answer": "A) The `timer` decorator will print the execution time every time `compute_sum` is called.",
+    "timestamp": "2026-02-01 16:01:40",
+    "topic": "Advanced Logging Configuration"
   }
 }
