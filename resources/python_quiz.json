@@ -5927,5 +5927,12 @@
     "answer": "B) The output could be either `[1]` or `[2]` depending on the order of thread execution.",
     "timestamp": "2026-02-02 08:02:05",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q3_2026-02-02": {
+    "id": "1770048105_3",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def async_task(task_id):\n    print(f\"Task {task_id} started\")\n    await asyncio.sleep(1)\n    print(f\"Task {task_id} completed\")\n\nasync def main():\n    tasks = [async_task(i) for i in range(5)]\n    await asyncio.gather(*tasks)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements about this code is true?\n\nA) The tasks will run concurrently, and each task will take 1 second to complete.  \nB) All tasks will start immediately, but since they are async, they will all finish at the same time after 1 second.  \nC) Only one task will run at a time, taking 5 seconds in total.  \nD) The code will not run because `asyncio.gather` is missing.\n\n**Part 2 (Answer):**\n\nA) Correct\n\nExplanation:\n- In the provided code, `async_task` functions are created asynchronously using `async def`.\n- When these tasks are added to a list and passed to `asyncio.gather`, they are scheduled to run concurrently.\n- Each task will take 1 second to complete because of the `await asyncio.sleep(1)` statement. Since they are running concurrently, all tasks will finish after approximately 1 second each, totaling around 5 seconds for all tasks combined.",
+    "timestamp": "2026-02-02 16:01:45",
+    "topic": "Advanced Python Programming"
   }
 }
