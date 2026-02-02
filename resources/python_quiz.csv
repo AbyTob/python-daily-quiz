@@ -37058,3 +37058,47 @@ A) The `timer` decorator will print the execution time every time `compute_sum` 
 B) The `wrapper` function captures and returns the result of `func`, but it does not modify the result.
 C) If `compute_sum` takes a long time to execute, the program will hang due to excessive logging.
 D) The `timer` decorator modifies the original `compute_sum` function in place.";"A) The `timer` decorator will print the execution time every time `compute_sum` is called."
+"2026-02-02 00:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses decorators and context managers to manage resources:
+
+```python
+from contextlib import contextmanager
+
+def log_access(func):
+    def wrapper(*args, **kwargs):
+        print(f""Accessing {func.__name__}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_access
+@contextmanager
+def open_file(file_path, mode):
+    file = open(file_path, mode)
+    yield file
+    file.close()
+
+with open_file(""example.txt"", ""w"") as f:
+    f.write(""Hello, world!"")
+```
+
+Which of the following statements correctly describes the behavior and usage of the `open_file` decorator and context manager?
+
+A) The `log_access` decorator is incorrectly placed above the `contextmanager` decorator, causing a syntax error.
+
+B) The `open_file` function acts as both a decorator and a context manager. When used as a decorator, it logs access to the decorated function. When used as a context manager, it manages the opening and closing of a file.
+
+C) The `log_access` decorator does not affect the functionality of the `open_file` context manager.
+
+D) The `with` statement is used to apply the `log_access` decorator to the `open_file` context manager, which logs access and then manages the file.";"**Part 2 (Answer):**
+
+B) The `open_file` function acts as both a decorator and a context manager. When used as a decorator, it logs access to the decorated function. When used as a context manager, it manages the opening and closing of a file.
+
+Explanation:
+The provided code demonstrates how decorators and context managers can be combined in Python to create powerful tools for managing resources and logging behavior. The `log_access` decorator is correctly placed before the `contextmanager` decorator, although it will not affect the functionality of the context manager since context managers are used with the `with` statement, which bypasses decorators.
+
+The `open_file` function first acts as a decorator when used with the `@log_access` syntax. This means that calling `open_file(""example.txt"", ""w"")` will execute the `wrapper` function from `log_access`, logging access before proceeding to the actual file operation.
+
+Secondly, when `open_file` is used within a `with` statement, it functions as a context manager. The `@contextmanager` decorator allows the generator function to be used like a context manager. When entering the `with` block, the file is opened and yielded, and upon exiting the block (when control leaves the `with` statement), the file is closed automatically.
+
+Therefore, the correct behavior involves both logging and resource management, making option B the accurate description of how the `open_file` function behaves in this context."
