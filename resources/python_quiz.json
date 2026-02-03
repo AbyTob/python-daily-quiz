@@ -5941,5 +5941,12 @@
     "answer": "A, C, D  \nA) Correct: The `__call__` method in `SingletonMeta` checks if an instance already exists and creates one if not.  \nC) Correct: The `__call__` method is crucial for the singleton pattern as it controls instance creation.\nD) Correct: Calling `db1.connect()` correctly prints \"Connecting to server=localhost\".\nE) Incorrect: While metaclasses can be complex, they are a powerful feature of Python and do not necessarily decrease readability when used appropriately.",
     "timestamp": "2026-02-03 00:02:08",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-02-03": {
+    "id": "1770105722_2",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code:\n\n```python\nimport asyncio\n\nclass AsyncCounter:\n    def __init__(self, start=0):\n        self.value = start\n    \n    async def increment(self):\n        await asyncio.sleep(0.1)\n        self.value += 1\n        print(f\"Current value: {self.value}\")\n\nasync def main():\n    counter = AsyncCounter(0)\n    tasks = [counter.increment() for _ in range(5)]\n    await asyncio.gather(*tasks)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhat will be the output of this program? Explain why.\n\n**Options:**\nA) The value will increment by 1 every second and print each value\nB) The value will increment by 5 but only one value will be printed at a time\nC) The value will not increment and no values will be printed\nD) An exception will be raised",
+    "answer": "**Part 2 (Answer):**\n\n**A) The value will increment by 1 every second and print each value**\n\nExplanation:\nThe code creates an instance of `AsyncCounter` with an initial value of 0. It then creates a list of tasks, each calling the `increment` method on the counter. Since `asyncio.sleep(0.1)` is used within the `increment` method, there is a delay of 0.1 seconds between increments. However, because these calls are all awaited concurrently using `await asyncio.gather(*tasks)`, they will start almost simultaneously and finish in quick succession, leading to an output where each value from 1 to 5 is printed almost immediately after the previous one, giving the impression that the values are incremented by 1 every second.",
+    "timestamp": "2026-02-03 08:02:02",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
