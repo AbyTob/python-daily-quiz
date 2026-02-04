@@ -5955,5 +5955,12 @@
     "answer": "Part 2 (Answer):\nB) Checking if the callable is a coroutine using `inspect.iscoroutinefunction` and handling accordingly.\n\nExplanation: The correct approach involves checking whether the function being decorated is a coroutine or not. For synchronous functions, we can use `time.time()` to measure execution time. For asynchronous functions, we need to use `asyncio.get_event_loop().run_until_complete()` to measure the execution time of the coroutine. This ensures that our decorator works correctly for both sync and async functions without making assumptions about their nature.",
     "timestamp": "2026-02-03 16:02:17",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2026-02-04": {
+    "id": "1770163313_1",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nImplement a decorator that measures the execution time of any asynchronous function and prints it. Use `asyncio` for handling the timing. The decorator should be able to handle both synchronous and asynchronous functions seamlessly.\n\n```python\nimport asyncio\n\n# Your decorator implementation goes here\n\n@measure_execution_time\nasync def async_function():\n    await asyncio.sleep(1)\n    return \"Async task completed\"\n\ndef sync_function():\n    import time\n    time.sleep(1)\n    return \"Sync task completed\"\n```\n\n**Options:**\nA) The code will run without any issues and measure the execution time for both `async_function` and `sync_function`.\n\nB) The decorator will only work with asynchronous functions and will raise an error when applied to synchronous functions.\n\nC) The decorator will not correctly measure the execution time as it does not account for the time spent waiting in `asyncio.sleep`.\n\nD) The code will compile but the output will be incorrect because the decorator measures the time from the moment of calling the decorator, not the actual function call.\n\n**Part 2 (Answer):**\n\n**A) The code will run without any issues and measure the execution time for both `async_function` and `sync_function`.**\n\nExplanation: This option is correct because the decorator should be able to handle both synchronous and asynchronous functions. For an asynchronous function, it would use `asyncio.run()` to measure the total execution time including waiting times. For a synchronous function, it would simply use `time.time()` to get the execution time. Both scenarios are correctly handled in this approach.",
+    "timestamp": "2026-02-04 00:01:53",
+    "topic": "Advanced Python Programming"
   }
 }
