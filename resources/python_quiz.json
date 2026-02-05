@@ -5983,5 +5983,12 @@
     "answer": "B) Resource A acquired. Using resource: A Resource A released. Finished using resources.\n\nExplanation: When the `with` statement is used, it ensures that the context manager (`manage_resource`) properly manages the lifecycle of the resource. The `__enter__` method returns the resource, and the `__exit__` method (which is called automatically when exiting the `with` block) is responsible for cleaning up the resource. In this case, deleting the resource in the `finally` block ensures that the resource is released even if an exception occurs within the block. Therefore, the output will show the resource being acquired, used, and then released before finishing.",
     "timestamp": "2026-02-05 00:02:05",
     "topic": "Context Management Utilities"
+  },
+  "q2_2026-02-05": {
+    "id": "1770278515_2",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that uses a metaclass to create a singleton pattern:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super(SingletonMeta, cls).__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass Singleton(metaclass=SingletonMeta):\n    def __init__(self, value):\n        self.value = value\n\n# Usage\nsingleton1 = Singleton(10)\nsingleton2 = Singleton(20)\n\nprint(singleton1.value)  # Output: ?\nprint(singleton2.value)  # Output: ?\n```\n\nWhat will be printed when the code is executed?\n\nA) 10, 10  \nB) 10, 20  \nC) 20, 20  \nD) An error",
+    "answer": "**Answer:** B) 10, 20\n\n**Explanation:** The `SingletonMeta` metaclass uses a dictionary `_instances` to store instances of classes it creates. When the `Singleton` class is instantiated, `__call__` in `SingletonMeta` checks if an instance already exists for `Singleton`. If not, it creates one and stores it in `_instances`. Any subsequent instantiation of `Singleton` will return the already created instance. In this case, both `singleton1` and `singleton2` refer to the same instance, so their `value` attribute is the value that was set when the instance was first created (i.e., 10).",
+    "timestamp": "2026-02-05 08:01:55",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
