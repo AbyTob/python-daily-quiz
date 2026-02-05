@@ -37456,3 +37456,41 @@ C) Accessing the file system in a sequential manner
 D) Calling the method only once";"**Answer: B) Multiple threads calling `read_data` simultaneously**
 
 **Explanation:** The decorator `log_access` logs each access to the decorated method. When multiple threads call `read_data` simultaneously, each thread will execute its own copy of the `wrapper` function from the decorator. This can lead to a significant overhead due to the context switching between threads and the repeated execution of the logging statement. In contrast, options A and C involve fewer threads and simpler access patterns, while option D only involves a single call, making it the least likely to cause performance degradation in this context."
+"2026-02-05 00:02";"[QUESTION]
+Consider the following Python code:
+
+```python
+from contextlib import contextmanager
+
+class Resource:
+    def __init__(self, name):
+        self.name = name
+        print(f""Resource {name} acquired."")
+
+    def __del__(self):
+        print(f""Resource {self.name} released."")
+
+@contextmanager
+def manage_resource(name):
+    resource = Resource(name)
+    try:
+        yield resource
+    finally:
+        del resource
+
+def use_resource():
+    with manage_resource(""A"") as res:
+        print(f""Using resource: {res.name}"")
+    print(""Finished using resources."")
+
+use_resource()
+```
+
+What is the output of this code, and why?
+
+A) Resource A acquired. Using resource: A Finished using resources.
+B) Resource A acquired. Using resource: A Resource A released. Finished using resources.
+C) Resource A acquired. Using resource: A Resource A released (in some indeterminate order). Finished using resources.
+D) Resource A acquired. Resource A released. Using resource: A Finished using resources.";"B) Resource A acquired. Using resource: A Resource A released. Finished using resources.
+
+Explanation: When the `with` statement is used, it ensures that the context manager (`manage_resource`) properly manages the lifecycle of the resource. The `__enter__` method returns the resource, and the `__exit__` method (which is called automatically when exiting the `with` block) is responsible for cleaning up the resource. In this case, deleting the resource in the `finally` block ensures that the resource is released even if an exception occurs within the block. Therefore, the output will show the resource being acquired, used, and then released before finishing."
