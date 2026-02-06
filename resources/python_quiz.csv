@@ -37614,3 +37614,38 @@ A) It creates three `AsyncTimer` instances with intervals of 1, 2, and 3 seconds
 
 **Explanation:**  
 In Python's asyncio library, creating multiple tasks from the same instance method does not cause an error. Each task is independent and runs concurrently. In this code, `asyncio.gather` is used to run all the tasks concurrently, so each timer will start running immediately after their creation and tick at their respective intervals.";"Answer format error. Please check the generated content."
+"2026-02-06 08:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+from typing import Callable
+
+def memoize(func: Callable) -> Callable:
+    cache = {}
+    
+    def wrapper(*args):
+        if args not in cache:
+            cache[args] = func(*args)
+        return cache[args]
+    
+    return wrapper
+
+@memoize
+def fibonacci(n: int) -> int:
+    if n < 2:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# Create a new memoized version of the fibonacci function
+new_fib = memoize(fibonacci)
+```
+
+Which of the following statements is true regarding the `memoize` decorator and its usage?
+
+A) The `memoize` decorator stores results in a local cache for each call to the original function, preventing redundant calculations.
+
+B) Calling `new_fib(5)` will execute the original `fibonacci` function multiple times because `memoize` does not remember previous calls.
+
+C) Using `@memoize` on `fibonacci` creates a new function that remembers its results but still allows for the original function to be called directly.
+
+D) The `new_fib` function is identical to the original `fibonacci` function and both will compute Fibonacci numbers in the same manner without memoization.";"A) The `memoize` decorator stores results in a local cache for each call to the original function, preventing redundant calculations."

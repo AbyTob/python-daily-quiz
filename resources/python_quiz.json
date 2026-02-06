@@ -6004,5 +6004,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-06 00:02:12",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2026-02-06": {
+    "id": "1770364908_2",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nfrom typing import Callable\n\ndef memoize(func: Callable) -> Callable:\n    cache = {}\n    \n    def wrapper(*args):\n        if args not in cache:\n            cache[args] = func(*args)\n        return cache[args]\n    \n    return wrapper\n\n@memoize\ndef fibonacci(n: int) -> int:\n    if n < 2:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\n# Create a new memoized version of the fibonacci function\nnew_fib = memoize(fibonacci)\n```\n\nWhich of the following statements is true regarding the `memoize` decorator and its usage?\n\nA) The `memoize` decorator stores results in a local cache for each call to the original function, preventing redundant calculations.\n\nB) Calling `new_fib(5)` will execute the original `fibonacci` function multiple times because `memoize` does not remember previous calls.\n\nC) Using `@memoize` on `fibonacci` creates a new function that remembers its results but still allows for the original function to be called directly.\n\nD) The `new_fib` function is identical to the original `fibonacci` function and both will compute Fibonacci numbers in the same manner without memoization.",
+    "answer": "A) The `memoize` decorator stores results in a local cache for each call to the original function, preventing redundant calculations.",
+    "timestamp": "2026-02-06 08:01:48",
+    "topic": "Advanced Type Annotations"
   }
 }
