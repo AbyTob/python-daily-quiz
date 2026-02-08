@@ -37990,3 +37990,36 @@ Explanation:
 - The metaclass `Meta` is used to automatically decorate all callable attributes (methods) of any class using it with the `my_decorator`. This decorator adds print statements before and after the method call.
 - When an instance of `MyClass` is created, the metaclass ensures that `method1` and `method2` are wrapped in the decorator.
 - Therefore, when you call `obj.method1()` and `obj.method2()`, you see the additional print statements indicating what happens before and after each method call."
+"2026-02-08 16:01";"[QUESTION]  
+Consider the following Python code snippet that utilizes a metaclass and class decoration to track all instances of a class:
+
+```python
+class InstanceTracker(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        instance = super().__call__(*args, **kwargs)
+        cls._instances[id(instance)] = instance
+        return instance
+    
+def register_instance(cls):
+    cls.__metaclass__ = InstanceTracker
+
+@register_instance
+class MyClass:
+    def __init__(self, value):
+        self.value = value
+
+# Create instances of MyClass
+obj1 = MyClass(10)
+obj2 = MyClass(20)
+
+print(f""Number of instances: {len(MyClass._instances)}"")
+```
+
+What will the output be when running this code?  
+A) Number of instances: 0  
+B) Number of instances: 1  
+C) Number of instances: 2  
+D) The code will raise an error";"C) Number of instances: 2  
+Explanation: The `register_instance` decorator sets the metaclass of `MyClass` to `InstanceTracker`, which overrides the `__call__` method. This method is called every time a new instance of `MyClass` is created, and it stores each instance in a class-level dictionary `_instances`. Therefore, when we create two instances of `MyClass`, they are stored in `_instances`, resulting in a total of 2 instances being tracked."
