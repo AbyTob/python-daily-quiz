@@ -6046,5 +6046,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-08 00:02:37",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2026-02-08": {
+    "id": "1770537741_2",
+    "question": "[QUESTION]  \nConsider the following Python code that uses both a metaclass and decorators:\n\n```python\ndef my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print(\"Something is happening before the function is called.\")\n        result = func(*args, **kwargs)\n        print(\"Something is happening after the function is called.\")\n        return result\n    return wrapper\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name in dct:\n            if callable(dct[attr_name]):\n                dct[attr_name] = my_decorator(dct[attr_name])\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    def method1(self):\n        print(\"Method 1\")\n\n    def method2(self):\n        print(\"Method 2\")\n```\n\nWhat will be the output of the following code when `MyClass` is instantiated and its methods are called?\n\n```python\nobj = MyClass()\nobj.method1()\nobj.method2()\n```\n\nA) Something is happening before the function is called. Method 1  \n   Something is happening after the function is called.  \n   Something is happening before the function is called. Method 2  \n   Something is happening after the function is called.\n\nB) Method 1  \n   Method 2\n\nC) TypeError: 'MyClass' object has no attribute 'method1'\n\nD) MemoryError: Out of memory",
+    "answer": "A) Something is happening before the function is called. Method 1  \n   Something is happening after the function is called.  \n   Something is happening before the function is called. Method 2  \n   Something is happening after the function is called.\n\nExplanation:\n- The metaclass `Meta` is used to automatically decorate all callable attributes (methods) of any class using it with the `my_decorator`. This decorator adds print statements before and after the method call.\n- When an instance of `MyClass` is created, the metaclass ensures that `method1` and `method2` are wrapped in the decorator.\n- Therefore, when you call `obj.method1()` and `obj.method2()`, you see the additional print statements indicating what happens before and after each method call.",
+    "timestamp": "2026-02-08 08:02:21",
+    "topic": "Function and Method Decorators"
   }
 }
