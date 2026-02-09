@@ -38065,3 +38065,81 @@ Explanation:
 - Option B is correct. The decorator wraps the function so that it runs in its own thread, and since `thread.start()` is called inside the wrapper, each call starts immediately.
 - Option C is incorrect because `join` is used on all threads before exiting the main program, ensuring that all threads have completed execution.
 - Option D is incorrect. Each call to the decorated function indeed runs in a separate thread, so there's no shared thread among instances of the decorated function."
+"2026-02-09 08:03";"[QUESTION]
+You are tasked with creating a Python class that can dynamically add new attributes and methods at runtime. The class should also be able to track the types of these dynamically added attributes and methods. You decide to use a metaclass for this purpose.
+
+Which of the following code snippets correctly implements such a metaclass? 
+
+A) 
+```python
+class DynamicTypeTracker(type):
+    def __new__(cls, name, bases, attrs):
+        new_attrs = {}
+        for attr_name, attr_value in attrs.items():
+            if isinstance(attr_value, (int, str, float)):
+                new_attrs[attr_name] = (attr_value, 'primitive')
+            else:
+                new_attrs[attr_name] = (attr_value, type(attr_value).__name__)
+        return super().__new__(cls, name, bases, new_attrs)
+
+class DynamicClass(metaclass=DynamicTypeTracker):
+    x = 5
+    y = ""hello""
+    z = [1, 2, 3]
+```
+
+B)
+```python
+class DynamicTypeTracker(type):
+    def __init__(cls, name, bases, attrs):
+        for attr_name, attr_value in attrs.items():
+            if isinstance(attr_value, (int, str, float)):
+                setattr(cls, attr_name, (attr_value, 'primitive'))
+            else:
+                setattr(cls, attr_name, (attr_value, type(attr_value).__name__))
+
+class DynamicClass(metaclass=DynamicTypeTracker):
+    x = 5
+    y = ""hello""
+    z = [1, 2, 3]
+```
+
+C) 
+```python
+class DynamicTypeTracker(type):
+    def __new__(cls, name, bases, attrs):
+        new_attrs = {}
+        for attr_name, attr_value in attrs.items():
+            if isinstance(attr_value, (int, str, float)):
+                new_attrs[attr_name] = ('primitive', type(attr_value).__name__)
+            else:
+                new_attrs[attr_name] = (type(attr_value).__name__, 'primitive')
+        return super().__new__(cls, name, bases, new_attrs)
+
+class DynamicClass(metaclass=DynamicTypeTracker):
+    x = 5
+    y = ""hello""
+    z = [1, 2, 3]
+```
+
+D) 
+```python
+class DynamicTypeTracker(type):
+    def __init__(cls, name, bases, attrs):
+        for attr_name, attr_value in attrs.items():
+            if isinstance(attr_value, (int, str, float)):
+                setattr(cls, attr_name, ('primitive', type(attr_value).__name__))
+            else:
+                setattr(cls, attr_name, ('primitive', 'object'))
+
+class DynamicClass(metaclass=DynamicTypeTracker):
+    x = 5
+    y = ""hello""
+    z = [1, 2, 3]
+```";"A) is incorrect because `__new__` should be used for creating the class object, not `__init__`. The attributes should be modified in `__new__`.
+
+B) is correct. It correctly overrides the `__init__` method of the metaclass to dynamically track and modify the types of class attributes.
+
+C) is incorrect because it incorrectly swaps the order of 'primitive' and type names in the tuple for primitive values and non-primitive values.
+
+D) is incorrect because it incorrectly assigns ('primitive', 'object') to all non-primitive attributes, which does not accurately reflect their actual types."
