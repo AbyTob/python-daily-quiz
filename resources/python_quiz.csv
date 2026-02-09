@@ -38023,3 +38023,45 @@ B) Number of instances: 1
 C) Number of instances: 2  
 D) The code will raise an error";"C) Number of instances: 2  
 Explanation: The `register_instance` decorator sets the metaclass of `MyClass` to `InstanceTracker`, which overrides the `__call__` method. This method is called every time a new instance of `MyClass` is created, and it stores each instance in a class-level dictionary `_instances`. Therefore, when we create two instances of `MyClass`, they are stored in `_instances`, resulting in a total of 2 instances being tracked."
+"2026-02-09 00:02";"[QUESTION]
+Consider the following code snippet:
+
+```python
+import threading
+
+def thread_decorator(func):
+    def wrapper(*args, **kwargs):
+        thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+        thread.start()
+        return thread
+    return wrapper
+
+@thread_decorator
+def long_running_function(duration):
+    import time
+    print(f""Starting function for {duration} seconds"")
+    time.sleep(duration)
+    print(""Function completed"")
+
+if __name__ == ""__main__"":
+    threads = []
+    for i in range(5):
+        t = long_running_function(i*2)
+        threads.append(t)
+
+    for thread in threads:
+        thread.join()
+```
+
+Which of the following statements is true regarding the code?
+
+A) The function `long_running_function` will run synchronously when called.
+B) The `thread_decorator` ensures that each call to `long_running_function` runs in a separate thread and starts immediately upon decoration.
+C) The main program will not wait for any threads to complete before exiting because it does not use `join`.
+D) Each instance of the decorated function `long_running_function` shares the same thread.";"B) The `thread_decorator` ensures that each call to `long_running_function` runs in a separate thread and starts immediately upon decoration.
+
+Explanation:
+- Option A is incorrect because the function `long_running_function` is designed to run asynchronously due to the use of threading.
+- Option B is correct. The decorator wraps the function so that it runs in its own thread, and since `thread.start()` is called inside the wrapper, each call starts immediately.
+- Option C is incorrect because `join` is used on all threads before exiting the main program, ensuring that all threads have completed execution.
+- Option D is incorrect. Each call to the decorated function indeed runs in a separate thread, so there's no shared thread among instances of the decorated function."
