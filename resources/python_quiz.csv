@@ -38143,3 +38143,41 @@ B) is correct. It correctly overrides the `__init__` method of the metaclass to 
 C) is incorrect because it incorrectly swaps the order of 'primitive' and type names in the tuple for primitive values and non-primitive values.
 
 D) is incorrect because it incorrectly assigns ('primitive', 'object') to all non-primitive attributes, which does not accurately reflect their actual types."
+"2026-02-09 16:02";"[QUESTION]
+Consider the following Python code that aims to implement a simple caching mechanism using metaclasses. The goal is to cache the results of expensive function calls based on their arguments.
+
+```python
+class CacheMeta(type):
+    def __new__(cls, name, bases, dct):
+        cache = {}
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = cls.create_cached_method(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def create_cached_method(method):
+        def cached_method(self, *args, **kwargs):
+            key = (method.__name__, args, frozenset(kwargs.items()))
+            if key not in cache:
+                cache[key] = method(self, *args, **kwargs)
+            return cache[key]
+        return cached_method
+
+class CachedClass(metaclass=CacheMeta):
+    def compute_expensive_operation(self, a, b):
+        print(""Computing expensive operation"")
+        return a + b
+```
+
+Which of the following statements is true about this code?
+
+A) The `CachedClass` will cache the results of its methods and avoid redundant computations for the same arguments.
+
+B) The `CacheMeta` metaclass modifies all callable attributes in the class, but it does not cache anything because the cache dictionary is local to each instance.
+
+C) When a method is called on an instance of `CachedClass`, the cached result will be returned immediately if available, otherwise, the method will execute and store the result in the instance-specific cache.
+
+D) The code will raise an error because `CacheMeta` tries to modify class methods into instance methods, which is not allowed in Python.";"A) The `CachedClass` will cache the results of its methods and avoid redundant computations for the same arguments.
+
+**Explanation:** The `CacheMeta` metaclass successfully transforms all callable attributes within classes that use it (in this case, `CachedClass`) into cached methods. It uses a global dictionary (`cache`) to store the results based on method name and arguments. Each time a method is called with specific arguments, the metaclass checks if the result is already in the cache. If it is, the cached result is returned; otherwise, the method is executed, its result stored in the cache, and then returned. This ensures that expensive computations are only performed once for each set of arguments, thereby avoiding redundant calculations."
