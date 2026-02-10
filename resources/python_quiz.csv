@@ -38291,3 +38291,51 @@ D) The script will raise an error because `AsyncCounter` is not a subclass of `a
 A) The `count_up` method will run concurrently for all tasks, printing counts at the same time.
 
 Explanation: This is correct. Each call to `counter.count_up()` creates a task that runs asynchronously. Since they are awaited in parallel with `asyncio.gather`, their execution does not block other tasks, allowing them to run concurrently. Therefore, you will see interleaved counts from different tasks, making the total time less than 15 seconds if the sleep times add up correctly."
+"2026-02-10 16:02";"";"**Question:**  
+Consider the following Python code snippet:
+
+```python
+import threading
+
+def thread_safety(func):
+    lock = threading.Lock()
+    
+    def wrapper(*args, **kwargs):
+        with lock:
+            return func(*args, **kwargs)
+    
+    return wrapper
+
+class Counter:
+    def __init__(self):
+        self.value = 0
+    
+    @thread_safety
+    def increment(self):
+        self.value += 1
+
+def worker(counter):
+    for _ in range(1000):
+        counter.increment()
+
+if __name__ == ""__main__"":
+    counter = Counter()
+    threads = [threading.Thread(target=worker, args=(counter,)) for _ in range(10)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    print(counter.value)
+```
+
+What is the expected output of this program, and why?
+
+A) 1000  
+B) 990  
+C) A random number between 0 and 1000  
+D) An exception will be raised
+
+**Answer:** B) 990  
+
+**Explanation:**  
+The code demonstrates the use of a decorator to ensure thread safety in a `Counter` class. The `thread_safety` decorator uses a threading lock to synchronize access to the `increment` method, which increments the counter's value. When multiple threads are created and each runs the `worker` function that calls `counter.increment` 1000 times, the expected behavior is for the final value of `counter.value` to be 1000. However, due to Python's Global Interpreter Lock (GIL), only one thread can execute Python bytecodes at a time, which effectively serializes access to the lock and prevents any race conditions. Therefore, if the GIL does not interfere with the execution timing of the threads (which is not always guaranteed in all environments), each thread will successfully increment the counter 1000 times, resulting in a final value of 1000. If there were no synchronization, multiple threads could potentially increment the counter at the same time, leading to a lower final value or even an exception if the operation is not atomic."
