@@ -6116,5 +6116,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-11 08:03:07",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-02-11": {
+    "id": "1770825740_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    print(\"Fetching data...\")\n    await asyncio.sleep(2)\n    return \"Data fetched\"\n\nclass DataFetcher:\n    def __init__(self):\n        self.data = None\n    \n    async def get_data(self):\n        if self.data is None:\n            self.data = await fetch_data()\n        return self.data\n\nasync def main():\n    fetcher1 = DataFetcher()\n    fetcher2 = DataFetcher()\n\n    result1 = asyncio.create_task(fetcher1.get_data())\n    result2 = asyncio.create_task(fetcher2.get_data())\n\n    print(\"Result 1:\", await result1)\n    print(\"Result 2:\", await result2)\n\nasyncio.run(main())\n```\n\nWhat will be the output of this code snippet?\n\nA) Fetching data... Result 1: Data fetched Fetching data... Result 2: Data fetched\n\nB) Fetching data... Result 1: Data fetched Result 2: Data fetched (after 2 seconds)\n\nC) Result 1: None Result 2: None\n\nD) Error: fetch_data() cannot be awaited in __init__\n\n**Part 2 (Answer):**\n\nA) Fetching data... Result 1: Data fetched Fetching data... Result 2: Data fetched\n\nExplanation:\nIn the provided code, `DataFetcher` is an asynchronous class with a coroutine method `get_data`. The first call to `fetcher1.get_data()` will initiate the fetching process and await the result. Since `self.data` is `None`, it triggers the `await fetch_data()`. Meanwhile, when `fetcher2.get_data()` is called, it finds that `self.data` has already been set in `fetcher1` (due to Python's global interpreter lock during the first coroutine execution), so it returns immediately without fetching again. Therefore, both calls will print \"Fetching data...\" followed by \"Result 1: Data fetched\" and \"Result 2: Data fetched\", but they might not be exactly after each other due to asyncio task scheduling.\n\nThe output demonstrates that asynchronous methods can share state between instances of the same class in a thread-safe manner within an async context.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-02-11 16:02:20",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
