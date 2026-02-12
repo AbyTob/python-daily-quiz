@@ -38553,3 +38553,60 @@ b = SingletonClass(20)
 The first line creates an instance of `SingletonClass` with `value=10` and stores it in `_instances`. The second line attempts to create another instance but since the singleton ensures only one instance per class, the existing instance is returned. Therefore, both `a` and `b` refer to the same instance, and `b.value` is overwritten by the value assigned during its creation.
 
 Thus, option A is correct because it correctly describes the behavior of the singleton pattern implemented by the metaclass."
+"2026-02-12 08:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    async def __call__(self, *args, **kwargs):
+        print(""Before calling function"")
+        result = await self.func(*args, **kwargs)
+        print(""After calling function"")
+        return result
+
+@AsyncDecorator
+async def fetch_data():
+    await asyncio.sleep(1)
+    return ""Data fetched""
+
+async def main():
+    data = await fetch_data()
+    print(data)
+
+# Run the event loop to execute the code
+asyncio.run(main())
+```
+
+Which of the following statements correctly describes the behavior and execution flow of this code?
+
+A) The `AsyncDecorator` class is a metaclass that modifies the behavior of the `fetch_data` method.
+
+B) When `main()` is called, it directly executes the `fetch_data` function without any additional output before or after its call.
+
+C) The `AsyncDecorator` class defines an asynchronous call to the original function, and when `main()` is executed, it prints ""Before calling function"", waits for 1 second, then prints ""After calling function"" followed by ""Data fetched"".
+
+D) There is a syntax error in the code because decorators cannot be used on asynchronous functions.
+
+**Part 2 (Answer):**
+
+C
+
+The correct answer is C. Here's why:
+
+- The `AsyncDecorator` class takes an asynchronous function as an argument during initialization.
+- When `fetch_data` is called with the `@AsyncDecorator`, it replaces `fetch_data` with a new callable object that includes additional print statements before and after calling the original `fetch_data`.
+- In the `main()` function, when `await fetch_data()` is executed, it triggers the asynchronous call to `fetch_data`, which includes the print statement inside the decorator.
+- Thus, the output of this code will be:
+  ```
+  Before calling function
+  Data fetched
+  After calling function
+  ```
+
+This demonstrates how decorators can modify the behavior of both synchronous and asynchronous functions effectively.";"Answer format error. Please check the generated content."
