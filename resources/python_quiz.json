@@ -6137,5 +6137,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-12 08:02:08",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-02-12": {
+    "id": "1770912115_3",
+    "question": "[ANSWER_SEPARATOR]\nPart 1 (Question):\nConsider the following Python code snippet:\n\n```python\nimport time\n\nclass TimeMe:\n    def __init__(self, func):\n        self.func = func\n\n    def __call__(self, *args, **kwargs):\n        start_time = time.time()\n        result = self.func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {self.func.__name__} took {end_time - start_time:.4f} seconds to run.\")\n        return result\n\n@TimeMe\ndef compute_sum(n):\n    return sum(range(n))\n\nif __name__ == \"__main__\":\n    compute_sum(10**6)\n```\n\nWhat is the primary purpose of the `TimeMe` class and how does it work?\n\nA) It decorates a function to measure its execution time by adding timing before and after the function call.\n\nB) It manages the lifecycle of objects in memory, ensuring they are garbage collected efficiently.\n\nC) It creates an asynchronous generator that yields values over time.\n\nD) It transforms a synchronous function into a coroutine for concurrent execution.\n\n[ANSWER_SEPARATOR]\nPart 2 (Answer):\nA) It decorates a function to measure its execution time by adding timing before and after the function call.\n\nExplanation:\nThe `TimeMe` class is a decorator used to measure the execution time of any function it decorates. When applied with the `@TimeMe` syntax, it wraps the target function (`compute_sum` in this case). The `__call__` method of the `TimeMe` class records the start and end times around the execution of the wrapped function. By printing the difference between these times, it outputs how long the function took to run. This is a practical example of using decorators for performance monitoring and optimization.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-02-12 16:01:55",
+    "topic": "Function and Method Decorators"
   }
 }

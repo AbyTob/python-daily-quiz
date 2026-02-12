@@ -38610,3 +38610,45 @@ The correct answer is C. Here's why:
   ```
 
 This demonstrates how decorators can modify the behavior of both synchronous and asynchronous functions effectively.";"Answer format error. Please check the generated content."
+"2026-02-12 16:01";"[ANSWER_SEPARATOR]
+Part 1 (Question):
+Consider the following Python code snippet:
+
+```python
+import time
+
+class TimeMe:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        start_time = time.time()
+        result = self.func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {self.func.__name__} took {end_time - start_time:.4f} seconds to run."")
+        return result
+
+@TimeMe
+def compute_sum(n):
+    return sum(range(n))
+
+if __name__ == ""__main__"":
+    compute_sum(10**6)
+```
+
+What is the primary purpose of the `TimeMe` class and how does it work?
+
+A) It decorates a function to measure its execution time by adding timing before and after the function call.
+
+B) It manages the lifecycle of objects in memory, ensuring they are garbage collected efficiently.
+
+C) It creates an asynchronous generator that yields values over time.
+
+D) It transforms a synchronous function into a coroutine for concurrent execution.
+
+[ANSWER_SEPARATOR]
+Part 2 (Answer):
+A) It decorates a function to measure its execution time by adding timing before and after the function call.
+
+Explanation:
+The `TimeMe` class is a decorator used to measure the execution time of any function it decorates. When applied with the `@TimeMe` syntax, it wraps the target function (`compute_sum` in this case). The `__call__` method of the `TimeMe` class records the start and end times around the execution of the wrapped function. By printing the difference between these times, it outputs how long the function took to run. This is a practical example of using decorators for performance monitoring and optimization.";"Answer format error. Please check the generated content."
