@@ -6144,5 +6144,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-12 16:01:55",
     "topic": "Function and Method Decorators"
+  },
+  "q1_2026-02-13": {
+    "id": "1770940926_1",
+    "question": "[QUESTION]\nConsider the following Python code that attempts to create a singleton pattern using a decorator:\n\n```python\ndef singleton(cls):\n    instances = {}\n    def get_instance(*args, **kwargs):\n        if cls not in instances:\n            instances[cls] = cls(*args, **kwargs)\n        return instances[cls]\n    return get_instance\n\n@singleton\nclass DatabaseConnection:\n    _connection = None\n    def __init__(self):\n        if self._connection is None:\n            print(\"Connecting to database...\")\n            self._connection = \"Database Connected\"\n        else:\n            raise ValueError(\"Cannot create more than one instance\")\n\n# Example usage\ndb1 = DatabaseConnection()\nprint(db1._connection)\n\ndb2 = DatabaseConnection()\nprint(db2._connection)\n```\n\nWhich of the following statements about this code is true?\n\nA) The `singleton` decorator correctly ensures that only one instance of `DatabaseConnection` can be created.\nB) When `db1` and `db2` are instantiated, they both print \"Connecting to database...\" and \"Database Connected\".\nC) The `__init__` method in `DatabaseConnection` is never called after the first instance is created.\nD) The `singleton` decorator will raise an exception if you try to create a second instance of `DatabaseConnection`.",
+    "answer": "[ANSWER] C) The `__init__` method in `DatabaseConnection` is never called after the first instance is created.\n\n**Explanation**: The singleton pattern implemented here does not correctly enforce that only one instance of `DatabaseConnection` can be created. Instead, it allows multiple instances to be created by using the decorator's closure to store and return existing instances. The `_connection` attribute in `DatabaseConnection` is not used or updated based on whether an instance already exists. Therefore, each time a new instance is \"created\" through the singleton decorator, it prints \"Connecting to database...\" even though an instance already exists.",
+    "timestamp": "2026-02-13 00:02:06",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
