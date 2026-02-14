@@ -6172,5 +6172,12 @@
     "answer": "**Part 2 (Answer):**\n\nB) To ensure that only one instance of the class can be created, even when accessed from different threads simultaneously\n\nExplanation: The lock ensures that during the critical section where the instance is being created, no other thread can enter and interfere. This prevents multiple instances of `ThreadSafeSingleton` from being created, thus ensuring a singleton pattern even in a multi-threaded environment.",
     "timestamp": "2026-02-14 00:02:06",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q2_2026-02-14": {
+    "id": "1771056127_2",
+    "question": "### Part 1 (Question)\nConsider the following Python code that uses a decorator to measure the execution time of functions:\n\n```python\nimport time\n\ndef time_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Execution time: {end_time - start_time} seconds\")\n        return result\n    return wrapper\n\n@time_decorator\ndef compute_sum(n):\n    return sum(range(n))\n\nasync def async_compute_sum(n):\n    return await compute_sum(n)\n\nif __name__ == \"__main__\":\n    print(compute_sum(1000000))  # Synchronous call\n    import asyncio\n    asyncio.run(async_compute_sum(1000000))  # Asynchronous call\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The `time_decorator` will not measure the execution time of asynchronous functions.\nB) The `async_compute_sum` function will block the event loop when called synchronously.\nC) Both synchronous and asynchronous calls to `compute_sum` will be measured correctly by the `time_decorator`.\nD) The `time_decorator` can be applied directly to asynchronous functions without any issues.\n\n### Part 2 (Answer)\n**",
+    "answer": "** C  \n**Explanation:** The `time_decorator` is a synchronous decorator that measures the execution time of functions it decorates. It works correctly with both synchronous and asynchronous calls, as shown in the example. In the case of `compute_sum`, the decorator will measure its execution time whether called synchronously or asynchronously through an event loop. However, for true async functions, a different approach (like using asyncio's `time.perf_counter()`) would be more appropriate to avoid blocking the event loop during the measurement.",
+    "timestamp": "2026-02-14 08:02:07",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
