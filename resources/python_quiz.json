@@ -6179,5 +6179,12 @@
     "answer": "** C  \n**Explanation:** The `time_decorator` is a synchronous decorator that measures the execution time of functions it decorates. It works correctly with both synchronous and asynchronous calls, as shown in the example. In the case of `compute_sum`, the decorator will measure its execution time whether called synchronously or asynchronously through an event loop. However, for true async functions, a different approach (like using asyncio's `time.perf_counter()`) would be more appropriate to avoid blocking the event loop during the measurement.",
     "timestamp": "2026-02-14 08:02:07",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-02-14": {
+    "id": "1771084897_3",
+    "question": "[QUESTION]\nConsider the following Python code that attempts to use a metaclass to add a method to a class dynamically:\n\n```python\n# Define a metaclass\nclass AddMethodMeta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self: \"Dynamic method called\"\n        return super().__new__(cls, name, bases, dct)\n\n# Use the metaclass to create a class\nclass MyClass(metaclass=AddMethodMeta):\n    pass\n\n# Create an instance of the class and call the dynamically added method\ninstance = MyClass()\nresult = instance.dynamic_method()\nprint(result)\n```\n\nWhat is the output when you run this code?\n\nA) Dynamic method called  \nB) AttributeError: 'MyClass' object has no attribute 'dynamic_method'  \nC) TypeError: MyMethodMeta.__new__() takes 3 positional arguments but 4 were given  \nD) None",
+    "answer": "A) Dynamic method called  \n\nExplanation: The metaclass `AddMethodMeta` correctly adds a new method `dynamic_method` to any class that uses it as its metaclass. When an instance of `MyClass` is created, the `dynamic_method` is available and can be called without any issues.",
+    "timestamp": "2026-02-14 16:01:37",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
