@@ -38787,3 +38787,46 @@ Option A is correct because:
 Options C and D are incorrect because:
 - Option C is false; other console output is not suppressed during the block execution. 
 - Option D is also incorrect as Python's `time.time()` does not provide microsecond resolution in all systems, but usually provides millisecond precision depending on the system's clock."
+"2026-02-14 00:02";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import threading
+
+class ThreadSafeSingleton:
+    _instances = {}
+    _lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            with cls._lock:
+                if cls not in cls._instances:
+                    instance = super().__new__(cls, *args, **kwargs)
+                    cls._instances[cls] = instance
+        return cls._instances[cls]
+
+def worker():
+    tss = ThreadSafeSingleton()
+    print(f""Thread {threading.current_thread().name} got singleton: {tss}"")
+
+threads = []
+for i in range(5):
+    thread = threading.Thread(target=worker, name=f""Thread-{i}"")
+    threads.append(thread)
+    thread.start()
+
+for thread in threads:
+    thread.join()
+```
+
+What is the purpose of using a lock within the `__new__` method of the `ThreadSafeSingleton` class?
+
+A) To synchronize access to shared resources among multiple threads  
+B) To ensure that only one instance of the class can be created, even when accessed from different threads simultaneously  
+C) To serialize the creation of instances in a multi-threaded environment  
+D) To prevent other classes from inheriting from this Singleton class";"**Part 2 (Answer):**
+
+B) To ensure that only one instance of the class can be created, even when accessed from different threads simultaneously
+
+Explanation: The lock ensures that during the critical section where the instance is being created, no other thread can enter and interfere. This prevents multiple instances of `ThreadSafeSingleton` from being created, thus ensuring a singleton pattern even in a multi-threaded environment."
