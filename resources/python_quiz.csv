@@ -38896,3 +38896,40 @@ C) TypeError: MyMethodMeta.__new__() takes 3 positional arguments but 4 were giv
 D) None";"A) Dynamic method called  
 
 Explanation: The metaclass `AddMethodMeta` correctly adds a new method `dynamic_method` to any class that uses it as its metaclass. When an instance of `MyClass` is created, the `dynamic_method` is available and can be called without any issues."
+"2026-02-15 00:02";"**Part 1 (Question):**
+
+Consider the following Python code that uses a decorator to modify the behavior of a function:
+
+```python
+import functools
+
+def my_decorator(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        result = func(*args, **kwargs)
+        print(""Something is happening after the function is called."")
+        return result
+    return wrapper
+
+@my_decorator
+def say_hello(name):
+    print(f""Hello, {name}!"")
+
+say_hello(""Alice"")
+```
+
+Which of the following statements accurately describes what happens when `say_hello(""Alice"")` is called?
+
+A) ""Something is happening before the function is called."" is printed, then ""Hello, Alice!"" is printed, and finally, ""Something is happening after the function is called.""
+
+B) The code raises an error because decorators are not used correctly.
+
+C) Only ""Hello, Alice!"" is printed without any additional messages.
+
+D) ""Something is happening before the function is called."" and ""Something is happening after the function is called."" are printed once, but no message is displayed for the function call itself.";"**Part 2 (Answer):**
+
+A) ""Something is happening before the function is called."" is printed, then ""Hello, Alice!"" is printed, and finally, ""Something is happening after the function is called.""
+
+Explanation:
+When `say_hello(""Alice"")` is called, the decorator `my_decorator` intercepts the call. The `wrapper` function is executed first, which prints ""Something is happening before the function is called."" It then calls the original `say_hello` function with its arguments and captures its result. After the function completes, it prints ""Something is happening after the function is called."" Thus, all three messages are printed in sequence."
