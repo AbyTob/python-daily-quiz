@@ -6200,5 +6200,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-15 08:02:50",
     "topic": "Task Management and Scheduling"
+  },
+  "q3_2026-02-15": {
+    "id": "1771171279_3",
+    "question": "Part 1 (Question): \n\nConsider the following Python code snippet using decorators and metaclasses together:\n\n```python\nfrom typing import Callable, Any\n\nclass MethodDecorator:\n    def __init__(self, func: Callable):\n        self.func = func\n    \n    def __call__(self, *args, **kwargs):\n        print(\"Method is being called\")\n        return self.func(*args, **kwargs)\n\ndef class_decorator(cls):\n    class NewClass(cls):\n        def new_method(self):\n            print(\"New method added by decorator\")\n    \n    return NewClass\n\n@class_decorator\nclass MyClass:\n    @MethodDecorator\n    def my_method(self):\n        print(\"Original method\")\n\nobj = MyClass()\nobj.my_method()\nobj.new_method()\n```\n\nWhat will be the output of this code when executed?\n\nA) Method is being called  \nB) Original method  \nC) New method added by decorator  \nD) All of the above",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-02-15 16:01:19",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
