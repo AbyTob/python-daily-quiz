@@ -39131,3 +39131,35 @@ A) It increases the memory footprint of the application by storing all results i
 B) It optimizes performance by avoiding redundant computations for function calls with the same arguments.
 C) It will cause a runtime error because the cache dictionary is not thread-safe.
 D) It decreases the execution time by automatically parallelizing the function calls.";"[B] The `cache_results` decorator increases the performance of the application by avoiding redundant computations. This is achieved by storing the results of expensive function calls in a cache, which allows the function to return immediately from the cache for subsequent calls with the same arguments, thus saving time and resources."
+"2026-02-16 16:01";"[QUESTION]
+Consider the following Python code that aims to create a decorator for logging function calls. However, it encounters an issue when applied to asynchronous functions:
+
+```python
+import functools
+
+def log_decorator(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_decorator
+async def async_function(x):
+    await asyncio.sleep(1)
+    return x * 2
+
+# Usage example
+import asyncio
+result = asyncio.run(async_function(5))
+print(result)
+```
+
+When you run this code, it results in a `TypeError`. Identify the issue and correct it so that the decorator works with asynchronous functions.
+
+A) The `wrapper` function needs to be made asynchronous.
+B) The `@functools.wraps(func)` should be removed.
+C) The decorator is not needed for asynchronous functions.
+D) The `asyncio.sleep(1)` inside the `async_function` is unnecessary.";"[A] The `wrapper` function needs to be made asynchronous.
+
+Explanation: When a decorator is applied to an asynchronous function, both the decorator and the wrapped function need to be asynchronous. In the original code, only the decorator was defined as synchronous, causing a type mismatch when calling it with an asynchronous function. By making the wrapper coroutine using `async def`, we ensure that the types are compatible, allowing the decorator to work correctly with asynchronous functions."
