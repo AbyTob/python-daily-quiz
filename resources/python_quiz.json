@@ -6235,5 +6235,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-17 00:01:52",
     "topic": "Class Methods and Static Methods"
+  },
+  "q2_2026-02-17": {
+    "id": "1771315282_2",
+    "question": "[QUESTION]\nConsider the following Python code that uses a metaclass to dynamically add attributes to a class:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_attr'] = 42\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\nprint(obj.dynamic_attr)\n```\n\nWhat will be the output of this code when executed? Choose the correct option:\n\nA) AttributeError: 'MyClass' object has no attribute 'dynamic_attr'\n\nB) 42\n\nC) Error in __new__ method\n\nD) TypeError: metaclass conflict",
+    "answer": "B) 42\n\nThe metaclass `Meta` dynamically adds an attribute `dynamic_attr` with the value 42 to any class it is applied to. Therefore, when we create an instance of `MyClass` and access its `dynamic_attr`, it correctly outputs 42.",
+    "timestamp": "2026-02-17 08:01:22",
+    "topic": "Object-Oriented Programming"
   }
 }

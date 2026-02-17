@@ -39196,3 +39196,30 @@ A) The correct answer is A.
 
 Explanation: 
 The issue in the provided code is that the `log_creation` method is defined at the class level and not bound to any instance. As a result, when you try to call it from the metaclass's `__call__` method, it does not get executed because it is not an instance method of `cls`. To fix this, you need to define `log_creation` as an instance method or use a class method if it needs access to class-specific data.";"Answer format error. Please check the generated content."
+"2026-02-17 08:01";"[QUESTION]
+Consider the following Python code that uses a metaclass to dynamically add attributes to a class:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_attr'] = 42
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.dynamic_attr)
+```
+
+What will be the output of this code when executed? Choose the correct option:
+
+A) AttributeError: 'MyClass' object has no attribute 'dynamic_attr'
+
+B) 42
+
+C) Error in __new__ method
+
+D) TypeError: metaclass conflict";"B) 42
+
+The metaclass `Meta` dynamically adds an attribute `dynamic_attr` with the value 42 to any class it is applied to. Therefore, when we create an instance of `MyClass` and access its `dynamic_attr`, it correctly outputs 42."
