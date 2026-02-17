@@ -6242,5 +6242,12 @@
     "answer": "B) 42\n\nThe metaclass `Meta` dynamically adds an attribute `dynamic_attr` with the value 42 to any class it is applied to. Therefore, when we create an instance of `MyClass` and access its `dynamic_attr`, it correctly outputs 42.",
     "timestamp": "2026-02-17 08:01:22",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2026-02-17": {
+    "id": "1771344123_3",
+    "question": "**Part 1 (Question):**\nConsider the following Python code snippet that uses decorators, metaclasses, and async/await:\n\n```python\nimport asyncio\n\ndef sync_decorator(func):\n    def wrapper(*args, **kwargs):\n        print(\"Before calling the function\")\n        result = func(*args, **kwargs)\n        print(\"After calling the function\")\n        return result\n    return wrapper\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['sync_method'] = sync_decorator(dct.get('sync_method', lambda self: None))\n        return super().__new__(cls, name, bases, dct)\n\nclass AsyncClass(metaclass=Meta):\n    async def async_method(self):\n        print(\"Inside async method\")\n        await asyncio.sleep(1)\n        print(\"Async method completed\")\n\n    def sync_method(self):\n        print(\"Inside sync method\")\n```\n\nWhich of the following statements about this code is true?\n\nA) The `sync_decorator` will not affect any methods in the class because it uses a decorator on an instance method.\n\nB) When an instance of `AsyncClass` calls `async_method`, it will run synchronously and block until completion.\n\nC) When an instance of `AsyncClass` calls `sync_method`, it will add \"Before calling the function\" and \"After calling the function\" messages before and after its execution, respectively.\n\nD) The metaclass `Meta` does not modify any methods in the class `AsyncClass`.\n\n**Part 2 (Answer):**\nC) When an instance of `AsyncClass` calls `sync_method`, it will add \"Before calling the function\" and \"After calling the function\" messages before and after its execution, respectively.\n\nExplanation: The `Meta` metaclass modifies any method named `sync_method` to be decorated by `sync_decorator`. Since `async_method` is not a synchronous method, it remains unchanged. Therefore, calling `sync_method` will indeed prepend and append the \"Before calling the function\" and \"After calling the function\" messages.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-02-17 16:02:03",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
