@@ -6249,5 +6249,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-17 16:02:03",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q1_2026-02-18": {
+    "id": "1771372918_1",
+    "question": "[QUESTION]  \nConsider the following Python code snippet that utilizes a metaclass to create a class that automatically adds a method `say_hello` to any subclass:\n\n```python\n# Define a metaclass that adds a 'say_hello' method to subclasses\nclass MetaSayHello(type):\n    def __new__(cls, name, bases, dct):\n        dct['say_hello'] = lambda self: f\"Hello from {name}\"\n        return super().__new__(cls, name, bases, dct)\n\n# Use the metaclass to create a base class that includes 'say_hello'\nclass BaseClass(metaclass=MetaSayHello):\n    pass\n\n# Create a subclass of BaseClass\nclass MyClass(BaseClass):\n    pass\n```\n\nWhich of the following statements is true about the behavior of `MyClass` when an instance of it is created?\n\nA) Creating an instance of `MyClass` will raise a TypeError because `say_hello` has not been explicitly defined in `MyClass`.\n\nB) Instances of `MyClass` have a method `say_hello` that returns \"Hello from MyClass\".\n\nC) The metaclass does not affect the creation of `MyClass`, and it behaves like any other class without the `say_hello` method.\n\nD) None of the above.",
+    "answer": "B) Instances of `MyClass` have a method `say_hello` that returns \"Hello from MyClass\".\n\n**Explanation:** The metaclass `MetaSayHello` is designed to automatically add a `say_hello` method to any class it is used with. When `MyClass` is created as a subclass of `BaseClass`, the metaclass modifies its dictionary (`dct`) by adding the `say_hello` method. Therefore, instances of `MyClass` will have this method, and calling `say_hello()` on an instance of `MyClass` will return \"Hello from MyClass\".",
+    "timestamp": "2026-02-18 00:01:58",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
