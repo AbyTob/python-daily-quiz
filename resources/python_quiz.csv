@@ -39296,3 +39296,52 @@ C) The metaclass does not affect the creation of `MyClass`, and it behaves like 
 D) None of the above.";"B) Instances of `MyClass` have a method `say_hello` that returns ""Hello from MyClass"".
 
 **Explanation:** The metaclass `MetaSayHello` is designed to automatically add a `say_hello` method to any class it is used with. When `MyClass` is created as a subclass of `BaseClass`, the metaclass modifies its dictionary (`dct`) by adding the `say_hello` method. Therefore, instances of `MyClass` will have this method, and calling `say_hello()` on an instance of `MyClass` will return ""Hello from MyClass""."
+"2026-02-18 08:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that attempts to create a custom metaclass which dynamically adds methods to classes:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['greet'] = lambda self: f""Hello from {name}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.greet())
+```
+
+However, this code does not work as expected. What is the issue with the `Meta` metaclass, and how can you fix it to ensure that the `greet` method is correctly added to all classes using this metaclass?
+
+A) The `__new__` method should be defined as a static method.
+
+B) The `greet` method should not be a lambda function; it should be defined normally inside the metaclass.
+
+C) The `super().__new__(cls, name, bases, dct)` call is unnecessary and can be removed.
+
+D) The metaclass implementation is correct, but the class definition needs to specify an explicit superclass (`object`).
+
+**Part 2 (Answer):**
+
+B) The `greet` method should not be a lambda function; it should be defined normally inside the metaclass.
+
+Explanation: In Python, methods added to classes using metaclasses must be defined as regular functions within the metaclass. Using a lambda function here prevents proper binding of the method to instances of the class, leading to a runtime error when `obj.greet()` is called. To fix this issue, you should define the `greet` method with a normal def statement inside the `Meta` metaclass:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        def greet(self):
+            return f""Hello from {name}""
+        dct['greet'] = greet
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+obj = MyClass()
+print(obj.greet())  # Output: Hello from MyClass
+```
+
+This corrected version ensures that the `greet` method is properly added to instances of classes defined with this metaclass."
