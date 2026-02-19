@@ -6270,5 +6270,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-18 16:02:12",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q1_2026-02-19": {
+    "id": "1771459318_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n\n    async def __call__(self, *args, **kwargs):\n        print(\"Before function call\")\n        result = await self.func(*args, **kwargs)\n        print(\"After function call\")\n        return result\n\n@AsyncDecorator\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data fetched\"\n\nasync def main():\n    data = await fetch_data()\n    print(data)\n\n# Running the main function in an event loop\nasyncio.run(main())\n```\n\nWhich of the following statements is true about this code? \n\nA) The `fetch_data` function is called immediately when the script runs.\n\nB) The `AsyncDecorator` class is not used correctly, as it should be a regular decorator to work with async functions.\n\nC) The `main` function is an async function that will wait for 1 second before printing \"Data fetched\".\n\nD) The `fetch_data` function is decorated with `@AsyncDecorator`, but the actual execution of the decorated function is not shown in the provided code.",
+    "answer": "[ANSWER] C) The `main` function is an async function that will wait for 1 second before printing \"Data fetched\".\n\n**Explanation**: In the provided code, `fetch_data` is correctly decorated with `@AsyncDecorator`. When `asyncio.run(main())` is called, it triggers the execution of the `main` coroutine. Inside `main`, it awaits the result of `await fetch_data()`. The `fetch_data` function, when awaited, will indeed wait for 1 second due to `await asyncio.sleep(1)`, and then print \"Data fetched\".",
+    "timestamp": "2026-02-19 00:01:58",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
