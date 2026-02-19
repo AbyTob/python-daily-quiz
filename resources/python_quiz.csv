@@ -39458,3 +39458,37 @@ D) Something is happening before the function is called. Something is happening 
 The code attempts to apply a decorator to an instance method `greet` through a metaclass `MyMeta`. However, when the metaclass tries to add the decorated version of `greet` to the class dictionary (`dct`), it doesn't recognize that `greet` is already a bound method of the instance. As a result, the decorator's call fails because it expects a callable without any self argument, but it receives an unbound method. This leads to an AttributeError when trying to access `obj.greet()`.
 
 This question tests the understanding of how decorators and metaclasses interact with class methods, particularly in the context of modifying class behavior dynamically at the time of class creation."
+"2026-02-19 16:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to ensure all instances of a class have a unique identifier:
+
+```python
+class UniqueMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=UniqueMeta):
+    pass
+
+# Create instances of MyClass
+obj1 = MyClass()
+obj2 = MyClass()
+
+print(obj1 is obj2)  # Output: True
+```
+
+Which of the following statements is true about this code?
+
+A) The `UniqueMeta` metaclass ensures that each class has only one instance, regardless of how many times it's instantiated.
+
+B) The `_instances` dictionary is used to store instances of classes with unique identifiers.
+
+C) The `__call__` method in `UniqueMeta` checks if an instance already exists before creating a new one, ensuring uniqueness.
+
+D) All classes inheriting from `MyClass` will have their instances stored in the `_instances` dictionary.";"C) The `__call__` method in `UniqueMeta` checks if an instance already exists before creating a new one, ensuring uniqueness.
+
+Explanation: The metaclass `UniqueMeta` overrides the `__call__` method to control the object creation process. It uses a class variable `_instances` to store instances of classes it has created. If an instance does not exist for a given class, it creates a new one and stores it in `_instances`. This ensures that any instantiation of a class using this metaclass will return the same instance if it already exists, thus achieving uniqueness across all instances of different classes."
