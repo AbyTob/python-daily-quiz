@@ -39419,3 +39419,42 @@ C) The `main` function is an async function that will wait for 1 second before p
 D) The `fetch_data` function is decorated with `@AsyncDecorator`, but the actual execution of the decorated function is not shown in the provided code.";"[ANSWER] C) The `main` function is an async function that will wait for 1 second before printing ""Data fetched"".
 
 **Explanation**: In the provided code, `fetch_data` is correctly decorated with `@AsyncDecorator`. When `asyncio.run(main())` is called, it triggers the execution of the `main` coroutine. Inside `main`, it awaits the result of `await fetch_data()`. The `fetch_data` function, when awaited, will indeed wait for 1 second due to `await asyncio.sleep(1)`, and then print ""Data fetched""."
+"2026-02-19 08:02";"[QUESTION]
+Consider the following Python code that uses both a decorator and a metaclass:
+
+```python
+import functools
+
+def my_decorator(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        result = func(*args, **kwargs)
+        print(""Something is happening after the function is called."")
+        return result
+    return wrapper
+
+class MyMeta(type):
+    def __new__(cls, name, bases, dct):
+        dct['greet'] = my_decorator(dct.get('greet', lambda: ""Hello""))
+        return super().__new__(cls, name, bases, dct)
+
+@MyMeta
+class MyClass:
+    def greet(self):
+        return ""World""
+
+obj = MyClass()
+print(obj.greet())
+```
+
+What will be the output of this code? Explain how decorators and metaclasses interact in this example.
+
+A) AttributeError: 'MyClass' object has no attribute 'greet'  
+B) Something is happening before the function is called. World  
+C) Something is happening before the function is called. Hello  
+D) Something is happening before the function is called. Something is happening after the function is called. Hello";"A) AttributeError: 'MyClass' object has no attribute 'greet'
+
+The code attempts to apply a decorator to an instance method `greet` through a metaclass `MyMeta`. However, when the metaclass tries to add the decorated version of `greet` to the class dictionary (`dct`), it doesn't recognize that `greet` is already a bound method of the instance. As a result, the decorator's call fails because it expects a callable without any self argument, but it receives an unbound method. This leads to an AttributeError when trying to access `obj.greet()`.
+
+This question tests the understanding of how decorators and metaclasses interact with class methods, particularly in the context of modifying class behavior dynamically at the time of class creation."
