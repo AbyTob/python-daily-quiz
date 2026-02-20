@@ -39492,3 +39492,77 @@ C) The `__call__` method in `UniqueMeta` checks if an instance already exists be
 D) All classes inheriting from `MyClass` will have their instances stored in the `_instances` dictionary.";"C) The `__call__` method in `UniqueMeta` checks if an instance already exists before creating a new one, ensuring uniqueness.
 
 Explanation: The metaclass `UniqueMeta` overrides the `__call__` method to control the object creation process. It uses a class variable `_instances` to store instances of classes it has created. If an instance does not exist for a given class, it creates a new one and stores it in `_instances`. This ensures that any instantiation of a class using this metaclass will return the same instance if it already exists, thus achieving uniqueness across all instances of different classes."
+"2026-02-20 00:03";"Part 1 (Question):
+You are tasked with creating a decorator that logs the execution time of any function it decorates. However, you want this decorator to be used in a way where if the function is decorated multiple times, the log message should indicate how many times the function was called since the last time it started executing.
+
+Here's an example usage:
+
+```python
+import time
+
+@execution_timer
+def my_function():
+    time.sleep(2)
+```
+
+When `my_function()` is called, you want to see a log message like ""my_function() executed in 2.0 seconds (1 call since last start)"" the first time it runs. On subsequent calls, if there's been less than 2 seconds since the last call, it should show the time taken and how many times it has been called since the last start.
+
+Implement the `execution_timer` decorator to achieve this functionality.
+
+A) [Your code here]
+
+B)
+```python
+import functools
+
+def execution_timer(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__}() executed in {end_time - start_time:.2f} seconds"")
+        return result
+    return wrapper
+```
+
+C) [Your code here]
+
+D)
+```python
+import functools
+
+def execution_timer(func):
+    calls_since_last_start = 0
+    last_start_time = None
+    
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        nonlocal calls_since_last_start, last_start_time
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        
+        if last_start_time is None:
+            print(f""{func.__name__}() executed in {end_time - start_time:.2f} seconds (1 call since last start)"")
+            calls_since_last_start = 1
+        else:
+            if end_time - last_start_time < 2:
+                calls_since_last_start += 1
+                print(f""{func.__name__}() executed in {end_time - start_time:.2f} seconds ({calls_since_last_start} calls since last start)"")
+            else:
+                calls_since_last_start = 1
+                last_start_time = end_time
+                print(f""{func.__name__}() executed in {end_time - start_time:.2f} seconds (1 call since last start)"")
+
+        return result
+    return wrapper
+```";"Part 2 (Answer):
+D) The correct answer is D.
+
+Explanation: 
+The provided code snippet correctly implements the `execution_timer` decorator. It uses a closure to keep track of how many times the function has been called since the last start time and logs this information when the function is executed. The decorator ensures that if there's less than 2 seconds between calls, it increments the call count for the same execution period. If more than 2 seconds have passed, it resets the counter and updates the `last_start_time`.
+
+Option A and C do not correctly implement the functionality as they lack the mechanism to track multiple calls within a 2-second window or reset the timer when enough time has passed between calls.
+
+Option B does not address the requirement of tracking multiple calls within a 2-second period. It only logs the execution time without any additional information about how many times the function was called."
