@@ -39610,3 +39610,48 @@ D) All method calls to `MyClass` instances will raise exceptions due to missing 
 
 Explanation:
 The correct answer is A. In Python, metaclasses are classes that create and control other classes. Here, the `Meta` class is used as a metaclass for `MyClass`, which means it will be applied to every method defined within `MyClass`. The metaclass's `__new__` method iterates over all attributes of `MyClass` (including methods). If an attribute is callable (i.e., a function or method), the `timer` decorator is dynamically applied to it. This results in each method being wrapped with the `timer` decorator, which measures and prints the execution time of these methods when they are called. Therefore, both `method1` and `method2` will have their execution times measured by the `timer` decorator."
+"2026-02-20 16:02";"### Part 1 (Question)
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def fetch_data(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            return await response.text()
+
+async def main():
+    result = await fetch_data(""https://api.example.com/data"")
+    print(result)
+
+# Run the event loop to execute the coroutine
+asyncio.run(main())
+```
+
+Which of the following statements correctly describes how this code works?
+
+A) The `AsyncDecorator` class is used to convert a synchronous function into an asynchronous one.
+
+B) The `fetch_data` function is decorated with `@AsyncDecorator`, which means it can be called directly from a synchronous context, and it will run in an asyncio event loop.
+
+C) The `main` function is not required because the `asyncio.run()` inside the decorator handles running the coroutine.
+
+D) The `aiohttp.ClientSession()` should be instantiated outside of the `fetch_data` function to avoid creating multiple sessions.
+
+### Part 2 (Answer)
+**";"B**
+
+**Explanation:**  
+- Option A is incorrect because the decorator is used on an async function, not a synchronous one. Decorators can modify or enhance functions, but they cannot change their nature from synchronous to asynchronous.
+- Option B is correct because the `@AsyncDecorator` decorator wraps the `fetch_data` coroutine and runs it within the asyncio event loop using `asyncio.run()`. This allows the coroutine to be called directly from a synchronous context, making the code more accessible and easier to use without explicit event loop management in every call.
+- Option C is incorrect because the `main` function is necessary for controlling the flow of execution. It calls the decorated coroutine and handles its completion. The use of `asyncio.run(main())` at the bottom of the script ensures that the entire program runs as an asyncio application, but the `main` function itself is essential for managing the coroutine.
+- Option D is incorrect because creating multiple sessions within a loop or repeated calls to `fetch_data` could be optimized by reusing the same session. However, this option does not address the primary function of decorators and their role in running async functions without explicit event loop management."
