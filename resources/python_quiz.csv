@@ -39882,3 +39882,63 @@ D) Error";"**Part 2 (Answer):**
 In the provided code, a metaclass `Meta` is defined to dynamically double the value of any integer attribute whose name starts with 'x'. When `MyClass` is created using this metaclass, it applies the metaclass's logic. The attributes `x1` and `x2` are integers starting with 'x', so they are doubled by the metaclass. However, the attribute `y1`, although an integer, does not start with 'x' and thus remains unchanged.
 
 When we print `MyClass.x1`, it should output 10 (5 * 2). Similarly, `MyClass.x2` should output 20 (10 * 2), while `MyClass.y1` remains as 3. Therefore, the correct output is B) 10, 20, 3."
+"2026-02-22 16:02";"### Part 1 (Question)
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self.tasks = []
+
+    async def start(self):
+        while True:
+            await asyncio.sleep(self.interval)
+            for task in self.tasks[:]:
+                if task.is_running():
+                    await task.continue_task()
+
+    def add_task(self, task):
+        self.tasks.append(task)
+
+class AsyncTask:
+    def __init__(self, name):
+        self.name = name
+        self.loop = asyncio.get_event_loop()
+
+    async def continue_task(self):
+        print(f""Running task {self.name}"")
+
+async def main():
+    timer = AsyncTimer(2)
+    task1 = AsyncTask(""task1"")
+    task2 = AsyncTask(""task2"")
+
+    loop = asyncio.get_event_loop()
+    loop.create_task(timer.start())
+    timer.add_task(task1)
+    timer.add_task(task2)
+
+    await asyncio.sleep(5)
+    loop.stop()
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+**Question:**
+What happens when the `AsyncTimer` starts and how does it manage the tasks?
+
+A) It runs indefinitely, updating the state of each task every second.
+
+B) It stops after 2 seconds because no tasks are scheduled to run.
+
+C) It runs indefinitely but does not start any tasks immediately.
+
+D) It throws an error because `continue_task` is not awaited within `start`.";"### Part 2 (Answer)
+**A) It runs indefinitely, updating the state of each task every second.**
+
+**Explanation:**
+The `AsyncTimer` class has an asynchronous `start` method that runs in a loop, sleeping for the specified interval and then checking if any tasks are running using `is_running()`. Since no actual check is implemented in this simplified version, the assumption is that it would run indefinitely and update the state of each task every second. The tasks themselves, however, do not seem to have a mechanism to set their own running state, so they might not behave as expected without additional logic to track their status internally or externally."
