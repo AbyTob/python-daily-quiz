@@ -6340,5 +6340,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-22 00:02:21",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-02-22": {
+    "id": "1771747325_2",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a metaclass to modify class attributes dynamically:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name, value in dct.items():\n            if isinstance(value, int) and attr_name.startswith('x'):\n                dct[attr_name] = value * 2\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    x1 = 5\n    x2 = 10\n    y1 = 3\n\nprint(MyClass.x1)  # Output: ?\nprint(MyClass.x2)  # Output: ?\nprint(MyClass.y1)  # Output: ?\n```\n\nWhat will be the output of this code?\n\nA) 5, 10, 3  \nB) 10, 20, 3  \nC) 5, 10, 6  \nD) Error",
+    "answer": "**Part 2 (Answer):**\n\n**Correct Answer: B) 10, 20, 3**\n\n**Explanation:**\nIn the provided code, a metaclass `Meta` is defined to dynamically double the value of any integer attribute whose name starts with 'x'. When `MyClass` is created using this metaclass, it applies the metaclass's logic. The attributes `x1` and `x2` are integers starting with 'x', so they are doubled by the metaclass. However, the attribute `y1`, although an integer, does not start with 'x' and thus remains unchanged.\n\nWhen we print `MyClass.x1`, it should output 10 (5 * 2). Similarly, `MyClass.x2` should output 20 (10 * 2), while `MyClass.y1` remains as 3. Therefore, the correct output is B) 10, 20, 3.",
+    "timestamp": "2026-02-22 08:02:05",
+    "topic": "Object-Oriented Programming"
   }
 }
