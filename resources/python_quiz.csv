@@ -39942,3 +39942,45 @@ D) It throws an error because `continue_task` is not awaited within `start`.";"#
 
 **Explanation:**
 The `AsyncTimer` class has an asynchronous `start` method that runs in a loop, sleeping for the specified interval and then checking if any tasks are running using `is_running()`. Since no actual check is implemented in this simplified version, the assumption is that it would run indefinitely and update the state of each task every second. The tasks themselves, however, do not seem to have a mechanism to set their own running state, so they might not behave as expected without additional logic to track their status internally or externally."
+"2026-02-23 00:01";"### Part 1 (Question)
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self.loop = asyncio.get_running_loop()
+
+    async def run(self):
+        while True:
+            await asyncio.sleep(self.interval)
+            print(f""Timer ticked at {self.interval} seconds"")
+
+async def main():
+    timer1 = AsyncTimer(2)
+    timer2 = AsyncTimer(3)
+
+    task1 = asyncio.create_task(timer1.run())
+    task2 = asyncio.create_task(timer2.run())
+
+    await asyncio.gather(task1, task2)
+
+# Run the event loop
+asyncio.run(main())
+```
+
+Which of the following statements about this code is true?
+
+A) The timers will not run concurrently due to the GIL (Global Interpreter Lock).
+
+B) Both timers will run concurrently and print ticks every 2 seconds and 3 seconds respectively.
+
+C) Timer1 will run twice as frequently as Timer2 because it's created first.
+
+D) An error will occur because `asyncio.sleep` cannot be used in a non-async function.";"### Part 2 (Answer)
+B) Both timers will run concurrently and print ticks every 2 seconds and 3 seconds respectively.
+
+**Explanation:**
+In Python, when using `asyncio.create_task()`, the tasks are scheduled to run as soon as possible in the event loop, regardless of their order of creation. The Global Interpreter Lock (GIL) does not apply to asyncio because it uses native coroutines which do not block the execution of other tasks while waiting for I/O operations. Therefore, both timers will indeed run concurrently and print ticks at their respective intervals without any issues."
