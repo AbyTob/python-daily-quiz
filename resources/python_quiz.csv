@@ -40151,3 +40151,40 @@ Option A is incorrect because the added timing functionality should be transpare
 Option C is incorrect because calling `compute_sum(1000000)` will print both the sum and the execution time, as the decorator adds this functionality without changing the original function's behavior.
 
 Option D is incorrect because when a function is decorated, the original function is replaced by the wrapper function returned by the decorator. Thus, the result of calling `compute_sum(1000000)` will be the same as calling `wrapper(1000000)`, which includes the execution time in its output."
+"2026-02-24 16:01";"[QUESTION]
+Consider the following Python code snippet that attempts to use a metaclass to track all instances of a class:
+
+```python
+class InstanceTracker(type):
+    _instances = {}
+    
+    def __new__(cls, name, bases, dct):
+        dct['_instance'] = None
+        return super().__new__(cls, name, bases, dct)
+    
+    def __call__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__call__(*args, **kwargs)
+            InstanceTracker._instances[cls] = [cls._instance]
+        else:
+            InstanceTracker._instances[cls].append(cls._instance)
+        return cls._instance
+
+class MyClass(metaclass=InstanceTracker):
+    def __init__(self, value):
+        self.value = value
+
+# Usage
+obj1 = MyClass(10)
+obj2 = MyClass(20)
+
+print(InstanceTracker._instances)  # Output?
+```
+
+Which of the following statements is true regarding the code above?
+
+A. The `_instance` attribute will be set on each class that uses `InstanceTracker`.
+B. Multiple instances of `MyClass` can be created without any limitations.
+C. The code will raise an error because `__call__` in `InstanceTracker` tries to access `_instances` before it is initialized.
+D. The output of `print(InstanceTracker._instances)` will show two instances of `MyClass`.";"[A] The `_instance` attribute will be set on each class that uses `InstanceTracker`.
+Explanation: The metaclass correctly sets the `_instance` attribute in the dictionary for the class it's applied to. However, this does not affect how many instances can be created or track multiple instances of the same class."
