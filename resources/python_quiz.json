@@ -6382,5 +6382,12 @@
     "answer": "C) Using decorators for caching can significantly improve the performance of recursive functions like `fibonacci`.",
     "timestamp": "2026-02-24 00:01:28",
     "topic": "Function and Method Decorators"
+  },
+  "q2_2026-02-24": {
+    "id": "1771920137_2",
+    "question": "### Part 1 (Question)\n**Question:** Consider the following Python code that uses a decorator to measure the execution time of a function:\n\n```python\nimport time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Executing {func.__name__} took {end_time - start_time:.4f} seconds.\")\n        return result\n    return wrapper\n\n@timer\ndef compute_sum(n):\n    return sum(range(1, n+1))\n\nresult = compute_sum(1000000)\nprint(f\"Sum: {result}\")\n```\n\nWhich of the following statements is true about this code?\n\nA) The `compute_sum` function will run slower when decorated by `timer`.\n\nB) The `wrapper` function inside `timer` modifies the behavior of `compute_sum` without changing its interface.\n\nC) When `compute_sum(1000000)` is called, it prints \"Sum: 500000500000\" and no execution time.\n\nD) The `timer` decorator returns a new function that is equivalent to `compute_sum`.",
+    "answer": "### Part 2 (Answer)\n**Correct Answer:** B\n\n**Explanation:**  \nThe `wrapper` function inside the `timer` decorator modifies the behavior of `compute_sum` by adding functionality to measure and print the execution time, but it does not change its interface. Therefore, option B is correct.\n\nOption A is incorrect because the added timing functionality should be transparent to the user and should not affect the performance significantly unless the function being timed is extremely fast or the timing process itself is costly.\n\nOption C is incorrect because calling `compute_sum(1000000)` will print both the sum and the execution time, as the decorator adds this functionality without changing the original function's behavior.\n\nOption D is incorrect because when a function is decorated, the original function is replaced by the wrapper function returned by the decorator. Thus, the result of calling `compute_sum(1000000)` will be the same as calling `wrapper(1000000)`, which includes the execution time in its output.",
+    "timestamp": "2026-02-24 08:02:17",
+    "topic": "Functions and Functional Programming"
   }
 }
