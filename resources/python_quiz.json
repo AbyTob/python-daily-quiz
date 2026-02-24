@@ -6375,5 +6375,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-23 16:02:33",
     "topic": "Task Management and Scheduling"
+  },
+  "q1_2026-02-24": {
+    "id": "1771891288_1",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a decorator to add caching functionality to a function:\n\n```python\ndef cache_results(func):\n    results = {}\n    def wrapper(*args):\n        if args in results:\n            return results[args]\n        else:\n            result = func(*args)\n            results[args] = result\n            return result\n    return wrapper\n\n@cache_results\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n```\n\nWhich of the following statements is true about this code?\n\nA) The `fibonacci` function will correctly compute Fibonacci numbers using recursion and caching.\n\nB) The `cache_results` decorator will cause a `RecursionError` because it modifies the function's arguments, which are immutable.\n\nC) Using decorators for caching can significantly improve the performance of recursive functions like `fibonacci`.\n\nD) The `results` dictionary is accessible from outside the `cache_results` decorator.",
+    "answer": "C) Using decorators for caching can significantly improve the performance of recursive functions like `fibonacci`.",
+    "timestamp": "2026-02-24 00:01:28",
+    "topic": "Function and Method Decorators"
   }
 }

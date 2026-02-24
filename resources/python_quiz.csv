@@ -40077,3 +40077,35 @@ Explanation:
 - When an instance of the `Task` class is created and its methods are called, the `timer` decorator measures and prints the execution time for each method.
 - The `heavy_task` method includes a sleep operation that delays its completion by approximately 2 seconds. This delay is measured and printed.
 - The `light_task` method does not perform any meaningful work (it's just an empty pass statement), but it will still have its execution time measured and printed by the `timer` decorator.";"Answer format error. Please check the generated content."
+"2026-02-24 00:01";"[QUESTION]
+Consider the following Python code snippet that uses a decorator to add caching functionality to a function:
+
+```python
+def cache_results(func):
+    results = {}
+    def wrapper(*args):
+        if args in results:
+            return results[args]
+        else:
+            result = func(*args)
+            results[args] = result
+            return result
+    return wrapper
+
+@cache_results
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+```
+
+Which of the following statements is true about this code?
+
+A) The `fibonacci` function will correctly compute Fibonacci numbers using recursion and caching.
+
+B) The `cache_results` decorator will cause a `RecursionError` because it modifies the function's arguments, which are immutable.
+
+C) Using decorators for caching can significantly improve the performance of recursive functions like `fibonacci`.
+
+D) The `results` dictionary is accessible from outside the `cache_results` decorator.";"C) Using decorators for caching can significantly improve the performance of recursive functions like `fibonacci`."
