@@ -6396,5 +6396,12 @@
     "answer": "[A] The `_instance` attribute will be set on each class that uses `InstanceTracker`.\nExplanation: The metaclass correctly sets the `_instance` attribute in the dictionary for the class it's applied to. However, this does not affect how many instances can be created or track multiple instances of the same class.",
     "timestamp": "2026-02-24 16:01:49",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2026-02-25": {
+    "id": "1771977707_1",
+    "question": "[QUESTION]\n**Question:** Consider the following Python code snippet that uses a metaclass to modify class attributes dynamically. The metaclass is designed to add an attribute `extra_info` with a default value of \"Unknown\" if it doesn't already exist.\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if 'extra_info' not in dct:\n            dct['extra_info'] = 'Unknown'\n        return super().__new__(cls, name, bases, dct)\n\nclass BaseClass(metaclass=Meta):\n    pass\n\nclass DerivedClass(BaseClass):\n    extra_info = \"Specific Info\"\n\n# Create instances of the classes\nbase_instance = BaseClass()\nderived_instance = DerivedClass()\n\nprint(base_instance.extra_info)  # Output: ?\nprint(derived_instance.extra_info)  # Output: ?\n```\n\nWhat will be the output of this code snippet?\n\nA. `Unknown` and `Specific Info`\nB. `None` and `Specific Info`\nC. `Unknown` and `Unknown`\nD. Error",
+    "answer": "**Answer:** A. `Unknown` and `Specific Info`\n\n**Explanation:** The metaclass `Meta` checks if the attribute `extra_info` exists in the class dictionary when a new class is created. If it doesn't, it adds this attribute with a default value of \"Unknown\". When we define `DerivedClass`, it explicitly sets `extra_info` to \"Specific Info\", so the metaclass does not overwrite it. Thus, `base_instance.extra_info` will be set by the metaclass and will be \"Unknown\", while `derived_instance.extra_info` is set in the class definition and will be \"Specific Info\".",
+    "timestamp": "2026-02-25 00:01:47",
+    "topic": "Object-Oriented Programming"
   }
 }
