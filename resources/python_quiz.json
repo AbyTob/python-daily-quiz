@@ -6410,5 +6410,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-02-25 08:02:58",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2026-02-25": {
+    "id": "1772035289_3",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to enforce certain properties on class attributes:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        if not all(isinstance(val, str) for val in dct.values()):\n            raise TypeError(\"All attribute values must be strings\")\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    a = 1\n    b = \"hello\"\n```\n\nWhich of the following statements is true about the `MyClass` and its metaclass?\n\nA) The class will successfully create because all attributes are strings.\nB) A `TypeError` will be raised because not all attributes are strings.\nC) The metaclass has no effect, and the class will be created normally.\nD) The program will crash due to a syntax error in the attribute assignments.",
+    "answer": "B) A `TypeError` will be raised because not all attributes are strings.\n\nThe `Meta` class enforces that all attribute values must be strings. In the `MyClass`, the attribute `a` is an integer, which does not meet the condition specified by the metaclass. Therefore, a `TypeError` will be raised when `MyClass` is attempted to be created.",
+    "timestamp": "2026-02-25 16:01:29",
+    "topic": "Object-Oriented Programming"
   }
 }
