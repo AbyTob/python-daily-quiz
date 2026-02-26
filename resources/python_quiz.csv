@@ -40310,3 +40310,32 @@ C) The metaclass has no effect, and the class will be created normally.
 D) The program will crash due to a syntax error in the attribute assignments.";"B) A `TypeError` will be raised because not all attributes are strings.
 
 The `Meta` class enforces that all attribute values must be strings. In the `MyClass`, the attribute `a` is an integer, which does not meet the condition specified by the metaclass. Therefore, a `TypeError` will be raised when `MyClass` is attempted to be created."
+"2026-02-26 00:01";"[QUESTION]
+Consider the following code:
+
+```python
+import asyncio
+
+async def async_task(n):
+    await asyncio.sleep(1)
+    return n * 2
+
+async def main():
+    tasks = [async_task(i) for i in range(5)]
+    results = await asyncio.gather(*tasks)
+    print(results)
+
+if __name__ == ""__main__"":
+    import time
+    start_time = time.time()
+    asyncio.run(main())
+    end_time = time.time()
+    print(f""Total time taken: {end_time - start_time}"")
+```
+
+What is the output of this program and how does it illustrate the use of asyncio?
+
+A) It will print [0, 2, 4, 6, 8] in less than a second.
+B) It will print [0, 2, 4, 6, 8] but take more than 5 seconds to run.
+C) It will raise an exception because asyncio.sleep is not allowed in main.
+D) It will print an error message because asyncio.gather does not support asynchronous functions.";"A) It will print [0, 2, 4, 6, 8] in less than a second. This code demonstrates how asyncio allows for non-blocking execution of tasks, enabling the program to perform other operations while waiting for I/O-bound tasks like sleep to complete. The use of `asyncio.gather` efficiently runs all tasks concurrently, thus reducing the total time taken compared to running them sequentially."
