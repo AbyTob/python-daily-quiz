@@ -40339,3 +40339,32 @@ A) It will print [0, 2, 4, 6, 8] in less than a second.
 B) It will print [0, 2, 4, 6, 8] but take more than 5 seconds to run.
 C) It will raise an exception because asyncio.sleep is not allowed in main.
 D) It will print an error message because asyncio.gather does not support asynchronous functions.";"A) It will print [0, 2, 4, 6, 8] in less than a second. This code demonstrates how asyncio allows for non-blocking execution of tasks, enabling the program to perform other operations while waiting for I/O-bound tasks like sleep to complete. The use of `asyncio.gather` efficiently runs all tasks concurrently, thus reducing the total time taken compared to running them sequentially."
+"2026-02-26 08:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def async_task(n):
+    for i in range(n):
+        print(f""Task {n}: Step {i}"")
+        await asyncio.sleep(1)
+    return n
+
+async def main():
+    tasks = [async_task(i) for i in range(3)]
+    results = await asyncio.gather(*tasks)
+    print(""All tasks completed:"", results)
+
+asyncio.run(main())
+```
+
+Which of the following statements is true regarding the execution of this code?
+
+A) The output will be completely non-deterministic because of the `await asyncio.sleep(1)` calls.
+
+B) All tasks start immediately, and they will complete in the order they were started (0, 1, then 2).
+
+C) The `asyncio.gather` function waits for all tasks to finish before printing ""All tasks completed:"", but it does not guarantee that tasks are run concurrently.
+
+D) The output will be completely deterministic because each task prints its steps sequentially without overlapping.";"B"

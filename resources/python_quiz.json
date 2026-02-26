@@ -6424,5 +6424,12 @@
     "answer": "A) It will print [0, 2, 4, 6, 8] in less than a second. This code demonstrates how asyncio allows for non-blocking execution of tasks, enabling the program to perform other operations while waiting for I/O-bound tasks like sleep to complete. The use of `asyncio.gather` efficiently runs all tasks concurrently, thus reducing the total time taken compared to running them sequentially.",
     "timestamp": "2026-02-26 00:01:37",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2026-02-26": {
+    "id": "1772092879_2",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport asyncio\n\nasync def async_task(n):\n    for i in range(n):\n        print(f\"Task {n}: Step {i}\")\n        await asyncio.sleep(1)\n    return n\n\nasync def main():\n    tasks = [async_task(i) for i in range(3)]\n    results = await asyncio.gather(*tasks)\n    print(\"All tasks completed:\", results)\n\nasyncio.run(main())\n```\n\nWhich of the following statements is true regarding the execution of this code?\n\nA) The output will be completely non-deterministic because of the `await asyncio.sleep(1)` calls.\n\nB) All tasks start immediately, and they will complete in the order they were started (0, 1, then 2).\n\nC) The `asyncio.gather` function waits for all tasks to finish before printing \"All tasks completed:\", but it does not guarantee that tasks are run concurrently.\n\nD) The output will be completely deterministic because each task prints its steps sequentially without overlapping.",
+    "answer": "B",
+    "timestamp": "2026-02-26 08:01:19",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
