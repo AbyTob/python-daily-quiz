@@ -40368,3 +40368,46 @@ B) All tasks start immediately, and they will complete in the order they were st
 C) The `asyncio.gather` function waits for all tasks to finish before printing ""All tasks completed:"", but it does not guarantee that tasks are run concurrently.
 
 D) The output will be completely deterministic because each task prints its steps sequentially without overlapping.";"B"
+"2026-02-26 16:01";"[QUESTION]  
+Consider the following code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+    
+    async def __call__(self, *args, **kwargs):
+        print(""Before calling"")
+        result = await self.func(*args, **kwargs)
+        print(""After calling"")
+        return result
+
+@AsyncDecorator
+async def add(a, b):
+    return a + b
+
+async def main():
+    result = await add(3, 4)
+    print(result)
+
+# Run the main function using asyncio event loop
+asyncio.run(main())
+```
+
+What will be the output of this code?
+
+A) Before calling  
+   7  
+   After calling  
+
+B) Before calling  
+   After calling  
+   7  
+
+C) 7  
+   Before calling  
+   After calling  
+
+D) 7";"Answer format error. Please check the generated content."

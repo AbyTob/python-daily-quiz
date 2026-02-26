@@ -6431,5 +6431,12 @@
     "answer": "B",
     "timestamp": "2026-02-26 08:01:19",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-02-26": {
+    "id": "1772121673_3",
+    "question": "[QUESTION]  \nConsider the following code snippet:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n    \n    async def __call__(self, *args, **kwargs):\n        print(\"Before calling\")\n        result = await self.func(*args, **kwargs)\n        print(\"After calling\")\n        return result\n\n@AsyncDecorator\nasync def add(a, b):\n    return a + b\n\nasync def main():\n    result = await add(3, 4)\n    print(result)\n\n# Run the main function using asyncio event loop\nasyncio.run(main())\n```\n\nWhat will be the output of this code?\n\nA) Before calling  \n   7  \n   After calling  \n\nB) Before calling  \n   After calling  \n   7  \n\nC) 7  \n   Before calling  \n   After calling  \n\nD) 7",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-02-26 16:01:13",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
