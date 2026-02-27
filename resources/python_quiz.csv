@@ -40449,3 +40449,74 @@ The correct answer is B) It handles both synchronous and asynchronous functions 
 Explanation:
 - The `log_execution_time` decorator first checks if the decorated function is a coroutine using `asyncio.iscoroutinefunction(func)`. If it is, it awaits the function; otherwise, it calls the function directly.
 - This allows the decorator to handle both synchronous and asynchronous functions seamlessly, logging their execution time correctly without modification."
+"2026-02-27 08:02";"**Part 1: Question**
+
+Consider the following Python code that uses a metaclass to automatically add a method `log_call` to any class it decorates. The goal is to log every call made to a method within the decorated class.
+
+```python
+class LoggingMeta(type):
+    def __new__(cls, name, bases, dct):
+        for key, value in dct.items():
+            if callable(value):
+                dct[key] = cls.log_call(value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def log_call(func):
+        def wrapper(*args, **kwargs):
+            print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+            result = func(*args, **kwargs)
+            print(f""{func.__name__} returned {result}"")
+            return result
+        return wrapper
+
+class Calculator(metaclass=LoggingMeta):
+    def add(self, x, y):
+        return x + y
+    
+    def multiply(self, x, y):
+        return x * y
+```
+
+What is the output when you create an instance of `Calculator` and call both `add(3, 5)` and `multiply(2, 4)`?
+
+A) 
+```
+Calling add with args: (3, 5), kwargs: {}
+add returned 8
+Calling multiply with args: (2, 4), kwargs: {}
+multiply returned 8
+```
+
+B) 
+```
+Calling add with args: (3, 5), kwargs: {}
+Adding 3 and 5 resulted in 8
+Calling multiply with args: (2, 4), kwargs: {}
+Multiplying 2 and 4 resulted in 8
+```
+
+C) 
+```
+add(3, 5)
+multiply(2, 4)
+```
+
+D) 
+```
+Calling add with args: (3, 5), kwargs: {}
+7
+Calling multiply with args: (2, 4), kwargs: {}
+8
+```";"**Part 2: Answer**
+
+A) 
+```
+Calling add with args: (3, 5), kwargs: {}
+add returned 8
+Calling multiply with args: (2, 4), kwargs: {}
+multiply returned 8
+```
+
+Explanation:
+The metaclass `LoggingMeta` is applied to the class `Calculator`. When `Calculator` is defined, the metaclass checks each attribute of the class. If an attribute is a callable (i.e., a method), it replaces that method with a wrapper function `log_call`. This wrapper logs the call details and then calls the original method. Therefore, when we create an instance of `Calculator` and call its methods, the log statements are executed as expected."
