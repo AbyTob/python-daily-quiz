@@ -40411,3 +40411,41 @@ C) 7
    After calling  
 
 D) 7";"Answer format error. Please check the generated content."
+"2026-02-27 00:01";"Part 1: 
+In Python, decorators can be used to extend or modify the behavior of functions or methods. Consider a scenario where you need to create a decorator that logs the execution time of any function it decorates. However, this decorator should also handle asynchronous functions (using asyncio) correctly.
+
+```python
+import time
+import asyncio
+
+def log_execution_time(func):
+    async def wrapper(*args, **kwargs):
+        start_time = time.time()
+        if asyncio.iscoroutinefunction(func):
+            result = await func(*args, **kwargs)
+        else:
+            result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Executing {func.__name__} took {end_time - start_time:.4f} seconds"")
+        return result
+    return wrapper
+
+@log_execution_time
+async def async_task():
+    await asyncio.sleep(1)
+
+# Example usage:
+asyncio.run(async_task())
+```
+
+Which of the following best describes the behavior of the `log_execution_time` decorator when applied to an asynchronous function like `async_task`?
+
+A) It logs the execution time but does not handle non-async functions correctly.
+B) It handles both synchronous and asynchronous functions by checking if they are coroutines.
+C) It fails to log anything because it cannot determine the function type.
+D) It works only with synchronous functions and ignores asyncio.";"Part 2: 
+The correct answer is B) It handles both synchronous and asynchronous functions by checking if they are coroutines.
+
+Explanation:
+- The `log_execution_time` decorator first checks if the decorated function is a coroutine using `asyncio.iscoroutinefunction(func)`. If it is, it awaits the function; otherwise, it calls the function directly.
+- This allows the decorator to handle both synchronous and asynchronous functions seamlessly, logging their execution time correctly without modification."
