@@ -40520,3 +40520,39 @@ multiply returned 8
 
 Explanation:
 The metaclass `LoggingMeta` is applied to the class `Calculator`. When `Calculator` is defined, the metaclass checks each attribute of the class. If an attribute is a callable (i.e., a method), it replaces that method with a wrapper function `log_call`. This wrapper logs the call details and then calls the original method. Therefore, when we create an instance of `Calculator` and call its methods, the log statements are executed as expected."
+"2026-02-27 16:01";"[QUESTION]
+Consider the following Python code that aims to create a class decorator which measures the execution time of methods within a class:
+
+```python
+import time
+
+def measure_time(cls):
+    for name, method in cls.__dict__.items():
+        if callable(method):
+            setattr(cls, name, wrap_method(method))
+    return cls
+
+def wrap_method(method):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = method(*args, **kwargs)
+        end_time = time.time()
+        print(f""{method.__name__} took {end_time - start_time:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+@measure_time
+class ExampleClass:
+    def method1(self):
+        time.sleep(0.5)
+
+    def method2(self):
+        time.sleep(1)
+```
+
+When `ExampleClass` is instantiated and its methods are called, which of the following statements about the output is true?
+
+A) The methods will execute without any time measurement.
+B) Each method's execution time will be printed after the method completes, but the total execution time won't be shown.
+C) An error will occur because `measure_time` cannot modify class methods dynamically.
+D) Each method's execution time will be printed and the total execution time of all methods will also be calculated.";"[C] An error will occur because `measure_time` cannot modify class methods dynamically."

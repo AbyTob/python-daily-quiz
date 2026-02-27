@@ -6452,5 +6452,12 @@
     "answer": "**Part 2: Answer**\n\nA) \n```\nCalling add with args: (3, 5), kwargs: {}\nadd returned 8\nCalling multiply with args: (2, 4), kwargs: {}\nmultiply returned 8\n```\n\nExplanation:\nThe metaclass `LoggingMeta` is applied to the class `Calculator`. When `Calculator` is defined, the metaclass checks each attribute of the class. If an attribute is a callable (i.e., a method), it replaces that method with a wrapper function `log_call`. This wrapper logs the call details and then calls the original method. Therefore, when we create an instance of `Calculator` and call its methods, the log statements are executed as expected.",
     "timestamp": "2026-02-27 08:02:26",
     "topic": "Advanced Logging Configuration"
+  },
+  "q3_2026-02-27": {
+    "id": "1772208094_3",
+    "question": "[QUESTION]\nConsider the following Python code that aims to create a class decorator which measures the execution time of methods within a class:\n\n```python\nimport time\n\ndef measure_time(cls):\n    for name, method in cls.__dict__.items():\n        if callable(method):\n            setattr(cls, name, wrap_method(method))\n    return cls\n\ndef wrap_method(method):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = method(*args, **kwargs)\n        end_time = time.time()\n        print(f\"{method.__name__} took {end_time - start_time:.4f} seconds to execute.\")\n        return result\n    return wrapper\n\n@measure_time\nclass ExampleClass:\n    def method1(self):\n        time.sleep(0.5)\n\n    def method2(self):\n        time.sleep(1)\n```\n\nWhen `ExampleClass` is instantiated and its methods are called, which of the following statements about the output is true?\n\nA) The methods will execute without any time measurement.\nB) Each method's execution time will be printed after the method completes, but the total execution time won't be shown.\nC) An error will occur because `measure_time` cannot modify class methods dynamically.\nD) Each method's execution time will be printed and the total execution time of all methods will also be calculated.",
+    "answer": "[C] An error will occur because `measure_time` cannot modify class methods dynamically.",
+    "timestamp": "2026-02-27 16:01:34",
+    "topic": "Object-Oriented Programming"
   }
 }
