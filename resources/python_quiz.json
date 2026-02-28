@@ -6459,5 +6459,12 @@
     "answer": "[C] An error will occur because `measure_time` cannot modify class methods dynamically.",
     "timestamp": "2026-02-27 16:01:34",
     "topic": "Object-Oriented Programming"
+  },
+  "q1_2026-02-28": {
+    "id": "1772236892_1",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code that uses a metaclass to add a class attribute dynamically:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_attr'] = 'I am dynamic'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    pass\n\nobj = MyClass()\n```\n\nWhat will be the output of `print(obj.dynamic_attr)`?\n\nA) AttributeError  \nB) 'I am dynamic'  \nC) None  \nD) TypeError\n\n**Part 2 (Answer):**\n\n**B) 'I am dynamic'**\n\nExplanation:\n- The metaclass `Meta` is defined to dynamically add a class attribute `dynamic_attr` with the value `'I am dynamic'`.\n- When `MyClass` is defined using this metaclass, the metaclass's `__new__` method is invoked during the creation of `MyClass`. It adds the attribute `dynamic_attr` to the dictionary that will become the class `MyClass`.\n- As a result, when an instance of `MyClass` (e.g., `obj`) is created and we try to access its `dynamic_attr`, it correctly prints `'I am dynamic'`.\n\nThis question tests your understanding of how metaclasses can be used to modify or enhance classes dynamically during their creation.",
+    "timestamp": "2026-02-28 00:01:32",
+    "topic": "Advanced Python Programming"
   }
 }
