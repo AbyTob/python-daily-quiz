@@ -6473,5 +6473,12 @@
     "answer": "C) Each method call will log the current time, as intended.\n\nExplanation: In the provided code, the metaclass `MetaLog` correctly decorates all callable attributes (methods) of the class it creates. When an instance of `MyClass` is created and its methods are called, the decorator `log_method_calls` logs each method call with the current timestamp as expected. The issue in options B and D does not occur because the decorator is applied at the time the class is being defined, not when the instance is created or when the method is called. Option A is incorrect because there's no issue with handling methods in this case.",
     "timestamp": "2026-02-28 08:02:00",
     "topic": "Advanced Logging Configuration"
+  },
+  "q3_2026-02-28": {
+    "id": "1772294502_3",
+    "question": "### Part 1 (Question)\n\nConsider the following Python code that uses a metaclass to create a singleton class:\n\n```python\nclass Singleton(type):\n    _instances = {}\n\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)\n        return cls._instances[cls]\n\nclass MyClass(metaclass=Singleton):\n    pass\n\n# Example usage\nobj1 = MyClass()\nobj2 = MyClass()\n\nprint(obj1 is obj2)  # What will this print?\n```\n\nWhat will be the output of `print(obj1 is obj2)`?\n\nA. `False`\nB. `True`\nC. An error\nD. `None`",
+    "answer": "### Part 2 (Answer)\n\n**Correct Answer:** B. `True`\n\n**Explanation:**\n\nThe code provided defines a metaclass `Singleton` that ensures only one instance of the class it decorates is created, regardless of how many times the class is instantiated. In this case, `MyClass` is decorated with `Singleton`. \n\nWhen you create an instance of `MyClass`, like so:\n- `obj1 = MyClass()`\n- `obj2 = MyClass()`\n\nBoth `obj1` and `obj2` will reference the same instance because the metaclass `Singleton` checks if an instance already exists in its `_instances` dictionary. If it does, it returns that existing instance; otherwise, it creates a new one.\n\nThus, `obj1 is obj2` evaluates to `True`, indicating that both variables point to the same object in memory.",
+    "timestamp": "2026-02-28 16:01:42",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }

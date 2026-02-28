@@ -40627,3 +40627,46 @@ C) Each method call will log the current time, as intended.
 D) The methods will log their calls with incorrect timestamps because `time.time()` is called when the decorator function is defined, not each time the method is called.";"C) Each method call will log the current time, as intended.
 
 Explanation: In the provided code, the metaclass `MetaLog` correctly decorates all callable attributes (methods) of the class it creates. When an instance of `MyClass` is created and its methods are called, the decorator `log_method_calls` logs each method call with the current timestamp as expected. The issue in options B and D does not occur because the decorator is applied at the time the class is being defined, not when the instance is created or when the method is called. Option A is incorrect because there's no issue with handling methods in this case."
+"2026-02-28 16:01";"### Part 1 (Question)
+
+Consider the following Python code that uses a metaclass to create a singleton class:
+
+```python
+class Singleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class MyClass(metaclass=Singleton):
+    pass
+
+# Example usage
+obj1 = MyClass()
+obj2 = MyClass()
+
+print(obj1 is obj2)  # What will this print?
+```
+
+What will be the output of `print(obj1 is obj2)`?
+
+A. `False`
+B. `True`
+C. An error
+D. `None`";"### Part 2 (Answer)
+
+**Correct Answer:** B. `True`
+
+**Explanation:**
+
+The code provided defines a metaclass `Singleton` that ensures only one instance of the class it decorates is created, regardless of how many times the class is instantiated. In this case, `MyClass` is decorated with `Singleton`. 
+
+When you create an instance of `MyClass`, like so:
+- `obj1 = MyClass()`
+- `obj2 = MyClass()`
+
+Both `obj1` and `obj2` will reference the same instance because the metaclass `Singleton` checks if an instance already exists in its `_instances` dictionary. If it does, it returns that existing instance; otherwise, it creates a new one.
+
+Thus, `obj1 is obj2` evaluates to `True`, indicating that both variables point to the same object in memory."
