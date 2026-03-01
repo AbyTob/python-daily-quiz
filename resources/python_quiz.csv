@@ -40729,3 +40729,49 @@ C) The `my_instance` will raise an AttributeError when trying to access `hello()
 D) The metaclass `Meta` dynamically adds a `goodbye` method to all classes that use it.";"A) The `hello` method is defined in the `MyClass` and can be accessed directly from instances.
 
 **Explanation:** In this example, the metaclass `Meta` modifies the dictionary of any class that uses it. It adds a new key-value pair `'hello': lambda self: ""Hello from {}"".format(name)` to the dictionary. This means that whenever an instance of `MyClass` is created, it will have a `hello` method that returns a greeting string based on the class name. Therefore, calling `my_instance.hello()` correctly executes and prints ""Hello from MyClass""."
+"2026-03-01 16:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+        self.tasks = []
+
+    async def start(self):
+        while True:
+            await asyncio.sleep(self.interval)
+            for task in self.tasks:
+                if not task.done():
+                    await task
+
+    def add_task(self, task):
+        self.tasks.append(task)
+
+# Example usage
+async def my_async_task(timer):
+    print(f""Task started at {timer._time.time()}"")
+    await asyncio.sleep(2)
+    print(""Task completed"")
+
+async def main():
+    timer = AsyncTimer(interval=1)
+    timer.add_task(my_async_task(timer))
+    await timer.start()
+
+# Run the example
+asyncio.run(main())
+```
+
+This code defines an `AsyncTimer` class that can schedule and run asynchronous tasks at regular intervals. The `add_task` method adds a task to be executed periodically.
+
+Which of the following statements is true regarding this implementation?
+
+A) The `my_async_task` function will not be able to access any attributes or methods of the `AsyncTimer` instance it was passed.
+B) The `AsyncTimer` class uses coroutines for scheduling tasks at regular intervals.
+C) The `add_task` method can only add functions, not other callable objects.
+D) The `start` method runs indefinitely without terminating.";"B) The `AsyncTimer` class uses coroutines for scheduling tasks at regular intervals.
+
+Explanation: The `AsyncTimer` class has a coroutine `start` which runs an infinite loop and uses `await asyncio.sleep(self.interval)` to schedule tasks periodically. Additionally, the example usage demonstrates adding an asynchronous task using `my_async_task(timer)`, where `timer` is an instance of `AsyncTimer`. This confirms that coroutines are used for scheduling tasks at regular intervals."
