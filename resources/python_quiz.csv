@@ -40823,3 +40823,31 @@ Explanation:
 - The `SingletonMeta` metaclass ensures that no matter how many times an instance of `MyClass` or `AnotherClass` is created, only one instance will be returned.
 - The `my_decorator` does not interfere with the singleton pattern when applied to a class. It only adds additional behavior (printing ""Decorator called"") before calling the original class constructor.
 - Therefore, `a is b` and `c is d` both return `True`, confirming that both instances refer to the same object."
+"2026-03-02 08:02";"[QUESTION]
+Consider the following Python code snippet that aims to create a metaclass which automatically adds a `__str__` method to any class it decorates, formatting the class name and its attributes in a specific way:
+
+```python
+class MetaDecorator(type):
+    def __new__(cls, name, bases, dct):
+        if '__str__' not in dct:
+            def str_method(self):
+                return f""<{name}({', '.join([f'{k}={v}' for k, v in self.__dict__.items()])})>""
+            dct['__str__'] = str_method
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=MetaDecorator):
+    def __init__(self, value):
+        self.value = value
+
+obj = MyClass(10)
+print(obj)  # Should print: <MyClass(value=10)>
+```
+
+What is the issue with the provided code? Why does it not work as expected when creating instances of `MyClass`?
+
+A) The metaclass definition is incorrect.
+B) The `__str__` method is being defined after an instance of `MyClass` has been created, so it doesn't apply to existing instances.
+C) The `__init__` method in `MyClass` is incorrectly formatted.
+D) None of the above.";"[A] The metaclass definition is incorrect.
+
+Explanation: The issue with the provided code lies in the placement and execution timing of the attribute addition. The `__new__` method of a metaclass is called when a class is being created, not when an instance is being created or when the class is being used. Therefore, adding an attribute like `__str__` directly within the `__new__` method affects the class itself rather than its instances. When you try to create an instance of `MyClass` and then print it, Python looks for a `__str__` method in the instance dictionary first, which does not exist. Then, it looks up the class (which is an instance of `MetaDecorator`) and finds the `__str__` method there, but this is too late as the instance was already created with its initial state without the new `__str__` method. Therefore, printing the instance will raise an AttributeError because `__str__` has not been added to the instance's dictionary at the time of creation."
