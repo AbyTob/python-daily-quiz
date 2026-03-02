@@ -40851,3 +40851,69 @@ C) The `__init__` method in `MyClass` is incorrectly formatted.
 D) None of the above.";"[A] The metaclass definition is incorrect.
 
 Explanation: The issue with the provided code lies in the placement and execution timing of the attribute addition. The `__new__` method of a metaclass is called when a class is being created, not when an instance is being created or when the class is being used. Therefore, adding an attribute like `__str__` directly within the `__new__` method affects the class itself rather than its instances. When you try to create an instance of `MyClass` and then print it, Python looks for a `__str__` method in the instance dictionary first, which does not exist. Then, it looks up the class (which is an instance of `MetaDecorator`) and finds the `__str__` method there, but this is too late as the instance was already created with its initial state without the new `__str__` method. Therefore, printing the instance will raise an AttributeError because `__str__` has not been added to the instance's dictionary at the time of creation."
+"2026-03-02 16:02";"**Part 1 (Question):**
+
+You are tasked with creating a Python decorator that measures the execution time of an asynchronous function. The decorator should return both the result of the function and its execution time. Here is the initial implementation:
+
+```python
+import asyncio
+
+def measure_time(func):
+    async def wrapper(*args, **kwargs):
+        start = asyncio.get_event_loop().time()
+        result = await func(*args, **kwargs)
+        end = asyncio.get_event_loop().time()
+        return result, end - start
+    return wrapper
+
+@measure_time
+async def compute():
+    await asyncio.sleep(1)
+    return ""Done""
+
+# Example usage:
+result = asyncio.run(compute())
+print(result)  # Expected output: ('Done', time_taken)
+```
+
+However, when you run the above code, it doesn't produce the expected result. Identify and correct the error in the `measure_time` decorator.
+
+**Options:**
+A) The decorator should be applied to a synchronous function.
+B) The `wrapper` function should use `await asyncio.sleep(1)` instead of just `asyncio.sleep(1)`.
+C) The decorator should not use `asyncio.get_event_loop().time()`.
+D) The decorator is correct and will work as expected.
+
+**Part 2 (Answer):**
+
+**A)**
+
+Explanation: The issue with the given implementation lies in the assumption that `measure_time` can be directly applied to an asynchronous function without any modifications. The decorator should be adjusted to handle the specifics of asynchronous functions, which are designed to run concurrently and return a coroutine when called.
+
+To fix this, you need to ensure that the `wrapper` function itself returns a coroutine object using the `async def wrapper` syntax, rather than attempting to execute it immediately with `await func(*args, **kwargs)`. This mistake leads to confusion as it implies the decorator is asynchronous but actually attempts synchronous execution. The correct implementation should return a coroutine from the `wrapper`, allowing it to be awaited and executed asynchronously.
+
+Here's how the corrected version would look:
+
+```python
+import asyncio
+
+def measure_time(func):
+    async def wrapper(*args, **kwargs):
+        start = asyncio.get_event_loop().time()
+        result = await func(*args, **kwargs)
+        end = asyncio.get_event_loop().time()
+        return result, end - start
+    return wrapper
+
+@measure_time
+async def compute():
+    await asyncio.sleep(1)
+    return ""Done""
+
+# Correct usage:
+loop = asyncio.get_event_loop()
+result = loop.run_until_complete(compute())
+print(result)  # Expected output: ('Done', time_taken)
+```
+
+In this corrected version, the `wrapper` function is properly defined as an asynchronous function using `async def wrapper`. This allows it to correctly await the execution of `func`, measure the time taken, and return both the result and the execution time.";"Answer format error. Please check the generated content."
