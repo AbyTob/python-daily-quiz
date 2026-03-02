@@ -40775,3 +40775,51 @@ C) The `add_task` method can only add functions, not other callable objects.
 D) The `start` method runs indefinitely without terminating.";"B) The `AsyncTimer` class uses coroutines for scheduling tasks at regular intervals.
 
 Explanation: The `AsyncTimer` class has a coroutine `start` which runs an infinite loop and uses `await asyncio.sleep(self.interval)` to schedule tasks periodically. Additionally, the example usage demonstrates adding an asynchronous task using `my_async_task(timer)`, where `timer` is an instance of `AsyncTimer`. This confirms that coroutines are used for scheduling tasks at regular intervals."
+"2026-03-02 00:02";"[QUESTION]
+Consider the following Python code that uses decorators and metaclasses to ensure a class has only one instance:
+
+```python
+class SingletonMeta(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=SingletonMeta):
+    pass
+
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator called"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@my_decorator
+class AnotherClass:
+    __metaclass__ = SingletonMeta
+
+# Create instances of classes
+a = MyClass()
+b = MyClass()
+
+c = AnotherClass()
+d = AnotherClass()
+
+print(a is b)  # Output: ?
+print(c is d)  # Output: ?
+```
+
+Which of the following statements about the output of `print(a is b)` and `print(c is d)` are true?
+
+A) Both outputs will be `True` because both classes use singleton patterns.
+B) Only `print(a is b)` will be `True` because it uses a metaclass, while `d = AnotherClass()` will not work.
+C) Only `print(c is d)` will be `True` because it uses a decorator, while `a = MyClass()` will instantiate new objects.
+D) Neither output will be `True` because decorators and metaclasses are incompatible.";"A) Both outputs will be `True` because both classes use singleton patterns.
+
+Explanation:
+- The `SingletonMeta` metaclass ensures that no matter how many times an instance of `MyClass` or `AnotherClass` is created, only one instance will be returned.
+- The `my_decorator` does not interfere with the singleton pattern when applied to a class. It only adds additional behavior (printing ""Decorator called"") before calling the original class constructor.
+- Therefore, `a is b` and `c is d` both return `True`, confirming that both instances refer to the same object."
