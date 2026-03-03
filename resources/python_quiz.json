@@ -6529,5 +6529,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-03 00:02:38",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-03-03": {
+    "id": "1772524908_2",
+    "question": "",
+    "answer": "**Part 1 (Question):**\n\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def fetch_data(task_id):\n    print(f\"Fetching data for task {task_id}\")\n    await asyncio.sleep(2)\n    return f\"Data for task {task_id}\"\n\nasync def main():\n    tasks = [fetch_data(i) for i in range(5)]\n    results = await asyncio.gather(*tasks)\n    print(results)\n\n# Run the main function to see the output\nasyncio.run(main())\n```\n\nWhat is the expected output of this code when executed, and why?\n\nA) It will raise an error because `fetch_data` is not a coroutine  \nB) It will fetch data for tasks 0 through 4 concurrently and print the results in order  \nC) It will fetch data for tasks 0 through 4 sequentially (one after another)  \nD) The program will hang indefinitely without completing\n\n**Part 2 (Answer):**\n\nThe correct answer is B) It will fetch data for tasks 0 through 4 concurrently and print the results in order.\n\nExplanation:  \nIn the provided code, `async def main():` creates a list of coroutines using a list comprehension. When you pass these coroutines to `await asyncio.gather(*tasks)`, it schedules all of them to run concurrently. The `gather` function then waits for all tasks to complete and returns their results as a list. Since the tasks are scheduled concurrently, the program does not wait for each task to finish before starting the next one, thus achieving concurrent execution. Once all tasks are completed, the results are printed in the order they were started (from `task_0` to `task_4`).",
+    "timestamp": "2026-03-03 08:01:48",
+    "topic": "Advanced Python Programming"
   }
 }
