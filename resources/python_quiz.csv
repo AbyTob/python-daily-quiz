@@ -41020,3 +41020,46 @@ The correct answer is B) It will fetch data for tasks 0 through 4 concurrently a
 
 Explanation:  
 In the provided code, `async def main():` creates a list of coroutines using a list comprehension. When you pass these coroutines to `await asyncio.gather(*tasks)`, it schedules all of them to run concurrently. The `gather` function then waits for all tasks to complete and returns their results as a list. Since the tasks are scheduled concurrently, the program does not wait for each task to finish before starting the next one, thus achieving concurrent execution. Once all tasks are completed, the results are printed in the order they were started (from `task_0` to `task_4`)."
+"2026-03-03 16:01";"";"**Part 1 (Question):**
+Consider the following Python code snippet that uses both decorators and metaclasses:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+@Meta
+class Base(metaclass=Meta):
+    pass
+
+def simple_decorator(cls):
+    print(""Applying decorator to"", cls.__name__)
+    return cls
+
+@simple_decorator
+class Derived(Base):
+    pass
+```
+
+What will be the order of output when `Derived` is executed?
+
+A) Creating class Derived  
+B) Applying decorator to Derived  
+C) Creating class Base  
+
+D) All of the above
+
+**Part 2 (Answer):**
+D) All of the above
+
+Explanation:
+The code defines a metaclass `Meta` that prints a message when creating any class. The class `Base` is created using this metaclass, and `Derived` inherits from `Base`. Additionally, `Derived` is decorated with `simple_decorator`.
+
+When `Derived` is executed, here's what happens:
+
+1. Python tries to create the `Derived` class.
+2. Since `Derived` is a subclass of `Base`, and `Base` uses the metaclass `Meta`, the metaclass `Meta` gets triggered first, printing ""Creating class Derived"".
+3. The decorator `simple_decorator` is applied to the `Derived` class, printing ""Applying decorator to Derived"".
+
+Therefore, all options A, B, and C are printed in sequence, making option D (All of the above) correct."
