@@ -6550,5 +6550,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-04 00:02:07",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-03-04": {
+    "id": "1772611303_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that attempts to create a singleton pattern using decorators:\n\n```python\ndef singleton(cls):\n    instances = {}\n    def get_instance(*args, **kwargs):\n        if cls not in instances:\n            instances[cls] = cls(*args, **kwargs)\n        return instances[cls]\n    return get_instance\n\n@singleton\nclass DatabaseConnection:\n    def __init__(self, url):\n        self.url = url\n\n# Usage\ndb1 = DatabaseConnection('http://example.com')\ndb2 = DatabaseConnection('http://another-example.com')\n\nprint(db1 is db2)  # Should print True\n```\n\nHowever, this implementation has a flaw. What is it?\n\nA) The `get_instance` function does not handle the case when no arguments are passed to the constructor.\nB) The `singleton` decorator does not support multiple instances of the same class with different parameters.\nC) The `DatabaseConnection` class cannot be extended by other classes.\nD) The `instances` dictionary can consume a lot of memory if many instances are created.",
+    "answer": "B) The `singleton` decorator does not support multiple instances of the same class with different parameters.\n\nExplanation:\nThe issue with the provided code is that it uses a global dictionary to store singleton instances. If you create an instance of `DatabaseConnection` with a specific URL and then try to create another one with a different URL, the new URL will overwrite the old one in the dictionary. Therefore, both `db1` and `db2` would actually point to the same object, which is not what we want for a singleton pattern that supports multiple configurations.",
+    "timestamp": "2026-03-04 08:01:43",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
