@@ -41139,3 +41139,62 @@ D) The `instances` dictionary can consume a lot of memory if many instances are 
 
 Explanation:
 The issue with the provided code is that it uses a global dictionary to store singleton instances. If you create an instance of `DatabaseConnection` with a specific URL and then try to create another one with a different URL, the new URL will overwrite the old one in the dictionary. Therefore, both `db1` and `db2` would actually point to the same object, which is not what we want for a singleton pattern that supports multiple configurations."
+"2026-03-04 16:02";"";"**Part 1 (Question):**
+
+You are developing a web application that requires handling multiple concurrent requests. You decide to use Python's asyncio library for asynchronous processing of HTTP requests. However, you encounter an issue where the server becomes unresponsive after processing several thousand requests. Upon investigation, you realize that the event loop is not being properly managed and is reaching its maximum number of tasks.
+
+Your task is to create a context manager that will ensure that the asyncio event loop is properly managed throughout the execution of an asynchronous function. The context manager should start a new event loop if one does not exist, run the provided coroutine, and then close the event loop when the coroutine completes.
+
+Here's an example of how you might use this context manager in your application:
+
+```python
+import asyncio
+
+async def handle_request():
+    print(""Handling request..."")
+
+with AsyncEventLoopManager():
+    await handle_request()
+print(""Request handled."")
+```
+
+**Part 2 (Answer):**
+
+The correct answer is **A: Implement the `__aenter__` and `__aexit__` methods to manage the asyncio event loop.**
+
+Explanation:
+
+To solve this problem, you need to create a context manager that manages the lifecycle of an asyncio event loop. The context manager should handle the creation, execution, and cleanup of the event loop.
+
+Here's how you can implement such a context manager:
+
+```python
+import asyncio
+
+class AsyncEventLoopManager:
+    async def __aenter__(self):
+        self._loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self._loop)
+        return self._loop
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        if self._loop.is_running():
+            await self._loop.shutdown_asyncgens()
+            await self._loop.run_until_complete(asyncio.gather(*asyncio.all_tasks(self._loop)))
+        asyncio.set_event_loop(None)
+        self._loop.close()
+
+# Example usage
+import asyncio
+
+async def handle_request():
+    print(""Handling request..."")
+
+async with AsyncEventLoopManager() as loop:
+    await handle_request()
+print(""Request handled."")
+```
+
+This context manager uses `__aenter__` to create a new event loop and set it as the current event loop. The `__aexit__` method handles the cleanup of the event loop, ensuring that all asynchronous generators are properly shutdown, and then closing the loop.
+
+By using this context manager in your application, you can ensure that each HTTP request is processed within a clean event loop environment, preventing the server from becoming unresponsive due to excessive task management."
