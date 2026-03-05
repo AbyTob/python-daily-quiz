@@ -41232,3 +41232,65 @@ D) Error: Cannot instantiate a singleton class directly";"[B] 10, 10
 
 Explanation:
 The `SingletonMeta` metaclass ensures that only one instance of the `MyClass` is created. When an instance of `MyClass` is requested for the first time (`obj1 = MyClass(10)`), it creates a new instance and stores it in `_instances`. When `obj2 = MyClass(20)` is called, it checks if `MyClass` already exists in `_instances`. Since it does, it returns the existing instance (`obj1`) without creating a new one. Therefore, both `obj1.value` and `obj2.value` will be 10, demonstrating that only one instance of `MyClass` was created."
+"2026-03-05 16:02";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses decorators and metaclasses:
+
+```python
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(""Something is happening before the function is called."")
+        result = func(*args, **kwargs)
+        print(""Something is happening after the function is called."")
+        return result
+    return wrapper
+
+class MyMeta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = my_decorator(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=MyMeta):
+    def method1(self):
+        print(""Executing method1"")
+    
+    def method2(self):
+        print(""Executing method2"")
+
+obj = MyClass()
+obj.method1()
+```
+
+Which of the following statements is true regarding the output when running this code?
+
+A) The code will raise a SyntaxError because decorators cannot be used with metaclasses.
+
+B) The output will be:
+   ```
+   Creating class MyClass
+   Something is happening before the function is called.
+   Executing method1
+   Something is happening after the function is called.
+   ```
+
+C) The output will be:
+   ```
+   Creating class MyClass
+   Executing method1
+   Something is happening before the function is called.
+   Something is happening after the function is called.
+   ```
+
+D) None of the above.
+
+**Part 2 (Answer):**
+
+The correct answer is B. 
+
+Explanation: The metaclass `MyMeta` intercepts the creation of the class `MyClass`. When a new class is created, the `__new__` method of the metaclass is called. Inside this method, it iterates over all attributes of the class. If an attribute is callable (i.e., a function), it decorates the function with `my_decorator`. This means that when instances of `MyClass` are created and methods are called, the decorator will add additional behavior before and after the method execution, as demonstrated in the example output."
