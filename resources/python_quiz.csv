@@ -41198,3 +41198,4 @@ print(""Request handled."")
 This context manager uses `__aenter__` to create a new event loop and set it as the current event loop. The `__aexit__` method handles the cleanup of the event loop, ensuring that all asynchronous generators are properly shutdown, and then closing the loop.
 
 By using this context manager in your application, you can ensure that each HTTP request is processed within a clean event loop environment, preventing the server from becoming unresponsive due to excessive task management."
+"2026-03-05 00:00";"";""
