@@ -41371,3 +41371,51 @@ D) The code will raise an exception";"A) 100
 
 Explanation:
 The `@thread_safe` decorator wraps the `increment_counter` function to ensure that only one thread can execute it at a time. This is achieved using a threading lock, which prevents race conditions when multiple threads try to increment the global variable `counter`. Since the lock ensures exclusive access to the critical section of code (the increment operation), all 100 threads will correctly increment the counter once each, resulting in a final value of 100."
+"2026-03-06 16:02";"";"Part 1 (Question):
+Consider the following Python code snippet:
+
+```python
+import threading
+
+class ThreadSafeCounter:
+    def __init__(self, initial_value=0):
+        self.value = initial_value
+        self.lock = threading.Lock()
+
+    def increment(self):
+        with self.lock:
+            self.value += 1
+            return self.value
+
+def worker(counter, iterations):
+    for _ in range(iterations):
+        counter.increment()
+
+def main():
+    num_threads = 10
+    iterations_per_thread = 1000
+    shared_counter = ThreadSafeCounter()
+    threads = [threading.Thread(target=worker, args=(shared_counter, iterations_per_thread)) for _ in range(num_threads)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+
+if __name__ == ""__main__"":
+    main()
+```
+
+What is the issue with this code that could lead to incorrect results?
+
+A) The `increment` method does not handle exceptions.
+
+B) The `lock` attribute of the `ThreadSafeCounter` class is never used.
+
+C) Multiple threads are accessing and modifying the `value` attribute without proper synchronization.
+
+D) The `worker` function does not pass any arguments to the thread target.
+
+Part 2 (Answer):
+C) Multiple threads are accessing and modifying the `value` attribute without proper synchronization.
+
+Explanation: In this code, multiple threads are sharing a single instance of `ThreadSafeCounter`. Each thread calls the `increment` method in a loop. The `increment` method is supposed to modify the `value` attribute atomically by using a lock. However, there is no issue with the use of the lock itself. Instead, the problem lies in the fact that the lock is not being used consistently within the `increment` method. When an exception occurs inside the `with self.lock:` block, it will still release the lock before propagating the exception, which can lead to race conditions if another thread tries to access `value` at the same time. However, since this specific code does not handle exceptions and does not create a situation where the lock is not released after an exception, option C best describes the potential issue."
