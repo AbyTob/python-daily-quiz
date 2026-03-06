@@ -41333,3 +41333,41 @@ Explanation:
 - When `asyncio.gather` is used to call multiple instances of `logger.log`, it executes these calls concurrently, meaning that the order in which messages are appended to the file is not guaranteed. This demonstrates an important aspect of asynchronous programming where tasks can be interleaved.
 
 This question tests understanding of asynchronous IO and the implications of concurrent execution, rather than simply whether `asyncio` or file operations are used correctly."
+"2026-03-06 08:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+import threading
+
+def thread_safe(func):
+    def wrapper(*args, **kwargs):
+        lock = threading.Lock()
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+@thread_safe
+def increment_counter():
+    global counter
+    counter += 1
+
+counter = 0
+
+threads = [threading.Thread(target=increment_counter) for _ in range(100)]
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+
+print(counter)
+```
+
+What is the output of this code, and why?
+
+A) 100
+B) 50
+C) Less than 100
+D) The code will raise an exception";"A) 100
+
+Explanation:
+The `@thread_safe` decorator wraps the `increment_counter` function to ensure that only one thread can execute it at a time. This is achieved using a threading lock, which prevents race conditions when multiple threads try to increment the global variable `counter`. Since the lock ensures exclusive access to the critical section of code (the increment operation), all 100 threads will correctly increment the counter once each, resulting in a final value of 100."
