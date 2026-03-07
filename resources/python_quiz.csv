@@ -41513,3 +41513,40 @@ B) The tasks will run serially in the order they are created.
 C) The tasks will run concurrently, but Task_0 finishes before any other task.
 
 D) An error will be raised because the `main` function does not return an awaitable object.";"A) The tasks will run concurrently, but there is no guaranteed order."
+"2026-03-07 16:01";"";"**Part 1: Question**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def task(name):
+    print(f""Task {name} started"")
+    await asyncio.sleep(2)
+    print(f""Task {name} finished"")
+
+async def main():
+    tasks = [task(f'Task-{i}') for i in range(5)]
+    await asyncio.gather(*tasks)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+This code uses `asyncio` to run multiple coroutines concurrently. Which of the following statements is true regarding the execution of this script?
+
+A) All tasks will start simultaneously and finish after 2 seconds.
+B) Tasks will be executed one by one, waiting for each task to finish before starting the next.
+C) The main function will return immediately, allowing other processes to run concurrently with these tasks.
+D) There is a syntax error in the code.
+
+**Part 2: Answer**
+
+The correct answer is C) The main function will return immediately, allowing other processes to run concurrently with these tasks.
+
+Explanation:
+- In the provided code, `asyncio.run(main())` starts the event loop and runs the coroutine returned by `main()`. This function creates a list of tasks but does not await their completion.
+- Since `await asyncio.gather(*tasks)` is outside of the main function, it will run in the context of the event loop, waiting for all tasks to finish. However, as soon as `asyncio.run(main())` starts, it returns control back to the operating system, allowing other processes or threads to run concurrently with these tasks.
+- Therefore, statement C is correct because the main function returns immediately and does not block further execution of other processes or threads.
+
+This question tests your understanding of how asyncio manages coroutines and the lifecycle of an event loop."
