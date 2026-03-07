@@ -6613,5 +6613,12 @@
     "answer": "[B] The output might not be 10000 due to race conditions.\n\nExplanation:\nThe code uses a decorator `@thread_safe` to ensure that the function `increment_counter` is thread-safe by locking it during execution. However, the issue lies in how the lock is being used and managed within the `wrapper` function. The `lock = threading.Lock()` statement inside the `wrapper` function creates a new lock each time `increment_counter` is called, which means that different threads can still access the global variable `counter` concurrently without proper synchronization.\n\nA correct implementation of thread-safe increment would involve creating the lock outside the `wrapper` function so that it persists across multiple calls to `increment_counter`. Here's how you could fix it:\n\n```python\nimport threading\n\nlock = threading.Lock()\n\n@thread_safe\ndef increment_counter():\n    global counter\n    for _ in range(1000):\n        with lock:\n            counter += 1\n\ncounter = 0\nthreads = [threading.Thread(target=increment_counter) for _ in range(10)]\nfor thread in threads:\n    thread.start()\nfor thread in threads:\n    thread.join()\n\nprint(counter)\n```\n\nThis fixed version will correctly print 10000, as it ensures that the increment operation is atomic and not interrupted by other threads.",
     "timestamp": "2026-03-07 00:02:11",
     "topic": "Threading and Concurrent Execution"
+  },
+  "q2_2026-03-07": {
+    "id": "1772870473_2",
+    "question": "[QUESTION] Consider the following Python code snippet:\n\n```python\nimport asyncio\n\nasync def task(name, delay):\n    print(f\"Task {name} started\")\n    await asyncio.sleep(delay)\n    print(f\"Task {name} finished\")\n\nasync def main():\n    tasks = [task(f'Task_{i}', i) for i in range(5)]\n    await asyncio.gather(*tasks)\n\n# Run the event loop\nasyncio.run(main())\n```\n\nWhich of the following statements is true regarding the execution order and behavior of this code?\n\nA) The tasks will run concurrently, but there is no guaranteed order.\n\nB) The tasks will run serially in the order they are created.\n\nC) The tasks will run concurrently, but Task_0 finishes before any other task.\n\nD) An error will be raised because the `main` function does not return an awaitable object.",
+    "answer": "A) The tasks will run concurrently, but there is no guaranteed order.",
+    "timestamp": "2026-03-07 08:01:13",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
