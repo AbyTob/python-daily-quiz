@@ -41419,3 +41419,70 @@ Part 2 (Answer):
 C) Multiple threads are accessing and modifying the `value` attribute without proper synchronization.
 
 Explanation: In this code, multiple threads are sharing a single instance of `ThreadSafeCounter`. Each thread calls the `increment` method in a loop. The `increment` method is supposed to modify the `value` attribute atomically by using a lock. However, there is no issue with the use of the lock itself. Instead, the problem lies in the fact that the lock is not being used consistently within the `increment` method. When an exception occurs inside the `with self.lock:` block, it will still release the lock before propagating the exception, which can lead to race conditions if another thread tries to access `value` at the same time. However, since this specific code does not handle exceptions and does not create a situation where the lock is not released after an exception, option C best describes the potential issue."
+"2026-03-07 00:02";"[QUESTION]
+Consider the following Python code:
+
+```python
+import threading
+
+def thread_safe(func):
+    def wrapper(*args, **kwargs):
+        lock = threading.Lock()
+        with lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+@thread_safe
+def increment_counter():
+    global counter
+    for _ in range(1000):
+        counter += 1
+
+counter = 0
+threads = [threading.Thread(target=increment_counter) for _ in range(10)]
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+
+print(counter)
+```
+
+What is the expected output of this code, and what potential issues does it raise?
+
+A) The output will be 10000. There are no issues with threading.
+
+B) The output might not be 10000 due to race conditions. 
+
+C) It will throw an error because `threading.Lock` is not thread-safe.
+
+D) The code will run indefinitely and not terminate.";"[B] The output might not be 10000 due to race conditions.
+
+Explanation:
+The code uses a decorator `@thread_safe` to ensure that the function `increment_counter` is thread-safe by locking it during execution. However, the issue lies in how the lock is being used and managed within the `wrapper` function. The `lock = threading.Lock()` statement inside the `wrapper` function creates a new lock each time `increment_counter` is called, which means that different threads can still access the global variable `counter` concurrently without proper synchronization.
+
+A correct implementation of thread-safe increment would involve creating the lock outside the `wrapper` function so that it persists across multiple calls to `increment_counter`. Here's how you could fix it:
+
+```python
+import threading
+
+lock = threading.Lock()
+
+@thread_safe
+def increment_counter():
+    global counter
+    for _ in range(1000):
+        with lock:
+            counter += 1
+
+counter = 0
+threads = [threading.Thread(target=increment_counter) for _ in range(10)]
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+
+print(counter)
+```
+
+This fixed version will correctly print 10000, as it ensures that the increment operation is atomic and not interrupted by other threads."
