@@ -41550,3 +41550,31 @@ Explanation:
 - Therefore, statement C is correct because the main function returns immediately and does not block further execution of other processes or threads.
 
 This question tests your understanding of how asyncio manages coroutines and the lifecycle of an event loop."
+"2026-03-08 00:01";"[QUESTION]
+**Question: Understanding Metaclasses**
+
+Consider the following Python code snippet that demonstrates a metaclass to enforce certain conditions on class definitions:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'age' not in dct or dct['age'] < 0:
+            raise ValueError(""Age must be a non-negative integer"")
+        return super().__new__(cls, name, bases, dct)
+
+class Person(metaclass=Meta):
+    age = 30
+
+class Employee(Person):
+    age = -5
+```
+
+What will happen when the `Employee` class is defined as shown above? Explain in detail.
+
+A) The metaclass will raise a `ValueError` because `age` is negative.
+B) The metaclass will allow the `Employee` class to be defined successfully, and it will have an `age` attribute of `-5`.
+C) Python's default metaclass behavior will apply, and the `Employee` class will be defined with an `age` attribute of `-5`.
+D) The code will raise a `TypeError` because `Employee` is inheriting from `Person`.";"**Answer: A) The metaclass will raise a ValueError because age is negative.**
+
+Explanation:
+The metaclass `Meta` checks if the class dictionary (`dct`) contains an attribute named 'age' and if its value is non-negative. When the `Employee` class is defined, it inherits from `Person`, which already has an `age` attribute of `30`. However, when defining a subclass that changes or does not define this attribute (as in the case of `Employee`), the metaclass checks again and raises a `ValueError` because the 'age' attribute is missing from the dictionary or its value is negative. This demonstrates how metaclasses can enforce constraints on class definitions at the time they are created."
