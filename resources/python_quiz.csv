@@ -41646,3 +41646,42 @@ D) There is no way to optimize the use of this decorator.";"Part 2 (Answer):
 A) The decorator does not affect performance but adds code overhead.
 
 Explanation: The decorator `timer` adds a small amount of overhead due to the time measurement logic being executed before and after the function call. This overhead is generally negligible for most functions, especially when dealing with large computations or I/O operations. However, for very short-running functions, this could become noticeable. To optimize further, one could consider profiling the code without the decorator or optimizing the computation inside `compute_sum` itself if possible. The decorator's purpose is to provide a simple way to measure execution time, and its impact on performance is minimal in practical scenarios."
+"2026-03-09 00:01";"**Part 1 (Question):**
+Consider the following Python code that uses a decorator to measure execution time of functions:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds to execute"")
+        return result
+    return wrapper
+
+@timer
+def compute_sum(n):
+    return sum(range(1, n+1))
+
+# Example usage:
+result = compute_sum(1000000)
+```
+
+Which of the following statements about this code is true?
+
+A) The `compute_sum` function will not be executed because it's decorated by a timer.
+B) Each time `compute_sum` is called, its execution time will be printed out.
+C) The `timer` decorator can only be applied to functions with no arguments or keyword arguments.
+D) The `wrapper` function inside the `timer` decorator is not necessary and could be removed.";"**Part 2 (Answer):**
+B) Each time `compute_sum` is called, its execution time will be printed out.
+
+Explanation:
+- The `@timer` decorator adds a layer of functionality to the `compute_sum` function without modifying its core logic. When `compute_sum(1000000)` is called, it first executes the original `compute_sum` function and then calculates the time taken for this execution.
+- The output will include the message indicating how long `compute_sum` took to execute, confirming that the decorator functions as intended.
+
+The other options are incorrect because:
+A) The decorated function (`compute_sum`) is executed normally each time it's called.
+C) The decorator can be applied to functions with any number of arguments or keyword arguments.
+D) The `wrapper` function is necessary for capturing the original function's call and measuring its execution time."
