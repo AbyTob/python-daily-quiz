@@ -41726,3 +41726,43 @@ C) There is no issue, and the code works correctly as intended.
 
 Explanation:
 The provided code uses `functools.wraps` with an async function correctly, which preserves the metadata of the original function when it's decorated. The `wrapper` function inside the `async_timer` decorator accurately measures the execution time of the asynchronous `fetch_data` function using `asyncio.get_running_loop().time()`. This approach is perfectly valid and will print the correct execution time."
+"2026-03-09 16:01";"";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def compute_square(number):
+    await asyncio.sleep(1)
+    return number * number
+
+async def compute_sum_of_squares(numbers):
+    tasks = [compute_square(num) for num in numbers]
+    results = await asyncio.gather(*tasks)
+    return sum(results)
+
+async def main():
+    numbers = [1, 2, 3, 4, 5]
+    result = await compute_sum_of_squares(numbers)
+    print(f""The sum of squares is: {result}"")
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+Which of the following statements about this code is true?
+
+A) The `compute_square` function will run sequentially for each number.
+
+B) The `compute_sum_of_squares` function waits for all tasks to complete before returning the sum.
+
+C) The `main` function runs in a blocking manner due to the use of `await`.
+
+D) The program will not run as it contains syntax errors.
+
+**Part 2 (Answer):**
+
+B) The `compute_sum_of_squares` function waits for all tasks to complete before returning the sum.
+
+Explanation: This is correct because `asyncio.gather(*tasks)` is used, which gathers a list of coroutines and waits for them to complete. Each call to `compute_square` creates an asynchronous task that runs concurrently when `await asyncio.gather(*tasks)` is called in the `main` function. Once all tasks are completed, their results are summed up and returned by `compute_sum_of_squares`."
