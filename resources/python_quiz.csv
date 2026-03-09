@@ -41685,3 +41685,44 @@ The other options are incorrect because:
 A) The decorated function (`compute_sum`) is executed normally each time it's called.
 C) The decorator can be applied to functions with any number of arguments or keyword arguments.
 D) The `wrapper` function is necessary for capturing the original function's call and measuring its execution time."
+"2026-03-09 08:01";"";"**Part 1: Question**
+Consider the following Python code that aims to create a decorator that measures the execution time of asynchronous functions:
+
+```python
+import asyncio
+from functools import wraps
+
+def async_timer(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        start = asyncio.get_running_loop().time()
+        result = await func(*args, **kwargs)
+        end = asyncio.get_running_loop().time()
+        print(f""Function {func.__name__} took {end - start:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+@async_timer
+async def fetch_data():
+    await asyncio.sleep(1)  # Simulate an async operation
+    return ""Data fetched""
+
+# Run the function to see the execution time
+asyncio.run(fetch_data())
+```
+
+What would be a potential issue with this code, and how can it be fixed?
+
+A) The `async_timer` decorator does not work because `functools.wraps` is used with an async function.
+
+B) The `wrapper` function inside `async_timer` should use a regular loop instead of `asyncio.get_running_loop()` to measure time.
+
+C) There is no issue, and the code works correctly as intended.
+
+D) The decorator can only be used on synchronous functions, not asynchronous ones.
+
+**Part 2: Answer**
+C) There is no issue, and the code works correctly as intended.
+
+Explanation:
+The provided code uses `functools.wraps` with an async function correctly, which preserves the metadata of the original function when it's decorated. The `wrapper` function inside the `async_timer` decorator accurately measures the execution time of the asynchronous `fetch_data` function using `asyncio.get_running_loop().time()`. This approach is perfectly valid and will print the correct execution time."
