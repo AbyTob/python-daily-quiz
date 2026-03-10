@@ -6683,5 +6683,12 @@
     "answer": "Answer: A\n\nExplanation: The correct approach is to use memoization within the decorator. Memoization involves caching the results of expensive function calls and returning the cached result when the same inputs occur again. This avoids redundant computations, significantly improving the performance of recursive functions like `fibonacci`. Here's how you can modify the decorator:\n\n```python\ndef timing_decorator(func):\n    cache = {}\n    \n    def wrapper(*args, **kwargs):\n        if args in cache:\n            return cache[args]\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Executing {func.__name__} took {end_time - start_time:.4f} seconds\")\n        cache[args] = result\n        return result\n    return wrapper\n\n@timing_decorator\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n\nfibonacci(30)\n```\n\nThis modification ensures that each unique input to `fibonacci` is computed only once, leading to much faster execution times when computing higher Fibonacci numbers.",
     "timestamp": "2026-03-10 08:02:09",
     "topic": "Function and Method Decorators"
+  },
+  "q3_2026-03-10": {
+    "id": "1773158491_3",
+    "question": "Part 1 (Question):  \nConsider the following Python code snippet that uses a metaclass to track all subclasses of a base class:\n\n```python\nclass Meta(type):\n    subclasses = []\n\n    def __new__(cls, name, bases, dct):\n        subclass = super().__new__(cls, name, bases, dct)\n        cls.subclasses.append(subclass)\n        return subclass\n\nclass Base(metaclass=Meta):\n    pass\n\nclass A(Base):\n    pass\n\nclass B(Base):\n    pass\n```\n\nWhat will be the output when running `print([s.__name__ for s in Meta.subclasses])`?\n\nA) ['A', 'B']  \nB) ['Base', 'A', 'B']  \nC) ['Meta', 'Base', 'A', 'B']  \nD) ['Meta', 'A', 'B']",
+    "answer": "Part 2 (Answer): A) ['A', 'B']  \nExplanation: The metaclass `Meta` is tracking all subclasses of the base class `Base`. When a subclass like `A` or `B` is defined, they are added to the `subclasses` list. Since no other classes inherit from `A` and `B`, only `A` and `B` appear in the output when listing their names.",
+    "timestamp": "2026-03-10 16:01:31",
+    "topic": "Object-Oriented Programming"
   }
 }

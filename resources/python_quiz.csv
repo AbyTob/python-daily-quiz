@@ -41860,3 +41860,32 @@ fibonacci(30)
 ```
 
 This modification ensures that each unique input to `fibonacci` is computed only once, leading to much faster execution times when computing higher Fibonacci numbers."
+"2026-03-10 16:01";"Part 1 (Question):  
+Consider the following Python code snippet that uses a metaclass to track all subclasses of a base class:
+
+```python
+class Meta(type):
+    subclasses = []
+
+    def __new__(cls, name, bases, dct):
+        subclass = super().__new__(cls, name, bases, dct)
+        cls.subclasses.append(subclass)
+        return subclass
+
+class Base(metaclass=Meta):
+    pass
+
+class A(Base):
+    pass
+
+class B(Base):
+    pass
+```
+
+What will be the output when running `print([s.__name__ for s in Meta.subclasses])`?
+
+A) ['A', 'B']  
+B) ['Base', 'A', 'B']  
+C) ['Meta', 'Base', 'A', 'B']  
+D) ['Meta', 'A', 'B']";"Part 2 (Answer): A) ['A', 'B']  
+Explanation: The metaclass `Meta` is tracking all subclasses of the base class `Base`. When a subclass like `A` or `B` is defined, they are added to the `subclasses` list. Since no other classes inherit from `A` and `B`, only `A` and `B` appear in the output when listing their names."
