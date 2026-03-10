@@ -41766,3 +41766,37 @@ D) The program will not run as it contains syntax errors.
 B) The `compute_sum_of_squares` function waits for all tasks to complete before returning the sum.
 
 Explanation: This is correct because `asyncio.gather(*tasks)` is used, which gathers a list of coroutines and waits for them to complete. Each call to `compute_square` creates an asynchronous task that runs concurrently when `await asyncio.gather(*tasks)` is called in the `main` function. Once all tasks are completed, their results are summed up and returned by `compute_sum_of_squares`."
+"2026-03-10 00:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def async_task(x):
+    await asyncio.sleep(1)
+    return x * 2
+
+async def main():
+    result = await async_task(5)
+    print(result)
+
+# Run the main function
+asyncio.run(main())
+```
+
+What will be the output of the above code? 
+
+A) It will raise a TypeError because `async_task` is not properly decorated.
+B) It will print ""10"" after approximately 1 second.
+C) It will raise an asyncio.TimeoutError due to an infinite loop in `async_task`.
+D) It will print nothing and terminate immediately.";"**Answer: B** 
+
+**Explanation:** The code defines a custom decorator `AsyncDecorator` that wraps any function to run it using `asyncio.run()`. The decorated function `async_task` is an asynchronous function that sleeps for 1 second and then returns double the input value. In the `main` function, `await async_task(5)` is called, which will asynchronously wait for `async_task` to complete and return its result. After approximately 1 second, it prints ""10"". Therefore, the correct output is ""10"" after a delay of about 1 second."
