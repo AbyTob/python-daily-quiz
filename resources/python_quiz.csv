@@ -41973,3 +41973,42 @@ Options A, C, and D are incorrect because:
 - Option A: The `MyTask` class is not a decorator; it defines an instance method that can be used with asyncio.
 - Option C: The tasks are run concurrently using `asyncio.gather`, not sequentially in the main function.
 - Option D: The `MyTask` class can be used with asyncio; there's no restriction based on inheritance from any asyncio base class."
+"2026-03-11 16:01";"**Part 1 (Question):**
+
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data(url):
+    print(f""Fetching data from {url}"")
+    await asyncio.sleep(1)
+    return f""Data from {url}""
+
+async def main():
+    urls = [""http://example.com"", ""http://example.org"", ""http://example.net""]
+    tasks = [fetch_data(url) for url in urls]
+    
+    # Task 1: Use asyncio.gather to fetch data concurrently and print results
+    # as they complete.
+    
+    # Task 2: Modify the code so that it prints a message indicating the order
+    # of completion of each task without using asyncio.sleep or blocking.";"**Part 2 (Answer):**
+
+A) The first task should be implemented by replacing the commented line with:
+```python
+results = await asyncio.gather(*tasks)
+for result in results:
+    print(result)
+```
+
+B) For the second task, you can use `asyncio.wait` with a timeout or without one to track completion order. Here is an example of how it might look:
+```python
+completed, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+for task in completed:
+    print(f""Task {task} completed"")
+```
+
+C) The correct answer is A because `asyncio.gather` allows you to concurrently run multiple coroutines and collect their results. Using it simplifies the process of handling asynchronous operations that can complete at different times.
+
+D) While B is a valid approach, it's not strictly necessary for this task as we're asked to print completion order without using blocking methods like `asyncio.sleep`. However, understanding how to use `asyncio.wait` is valuable for other scenarios where you need to track the state of multiple tasks."
