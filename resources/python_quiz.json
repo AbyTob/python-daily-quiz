@@ -6739,5 +6739,12 @@
     "answer": "B",
     "timestamp": "2026-03-13 00:01:17",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-03-13": {
+    "id": "1773388908_2",
+    "question": "[QUESTION] Consider the following Python code that uses a metaclass to add a method to a class dynamically:\n\n```python\n# Define a metaclass that adds a method to any class it is used with\nclass AddMethod(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self: \"This method was added by the metaclass\"\n        return super().__new__(cls, name, bases, dct)\n\n# Apply the metaclass to a class\n@AddMethod\nclass MyClass:\n    pass\n\n# Create an instance of MyClass and call the dynamically added method\nmy_instance = MyClass()\nresult = my_instance.dynamic_method()\n```\n\nWhich of the following statements about this code is true?\n\nA) The `dynamic_method` will raise an AttributeError when called.\n\nB) The `dynamic_method` will return \"This method was added by the metaclass\" when called on an instance of `MyClass`.\n\nC) The `AddMethod` metaclass must be applied to a base class to work correctly.\n\nD) The `dynamic_method` can only be called if it is explicitly defined in the class before applying the metaclass.",
+    "answer": "B) The `dynamic_method` will return \"This method was added by the metaclass\" when called on an instance of `MyClass`.\n\nExplanation: The metaclass `AddMethod` dynamically adds a method named `dynamic_method` to any class it decorates. Since this method is added during the creation of the class, it can be accessed and called as shown in the code example. Options A, C, and D are incorrect because they either suggest a limitation or misunderstanding how metaclasses work in Python.",
+    "timestamp": "2026-03-13 08:01:48",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
