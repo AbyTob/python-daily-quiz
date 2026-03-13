@@ -42173,3 +42173,38 @@ C) The `AddMethod` metaclass must be applied to a base class to work correctly.
 D) The `dynamic_method` can only be called if it is explicitly defined in the class before applying the metaclass.";"B) The `dynamic_method` will return ""This method was added by the metaclass"" when called on an instance of `MyClass`.
 
 Explanation: The metaclass `AddMethod` dynamically adds a method named `dynamic_method` to any class it decorates. Since this method is added during the creation of the class, it can be accessed and called as shown in the code example. Options A, C, and D are incorrect because they either suggest a limitation or misunderstanding how metaclasses work in Python."
+"2026-03-13 16:01";"[QUESTION]  
+Consider the following code snippet that aims to create a custom decorator for asynchronous functions. However, it encounters issues when used with `asyncio.run()`.
+
+```python
+import asyncio
+
+def async_timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = asyncio.get_event_loop().time()
+        result = func(*args, **kwargs)
+        end_time = asyncio.get_event_loop().time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to run."")
+        return result
+    return wrapper
+
+@async_timer
+async def fetch_data():
+    await asyncio.sleep(1)  # Simulate an async operation
+    return ""Data fetched""
+
+# Uncomment the following line and observe the behavior
+# asyncio.run(fetch_data())
+```
+
+What is likely causing the issue when `fetch_data` is called with `asyncio.run()`?
+
+A. The decorator `async_timer` does not handle asynchronous functions correctly.
+
+B. The function `fetch_data` is not being awaited inside the decorator.
+
+C. The event loop is already running, and `asyncio.get_event_loop().time()` raises an exception.
+
+D. There is no issue with the current implementation; it should work as expected.";"A. The decorator `async_timer` does not handle asynchronous functions correctly.
+
+Explanation: The issue arises because the decorator `async_timer` is trying to measure the time of an asynchronous function synchronously by calling `func(*args, **kwargs)` without awaiting it. This means that `await asyncio.sleep(1)` in `fetch_data` will block the event loop until it completes, instead of allowing other tasks to run concurrently. As a result, the decorator does not provide accurate timing for asynchronous functions."
