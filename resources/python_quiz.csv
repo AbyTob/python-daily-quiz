@@ -42310,3 +42310,46 @@ A) The `wrapper` function inside `timing_decorator` will never be called.
 B) The execution time of `my_function` is printed before it returns.
 C) The `my_function` is decorated with a decorator that doesn't measure its execution time accurately.
 D) The `wrapper` function modifies the behavior of `my_function` by adding timing functionality without changing its original code.";"D"
+"2026-03-14 16:02";"[QUESTION]  
+Consider the following code snippet which uses a metaclass to create a class that automatically logs every method call with its arguments:
+
+```python
+import types
+
+class MethodLogger(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = cls.log_method(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def log_method(func):
+        def wrapper(*args, **kwargs):
+            print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+            return func(*args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=MethodLogger):
+    def method1(self, a, b):
+        return a + b
+    
+    def method2(self, x):
+        return x * 2
+```
+
+Which of the following statements correctly describes what happens when an instance of `MyClass` is created and its methods are called?
+
+A) The methods do not log any calls or arguments.  
+B) Only `method1` logs a call with the arguments `(5, 3)` when it is called.  
+C) Both `method1` and `method2` log their calls along with the provided arguments.  
+D) An error occurs because the metaclass is incorrectly applied.";"[ANSWER] C  
+Both `method1` and `method2` are decorated by the `MethodLogger` metaclass, which logs every method call with its arguments. When an instance of `MyClass` is created and its methods are called, each call will print a log message showing the method name and its arguments.
+
+```python
+obj = MyClass()
+print(obj.method1(5, 3))  # Output: Calling method1 with args: (5, 3), kwargs: {}
+                            #         8
+print(obj.method2(4))     # Output: Calling method2 with args: (4,), kwargs: {}
+                            #         8
+```"
