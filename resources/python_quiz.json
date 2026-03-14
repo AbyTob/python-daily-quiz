@@ -6760,5 +6760,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-14 00:02:36",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q2_2026-03-14": {
+    "id": "1773475279_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport time\n\ndef timing_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {func.__name__} took {end_time - start_time} seconds to run.\")\n        return result\n    return wrapper\n\n@timing_decorator\ndef my_function():\n    time.sleep(1)  # Simulating a task that takes time\n\nmy_function()\n```\n\nWhich of the following statements is true about this code?\n\nA) The `wrapper` function inside `timing_decorator` will never be called.\nB) The execution time of `my_function` is printed before it returns.\nC) The `my_function` is decorated with a decorator that doesn't measure its execution time accurately.\nD) The `wrapper` function modifies the behavior of `my_function` by adding timing functionality without changing its original code.",
+    "answer": "D",
+    "timestamp": "2026-03-14 08:01:19",
+    "topic": "Task Management and Scheduling"
   }
 }
