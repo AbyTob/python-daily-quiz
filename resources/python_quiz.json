@@ -6781,5 +6781,12 @@
     "answer": "[B] Use `asyncio.gather` to run `fetch_data` and `process_data` simultaneously.\n\nExplanation: The current implementation runs the fetch and process steps sequentially, which is inefficient because they can be done concurrently. By using `asyncio.gather`, both tasks can start at the same time and finish as soon as both are complete. This approach utilizes the full potential of async programming to improve performance without blocking other operations or threads.",
     "timestamp": "2026-03-15 00:01:47",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2026-03-15": {
+    "id": "1773561715_2",
+    "question": "Part 1 (Question):\nConsider the following Python code snippet that uses a metaclass and decorator to modify class behavior dynamically:\n\n```python\nfrom functools import wraps\n\ndef add_method(cls, name, func):\n    setattr(cls, name, func)\n    return cls\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct = {key: value for key, value in dct.items() if not callable(value)}\n        return super().__new__(cls, name, bases, dct)\n\n@add_method(Meta, 'greet', lambda self: f\"Hello from {self.name}\")\nclass MyClass(metaclass=Meta):\n    def __init__(self, name):\n        self.name = name\n\nif __name__ == \"__main__\":\n    obj = MyClass(\"Alice\")\n    print(obj.greet())\n```\n\nWhich of the following statements about this code is true?\n\nA) The `add_method` decorator dynamically adds a method to a class at runtime.\nB) The `Meta` metaclass filters out all callable attributes from the class dictionary during class creation.\nC) When an instance of `MyClass` is created, it automatically calls the `greet` method due to metaclass magic.\nD) This code will cause a `TypeError` because `add_method` cannot modify the metaclass in place.",
+    "answer": "Part 2 (Answer):\nA) The `add_method` decorator dynamically adds a method to a class at runtime.\n\nExplanation: In this code, the `add_method` function is used as a decorator to add a new method `greet` to the class `MyClass`. The metaclass `Meta` ensures that only non-callable attributes are added to the class dictionary, preventing callable methods like `greet` from being included. When an instance of `MyClass` is created and its `greet` method is called, it behaves as expected, demonstrating dynamic class modification.",
+    "timestamp": "2026-03-15 08:01:55",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
