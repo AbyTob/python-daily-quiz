@@ -42423,3 +42423,33 @@ D) This code will cause a `TypeError` because `add_method` cannot modify the met
 A) The `add_method` decorator dynamically adds a method to a class at runtime.
 
 Explanation: In this code, the `add_method` function is used as a decorator to add a new method `greet` to the class `MyClass`. The metaclass `Meta` ensures that only non-callable attributes are added to the class dictionary, preventing callable methods like `greet` from being included. When an instance of `MyClass` is created and its `greet` method is called, it behaves as expected, demonstrating dynamic class modification."
+"2026-03-15 16:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to modify class attributes dynamically:
+
+```python
+class DynamicMeta(type):
+    def __new__(cls, name, bases, dct):
+        for key in dct:
+            if not key.startswith('_'):
+                dct[key] = 'Dynamic Attribute'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=DynamicMeta):
+    a = 1
+    b = 2
+    c = 3
+
+print(MyClass.__dict__)
+```
+
+What will be printed when the code is executed?
+
+A) {'a': 'Dynamic Attribute', 'b': 'Dynamic Attribute', 'c': 'Dynamic Attribute'}
+B) {'a': 1, 'b': 2, 'c': 3}
+C) {'a': 'Dynamic Attribute', 'b': 'Dynamic Attribute', 'c': 3}
+D) AttributeError
+
+[ANSWER]
+A) {'a': 'Dynamic Attribute', 'b': 'Dynamic Attribute', 'c': 'Dynamic Attribute'}
+
+Explanation: The `DynamicMeta` metaclass iterates over all attributes of the class being created and replaces their values with the string `'Dynamic Attribute'` if they do not start with an underscore. This includes both `a`, `b`, and `c`. Thus, when the code prints `MyClass.__dict__`, it shows the modified attribute values.";"Answer format error. Please check the generated content."

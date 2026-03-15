@@ -6788,5 +6788,12 @@
     "answer": "Part 2 (Answer):\nA) The `add_method` decorator dynamically adds a method to a class at runtime.\n\nExplanation: In this code, the `add_method` function is used as a decorator to add a new method `greet` to the class `MyClass`. The metaclass `Meta` ensures that only non-callable attributes are added to the class dictionary, preventing callable methods like `greet` from being included. When an instance of `MyClass` is created and its `greet` method is called, it behaves as expected, demonstrating dynamic class modification.",
     "timestamp": "2026-03-15 08:01:55",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q3_2026-03-15": {
+    "id": "1773590495_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to modify class attributes dynamically:\n\n```python\nclass DynamicMeta(type):\n    def __new__(cls, name, bases, dct):\n        for key in dct:\n            if not key.startswith('_'):\n                dct[key] = 'Dynamic Attribute'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=DynamicMeta):\n    a = 1\n    b = 2\n    c = 3\n\nprint(MyClass.__dict__)\n```\n\nWhat will be printed when the code is executed?\n\nA) {'a': 'Dynamic Attribute', 'b': 'Dynamic Attribute', 'c': 'Dynamic Attribute'}\nB) {'a': 1, 'b': 2, 'c': 3}\nC) {'a': 'Dynamic Attribute', 'b': 'Dynamic Attribute', 'c': 3}\nD) AttributeError\n\n[ANSWER]\nA) {'a': 'Dynamic Attribute', 'b': 'Dynamic Attribute', 'c': 'Dynamic Attribute'}\n\nExplanation: The `DynamicMeta` metaclass iterates over all attributes of the class being created and replaces their values with the string `'Dynamic Attribute'` if they do not start with an underscore. This includes both `a`, `b`, and `c`. Thus, when the code prints `MyClass.__dict__`, it shows the modified attribute values.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-03-15 16:01:35",
+    "topic": "Object-Oriented Programming"
   }
 }
