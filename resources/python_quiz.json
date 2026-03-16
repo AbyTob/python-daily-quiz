@@ -6809,5 +6809,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-16 08:02:02",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-03-16": {
+    "id": "1773676908_3",
+    "question": "Part 1 (Question):\nConsider the following Python code that uses a decorator to modify behavior of a class method:\n\n```python\ndef my_decorator(func):\n    def wrapper(self, *args, **kwargs):\n        print(\"Decorator is running\")\n        result = func(self, *args, **kwargs)\n        return result\n    return wrapper\n\nclass MyClass:\n    @my_decorator\n    def my_method(self, x):\n        return x * 2\n\nobj = MyClass()\nprint(obj.my_method(3))\n```\n\nWhich of the following statements about this code is true?\n\nA) The decorator `my_decorator` will not be called when an instance method `my_method` is invoked.\nB) When calling `obj.my_method(3)`, \"Decorator is running\" will be printed before the result of `my_method`.\nC) The `wrapper` function inside `my_decorator` will receive three arguments: self, 3 (as positional argument), and no keyword arguments.\nD) Modifying `MyClass` with a decorator does not affect how instances are created or their method calls.",
+    "answer": "Part 2 (Answer):\nB) When calling `obj.my_method(3)`, \"Decorator is running\" will be printed before the result of `my_method`.\n\nExplanation: The decorator `my_decorator` wraps the original method `my_method`. Whenever `my_method` is called on an instance, it first executes the code inside the wrapper function, which includes printing \"Decorator is running\". Only after that does it call and return the actual `my_method` with its arguments.",
+    "timestamp": "2026-03-16 16:01:48",
+    "topic": "Object-Oriented Programming"
   }
 }

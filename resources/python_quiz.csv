@@ -42539,3 +42539,32 @@ D) The decorator's `__call__` method is not used when calling the decorated `fet
 B) The `AsyncDecorator` can transform a synchronous function into an asynchronous one by wrapping it in an `async def`.
 
 Explanation: The provided code snippet demonstrates that the `AsyncDecorator` class can be used to decorate a synchronous function, `fetch_data`, and still maintain its ability to be called within an asynchronous context. When `fetch_data` is decorated with `@AsyncDecorator`, it remains a synchronous function internally. However, when calling this function within another coroutine (as done in the `main` coroutine), it can be awaited without issues because Python's event loop recognizes that the return value of `fetch_data` can be awaited, even though `fetch_data` itself is not explicitly defined as an async function with `async def`. This is an interesting aspect of how decorators and asyncio interact, allowing for flexible function transformation.";"Answer format error. Please check the generated content."
+"2026-03-16 16:01";"Part 1 (Question):
+Consider the following Python code that uses a decorator to modify behavior of a class method:
+
+```python
+def my_decorator(func):
+    def wrapper(self, *args, **kwargs):
+        print(""Decorator is running"")
+        result = func(self, *args, **kwargs)
+        return result
+    return wrapper
+
+class MyClass:
+    @my_decorator
+    def my_method(self, x):
+        return x * 2
+
+obj = MyClass()
+print(obj.my_method(3))
+```
+
+Which of the following statements about this code is true?
+
+A) The decorator `my_decorator` will not be called when an instance method `my_method` is invoked.
+B) When calling `obj.my_method(3)`, ""Decorator is running"" will be printed before the result of `my_method`.
+C) The `wrapper` function inside `my_decorator` will receive three arguments: self, 3 (as positional argument), and no keyword arguments.
+D) Modifying `MyClass` with a decorator does not affect how instances are created or their method calls.";"Part 2 (Answer):
+B) When calling `obj.my_method(3)`, ""Decorator is running"" will be printed before the result of `my_method`.
+
+Explanation: The decorator `my_decorator` wraps the original method `my_method`. Whenever `my_method` is called on an instance, it first executes the code inside the wrapper function, which includes printing ""Decorator is running"". Only after that does it call and return the actual `my_method` with its arguments."
