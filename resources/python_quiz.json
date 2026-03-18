@@ -6844,5 +6844,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-18 00:01:59",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q2_2026-03-18": {
+    "id": "1773820914_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that demonstrates a decorator designed to measure execution time of a function:\n\n```python\nimport time\n\ndef timing_decorator(func):\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f\"Function {func.__name__} took {end_time - start_time:.4f} seconds to execute.\")\n        return result\n    return wrapper\n\n@timing_decorator\ndef compute_sum(n):\n    return sum(range(n))\n\n# Example usage:\nresult = compute_sum(1000000)\n```\n\nWhich of the following statements is true regarding this code?\n\nA) The decorator `timing_decorator` will only measure execution time if a function explicitly calls it within its body.\n\nB) When applied to `compute_sum`, the decorator adds functionality to print the execution time, but does not change the return value of the original function.\n\nC) The decorator `timing_decorator` requires the use of metaclasses to be applied to class methods.\n\nD) Applying this decorator to any function will cause an infinite recursion because it calls itself without a base case.",
+    "answer": "B) When applied to `compute_sum`, the decorator adds functionality to print the execution time, but does not change the return value of the original function.\n\nExplanation: The `timing_decorator` is correctly implemented as a function decorator that wraps another function and measures its execution time. It prints the time taken for execution and returns the result of the wrapped function unchanged. This demonstrates how decorators can be used to add functionality to existing functions without modifying their internal implementation.",
+    "timestamp": "2026-03-18 08:01:54",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }

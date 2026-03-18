@@ -42804,3 +42804,37 @@ D) `methodA()` will print ""This is methodA"" but `methodB()` will raise a TypeE
 **Answer:** C) `methodA()` will print ""This is methodA"" and `methodB()` will print ""This is methodB"".
 
 **Explanation:** The metaclass `DynamicAttributesMeta` dynamically adds two methods, `methodA` and `methodB`, to any class it's applied to. These methods are defined as lambda functions that return a string indicating the name of the method. When an instance of `MyClass` is created, both `methodA()` and `methodB()` are accessible, and calling them will print ""This is methodA"" and ""This is methodB"", respectively.";"Answer format error. Please check the generated content."
+"2026-03-18 08:01";"[QUESTION]
+Consider the following Python code snippet that demonstrates a decorator designed to measure execution time of a function:
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+@timing_decorator
+def compute_sum(n):
+    return sum(range(n))
+
+# Example usage:
+result = compute_sum(1000000)
+```
+
+Which of the following statements is true regarding this code?
+
+A) The decorator `timing_decorator` will only measure execution time if a function explicitly calls it within its body.
+
+B) When applied to `compute_sum`, the decorator adds functionality to print the execution time, but does not change the return value of the original function.
+
+C) The decorator `timing_decorator` requires the use of metaclasses to be applied to class methods.
+
+D) Applying this decorator to any function will cause an infinite recursion because it calls itself without a base case.";"B) When applied to `compute_sum`, the decorator adds functionality to print the execution time, but does not change the return value of the original function.
+
+Explanation: The `timing_decorator` is correctly implemented as a function decorator that wraps another function and measures its execution time. It prints the time taken for execution and returns the result of the wrapped function unchanged. This demonstrates how decorators can be used to add functionality to existing functions without modifying their internal implementation."
