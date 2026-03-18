@@ -42769,3 +42769,38 @@ loop.run_until_complete(task)
 ```
 
 In this corrected version, the `async_methods` decorator only converts instance methods into async methods, while leaving class and static methods unaffected. This ensures that calling an instance method on an instance of `MyClass` will work as expected without raising an error."
+"2026-03-18 00:01";"### Part 1 (Question)
+
+**Question:** Consider the following code snippet that uses a metaclass to dynamically add attributes to a class:
+
+```python
+class DynamicAttributesMeta(type):
+    def __new__(cls, name, bases, attrs):
+        for key in ['methodA', 'methodB']:
+            if key not in attrs:
+                attrs[key] = lambda self: f""This is {key}""
+        return super().__new__(cls, name, bases, attrs)
+
+class MyClass(metaclass=DynamicAttributesMeta):
+    pass
+
+instance = MyClass()
+print(instance.methodA())  # Output?
+print(instance.methodB())  # Output?
+```
+
+Which of the following statements correctly explains what will be printed when `methodA()` and `methodB()` are called on an instance of `MyClass`?
+
+A) Both methods will print `None`.
+
+B) Both methods will raise an AttributeError.
+
+C) `methodA()` will print ""This is methodA"" and `methodB()` will print ""This is methodB"".
+
+D) `methodA()` will print ""This is methodA"" but `methodB()` will raise a TypeError.
+
+### Part 2 (Answer)
+
+**Answer:** C) `methodA()` will print ""This is methodA"" and `methodB()` will print ""This is methodB"".
+
+**Explanation:** The metaclass `DynamicAttributesMeta` dynamically adds two methods, `methodA` and `methodB`, to any class it's applied to. These methods are defined as lambda functions that return a string indicating the name of the method. When an instance of `MyClass` is created, both `methodA()` and `methodB()` are accessible, and calling them will print ""This is methodA"" and ""This is methodB"", respectively.";"Answer format error. Please check the generated content."
