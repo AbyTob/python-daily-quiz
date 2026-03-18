@@ -6851,5 +6851,12 @@
     "answer": "B) When applied to `compute_sum`, the decorator adds functionality to print the execution time, but does not change the return value of the original function.\n\nExplanation: The `timing_decorator` is correctly implemented as a function decorator that wraps another function and measures its execution time. It prints the time taken for execution and returns the result of the wrapped function unchanged. This demonstrates how decorators can be used to add functionality to existing functions without modifying their internal implementation.",
     "timestamp": "2026-03-18 08:01:54",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2026-03-18": {
+    "id": "1773849726_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code snippet that uses a metaclass to control class instantiation:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass MyClass(metaclass=SingletonMeta):\n    pass\n\n# Example usage:\na = MyClass()\nb = MyClass()\n\nprint(a is b)  # What will this print?\n```\n\nWhat will be printed when the code above is executed?\n\nA) `False`  \nB) `True`  \nC) An error  \nD) The program will not run",
+    "answer": "**Part 2 (Answer):**\n\nThe correct answer is B) `True`.\n\nExplanation:\n- The metaclass `SingletonMeta` ensures that only one instance of the class `MyClass` can be created. This is achieved by checking if an instance already exists in a dictionary `_instances`. If it does, the existing instance is returned; otherwise, a new instance is created and stored.\n- In the code snippet, `a = MyClass()` creates an instance of `MyClass`, and since no other instances exist yet, `a` will be stored in `_instances`.\n- When `b = MyClass()` is called, it checks `_instances` and finds that `MyClass` already has an instance (`a`). Therefore, `b` is assigned the reference to `a`.\n- The expression `a is b` checks if both `a` and `b` refer to the same object in memory. Since they do, this expression evaluates to `True`.\n\nThis question tests the understanding of how metaclasses can be used to enforce singleton behavior, ensuring that a class has only one instance throughout its lifetime.",
+    "timestamp": "2026-03-18 16:02:06",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
