@@ -6872,5 +6872,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-19 08:02:53",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2026-03-19": {
+    "id": "1773936138_3",
+    "question": "[QUESTION]\nConsider the following Python code snippet:\n\n```python\nimport asyncio\n\nclass AsyncCounter:\n    def __init__(self, initial=0):\n        self.count = initial\n\n    async def increment(self):\n        self.count += 1\n        return self.count\n\nasync def main():\n    counter = AsyncCounter()\n    tasks = [counter.increment() for _ in range(5)]\n    results = await asyncio.gather(*tasks)\n    print(results)\n\nif __name__ == \"__main__\":\n    import time\n    start_time = time.time()\n    asyncio.run(main())\n    end_time = time.time()\n    print(f\"Execution time: {end_time - start_time} seconds\")\n```\n\nWhich of the following statements correctly describes the behavior and execution time of this code when run?\n\nA) The counter value will be printed as [0, 1, 2, 3, 4] and the total execution time will be less than 0.5 seconds.\n\nB) The counter value will be printed as [1, 2, 3, 4, 5] and the total execution time will be approximately 0.5 seconds due to the async nature of increment calls.\n\nC) The counter value will be printed as [1, 2, 3, 4, 5] but the total execution time will be more than 2.5 seconds because each call waits for the previous one to complete.\n\nD) The code will raise an exception due to the misuse of `async` and `await`.",
+    "answer": "B) The counter value will be printed as [1, 2, 3, 4, 5] and the total execution time will be approximately 0.5 seconds due to the async nature of increment calls.\n\nExplanation: When you call `counter.increment()` in a list comprehension and pass it to `asyncio.gather`, all tasks are scheduled concurrently, but each task must wait for the previous one to complete before being able to run (due to Python's Global Interpreter Lock, GIL, when running async code in a single-threaded manner). Therefore, the time taken is close to the time it would take to run five sequential `increment` calls. The output will be `[1, 2, 3, 4, 5]` as each call increments the counter sequentially.",
+    "timestamp": "2026-03-19 16:02:18",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
