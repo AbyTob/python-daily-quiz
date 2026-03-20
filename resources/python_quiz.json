@@ -6893,5 +6893,12 @@
     "answer": "**Part 2 (Answer):**\n\nA) The `AsyncDecorator` will run first, then `measure_time`, and finally `fetch_data`.\n\n**Explanation:** In Python, decorators are applied in the order they are defined from top to bottom. When you define a function with multiple decorators, each decorator is called immediately when it decorates the function. Therefore, `AsyncDecorator` will be applied first, followed by `measure_time`. The actual execution of the decorated functions (in this case, `fetch_data`) happens within the context of these decorators during the call to `main()`.",
     "timestamp": "2026-03-20 08:02:09",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-03-20": {
+    "id": "1774022469_3",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to dynamically add attributes to a class:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_attr'] = 'I am dynamic'\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    existing_attr = 42\n\nobj = MyClass()\nprint(obj.dynamic_attr)\n```\n\nWhat is the output of `print(obj.dynamic_attr)`? \n\nA) AttributeError  \nB) 'I am dynamic'  \nC) None  \nD) 42",
+    "answer": "B) 'I am dynamic'",
+    "timestamp": "2026-03-20 16:01:09",
+    "topic": "Object-Oriented Programming"
   }
 }

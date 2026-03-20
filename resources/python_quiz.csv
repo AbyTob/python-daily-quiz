@@ -43093,3 +43093,25 @@ D) The execution order cannot be determined without running the code because of 
 A) The `AsyncDecorator` will run first, then `measure_time`, and finally `fetch_data`.
 
 **Explanation:** In Python, decorators are applied in the order they are defined from top to bottom. When you define a function with multiple decorators, each decorator is called immediately when it decorates the function. Therefore, `AsyncDecorator` will be applied first, followed by `measure_time`. The actual execution of the decorated functions (in this case, `fetch_data`) happens within the context of these decorators during the call to `main()`."
+"2026-03-20 16:01";"[QUESTION]  
+Consider the following Python code that uses a metaclass to dynamically add attributes to a class:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_attr'] = 'I am dynamic'
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    existing_attr = 42
+
+obj = MyClass()
+print(obj.dynamic_attr)
+```
+
+What is the output of `print(obj.dynamic_attr)`? 
+
+A) AttributeError  
+B) 'I am dynamic'  
+C) None  
+D) 42";"B) 'I am dynamic'"
