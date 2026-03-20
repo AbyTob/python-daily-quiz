@@ -43015,3 +43015,28 @@ C) The counter value will be printed as [1, 2, 3, 4, 5] but the total execution 
 D) The code will raise an exception due to the misuse of `async` and `await`.";"B) The counter value will be printed as [1, 2, 3, 4, 5] and the total execution time will be approximately 0.5 seconds due to the async nature of increment calls.
 
 Explanation: When you call `counter.increment()` in a list comprehension and pass it to `asyncio.gather`, all tasks are scheduled concurrently, but each task must wait for the previous one to complete before being able to run (due to Python's Global Interpreter Lock, GIL, when running async code in a single-threaded manner). Therefore, the time taken is close to the time it would take to run five sequential `increment` calls. The output will be `[1, 2, 3, 4, 5]` as each call increments the counter sequentially."
+"2026-03-20 00:02";"[QUESTION]
+Consider the following Python code that uses a metaclass to log class instantiation:
+
+```python
+class Logger(type):
+    def __call__(cls, *args, **kwargs):
+        print(f""Creating instance of {cls.__name__}"")
+        return super().__call__(*args, **kwargs)
+
+class MyClass(metaclass=Logger):
+    pass
+
+def create_instance():
+    obj = MyClass()
+    return obj
+```
+
+The `create_instance` function is designed to create an instance of `MyClass`. However, the current implementation does not log any information about the instance creation when called. What modification can be made to ensure that every time an instance of `MyClass` is created through `create_instance`, a message is printed indicating the creation of the instance?
+
+A) Modify the `Logger` metaclass to include additional logging logic within the `__call__` method.
+B) Change the definition of `MyClass` to explicitly call `super().__call__(*args, **kwargs)` in its constructor.
+C) Remove the metaclass from `MyClass` and use a decorator instead for instance creation.
+D) Add a new method `log_creation` to `MyClass` that prints the creation message.";"A) Modify the `Logger` metaclass to include additional logging logic within the `__call__` method.
+
+Explanation: The correct answer is A. By modifying the `Logger` metaclass, we can ensure that every time an instance of a class defined with this metaclass is created, the `__call__` method will be called, and thus the logging message will be printed. Option B is incorrect because it changes the instantiation process by explicitly calling the superclass constructor in the class definition, which would not utilize the metaclass's functionality. Options C and D do not address the problem of logging instance creation; they either remove the use of metaclasses or introduce a separate method for logging, neither of which ensures that the log message is printed every time an instance is created."
