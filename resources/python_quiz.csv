@@ -43205,3 +43205,36 @@ D) None of the above";"A) Task completed after 2 seconds
 Task completed after 3 seconds
 
 Explanation: The `AsyncDecorator` class is used to make a synchronous function into an asynchronous one by running it within an asyncio event loop. When `async_task` is called with arguments, the decorator uses `asyncio.run()` to execute the decorated coroutine and wait for it to complete. Since `asyncio.gather()` is used in the `main()` function to run both tasks concurrently, each task will start immediately after the previous one finishes, leading to a total completion time of 5 seconds (2 + 3). Therefore, the output will be ""Task completed after 2 seconds"" followed by ""Task completed after 3 seconds""."
+"2026-03-21 16:01";"[QUESTION]
+Consider the following code snippet that uses a decorator to count how many times each function is called:
+
+```python
+def call_counter(func):
+    def wrapper(*args, **kwargs):
+        wrapper.calls += 1
+        return func(*args, **kwargs)
+    wrapper.calls = 0
+    return wrapper
+
+@call_counter
+def my_function():
+    pass
+
+# Usage of the decorated function
+my_function()
+my_function()
+
+print(my_function.calls)  # Output should be 2
+```
+
+Which statement is true regarding the use of this decorator?
+
+A) The `wrapper` function retains state across multiple calls due to the `calls` attribute being set on it.
+
+B) Each call to `my_function()` resets the `calls` count to zero.
+
+C) The `wrapper` function does not have access to any attributes from the original `my_function`.
+
+D) The `call_counter` decorator can only be applied to functions that return values.";"A) The `wrapper` function retains state across multiple calls due to the `calls` attribute being set on it.
+
+Explanation: The decorator `call_counter` defines a nested function `wrapper` that increments the `calls` attribute every time `my_function()` is called. Since this attribute is added directly to the `wrapper` function, it persists between function calls, keeping track of how many times the decorated function has been invoked."
