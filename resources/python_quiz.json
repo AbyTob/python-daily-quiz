@@ -6907,5 +6907,12 @@
     "answer": "**Part 2 (Answer):**\n\nA) When `calc.add(3, 4)` is called, \"Calling add with args: (3, 4), kwargs: {}\" will be printed.\n\nExplanation:\n- The `LogMeta` metaclass is used to automatically log all method calls of the class it decorates. \n- In the `log_method`, a wrapper function is defined that logs the method call details before calling the original method.\n- When an instance of `Calculator` calls `add(3, 4)`, the `wrapper` function in the `LogMeta` metaclass is invoked instead of `add`, logging the call and then executing the actual `add` method.",
     "timestamp": "2026-03-21 00:02:26",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-03-21": {
+    "id": "1774080107_2",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n\n    def __call__(self, *args, **kwargs):\n        return asyncio.run(self.func(*args, **kwargs))\n\n@AsyncDecorator\nasync def async_task(delay):\n    await asyncio.sleep(delay)\n    print(f\"Task completed after {delay} seconds\")\n\nasync def main():\n    task1 = async_task(2)\n    task2 = async_task(3)\n    await asyncio.gather(task1, task2)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhat is the output of running this script?\n\nA) Task completed after 2 seconds\n   Task completed after 3 seconds\n\nB) Task completed after 5 seconds\n\nC) The program will raise an exception\n\nD) None of the above",
+    "answer": "A) Task completed after 2 seconds  \nTask completed after 3 seconds\n\nExplanation: The `AsyncDecorator` class is used to make a synchronous function into an asynchronous one by running it within an asyncio event loop. When `async_task` is called with arguments, the decorator uses `asyncio.run()` to execute the decorated coroutine and wait for it to complete. Since `asyncio.gather()` is used in the `main()` function to run both tasks concurrently, each task will start immediately after the previous one finishes, leading to a total completion time of 5 seconds (2 + 3). Therefore, the output will be \"Task completed after 2 seconds\" followed by \"Task completed after 3 seconds\".",
+    "timestamp": "2026-03-21 08:01:47",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }

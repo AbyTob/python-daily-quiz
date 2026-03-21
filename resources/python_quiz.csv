@@ -43165,3 +43165,43 @@ Explanation:
 - The `LogMeta` metaclass is used to automatically log all method calls of the class it decorates. 
 - In the `log_method`, a wrapper function is defined that logs the method call details before calling the original method.
 - When an instance of `Calculator` calls `add(3, 4)`, the `wrapper` function in the `LogMeta` metaclass is invoked instead of `add`, logging the call and then executing the actual `add` method."
+"2026-03-21 08:01";"[QUESTION]
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncDecorator:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        return asyncio.run(self.func(*args, **kwargs))
+
+@AsyncDecorator
+async def async_task(delay):
+    await asyncio.sleep(delay)
+    print(f""Task completed after {delay} seconds"")
+
+async def main():
+    task1 = async_task(2)
+    task2 = async_task(3)
+    await asyncio.gather(task1, task2)
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What is the output of running this script?
+
+A) Task completed after 2 seconds
+   Task completed after 3 seconds
+
+B) Task completed after 5 seconds
+
+C) The program will raise an exception
+
+D) None of the above";"A) Task completed after 2 seconds  
+Task completed after 3 seconds
+
+Explanation: The `AsyncDecorator` class is used to make a synchronous function into an asynchronous one by running it within an asyncio event loop. When `async_task` is called with arguments, the decorator uses `asyncio.run()` to execute the decorated coroutine and wait for it to complete. Since `asyncio.gather()` is used in the `main()` function to run both tasks concurrently, each task will start immediately after the previous one finishes, leading to a total completion time of 5 seconds (2 + 3). Therefore, the output will be ""Task completed after 2 seconds"" followed by ""Task completed after 3 seconds""."
