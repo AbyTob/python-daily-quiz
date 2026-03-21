@@ -43115,3 +43115,53 @@ A) AttributeError
 B) 'I am dynamic'  
 C) None  
 D) 42";"B) 'I am dynamic'"
+"2026-03-21 00:02";"**Part 1 (Question):**
+
+Consider the following Python code that uses decorators and metaclasses to create a simple logging system. The goal is to log all method calls of a class with their arguments.
+
+```python
+class LogMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name in dct:
+            attribute = dct[attr_name]
+            if callable(attribute):
+                dct[attr_name] = cls.log_method(attribute)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def log_method(func):
+        def wrapper(*args, **kwargs):
+            print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+            return func(*args, **kwargs)
+        return wrapper
+
+@LogMeta
+class Calculator:
+    def add(self, a, b):
+        return a + b
+
+    def multiply(self, a, b):
+        return a * b
+
+# Create an instance of the Calculator and use its methods.
+calc = Calculator()
+result_add = calc.add(3, 4)
+result_multiply = calc.multiply(5, 6)
+```
+
+Which of the following statements is true regarding this code?
+
+A) When `calc.add(3, 4)` is called, ""Calling add with args: (3, 4), kwargs: {}"" will be printed.
+
+B) The `LogMeta` metaclass does not modify any methods when used on a class.
+
+C) The `Calculator` class inherits from the built-in `object` class implicitly due to the use of a metaclass.
+
+D) The `log_method` static method returns a function that logs method calls but does not actually call the original method.";"**Part 2 (Answer):**
+
+A) When `calc.add(3, 4)` is called, ""Calling add with args: (3, 4), kwargs: {}"" will be printed.
+
+Explanation:
+- The `LogMeta` metaclass is used to automatically log all method calls of the class it decorates. 
+- In the `log_method`, a wrapper function is defined that logs the method call details before calling the original method.
+- When an instance of `Calculator` calls `add(3, 4)`, the `wrapper` function in the `LogMeta` metaclass is invoked instead of `add`, logging the call and then executing the actual `add` method."
