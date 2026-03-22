@@ -43270,3 +43270,67 @@ D. When creating an instance of `Person`, the `__init__` method is called before
 
 Explanation:
 The correct answer is A. In the provided code, the `StringReprMeta` metaclass checks if the `__str__` method is present in the dictionary of the class being created (`dct`). If it is not found, it adds a lambda function that constructs a string representation based on the class name and its attributes. If the `__str__` method already exists, the metaclass will not overwrite it. This behavior ensures that the `__str__` method is only added if necessary, preventing any potential issues with overriding an existing method."
+"2026-03-22 08:02";"Part 1: Question
+
+Consider the following code snippet that uses a combination of metaclasses, decorators, and context managers:
+
+```python
+from abc import ABC, abstractmethod
+from contextlib import contextmanager
+import time
+
+class TimerMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr in dct.items():
+            if callable(attr) and not attr_name.startswith(""__""):
+                dct[attr_name] = cls.wrap_timer_method(attr)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def wrap_timer_method(method):
+        def wrapper(self, *args, **kwargs):
+            start_time = time.time()
+            result = method(self, *args, **kwargs)
+            end_time = time.time()
+            print(f""Executing {method.__name__} took {end_time - start_time:.4f}s"")
+            return result
+        return wrapper
+
+class BaseTask(metaclass=TimerMeta):
+    @abstractmethod
+    def execute(self):
+        pass
+
+@contextmanager
+def task_manager():
+    try:
+        yield
+    finally:
+        print(""All tasks have been executed."")
+
+class ConcreteTask(BaseTask):
+    def execute(self):
+        time.sleep(1)
+        print(""Executing task"")
+
+# Usage
+with task_manager():
+    task = ConcreteTask()
+    task.execute()
+```
+
+Which of the following statements is true about this code?
+
+A) The `TimerMeta` metaclass wraps every method in `BaseTask` to add timing functionality without modifying the original methods.
+
+B) The `task_manager` context manager ensures that all tasks are executed within a certain time frame, enforcing a maximum execution duration.
+
+C) When an instance of `ConcreteTask` is created and its `execute` method is called, it will print ""Executing task"" and then sleep for 1 second before returning.
+
+D) The `TimerMeta` metaclass can be used to create subclasses of `BaseTask` without adding any additional functionality.";"Part 2: Answer
+
+A) This statement is true. The `TimerMeta` metaclass dynamically wraps all callable methods in `BaseTask` with a timing function that measures the execution time and prints it.
+
+C) This statement is also true. When an instance of `ConcreteTask` is created and its `execute` method is called, it will print ""Executing task"" followed by a 1-second pause due to `time.sleep(1)`.
+
+Both A and C are correct according to the code provided."
