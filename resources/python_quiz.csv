@@ -43389,3 +43389,53 @@ When the `@DecoratorLogger(level='INFO')` decorator is applied to the `add` func
 3. ""Exiting: add"" is printed after the function completes.
 
 Since the base class `Logger` does not affect the output of the decorator (it only logs based on the level), and since the decorator itself handles both logging and function execution, the correct behavior is to print the entry and exit messages along with the result."
+"2026-03-23 00:01";"**Part 1 (Question):**
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def task(name, delay):
+    print(f""Task {name} started"")
+    await asyncio.sleep(delay)
+    print(f""Task {name} finished"")
+
+async def main():
+    tasks = [task('A', 2), task('B', 1)]
+    for t in tasks:
+        await t
+
+if __name__ == ""__main__"":
+    asyncio.run(main())
+```
+
+What is the output of this script, and why?
+
+A) Task A started  
+   Task B started  
+   Task B finished  
+   Task A finished  
+
+B) Task A started  
+   Task B started  
+   Task A finished  
+   Task B finished  
+
+C) Task B started  
+   Task A started  
+   Task B finished  
+   Task A finished  
+
+D) Task B started  
+   Task A started  
+   Task A finished  
+   Task B finished";"**Part 2 (Answer):**
+
+The correct answer is A) Task A started  
+Task B started  
+Task B finished  
+Task A finished
+
+Explanation:
+In Python, coroutines are scheduled based on their expected execution time using the event loop. The `await asyncio.sleep(delay)` call in the `task` function is a non-blocking operation that allows other tasks to run while waiting for the sleep to complete. Since task 'B' has a shorter delay (1 second) compared to task 'A' (2 seconds), it starts first and finishes before task 'A'. Therefore, the output will be Task A started, Task B started, Task B finished, and finally Task A finished."
