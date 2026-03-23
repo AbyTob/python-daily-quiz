@@ -6956,5 +6956,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-23 08:01:53",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-03-23": {
+    "id": "1774281707_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following code snippet that uses a combination of metaclasses and async/await in Python:\n\n```python\nclass AsyncMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'async_method' not in dct:\n            raise TypeError(f\"{name} must define an 'async_method'\")\n        return super().__new__(cls, name, bases, dct)\n\nclass AsyncClass(metaclass=AsyncMeta):\n    async def async_method(self):\n        print(\"Asynchronous method called\")\n\n# Create an instance of the class and call the async method\nobj = AsyncClass()\n```\n\nWhich of the following is true regarding this code?\n\nA) The metaclass `AsyncMeta` will raise a `TypeError` because no `async_method` was defined in the subclass.\n\nB) When you call `await obj.async_method()`, it will execute synchronously and print \"Asynchronous method called\".\n\nC) The `async_method` is properly decorated with `@asyncio.coroutine`, allowing it to be used as a coroutine.\n\nD) Using a metaclass to enforce the presence of an async method is a common practice in Python for design patterns involving asynchronous behavior.\n\n**Part 2 (Answer):**\n\nA) The metaclass `AsyncMeta` will raise a `TypeError` because no `async_method` was defined in the subclass.  \n[Explanation: The metaclass `AsyncMeta` checks if the subclass has an `async_method`. Since `AsyncClass` does not define this method, it raises a `TypeError` when attempting to create an instance of `AsyncClass`.]",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-03-23 16:01:47",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }
