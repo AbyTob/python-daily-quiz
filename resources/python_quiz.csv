@@ -43605,3 +43605,68 @@ print(fibonacci(7))
 ```
 
 This corrected version ensures that the least recently used item is removed when the cache size exceeds `max_size`, thus preventing memory overflow and ensuring that the caching mechanism works as intended."
+"2026-03-24 08:02";"### Part 1 (Question)
+Consider the following Python code that attempts to create a decorator which measures the execution time of a function. However, there is a subtle issue with how it's implemented.
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time} seconds to run."")
+        return result
+    return wrapper
+
+@timing_decorator
+def my_function(x):
+    total = 0
+    for i in range(10**x):
+        total += i
+    return total
+
+result = my_function(5)
+```";"### Part 2 (Answer)
+**Correct Answer: B**
+
+**Explanation:** The decorator `timing_decorator` is correctly defined and used to measure the execution time of `my_function`. However, there is a potential issue with how decorators are applied in this context. 
+
+The problem lies in the fact that Python's decorator syntax (`@decorator_name`) syntactically adds an extra layer of function call. So when you use `@timing_decorator`, it's equivalent to doing:
+
+```python
+my_function = timing_decorator(my_function)
+```
+
+This means that `wrapper` is assigned to `my_function`. If the original `my_function` had any additional attributes or properties (like docstrings, annotations), they would be lost during this transformation.
+
+In this specific example, since `my_function` was originally a function, it doesn't have any such attributes to lose. But if `my_function` had custom attributes added after its initial definition, these would be lost when the decorator is applied.
+
+To avoid potential issues with lost attributes or properties, it's often recommended to use the `functools.wraps` decorator from Python's standard library to preserve metadata of the original function:
+
+```python
+import time
+from functools import wraps
+
+def timing_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time} seconds to run."")
+        return result
+    return wrapper
+
+@timing_decorator
+def my_function(x):
+    total = 0
+    for i in range(10**x):
+        total += i
+    return total
+
+result = my_function(5)
+```
+
+This ensures that the metadata of `my_function` is preserved, including its name, docstring, annotations, and other custom attributes."
