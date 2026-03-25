@@ -6991,5 +6991,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-25 00:02:09",
     "topic": "Advanced Class Inheritance and Method Resolution"
+  },
+  "q2_2026-03-25": {
+    "id": "1774425690_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to add a method dynamically to all classes defined within it:\n\n```python\nclass DynamicMethodAdder(type):\n    def __new__(cls, name, bases, dct):\n        dct['dynamic_method'] = lambda self: f\"Added dynamically to {name}\"\n        return super().__new__(cls, name, bases, dct)\n\nclass BaseClass(metaclass=DynamicMethodAdder):\n    pass\n\nclass SubClass(BaseClass):\n    pass\n```\n\nWhich of the following statements is true about the behavior of `SubClass` after its definition?\n\nA) `SubClass.dynamic_method()` will raise an AttributeError because dynamic_method was not defined at class creation.\n\nB) `SubClass.dynamic_method()` will return \"Added dynamically to SubClass\" when called on an instance of `SubClass`.\n\nC) `BaseClass.dynamic_method()` can be accessed directly from the `BaseClass` without needing an instance.\n\nD) Calling `dynamic_method` on any object that is not a subclass of `DynamicMethodAdder` will result in a TypeError.",
+    "answer": "[B] SubClass.dynamic_method() will return \"Added dynamically to SubClass\" when called on an instance of SubClass.",
+    "timestamp": "2026-03-25 08:01:30",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }

@@ -43733,3 +43733,28 @@ The metaclass `Meta` is defined to add a `custom_method` to any class that uses 
 - Option B is false because `existing_method` exists on `AnotherClass`.
 - Option C is incorrect as the metaclass does affect the inheritance chain by adding a new method to all classes that use it.
 - Option D would be correct if the class name in the method was passed dynamically, but it's not.";"Answer format error. Please check the generated content."
+"2026-03-25 08:01";"[QUESTION]
+Consider the following Python code snippet that uses a metaclass to add a method dynamically to all classes defined within it:
+
+```python
+class DynamicMethodAdder(type):
+    def __new__(cls, name, bases, dct):
+        dct['dynamic_method'] = lambda self: f""Added dynamically to {name}""
+        return super().__new__(cls, name, bases, dct)
+
+class BaseClass(metaclass=DynamicMethodAdder):
+    pass
+
+class SubClass(BaseClass):
+    pass
+```
+
+Which of the following statements is true about the behavior of `SubClass` after its definition?
+
+A) `SubClass.dynamic_method()` will raise an AttributeError because dynamic_method was not defined at class creation.
+
+B) `SubClass.dynamic_method()` will return ""Added dynamically to SubClass"" when called on an instance of `SubClass`.
+
+C) `BaseClass.dynamic_method()` can be accessed directly from the `BaseClass` without needing an instance.
+
+D) Calling `dynamic_method` on any object that is not a subclass of `DynamicMethodAdder` will result in a TypeError.";"[B] SubClass.dynamic_method() will return ""Added dynamically to SubClass"" when called on an instance of SubClass."
