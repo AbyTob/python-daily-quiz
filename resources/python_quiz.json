@@ -6998,5 +6998,12 @@
     "answer": "[B] SubClass.dynamic_method() will return \"Added dynamically to SubClass\" when called on an instance of SubClass.",
     "timestamp": "2026-03-25 08:01:30",
     "topic": "Lambda Functions and Anonymous Functions"
+  },
+  "q3_2026-03-25": {
+    "id": "1774454505_3",
+    "question": "[QUESTION]\nImagine you have a class `MyClass` that is intended to be used in a multi-threaded environment. You want to ensure that all instances of this class are thread-safe, meaning they can be accessed by multiple threads without causing data corruption. Which of the following methods would you use to make `MyClass` thread-safe?\n\nA) Implement a lock mechanism using threading.Lock()\nB) Use the @classmethod decorator\nC) Override the __new__ method to add locking\nD) Decorate each method with asyncio.lock()",
+    "answer": "A) Implement a lock mechanism using threading.Lock()\n\nExplanation: To ensure that an instance of `MyClass` is thread-safe, you need to synchronize access to its methods and attributes. The best way to do this in a multi-threaded environment is to use the `threading.Lock()` class. You can implement this by adding a lock attribute to your class and acquiring it before accessing or modifying any shared resources within its methods. This prevents multiple threads from executing critical sections of code concurrently, which could lead to data corruption.\n\nOption B (using @classmethod decorator) does not address thread safety; it is used for defining alternative constructors in a class.\nOption C (overriding the __new__ method to add locking) is another approach to ensure thread safety by controlling how instances are created. However, using threading.Lock() directly within each method can be more straightforward and efficient.\nOption D (decorating each method with asyncio.lock()) would only make sense in an asynchronous context, not a multi-threaded one.",
+    "timestamp": "2026-03-25 16:01:45",
+    "topic": "Class Methods and Static Methods"
   }
 }
