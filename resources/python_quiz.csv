@@ -43701,3 +43701,35 @@ C) The `wrapper` function inside the decorator will not capture all arguments pa
 D) The use of `func.__name__` ensures that the original function name is printed even after decoration.";"B) The `timing_decorator` will measure the execution time accurately, as it correctly captures both the start and end times.
 
 Explanation: The decorator correctly calculates the execution time by measuring the time before and after calling the function. The `wrapper` function passes all arguments to the original function using `*args` and `**kwargs`, ensuring that the original function behaves as expected. The use of `func.__name__` ensures that the name of the decorated function is preserved, which is a common requirement in decorators."
+"2026-03-25 00:02";"[ANSWER_SEPARATOR]  
+**Question:**  
+Consider the following Python code that uses a metaclass to add a custom method to all classes defined with it. Your task is to determine which statement about this code is true.
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, attrs):
+        attrs['custom_method'] = lambda self: f""Hello from {name}""
+        return super().__new__(cls, name, bases, attrs)
+
+class MyClass(metaclass=Meta):
+    pass
+
+class AnotherClass(metaclass=Meta):
+    def existing_method(self):
+        return ""I am already here""
+```
+
+Which of the following statements is true about the code above?  
+A) `MyClass` and `AnotherClass` will both have a method named `custom_method`.  
+B) Attempting to call `existing_method` on an instance of `MyClass` will raise an AttributeError.  
+C) The metaclass `Meta` does not affect the inheritance chain or base classes.  
+D) `MyClass.custom_method()` will return ""Hello from MyClass"".
+
+[ANSWER_SEPARATOR]  
+**Answer:** A) `MyClass` and `AnotherClass` will both have a method named `custom_method`.
+
+**Explanation:**  
+The metaclass `Meta` is defined to add a `custom_method` to any class that uses it as its metaclass. This method simply returns a string including the name of the class. When `MyClass` and `AnotherClass` are defined with `Meta` as their metaclass, they inherit the `custom_method`. Therefore, both `MyClass.custom_method()` and `AnotherClass.custom_method()` will return ""Hello from MyClass"" and ""Hello from AnotherClass"", respectively. Options B, C, and D are incorrect because:
+- Option B is false because `existing_method` exists on `AnotherClass`.
+- Option C is incorrect as the metaclass does affect the inheritance chain by adding a new method to all classes that use it.
+- Option D would be correct if the class name in the method was passed dynamically, but it's not.";"Answer format error. Please check the generated content."
