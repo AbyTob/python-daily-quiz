@@ -43817,3 +43817,41 @@ C) False
 D) True
 
 Explanation: The correct answer is D. The code correctly implements a decorator to measure the execution time of functions. When the `compute_sum` function is called, it outputs the total time taken by the function to execute, demonstrating that the decorator works as intended."
+"2026-03-26 08:02";"";"Part 1 (Question):
+Consider the following Python code snippet that uses a metaclass to dynamically add methods to a class:
+
+```python
+# Define a metaclass that adds a new method to any class it decorates
+class DynamicMethodMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Add a new method 'greet' that prints ""Hello, world!""
+        dct['greet'] = lambda self: print(""Hello, world!"")
+        return super().__new__(cls, name, bases, dct)
+
+# Use the metaclass to define a class
+class GreetingClass(metaclass=DynamicMethodMeta):
+    pass
+
+# Create an instance of GreetingClass and call the dynamically added method
+greet_instance = GreetingClass()
+greet_instance.greet()
+```
+
+Which of the following statements is true about the code above?
+
+A) The `GreetingClass` will raise an AttributeError when trying to access the `greet` method.
+
+B) When an instance of `GreetingClass` is created, it will have a `greet` method that prints ""Hello, world!"".
+
+C) The `DynamicMethodMeta` metaclass can only be used once per class definition.
+
+D) Calling `greet_instance.greet()` will result in a TypeError because the `greet` method is not defined in the class body.
+
+Part 2 (Answer):
+B
+
+Explanation:
+The metaclass `DynamicMethodMeta` dynamically adds a method named `greet` to any class it decorates. When an instance of `GreetingClass` is created, it will indeed have this `greet` method available, which prints ""Hello, world!"" when called. Therefore, statement B is correct. The other statements are incorrect because:
+- Statement A is false; the `greet` method is dynamically added and accessible.
+- Statement C is false; the metaclass can be used multiple times with different classes.
+- Statement D is false; there will be no TypeError; the `greet` method is correctly defined in the class."

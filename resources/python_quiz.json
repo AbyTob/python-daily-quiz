@@ -7012,5 +7012,12 @@
     "answer": "Part 2: Answer  \nA) False  \nB) False  \nC) False  \nD) True\n\nExplanation: The correct answer is D. The code correctly implements a decorator to measure the execution time of functions. When the `compute_sum` function is called, it outputs the total time taken by the function to execute, demonstrating that the decorator works as intended.",
     "timestamp": "2026-03-26 00:01:54",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-03-26": {
+    "id": "1774512129_2",
+    "question": "",
+    "answer": "Part 1 (Question):\nConsider the following Python code snippet that uses a metaclass to dynamically add methods to a class:\n\n```python\n# Define a metaclass that adds a new method to any class it decorates\nclass DynamicMethodMeta(type):\n    def __new__(cls, name, bases, dct):\n        # Add a new method 'greet' that prints \"Hello, world!\"\n        dct['greet'] = lambda self: print(\"Hello, world!\")\n        return super().__new__(cls, name, bases, dct)\n\n# Use the metaclass to define a class\nclass GreetingClass(metaclass=DynamicMethodMeta):\n    pass\n\n# Create an instance of GreetingClass and call the dynamically added method\ngreet_instance = GreetingClass()\ngreet_instance.greet()\n```\n\nWhich of the following statements is true about the code above?\n\nA) The `GreetingClass` will raise an AttributeError when trying to access the `greet` method.\n\nB) When an instance of `GreetingClass` is created, it will have a `greet` method that prints \"Hello, world!\".\n\nC) The `DynamicMethodMeta` metaclass can only be used once per class definition.\n\nD) Calling `greet_instance.greet()` will result in a TypeError because the `greet` method is not defined in the class body.\n\nPart 2 (Answer):\nB\n\nExplanation:\nThe metaclass `DynamicMethodMeta` dynamically adds a method named `greet` to any class it decorates. When an instance of `GreetingClass` is created, it will indeed have this `greet` method available, which prints \"Hello, world!\" when called. Therefore, statement B is correct. The other statements are incorrect because:\n- Statement A is false; the `greet` method is dynamically added and accessible.\n- Statement C is false; the metaclass can be used multiple times with different classes.\n- Statement D is false; there will be no TypeError; the `greet` method is correctly defined in the class.",
+    "timestamp": "2026-03-26 08:02:09",
+    "topic": "Advanced Python Programming"
   }
 }
