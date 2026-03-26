@@ -43855,3 +43855,40 @@ The metaclass `DynamicMethodMeta` dynamically adds a method named `greet` to any
 - Statement A is false; the `greet` method is dynamically added and accessible.
 - Statement C is false; the metaclass can be used multiple times with different classes.
 - Statement D is false; there will be no TypeError; the `greet` method is correctly defined in the class."
+"2026-03-26 16:01";"[QUESTION] Consider the following Python code snippet:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, seconds):
+        self.seconds = seconds
+
+    async def start(self):
+        await asyncio.sleep(self.seconds)
+        print(f""Timer completed after {self.seconds} seconds"")
+
+async def main():
+    timer1 = AsyncTimer(2)
+    timer2 = AsyncTimer(3)
+
+    # Run both timers concurrently
+    task1 = asyncio.create_task(timer1.start())
+    task2 = asyncio.create_task(timer2.start())
+
+    await task1
+    await task2
+
+# Run the event loop
+asyncio.run(main())
+```
+
+What will be the output of this script if it is run?
+
+A) ""Timer completed after 2 seconds"" followed by ""Timer completed after 3 seconds""
+
+B) ""Timer completed after 3 seconds"" followed by ""Timer completed after 2 seconds""
+
+C) Both timers complete simultaneously, and both print their completion messages at the same time
+
+D) An error will be raised because the `AsyncTimer` class does not implement proper coroutine methods";"Answer format error. Please check the generated content."
