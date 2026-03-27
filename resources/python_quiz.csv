@@ -43973,3 +43973,47 @@ C) If a subclass does not define its own methods, it will automatically have all
 D) The `__new__` method is called when an instance of a class is created.";"A) After creating `SubClass1` and `SubClass2`, `Base._registry` will contain two entries.
 
 Explanation: This statement is true. When subclasses like `SubClass1` and `SubClass2` are defined, their metaclass `RegisterMeta`'s `__new__` method is invoked. This method adds each subclass to the `_registry` dictionary of the base class `Base`. Thus, after defining both subclasses, `Base._registry` will indeed contain two entries: 'SubClass1' and 'SubClass2'."
+"2026-03-27 16:02";"### Part 1 (Question):
+Consider the following Python code snippet that uses a metaclass and decorators:
+
+```python
+from functools import wraps
+
+def log_method_calls(cls):
+    for name, method in cls.__dict__.items():
+        if callable(method) and not name.startswith(""__""):
+            setattr(cls, name, wraps(method)(log_call(method)))
+    return cls
+
+class MetaLogger(type):
+    def __new__(cls, name, bases, dct):
+        dct.update({'__metaclass__': MetaLogger})
+        return super().__new__(cls, name, bases, dct)
+
+def log_call(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+        result = func(*args, **kwargs)
+        print(f""{func.__name__} returned {result}"")
+        return result
+    return wrapper
+
+@log_method_calls
+class MyClass(metaclass=MetaLogger):
+    def method1(self, x):
+        return x * 2
+    
+    def method2(self, y):
+        return y + 5
+```
+
+Which of the following statements about this code is true?
+
+A) `MyClass` methods are not being decorated by `log_method_calls`.
+B) When an instance of `MyClass` calls `method1`, it will print a log message before and after calling `method1`.
+C) The metaclass `MetaLogger` does not change the behavior of any methods.
+D) `MyClass.method2` is not callable.";"### Part 2 (Answer):
+B) When an instance of `MyClass` calls `method1`, it will print a log message before and after calling `method1`.
+
+**Explanation:** The decorators `log_method_calls` and `MetaLogger` are applied to the class `MyClass`. The `log_method_calls` decorator logs each method call, printing the arguments and return value. Since `MyClass` is decorated with both `log_method_calls`, which decorates all callable methods in the class, and `MetaLogger`, which ensures that all classes using this metaclass have their methods wrapped by `log_call`, every method call on an instance of `MyClass` will be logged as intended."
