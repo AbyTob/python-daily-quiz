@@ -44076,3 +44076,58 @@ result = calc.add(3, 5)
 ```
 
 This change ensures that the `add` method retains its original signature and documentation when decorated with `@log_method`."
+"2026-03-28 08:02";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses a decorator and a metaclass together:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['decorated_method'] = cls.decorate(dct.get('decorated_method', None))
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def decorate(func):
+        if func is None:
+            return func
+        def wrapper(*args, **kwargs):
+            print(""Decorator is running"")
+            return func(*args, **kwargs)
+        return wrapper
+
+class MyClass(metaclass=Meta):
+    def original_method(self):
+        print(""Original method is running"")
+
+# Usage
+obj = MyClass()
+obj.decorated_method()
+```
+
+What will be the output of `obj.decorated_method()` when the code is executed?
+
+A) 
+```plaintext
+Decorator is running
+Original method is running
+```
+B) 
+```plaintext
+Original method is running
+```
+C) 
+```plaintext
+Decorator is running
+```
+D) An error occurs";"**Part 2 (Answer):**
+
+A) 
+```plaintext
+Decorator is running
+Original method is running
+```
+
+Explanation:
+- The metaclass `Meta` modifies any class that uses it by adding a `decorated_method`. If the original class has a method named `decorated_method`, it gets decorated. If not, no change occurs.
+- In this case, the `MyClass` does have an `original_method`, which is then passed to the decorator in the metaclass's `__new__`.
+- The decorator adds a print statement before calling the original method, so both messages will be printed when `obj.decorated_method()` is called."
