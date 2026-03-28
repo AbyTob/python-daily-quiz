@@ -7061,5 +7061,12 @@
     "answer": "**Part 2 (Answer):**\n\nA) \n```plaintext\nDecorator is running\nOriginal method is running\n```\n\nExplanation:\n- The metaclass `Meta` modifies any class that uses it by adding a `decorated_method`. If the original class has a method named `decorated_method`, it gets decorated. If not, no change occurs.\n- In this case, the `MyClass` does have an `original_method`, which is then passed to the decorator in the metaclass's `__new__`.\n- The decorator adds a print statement before calling the original method, so both messages will be printed when `obj.decorated_method()` is called.",
     "timestamp": "2026-03-28 08:02:01",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2026-03-28": {
+    "id": "1774713700_3",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport asyncio\n\nclass AsyncDecorator:\n    def __init__(self, func):\n        self.func = func\n\n    def __call__(self, *args, **kwargs):\n        return asyncio.run(self.func(*args, **kwargs))\n\n@AsyncDecorator\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data fetched\"\n\nasync def main():\n    result = await fetch_data()\n    print(result)\n\n# Run the main function to see the output\n# Uncomment the following line to execute\n# asyncio.run(main())\n```\n\nWhat will be printed when the code is executed? (Assume the code is run in an environment where asyncio is available.)\n\nA) Data fetched  \nB) Nothing  \nC) Runtime error  \nD) A syntax error",
+    "answer": "C) Runtime error  \n\nExplanation:\nThe `AsyncDecorator` attempts to execute an asynchronous function synchronously using `asyncio.run()`. When `fetch_data()` is called within the decorator, it's not awaited properly, leading to a `RuntimeError` because `asyncio.run()` cannot be called from within another asyncio event loop. The correct way to use this decorator would involve ensuring that `fetch_data()` is run within an asyncio event loop, or by modifying the decorator to handle async functions correctly.",
+    "timestamp": "2026-03-28 16:01:40",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
