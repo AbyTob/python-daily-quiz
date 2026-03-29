@@ -44207,3 +44207,43 @@ C) Running function Entering Exiting
 D) Running function Exiting Entering";"**Answer: A) Entering Running function Exiting**
 
 **Explanation:** The `AsyncDecorator` class is designed to be used as a decorator for asynchronous functions. When the `async with my_async_function() as instance:` statement is executed, it will first call the `__aenter__` method of the `AsyncDecorator` instance. This method prints ""Entering"", then waits for 1 second using `await asyncio.sleep(1)`, and finally returns the `self` instance. The body of the `async with` block (which is currently empty) is executed next, followed by the `__aexit__` method being called when exiting the block. The `__aexit__` method prints ""Exiting"". Therefore, the output will be ""Entering"", followed by a delay, then ""Running function"" from the `my_async_function`, and finally ""Exiting""."
+"2026-03-29 08:01";"**Part 1 (Question):**
+
+Consider the following Python code snippet that uses decorators and metaclasses together:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f""Creating class {name}"")
+        return super().__new__(cls, name, bases, dct)
+
+def decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator is running"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@decorator
+class MyClass(metaclass=Meta):
+    def __init__(self):
+        self.value = 42
+
+if __name__ == ""__main__"":
+    obj = MyClass()
+```
+
+What happens when you run this code? Explain the sequence of events and outputs.
+
+A) ""Decorator is running"" will be printed, then ""Creating class MyClass""
+
+B) ""Creating class MyClass"" will be printed, then ""Decorator is running""
+
+C) An error will occur because decorators cannot be applied to classes
+
+D) ""Decorator is running"" will not be printed, only ""Creating class MyClass""
+
+**Part 2 (Answer):**
+
+A) ""Decorator is running"" will be printed, then ""Creating class MyClass""
+
+Explanation: The `Meta` metaclass is used to define how the class should be created. When `MyClass` is defined, Python first calls the metaclass's `__new__` method to create the class object. After the class is created, Python then applies decorators to the methods of the class. Therefore, ""Decorator is running"" is printed before ""Creating class MyClass"".";"Answer format error. Please check the generated content."
