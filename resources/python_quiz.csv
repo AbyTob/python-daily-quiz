@@ -44247,3 +44247,43 @@ D) ""Decorator is running"" will not be printed, only ""Creating class MyClass""
 A) ""Decorator is running"" will be printed, then ""Creating class MyClass""
 
 Explanation: The `Meta` metaclass is used to define how the class should be created. When `MyClass` is defined, Python first calls the metaclass's `__new__` method to create the class object. After the class is created, Python then applies decorators to the methods of the class. Therefore, ""Decorator is running"" is printed before ""Creating class MyClass"".";"Answer format error. Please check the generated content."
+"2026-03-29 16:02";"**Part 1 (Question):**
+
+Consider the following Python code that aims to implement a simple caching mechanism using decorators. The `cache` decorator is supposed to store the results of function calls based on their arguments.
+
+```python
+def cache(func):
+    _cache = {}
+    
+    def wrapper(*args, **kwargs):
+        if args in _cache:
+            return _cache[args]
+        result = func(*args, **kwargs)
+        _cache[args] = result
+        return result
+    
+    return wrapper
+
+@cache
+def fibonacci(n):
+    if n < 2:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+```
+
+However, when you run `fibonacci(5)`, it is extremely slow. The issue lies in the way the `wrapper` function captures the `_cache` variable. What is the primary problem with this code that causes such poor performance?
+
+A) The cache is not being updated correctly due to incorrect handling of mutable state.
+
+B) The decorator does not preserve the original function's metadata, leading to issues when using introspection.
+
+C) The use of recursion in `fibonacci` combined with the lack of memoization results in redundant calculations.
+
+D) The `wrapper` function captures `_cache` by value instead of reference, preventing the cache from being shared across multiple calls.
+
+**Part 2 (Answer):**
+
+C) The use of recursion in `fibonacci` combined with the lack of memoization results in redundant calculations.
+
+Explanation: Although the code uses a decorator to attempt caching, it fails because the `_cache` dictionary is local to each call of the wrapper function. This means that each recursive call creates its own cache, causing all calculations to be repeated from scratch when calling `fibonacci(5)` or any higher number. To fix this, you need to ensure that the cache is accessible across all calls and not recreated for each function invocation. One way to achieve this is by using a nonlocal variable within the nested wrapper function or by moving the cache outside of both the decorator and the function, making it globally accessible.";"Answer format error. Please check the generated content."

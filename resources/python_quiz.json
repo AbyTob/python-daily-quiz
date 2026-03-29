@@ -7082,5 +7082,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-29 08:01:48",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q3_2026-03-29": {
+    "id": "1774800131_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that aims to implement a simple caching mechanism using decorators. The `cache` decorator is supposed to store the results of function calls based on their arguments.\n\n```python\ndef cache(func):\n    _cache = {}\n    \n    def wrapper(*args, **kwargs):\n        if args in _cache:\n            return _cache[args]\n        result = func(*args, **kwargs)\n        _cache[args] = result\n        return result\n    \n    return wrapper\n\n@cache\ndef fibonacci(n):\n    if n < 2:\n        return n\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n```\n\nHowever, when you run `fibonacci(5)`, it is extremely slow. The issue lies in the way the `wrapper` function captures the `_cache` variable. What is the primary problem with this code that causes such poor performance?\n\nA) The cache is not being updated correctly due to incorrect handling of mutable state.\n\nB) The decorator does not preserve the original function's metadata, leading to issues when using introspection.\n\nC) The use of recursion in `fibonacci` combined with the lack of memoization results in redundant calculations.\n\nD) The `wrapper` function captures `_cache` by value instead of reference, preventing the cache from being shared across multiple calls.\n\n**Part 2 (Answer):**\n\nC) The use of recursion in `fibonacci` combined with the lack of memoization results in redundant calculations.\n\nExplanation: Although the code uses a decorator to attempt caching, it fails because the `_cache` dictionary is local to each call of the wrapper function. This means that each recursive call creates its own cache, causing all calculations to be repeated from scratch when calling `fibonacci(5)` or any higher number. To fix this, you need to ensure that the cache is accessible across all calls and not recreated for each function invocation. One way to achieve this is by using a nonlocal variable within the nested wrapper function or by moving the cache outside of both the decorator and the function, making it globally accessible.",
+    "answer": "Answer format error. Please check the generated content.",
+    "timestamp": "2026-03-29 16:02:11",
+    "topic": "Function and Method Decorators"
   }
 }
