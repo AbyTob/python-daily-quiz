@@ -44332,3 +44332,34 @@ C) The tasks are executed concurrently, but there's no guarantee on the order of
 D) The tasks will raise an exception because they are not properly defined as coroutines.";"A) The tasks are executed concurrently but their results are returned in the order they were added.
 
 Explanation: The `AsyncManager` class uses asyncio to execute multiple tasks concurrently. Despite being executed concurrently, the `execute` method collects the results in the order they were added to the `tasks` list when creating the instance of `AsyncManager`. This means that the result of `task1()` will be the first element in the returned list, followed by the result of `task2()`, regardless of their execution time."
+"2026-03-30 08:01";"[QUESTION]
+Consider the following Python code that uses a decorator to measure the execution time of a function:
+
+```python
+import time
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""Function {func.__name__} took {end_time - start_time:.4f} seconds to execute."")
+        return result
+    return wrapper
+
+@timing_decorator
+def compute_sum(n):
+    return sum(range(n))
+```
+
+Which of the following statements is true about the `compute_sum` function after it has been decorated with the `timing_decorator`?
+
+A) The execution time of `compute_sum` will be printed to the console each time it is called.
+
+B) The `compute_sum` function will no longer return any value.
+
+C) The `wrapper` function inside `timing_decorator` modifies the behavior of `compute_sum`, but does not affect its return value.
+
+D) The `compute_sum` function will raise an error because it cannot be decorated with a timing decorator.";"A) The execution time of `compute_sum` will be printed to the console each time it is called.
+
+The `timing_decorator` wraps the original `compute_sum` function, capturing its start and end times. When `compute_sum` is called, the `wrapper` function measures the time taken by calling `func(*args, **kwargs)`, which is the actual execution of `compute_sum`. The timing information is then printed to the console before returning the result of `compute_sum`. Thus, the execution time is printed each time `compute_sum` is called."
