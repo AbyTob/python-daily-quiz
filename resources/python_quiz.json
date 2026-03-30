@@ -7103,5 +7103,12 @@
     "answer": "A) The execution time of `compute_sum` will be printed to the console each time it is called.\n\nThe `timing_decorator` wraps the original `compute_sum` function, capturing its start and end times. When `compute_sum` is called, the `wrapper` function measures the time taken by calling `func(*args, **kwargs)`, which is the actual execution of `compute_sum`. The timing information is then printed to the console before returning the result of `compute_sum`. Thus, the execution time is printed each time `compute_sum` is called.",
     "timestamp": "2026-03-30 08:01:53",
     "topic": "Functions and Functional Programming"
+  },
+  "q3_2026-03-30": {
+    "id": "1774886509_3",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to ensure all instances of a class have their methods wrapped with logging before execution:\n\n```python\nimport logging\n\nclass LoggerMeta(type):\n    def __new__(cls, name, bases, dct):\n        for attr_name, attr_value in dct.items():\n            if callable(attr_value):\n                dct[attr_name] = cls._log_wrapper(attr_value)\n        return super().__new__(cls, name, bases, dct)\n\n    @staticmethod\n    def _log_wrapper(func):\n        def wrapper(*args, **kwargs):\n            logging.info(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n            result = func(*args, **kwargs)\n            logging.info(f\"{func.__name__} returned {result}\")\n            return result\n        return wrapper\n\nclass MyClass(metaclass=LoggerMeta):\n    def method1(self, x):\n        return x * 2\n\n    def method2(self, y):\n        return y + 3\n```\n\nGiven this setup, which of the following statements is true regarding `MyClass` and its methods?\n\nA) When calling an instance method of `MyClass`, it does not log any information.\n\nB) The metaclass `LoggerMeta` wraps all methods in the class with logging before they are called.\n\nC) Only `method1` is wrapped with logging because it's explicitly called by a decorator.\n\nD) The metaclass is not used because Python doesn't allow metaclasses to be applied to non-class objects.",
+    "answer": "B",
+    "timestamp": "2026-03-30 16:01:49",
+    "topic": "Python Metaclasses and Class Creation"
   }
 }

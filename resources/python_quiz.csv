@@ -44363,3 +44363,42 @@ C) The `wrapper` function inside `timing_decorator` modifies the behavior of `co
 D) The `compute_sum` function will raise an error because it cannot be decorated with a timing decorator.";"A) The execution time of `compute_sum` will be printed to the console each time it is called.
 
 The `timing_decorator` wraps the original `compute_sum` function, capturing its start and end times. When `compute_sum` is called, the `wrapper` function measures the time taken by calling `func(*args, **kwargs)`, which is the actual execution of `compute_sum`. The timing information is then printed to the console before returning the result of `compute_sum`. Thus, the execution time is printed each time `compute_sum` is called."
+"2026-03-30 16:01";"[QUESTION]  
+Consider the following Python code that uses a metaclass to ensure all instances of a class have their methods wrapped with logging before execution:
+
+```python
+import logging
+
+class LoggerMeta(type):
+    def __new__(cls, name, bases, dct):
+        for attr_name, attr_value in dct.items():
+            if callable(attr_value):
+                dct[attr_name] = cls._log_wrapper(attr_value)
+        return super().__new__(cls, name, bases, dct)
+
+    @staticmethod
+    def _log_wrapper(func):
+        def wrapper(*args, **kwargs):
+            logging.info(f""Calling {func.__name__} with args: {args}, kwargs: {kwargs}"")
+            result = func(*args, **kwargs)
+            logging.info(f""{func.__name__} returned {result}"")
+            return result
+        return wrapper
+
+class MyClass(metaclass=LoggerMeta):
+    def method1(self, x):
+        return x * 2
+
+    def method2(self, y):
+        return y + 3
+```
+
+Given this setup, which of the following statements is true regarding `MyClass` and its methods?
+
+A) When calling an instance method of `MyClass`, it does not log any information.
+
+B) The metaclass `LoggerMeta` wraps all methods in the class with logging before they are called.
+
+C) Only `method1` is wrapped with logging because it's explicitly called by a decorator.
+
+D) The metaclass is not used because Python doesn't allow metaclasses to be applied to non-class objects.";"B"
