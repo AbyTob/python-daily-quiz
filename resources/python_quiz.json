@@ -7089,5 +7089,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-29 16:02:11",
     "topic": "Function and Method Decorators"
+  },
+  "q1_2026-03-30": {
+    "id": "1774828911_1",
+    "question": "[QUESTION]\nConsider the following Python code:\n\n```python\nimport asyncio\n\nclass AsyncManager:\n    def __init__(self, tasks):\n        self.tasks = tasks\n\n    async def execute(self):\n        results = []\n        for task in self.tasks:\n            result = await task()\n            results.append(result)\n        return results\n\nasync def task1():\n    await asyncio.sleep(0.5)\n    return 1\n\nasync def task2():\n    await asyncio.sleep(1)\n    return 2\n\nasync def main():\n    manager = AsyncManager([task1, task2])\n    result = await manager.execute()\n    print(result)\n\n# Run the coroutine\nasyncio.run(main())\n```\n\nWhich of the following statements is true about this code?\n\nA) The tasks are executed concurrently but their results are returned in the order they were added.\n\nB) The tasks are executed sequentially and their results are returned in a list.\n\nC) The tasks are executed concurrently, but there's no guarantee on the order of the results.\n\nD) The tasks will raise an exception because they are not properly defined as coroutines.",
+    "answer": "A) The tasks are executed concurrently but their results are returned in the order they were added.\n\nExplanation: The `AsyncManager` class uses asyncio to execute multiple tasks concurrently. Despite being executed concurrently, the `execute` method collects the results in the order they were added to the `tasks` list when creating the instance of `AsyncManager`. This means that the result of `task1()` will be the first element in the returned list, followed by the result of `task2()`, regardless of their execution time.",
+    "timestamp": "2026-03-30 00:01:51",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
