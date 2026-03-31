@@ -44478,3 +44478,54 @@ B) Hello from MyClass
 
 Explanation:
 The metaclass `DynamicMethodMeta` checks if the method `dynamic_method` is already defined in the class dictionary (`dct`). If it's not, it adds a lambda function that returns a greeting message with the class name. The method `dynamic_method` is then added to `MyClass`, and when called, it prints ""Hello from MyClass""."
+"2026-03-31 16:02";"### Part 1 (Question)
+**Q. Consider the following Python code snippet that uses a metaclass and decorators to create an object that manages its own state through context management:**
+
+```python
+from contextlib import ContextManager
+
+class StateManagerMeta(type):
+    def __new__(cls, name, bases, dct):
+        # Add a method to reset the state when entering context
+        if '__enter__' not in dct:
+            dct['__enter__'] = lambda self: setattr(self, 'state', 'reset')
+        return super().__new__(cls, name, bases, dct)
+
+class StateManager(metaclass=StateManagerMeta):
+    def __init__(self):
+        self.state = 'initial'
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass  # Exit method is not needed for this example
+
+def reset_and_print_state(manager: ContextManager):
+    with manager as m:
+        print(f""State before entering context: {manager.state}"")
+    print(f""State after exiting context: {manager.state}"")
+
+# Usage
+sm = StateManager()
+reset_and_print_state(sm)
+```
+
+**Which of the following statements is true about the behavior of this code?**
+
+A. The state of `StateManager` remains 'initial' throughout.
+B. The state of `StateManager` resets to 'reset' when entering the context.
+C. The state of `StateManager` remains 'reset' even after exiting the context.
+D. An error occurs because `__exit__` is not defined.
+
+### Part 2 (Answer)
+**A. The state of `StateManager` remains 'initial' throughout.**
+
+**Explanation:**
+- The metaclass `StateManagerMeta` ensures that every class inheriting from it has an `__enter__` method, which resets the `state` attribute to 'reset'.
+- When the `reset_and_print_state` function calls `with sm as m`, the `__enter__` method of `sm` is invoked, resetting its state to 'reset'.
+- After exiting the context with `with` block, the state should be 'reset', but the code only prints this state after exiting the context.
+- Therefore, the state does not remain 'initial' throughout; it becomes 'reset' upon entering the context. The correct statement is that the state resets to 'reset' when entering the context (Option B).
+
+However, due to a misunderstanding in the initial description, Option B is correct based on the code provided. The correct answer should be:
+
+**B. The state of `StateManager` resets to 'reset' when entering the context.**
+
+The initial explanation incorrectly states that the state remains 'initial', which is incorrect given the presence of the `__enter__` method in the metaclass.";"Answer format error. Please check the generated content."
