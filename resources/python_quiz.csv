@@ -44445,3 +44445,36 @@ This answer is correct because Python's Global Interpreter Lock (GIL) prevents m
 Option C is incorrect because threading does affect the execution of `print_numbers` by allowing the function to be called in parallel.
 
 Option D is incorrect because while multiple threads are created and started, due to the GIL, only one thread will execute at a time, making option B the correct choice."
+"2026-03-31 08:01";"### Part 1 (Question)
+
+Consider the following Python code that attempts to create a metaclass which dynamically adds a method to any class it decorates:
+
+```python
+class DynamicMethodMeta(type):
+    def __new__(cls, name, bases, dct):
+        if 'dynamic_method' not in dct:
+            dct['dynamic_method'] = lambda self: f""Hello from {name}""
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=DynamicMethodMeta):
+    pass
+
+# Usage
+obj = MyClass()
+print(obj.dynamic_method())
+```
+
+What will be the output of `print(obj.dynamic_method())`?
+
+A) TypeError: 'MyClass' object has no attribute 'dynamic_method'
+
+B) Hello from MyClass
+
+C) AttributeError: 'MyClass' object has no attribute '__new__'
+
+D) SyntaxError: invalid syntax";"### Part 2 (Answer)
+
+B) Hello from MyClass
+
+Explanation:
+The metaclass `DynamicMethodMeta` checks if the method `dynamic_method` is already defined in the class dictionary (`dct`). If it's not, it adds a lambda function that returns a greeting message with the class name. The method `dynamic_method` is then added to `MyClass`, and when called, it prints ""Hello from MyClass""."

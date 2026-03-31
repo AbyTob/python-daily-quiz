@@ -7117,5 +7117,12 @@
     "answer": "A) The decorator creates a new thread for each call to `print_numbers`, but due to the Global Interpreter Lock (GIL), threads will not truly run concurrently.\n\nThis answer is correct because Python's Global Interpreter Lock (GIL) prevents multiple native threads from executing Python bytecodes at once, even on multi-core systems. Therefore, while the decorator does create separate threads for each call, they are serialized due to the GIL, which limits true concurrency in CPU-bound tasks. This makes option B incorrect as it assumes threads can run truly concurrently.\n\nOption C is incorrect because threading does affect the execution of `print_numbers` by allowing the function to be called in parallel.\n\nOption D is incorrect because while multiple threads are created and started, due to the GIL, only one thread will execute at a time, making option B the correct choice.",
     "timestamp": "2026-03-31 00:02:27",
     "topic": "Threading and Concurrent Execution"
+  },
+  "q2_2026-03-31": {
+    "id": "1774944098_2",
+    "question": "### Part 1 (Question)\n\nConsider the following Python code that attempts to create a metaclass which dynamically adds a method to any class it decorates:\n\n```python\nclass DynamicMethodMeta(type):\n    def __new__(cls, name, bases, dct):\n        if 'dynamic_method' not in dct:\n            dct['dynamic_method'] = lambda self: f\"Hello from {name}\"\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=DynamicMethodMeta):\n    pass\n\n# Usage\nobj = MyClass()\nprint(obj.dynamic_method())\n```\n\nWhat will be the output of `print(obj.dynamic_method())`?\n\nA) TypeError: 'MyClass' object has no attribute 'dynamic_method'\n\nB) Hello from MyClass\n\nC) AttributeError: 'MyClass' object has no attribute '__new__'\n\nD) SyntaxError: invalid syntax",
+    "answer": "### Part 2 (Answer)\n\nB) Hello from MyClass\n\nExplanation:\nThe metaclass `DynamicMethodMeta` checks if the method `dynamic_method` is already defined in the class dictionary (`dct`). If it's not, it adds a lambda function that returns a greeting message with the class name. The method `dynamic_method` is then added to `MyClass`, and when called, it prints \"Hello from MyClass\".",
+    "timestamp": "2026-03-31 08:01:38",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
