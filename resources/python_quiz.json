@@ -7131,5 +7131,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-03-31 16:02:38",
     "topic": "Locks, Semaphores, and Synchronization"
+  },
+  "q1_2026-04-01": {
+    "id": "1775001730_1",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that uses a decorator to count the number of times a function is called:\n\n```python\ndef counter(func):\n    def wrapper(*args, **kwargs):\n        wrapper.count += 1\n        return func(*args, **kwargs)\n    wrapper.count = 0\n    return wrapper\n\n@counter\ndef my_function():\n    print(\"Function called\")\n\nmy_function()\nprint(my_function.count)  # Output?\n\n@counter\ndef another_function():\n    print(\"Another function called\")\n\nanother_function()\nprint(another_function.count)  # Output?\n```\n\nWhat will be the output of this code? Explain how the decorator and its behavior affect the output.\n\nA) Function called  \n   1  \n   Another function called  \n   2  \n\nB) Function called  \n   1  \n   Another function called  \n   1  \n\nC) Function called  \n   0  \n   Another function called  \n   0  \n\nD) AttributeError",
+    "answer": "**Part 2 (Answer):**\n\nA) Function called  \n   1  \n   Another function called  \n   1  \n\nExplanation: The `counter` decorator is defined to increase a count each time the decorated function is called. However, in Python, nested functions have access to variables in their enclosing scopes but cannot modify them unless explicitly declared as non-local or by using class-level attributes.\n\nIn this case, each decorated function has its own `wrapper.count` attribute, which is initialized to 0 every time the decorator is applied to a new function. Therefore, when calling `my_function()` for the first time, it prints \"Function called\" and sets `wrapper.count` to 1. When calling `another_function()` for the first time, it also prints \"Another function called\" and sets its own `wrapper.count` to 1, independent of `my_function`'s count.\n\nThus, the outputs are as expected in option A.",
+    "timestamp": "2026-04-01 00:02:10",
+    "topic": "Counter Objects and Frequency Analysis"
   }
 }

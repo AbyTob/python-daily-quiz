@@ -44529,3 +44529,59 @@ However, due to a misunderstanding in the initial description, Option B is corre
 **B. The state of `StateManager` resets to 'reset' when entering the context.**
 
 The initial explanation incorrectly states that the state remains 'initial', which is incorrect given the presence of the `__enter__` method in the metaclass.";"Answer format error. Please check the generated content."
+"2026-04-01 00:02";"**Part 1 (Question):**
+
+Consider the following Python code that uses a decorator to count the number of times a function is called:
+
+```python
+def counter(func):
+    def wrapper(*args, **kwargs):
+        wrapper.count += 1
+        return func(*args, **kwargs)
+    wrapper.count = 0
+    return wrapper
+
+@counter
+def my_function():
+    print(""Function called"")
+
+my_function()
+print(my_function.count)  # Output?
+
+@counter
+def another_function():
+    print(""Another function called"")
+
+another_function()
+print(another_function.count)  # Output?
+```
+
+What will be the output of this code? Explain how the decorator and its behavior affect the output.
+
+A) Function called  
+   1  
+   Another function called  
+   2  
+
+B) Function called  
+   1  
+   Another function called  
+   1  
+
+C) Function called  
+   0  
+   Another function called  
+   0  
+
+D) AttributeError";"**Part 2 (Answer):**
+
+A) Function called  
+   1  
+   Another function called  
+   1  
+
+Explanation: The `counter` decorator is defined to increase a count each time the decorated function is called. However, in Python, nested functions have access to variables in their enclosing scopes but cannot modify them unless explicitly declared as non-local or by using class-level attributes.
+
+In this case, each decorated function has its own `wrapper.count` attribute, which is initialized to 0 every time the decorator is applied to a new function. Therefore, when calling `my_function()` for the first time, it prints ""Function called"" and sets `wrapper.count` to 1. When calling `another_function()` for the first time, it also prints ""Another function called"" and sets its own `wrapper.count` to 1, independent of `my_function`'s count.
+
+Thus, the outputs are as expected in option A."
