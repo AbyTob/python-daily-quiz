@@ -44763,3 +44763,34 @@ Explanation:
 - Therefore, when `result = MyClass.add(5, 3)` is executed, it correctly calls the `add` method defined in `MyClass`, resulting in `8`.
 
 Options B and C are incorrect because they imply that `TypeError` would be raised or that metaclasses are necessary to ensure 'add' methods. Option D is incorrect as decorators and metaclasses provide additional flexibility and control over class creation, which can lead to more maintainable and organized code."
+"2026-04-02 08:01";"[QUESTION]
+Consider the following Python code snippet that utilizes a metaclass to create a class with dynamically generated attributes based on its base classes:
+
+```python
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        for base in bases:
+            if hasattr(base, '_attributes'):
+                for attr_name, value in base._attributes.items():
+                    dct[attr_name] = value
+        return super().__new__(cls, name, bases, dct)
+
+class BaseA(metaclass=Meta):
+    _attributes = {'a': 10}
+
+class BaseB(metaclass=Meta):
+    _attributes = {'b': 20}
+
+class Derived(BaseA, BaseB):
+    pass
+```
+
+What will be the output of `Derived.a + Derived.b`?
+
+A) 30  
+B) Error: 'Derived' has no attribute 'a' or 'b'  
+C) AttributeError: type object 'Derived' has no attribute '__module__'  
+D) TypeError: unsupported operand type(s) for +: 'type' and 'int'";"[A] 30
+
+Explanation:
+The metaclass `Meta` dynamically adds attributes from its base classes to the class being created. When `Derived` is instantiated, it inherits from both `BaseA` and `BaseB`, which have `_attributes` dictionaries. The metaclass merges these dictionaries into `Derived`'s dictionary, resulting in `Derived.a = 10` and `Derived.b = 20`. Therefore, `Derived.a + Derived.b` evaluates to `30`."

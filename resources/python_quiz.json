@@ -7159,5 +7159,12 @@
     "answer": "Part 2 (Answer):\nA) The `MyClass` will be successfully instantiated and `result` will hold the value `8`.\n\nExplanation:\n- The `Meta` metaclass checks if any class inheriting from it defines an 'add' method. Since `MyClass` does define such a method, the `TypeError` is not raised.\n- The `MyMeta` metaclass inherits from `Meta`, so it also enforces the presence of the 'add' method in any subclass it creates.\n- Therefore, when `result = MyClass.add(5, 3)` is executed, it correctly calls the `add` method defined in `MyClass`, resulting in `8`.\n\nOptions B and C are incorrect because they imply that `TypeError` would be raised or that metaclasses are necessary to ensure 'add' methods. Option D is incorrect as decorators and metaclasses provide additional flexibility and control over class creation, which can lead to more maintainable and organized code.",
     "timestamp": "2026-04-02 00:02:19",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-04-02": {
+    "id": "1775116906_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that utilizes a metaclass to create a class with dynamically generated attributes based on its base classes:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        for base in bases:\n            if hasattr(base, '_attributes'):\n                for attr_name, value in base._attributes.items():\n                    dct[attr_name] = value\n        return super().__new__(cls, name, bases, dct)\n\nclass BaseA(metaclass=Meta):\n    _attributes = {'a': 10}\n\nclass BaseB(metaclass=Meta):\n    _attributes = {'b': 20}\n\nclass Derived(BaseA, BaseB):\n    pass\n```\n\nWhat will be the output of `Derived.a + Derived.b`?\n\nA) 30  \nB) Error: 'Derived' has no attribute 'a' or 'b'  \nC) AttributeError: type object 'Derived' has no attribute '__module__'  \nD) TypeError: unsupported operand type(s) for +: 'type' and 'int'",
+    "answer": "[A] 30\n\nExplanation:\nThe metaclass `Meta` dynamically adds attributes from its base classes to the class being created. When `Derived` is instantiated, it inherits from both `BaseA` and `BaseB`, which have `_attributes` dictionaries. The metaclass merges these dictionaries into `Derived`'s dictionary, resulting in `Derived.a = 10` and `Derived.b = 20`. Therefore, `Derived.a + Derived.b` evaluates to `30`.",
+    "timestamp": "2026-04-02 08:01:46",
+    "topic": "Object-Oriented Programming"
   }
 }
