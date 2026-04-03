@@ -44886,3 +44886,39 @@ In this code, we have an `AsyncDecorator` class that wraps any asynchronous func
 When `main` is decorated with `@AsyncDecorator()`, the call to `main()` triggers the `fetch_data` coroutine, which simulates a delay using `asyncio.sleep(1)`. Once the data is fetched, the `wrapper` method of the decorator processes this result and returns ""Processed Data fetched"". 
 
 Therefore, when you run the code, it will print ""Processed Data fetched"" to the console."
+"2026-04-03 08:01";"**Part 1: Question**
+
+Consider the following Python code snippet that uses a decorator to enhance class behavior:
+
+```python
+import functools
+
+def enhance_class(cls):
+    cls.new_method = lambda self, x: x * 2
+    return cls
+
+@enhance_class
+class MyEnhancedClass:
+    def __init__(self, value):
+        self.value = value
+
+# Using the enhanced class
+obj = MyEnhancedClass(10)
+print(obj.new_method(5))  # Expected output is 10 (5 * 2)
+```
+
+What will be the result of `obj.new_method(5)` when run with this code?
+
+A) TypeError  
+B) 5  
+C) 10  
+D) SyntaxError";"**Part 2: Answer**
+
+C) 10
+
+Explanation:
+- The decorator `enhance_class` is applied to `MyEnhancedClass`, which dynamically adds a new method `new_method` to the class.
+- Inside the decorator, `cls.new_method = lambda self, x: x * 2` defines a new method that doubles its argument.
+- When `obj.new_method(5)` is called on an instance of `MyEnhancedClass`, it executes the dynamically added method, which returns `5 * 2 = 10`.
+
+This question tests whether the candidate understands how decorators can modify class behavior at runtime and correctly interprets the resulting code."
