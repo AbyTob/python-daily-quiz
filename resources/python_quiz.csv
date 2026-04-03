@@ -44845,3 +44845,44 @@ D) The code will hang indefinitely.
 A) ""Function is running..."" followed by ""Function has finished.""
 
 Explanation: In this code, the `AsyncTimer` class acts as both a decorator and a context manager. The `__call__` method of the `AsyncTimer` class allows it to be used as a decorator for any asynchronous function. When the decorated function is called, it first checks if a `Future` object has been created. If not, it creates one and schedules a timer using an asyncio task that waits for the specified timeout before setting the `Future` object. The `wrapper` coroutine then waits on this `Future` object to be completed before calling the original function. When the `main` function is run, it calls the decorated `slow_function`. Since the `AsyncTimer` decorator has not yet created a `Future` object when `slow_function` is called for the first time, it creates one and schedules the timer. The `wrapper` coroutine then waits on this `Future` object, which completes after 3 seconds due to the `AsyncTimer(3)` call. Only after this delay does the `main` function continue and print ""Function has finished.""";"Answer format error. Please check the generated content."
+"2026-04-03 00:01";"[QUESTION]  
+Consider the following Python code:
+
+```python
+import asyncio
+
+async def fetch_data():
+    await asyncio.sleep(1)
+    return ""Data fetched""
+
+class AsyncDecorator:
+    def __call__(self, func):
+        async def wrapper(*args, **kwargs):
+            result = await func(*args, **kwargs)
+            return f""Processed {result}""
+        return wrapper
+
+@AsyncDecorator()
+async def main():
+    data = await fetch_data()
+    return data
+
+# Running the code
+loop = asyncio.get_event_loop()
+result = loop.run_until_complete(main())
+print(result)
+```
+
+What will be printed to the console when the above code is executed?
+
+A) Data fetched  
+B) Processed Data fetched  
+C) Data processed  
+D) Error: not awaited";"B) Processed Data fetched  
+
+Explanation:
+In this code, we have an `AsyncDecorator` class that wraps any asynchronous function it decorates. The `wrapper` method inside the decorator takes care of calling the original function and then processes its result by prefixing it with ""Processed "". 
+
+When `main` is decorated with `@AsyncDecorator()`, the call to `main()` triggers the `fetch_data` coroutine, which simulates a delay using `asyncio.sleep(1)`. Once the data is fetched, the `wrapper` method of the decorator processes this result and returns ""Processed Data fetched"". 
+
+Therefore, when you run the code, it will print ""Processed Data fetched"" to the console."

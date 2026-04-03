@@ -7173,5 +7173,12 @@
     "answer": "Answer format error. Please check the generated content.",
     "timestamp": "2026-04-02 16:02:18",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q1_2026-04-03": {
+    "id": "1775174505_1",
+    "question": "[QUESTION]  \nConsider the following Python code:\n\n```python\nimport asyncio\n\nasync def fetch_data():\n    await asyncio.sleep(1)\n    return \"Data fetched\"\n\nclass AsyncDecorator:\n    def __call__(self, func):\n        async def wrapper(*args, **kwargs):\n            result = await func(*args, **kwargs)\n            return f\"Processed {result}\"\n        return wrapper\n\n@AsyncDecorator()\nasync def main():\n    data = await fetch_data()\n    return data\n\n# Running the code\nloop = asyncio.get_event_loop()\nresult = loop.run_until_complete(main())\nprint(result)\n```\n\nWhat will be printed to the console when the above code is executed?\n\nA) Data fetched  \nB) Processed Data fetched  \nC) Data processed  \nD) Error: not awaited",
+    "answer": "B) Processed Data fetched  \n\nExplanation:\nIn this code, we have an `AsyncDecorator` class that wraps any asynchronous function it decorates. The `wrapper` method inside the decorator takes care of calling the original function and then processes its result by prefixing it with \"Processed \". \n\nWhen `main` is decorated with `@AsyncDecorator()`, the call to `main()` triggers the `fetch_data` coroutine, which simulates a delay using `asyncio.sleep(1)`. Once the data is fetched, the `wrapper` method of the decorator processes this result and returns \"Processed Data fetched\". \n\nTherefore, when you run the code, it will print \"Processed Data fetched\" to the console.",
+    "timestamp": "2026-04-03 00:01:45",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
