@@ -7208,5 +7208,12 @@
     "answer": "[ANSWER] A) The workers will run concurrently.\n\nExplanation: In the given code, `asyncio.gather(*tasks)` is used to run all tasks concurrently. Each worker's `perform_task` method is an asynchronous function that simulates a task taking 1 second to complete using `await asyncio.sleep(1)`. Since `asyncio.gather` runs these tasks concurrently, all workers will start and finish their tasks at the same time or in parallel, not waiting for each other.",
     "timestamp": "2026-04-04 08:01:41",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q3_2026-04-04": {
+    "id": "1775318518_3",
+    "question": "[QUESTION]\nConsider the following Python code that aims to create a decorator for logging function calls. However, it doesn't quite work as intended:\n\n```python\nimport functools\n\ndef log_decorator(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args: {args}, kwargs: {kwargs}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_decorator\nclass MyClass:\n    def __init__(self, value):\n        self.value = value\n\n    def my_method(self):\n        return self.value * 2\n```\n\nWhich of the following correctly describes the issue with this code and how to fix it?\n\nA) The `wrapper` function is not using `functools.wraps`, leading to incorrect metadata for `MyClass`.\n\nB) The decorator syntax is incorrect. Class decorators should use `@decorator_name` on the class definition, not inside a method.\n\nC) The `log_decorator` is not properly wrapping the methods of the class, only the class itself.\n\nD) Using a decorator on a class is not supported in Python. Decorators can only be used on functions and methods within classes.",
+    "answer": "[C]\n\nThe issue with the code lies in the use of a decorator on a class, which is not supported by default in Python. The `log_decorator` is trying to wrap the entire class definition rather than its methods. To fix this, decorators should be applied directly to the methods within the class, like so:\n\n```python\nclass MyClass:\n    @log_decorator\n    def __init__(self, value):\n        self.value = value\n\n    @log_decorator\n    def my_method(self):\n        return self.value * 2\n```\n\nThis way, each method in `MyClass` will be logged when called.",
+    "timestamp": "2026-04-04 16:01:58",
+    "topic": "Function and Method Decorators"
   }
 }
