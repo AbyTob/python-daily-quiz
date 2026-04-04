@@ -44956,3 +44956,42 @@ D) Adding a method using the `add_method` function directly works without modify
 B) When calling `MyClass().greet()`, ""Hello, World!"" will be returned.
 
 Explanation: The code defines a metaclass `Meta` that automatically adds an `add_method` function to any class it decorates. By applying this metaclass to `MyClass`, the `add_method` function is available directly on `MyClass`. Therefore, when you call `MyClass.add_method(MyClass, 'greet', my_new_method)`, you are dynamically adding a method named `greet` to `MyClass` that returns ""Hello, World!"". This works because the metaclass modifies `MyClass` before it is fully instantiated, making the `add_method` function available and enabling dynamic method addition."
+"2026-04-04 00:02";"[QUESTION] Consider the following Python code snippet:
+
+```python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f""{func.__name__} took {end_time - start_time:.4f} seconds to run."")
+        return result
+    return wrapper
+
+@timer
+async def async_task(task_number):
+    await asyncio.sleep(1)
+    print(f""Task {task_number} completed."")
+
+async def main():
+    tasks = [async_task(i) for i in range(5)]
+    await asyncio.gather(*tasks)
+
+if __name__ == ""__main__"":
+    import asyncio
+    asyncio.run(main())
+```
+
+Which of the following statements is true about this code?
+
+A) The `timer` decorator will not work with `async_task` because it cannot measure async function execution time.
+
+B) The `async_task` function will run synchronously, and the `timer` decorator will correctly print its execution time.
+
+C) The `main` function schedules all tasks to run concurrently, and the `timer` decorator will correctly measure the total execution time of all tasks combined.
+
+D) The `timer` decorator can be applied to both synchronous and asynchronous functions, but it will not work if used with `async_task`.";"C) The `main` function schedules all tasks to run concurrently, and the `timer` decorator will correctly measure the total execution time of all tasks combined.
+
+Explanation: The `@timer` decorator is a regular synchronous decorator. When applied to an asynchronous function like `async_task`, it measures the wall-clock time between when the function call starts and ends, which includes the actual task execution time along with any waiting time due to `await asyncio.sleep(1)`. Since all tasks are run concurrently using `asyncio.gather`, the total measured time will be slightly more than the sum of individual sleep times (1 second per task), accounting for the scheduling overhead."
