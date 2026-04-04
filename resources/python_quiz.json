@@ -7201,5 +7201,12 @@
     "answer": "C) The `main` function schedules all tasks to run concurrently, and the `timer` decorator will correctly measure the total execution time of all tasks combined.\n\nExplanation: The `@timer` decorator is a regular synchronous decorator. When applied to an asynchronous function like `async_task`, it measures the wall-clock time between when the function call starts and ends, which includes the actual task execution time along with any waiting time due to `await asyncio.sleep(1)`. Since all tasks are run concurrently using `asyncio.gather`, the total measured time will be slightly more than the sum of individual sleep times (1 second per task), accounting for the scheduling overhead.",
     "timestamp": "2026-04-04 00:02:12",
     "topic": "Asynchronous Programming with asyncio"
+  },
+  "q2_2026-04-04": {
+    "id": "1775289701_2",
+    "question": "[QUESTION]  \nConsider the following Python code using asyncio:\n\n```python\nimport asyncio\n\nclass AsyncWorker:\n    def __init__(self, name):\n        self.name = name\n    \n    async def perform_task(self):\n        print(f\"{self.name} started\")\n        await asyncio.sleep(1)\n        print(f\"{self.name} finished\")\n\nasync def main():\n    workers = [AsyncWorker(f\"Worker{i}\") for i in range(3)]\n    tasks = [worker.perform_task() for worker in workers]\n    await asyncio.gather(*tasks)\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhich of the following statements is true about this code?  \nA) The workers will run concurrently.  \nB) Each worker will wait for the previous one to finish before starting.  \nC) The program will hang indefinitely because of an infinite loop.  \nD) All tasks will be executed in a single thread.",
+    "answer": "[ANSWER] A) The workers will run concurrently.\n\nExplanation: In the given code, `asyncio.gather(*tasks)` is used to run all tasks concurrently. Each worker's `perform_task` method is an asynchronous function that simulates a task taking 1 second to complete using `await asyncio.sleep(1)`. Since `asyncio.gather` runs these tasks concurrently, all workers will start and finish their tasks at the same time or in parallel, not waiting for each other.",
+    "timestamp": "2026-04-04 08:01:41",
+    "topic": "Asynchronous Programming with asyncio"
   }
 }
