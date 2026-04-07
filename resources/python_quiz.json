@@ -7264,5 +7264,12 @@
     "answer": "B) \"Decorator called\" followed by \"Method in Concrete class\".\n\nThis question demonstrates how decorators and metaclasses can be used together. The `decorator` function modifies the behavior of the `method` in the `Concrete` class when it is called, while the `Meta` metaclass enforces that all classes inheriting from `Base` must be abstract unless they explicitly define the `abstract` attribute.",
     "timestamp": "2026-04-07 00:01:53",
     "topic": "Python Metaclasses and Class Creation"
+  },
+  "q2_2026-04-07": {
+    "id": "1775548914_2",
+    "question": "[QUESTION]\nConsider the following Python code snippet that uses a metaclass to modify class attributes:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        for attr in dct:\n            if not attr.startswith(\"__\"):\n                dct[attr] = attr.upper()\n        return super().__new__(cls, name, bases, dct)\n\nclass MyClass(metaclass=Meta):\n    a = 1\n    b = \"test\"\n```\n\nWhich of the following statements about `MyClass` and its metaclass is true?\n\nA) When you access `MyClass.a`, it returns 'A' because the metaclass converts all attributes to uppercase.\nB) The metaclass `Meta` affects only the methods of `MyClass`, not its variables.\nC) You can't modify class attributes after their definition using this metaclass.\nD) `MyClass.b` still returns \"test\" and is not affected by the metaclass.",
+    "answer": "A) When you access `MyClass.a`, it returns 'A' because the metaclass converts all attributes to uppercase.\n\nExplanation: The correct answer is A. In Python, a metaclass like `Meta` can intercept class creation and modify its dictionary of attributes before the class is finalized. By overriding the `__new__` method in `Meta`, we can iterate through all the attributes of the class being created (excluding special double-underscore methods) and convert them to uppercase. Therefore, when you access `MyClass.a`, it returns 'A' because of this metaclass behavior. Options B, C, and D are incorrect as they suggest that the metaclass doesn't affect methods or variables inappropriately or can't modify attributes after definition, which is not the case with this metaclass implementation.",
+    "timestamp": "2026-04-07 08:01:54",
+    "topic": "Object-Oriented Programming"
   }
 }
