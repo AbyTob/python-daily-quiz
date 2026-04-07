@@ -7271,5 +7271,12 @@
     "answer": "A) When you access `MyClass.a`, it returns 'A' because the metaclass converts all attributes to uppercase.\n\nExplanation: The correct answer is A. In Python, a metaclass like `Meta` can intercept class creation and modify its dictionary of attributes before the class is finalized. By overriding the `__new__` method in `Meta`, we can iterate through all the attributes of the class being created (excluding special double-underscore methods) and convert them to uppercase. Therefore, when you access `MyClass.a`, it returns 'A' because of this metaclass behavior. Options B, C, and D are incorrect as they suggest that the metaclass doesn't affect methods or variables inappropriately or can't modify attributes after definition, which is not the case with this metaclass implementation.",
     "timestamp": "2026-04-07 08:01:54",
     "topic": "Object-Oriented Programming"
+  },
+  "q3_2026-04-07": {
+    "id": "1775577687_3",
+    "question": "[QUESTION]  \nConsider the following Python code that uses a metaclass to track all instances of a class:\n\n```python\nclass Meta(type):\n    _instances = {}\n    \n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass Singleton(metaclass=Meta):\n    pass\n\ns1 = Singleton()\ns2 = Singleton()\n\nprint(s1 is s2)  # True\n```\n\nWhich of the following statements about this code is correct?  \nA) Every time `Singleton` is instantiated, a new object is created.  \nB) The metaclass ensures that only one instance of `Singleton` exists.  \nC) The `_instances` dictionary stores all instances of `metaclass`.  \nD) `Meta.__call__` is not called when creating a new instance.",
+    "answer": "B) The metaclass ensures that only one instance of `Singleton` exists.",
+    "timestamp": "2026-04-07 16:01:27",
+    "topic": "Singleton Pattern and Class Instantiation Control"
   }
 }
