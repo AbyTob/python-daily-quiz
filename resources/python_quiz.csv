@@ -45368,3 +45368,46 @@ The correct answer is D. The `functools.wraps` decorator is crucial because it c
 Option A is incorrect because `functools.wraps` ensures that the metadata is preserved, preventing issues with attribute access and logging.
 Option B is incorrect because the `@log_execution_time` decorator only applies to functions within the same module where it is defined. It does not automatically log execution times when the decorated function is called from other modules.
 Option C is incorrect because local variables of the `compute_sum` function are not captured in the `wrapper`. The `wrapper` function captures any arguments (`*args`, `**kwargs`) passed to it, but it does not have access to the local state of the function being decorated."
+"2026-04-07 00:01";"[QUESTION]
+Consider the following code snippet that uses both decorators and metaclasses:
+
+```python
+from abc import ABC, abstractmethod
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        if 'abstract' not in dct:
+            raise TypeError(""Class must be abstract"")
+        return super().__new__(cls, name, bases, dct)
+
+class Base(metaclass=Meta):
+    @abstractmethod
+    def method(self):
+        pass
+
+def decorator(func):
+    def wrapper(*args, **kwargs):
+        print(""Decorator called"")
+        return func(*args, **kwargs)
+    return wrapper
+
+@decorator
+class Concrete(Base):
+    def method(self):
+        print(""Method in Concrete class"")
+
+obj = Concrete()
+obj.method()
+```
+
+What will be the output of this code, and what does it demonstrate about decorators and metaclasses?
+
+A) The code will raise a TypeError because 'abstract' is not defined.
+
+B) ""Decorator called"" followed by ""Method in Concrete class"".
+
+C) ""Decorator called"" without printing anything else.
+
+D) An infinite recursion error due to the decorator being applied before the method definition.";"B) ""Decorator called"" followed by ""Method in Concrete class"".
+
+This question demonstrates how decorators and metaclasses can be used together. The `decorator` function modifies the behavior of the `method` in the `Concrete` class when it is called, while the `Meta` metaclass enforces that all classes inheriting from `Base` must be abstract unless they explicitly define the `abstract` attribute."
