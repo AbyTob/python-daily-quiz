@@ -45462,3 +45462,42 @@ A) Every time `Singleton` is instantiated, a new object is created.
 B) The metaclass ensures that only one instance of `Singleton` exists.  
 C) The `_instances` dictionary stores all instances of `metaclass`.  
 D) `Meta.__call__` is not called when creating a new instance.";"B) The metaclass ensures that only one instance of `Singleton` exists."
+"2026-04-08 00:02";"[QUESTION]
+Consider the following code snippet that uses a metaclass to ensure that all instances of a class have unique identifiers. The goal is to create an instance of `UniqueClass` with a new identifier each time it is instantiated.
+
+```python
+class UniqueMeta(type):
+    _instance_count = 0
+
+    def __call__(cls, *args, **kwargs):
+        instance = super().__call__(*args, **kwargs)
+        cls._instance_count += 1
+        instance.identifier = cls._instance_count
+        return instance
+
+class UniqueClass(metaclass=UniqueMeta):
+    pass
+
+# Example usage:
+a = UniqueClass()
+b = UniqueClass()
+
+print(a.identifier)  # Should print a unique identifier
+print(b.identifier)  # Should print another unique identifier, different from the first
+```
+
+Which of the following statements about the code is true?
+
+A. The `UniqueMeta` class does not maintain any state between calls to its `__call__` method.
+
+B. Each instance of `UniqueClass` will have a unique `identifier` attribute set during creation.
+
+C. The `UniqueMeta` class increments `_instance_count` by 1 for each new instance created, ensuring uniqueness.
+
+D. The `UniqueMeta` class uses a decorator to modify the behavior of the `UniqueClass`.";"B. Each instance of `UniqueClass` will have a unique `identifier` attribute set during creation.
+
+Explanation:
+- Option A is incorrect because `UniqueMeta` maintains state by using `_instance_count`, which increments with each new instance.
+- Option B is correct; the goal of the metaclass is to ensure that each instance has a unique identifier, and this is achieved by setting the `identifier` attribute in the `__call__` method of the metaclass.
+- Option C is part of why option B is correct. `_instance_count` increments with each new instance creation, ensuring uniqueness.
+- Option D is incorrect because metaclasses are not decorators; they control class creation and can modify or replace the class definition before it is actually created."
