@@ -7292,5 +7292,12 @@
     "answer": "B) The `__call__` method in the metaclass ensures that only one instance of `MyClass` exists.\n\nExplanation: The correct behavior is demonstrated by the code. The `Singleton` metaclass overrides the `__call__` method, which checks if an instance already exists for the class. If it does not exist, it creates a new instance and stores it in `_instances`. Subsequent calls to create instances of `MyClass` will return the same instance stored in `_instances`, thus ensuring that only one instance of `MyClass` exists.",
     "timestamp": "2026-04-08 08:01:52",
     "topic": "Singleton Pattern and Class Instantiation Control"
+  },
+  "q3_2026-04-08": {
+    "id": "1775664107_3",
+    "question": "**Part 1 (Question):**\n\nConsider the following Python code that uses a decorator and metaclass together:\n\n```python\nimport types\n\ndef my_decorator(cls):\n    cls.decorated = True\n    return cls\n\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['metaclass_created'] = True\n        return super().__new__(cls, name, bases, dct)\n\n@my_decorator\nclass MyClass(metaclass=Meta):\n    pass\n\nprint(MyClass.decorated)\nprint(MyClass.metaclass_created)\n```\n\nWhat will be printed when the code is executed?\n\nA) `True False`  \nB) `False True`  \nC) `True True`  \nD) The program will raise an error",
+    "answer": "**Part 2 (Answer):**\n\nThe correct answer is **C) True True**.\n\nExplanation:  \nWhen a class is defined with both a decorator and a metaclass, the decorator is applied first. In this case, `my_decorator` adds the attribute `decorated = True` to the class `MyClass`. Then, when the class is created by the metaclass `Meta`, it adds the attribute `metaclass_created = True`. Both attributes are successfully added, so both print statements output `True`.\n\nThis question tests your understanding of how decorators and metaclasses interact when applied to a class. The decorator runs before the metaclass, affecting the class before the metaclass has a chance to modify it further.",
+    "timestamp": "2026-04-08 16:01:47",
+    "topic": "Object-Oriented Programming"
   }
 }

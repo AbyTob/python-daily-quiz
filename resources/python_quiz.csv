@@ -45534,3 +45534,40 @@ C) The `Singleton` metaclass can be applied to multiple classes independently, c
 D) Using a metaclass to create a singleton class adds significant overhead and should always be avoided.";"B) The `__call__` method in the metaclass ensures that only one instance of `MyClass` exists.
 
 Explanation: The correct behavior is demonstrated by the code. The `Singleton` metaclass overrides the `__call__` method, which checks if an instance already exists for the class. If it does not exist, it creates a new instance and stores it in `_instances`. Subsequent calls to create instances of `MyClass` will return the same instance stored in `_instances`, thus ensuring that only one instance of `MyClass` exists."
+"2026-04-08 16:01";"**Part 1 (Question):**
+
+Consider the following Python code that uses a decorator and metaclass together:
+
+```python
+import types
+
+def my_decorator(cls):
+    cls.decorated = True
+    return cls
+
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        dct['metaclass_created'] = True
+        return super().__new__(cls, name, bases, dct)
+
+@my_decorator
+class MyClass(metaclass=Meta):
+    pass
+
+print(MyClass.decorated)
+print(MyClass.metaclass_created)
+```
+
+What will be printed when the code is executed?
+
+A) `True False`  
+B) `False True`  
+C) `True True`  
+D) The program will raise an error";"**Part 2 (Answer):**
+
+The correct answer is **C) True True**.
+
+Explanation:  
+When a class is defined with both a decorator and a metaclass, the decorator is applied first. In this case, `my_decorator` adds the attribute `decorated = True` to the class `MyClass`. Then, when the class is created by the metaclass `Meta`, it adds the attribute `metaclass_created = True`. Both attributes are successfully added, so both print statements output `True`.
+
+This question tests your understanding of how decorators and metaclasses interact when applied to a class. The decorator runs before the metaclass, affecting the class before the metaclass has a chance to modify it further."
