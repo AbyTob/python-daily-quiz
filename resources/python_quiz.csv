@@ -45501,3 +45501,36 @@ Explanation:
 - Option B is correct; the goal of the metaclass is to ensure that each instance has a unique identifier, and this is achieved by setting the `identifier` attribute in the `__call__` method of the metaclass.
 - Option C is part of why option B is correct. `_instance_count` increments with each new instance creation, ensuring uniqueness.
 - Option D is incorrect because metaclasses are not decorators; they control class creation and can modify or replace the class definition before it is actually created."
+"2026-04-08 08:01";"[QUESTION]  
+Consider the following Python code that uses a metaclass to create a singleton class:
+
+```python
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+class MyClass(metaclass=Singleton):
+    pass
+
+# Usage of MyClass
+obj1 = MyClass()
+obj2 = MyClass()
+
+print(obj1 is obj2)  # This will print True
+```
+
+Which of the following statements about the behavior of `MyClass` is true?
+
+A) Every time an instance of `MyClass` is created, a new instance is added to `_instances`.
+
+B) The `__call__` method in the metaclass ensures that only one instance of `MyClass` exists.
+
+C) The `Singleton` metaclass can be applied to multiple classes independently, creating separate instances for each.
+
+D) Using a metaclass to create a singleton class adds significant overhead and should always be avoided.";"B) The `__call__` method in the metaclass ensures that only one instance of `MyClass` exists.
+
+Explanation: The correct behavior is demonstrated by the code. The `Singleton` metaclass overrides the `__call__` method, which checks if an instance already exists for the class. If it does not exist, it creates a new instance and stores it in `_instances`. Subsequent calls to create instances of `MyClass` will return the same instance stored in `_instances`, thus ensuring that only one instance of `MyClass` exists."
