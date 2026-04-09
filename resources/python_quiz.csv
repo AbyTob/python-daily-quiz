@@ -45609,3 +45609,40 @@ Explanation: When defining a method inside a decorator, it's crucial to ensure t
 **Correct Answer: A**
 
 This question tests the understanding of how decorators modify class behavior and the importance of method binding in Python. It requires students to think critically about how class methods are defined and accessed, as well as how decorators can inadvertently alter class properties."
+"2026-04-09 08:01";"[QUESTION]
+Consider the following Python code snippet:
+
+```python
+import asyncio
+
+async def fetch_data(url):
+    # Simulate fetching data with an async delay
+    await asyncio.sleep(1)
+    return {""url"": url, ""data"": ""Sample Data""}
+
+class AsyncManager:
+    def __init__(self, urls):
+        self.urls = urls
+
+    async def run(self):
+        tasks = [fetch_data(url) for url in self.urls]
+        results = await asyncio.gather(*tasks)
+        return results
+
+async def main():
+    manager = AsyncManager([""http://example.com"", ""http://test.com""])
+    data = await manager.run()
+    print(data)
+
+# Run the main function to execute the async tasks
+asyncio.run(main())
+```
+
+What is the primary purpose of using `async` and `await` in this code, and how does it improve performance?
+
+A) To perform synchronous operations without blocking the event loop  
+B) To handle asynchronous operations efficiently by allowing other tasks to run while waiting for I/O-bound tasks to complete  
+C) To execute blocking operations in parallel threads to speed up execution  
+D) To manage resources asynchronously using context managers";"**Answer: B) To handle asynchronous operations efficiently by allowing other tasks to run while waiting for I/O-bound tasks to complete**
+
+**Explanation:** The primary purpose of `async` and `await` in this code is to improve performance by handling asynchronous operations efficiently. By marking the functions as `async`, we indicate that they are coroutine functions, which can be paused (`await`) when waiting for I/O-bound tasks like fetching data over a network. This allows other tasks to run during the wait time, thus improving the overall efficiency and responsiveness of the program."
