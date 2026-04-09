@@ -45571,3 +45571,41 @@ Explanation:
 When a class is defined with both a decorator and a metaclass, the decorator is applied first. In this case, `my_decorator` adds the attribute `decorated = True` to the class `MyClass`. Then, when the class is created by the metaclass `Meta`, it adds the attribute `metaclass_created = True`. Both attributes are successfully added, so both print statements output `True`.
 
 This question tests your understanding of how decorators and metaclasses interact when applied to a class. The decorator runs before the metaclass, affecting the class before the metaclass has a chance to modify it further."
+"2026-04-09 00:01";"";"**Part 1 (Question):**
+
+Consider the following Python code snippet that attempts to create a class decorator which adds a method to any decorated class:
+
+```python
+def add_method(cls):
+    def new_method(self):
+        return ""Hello from new_method!""
+    cls.new_method = new_method
+    return cls
+
+@add_method
+class MyClass:
+    pass
+
+my_instance = MyClass()
+print(my_instance.new_method())
+```
+
+What is the issue with this code that might prevent it from working as expected?
+
+A) The `new_method` function is not bound to `self`.
+
+B) The `add_method` decorator does not properly handle the inheritance of the class.
+
+C) The `new_method` does not get called correctly when an instance method is invoked.
+
+D) The `cls.new_method = new_method` line modifies the original class definition incorrectly.
+
+**Part 2 (Answer):**
+
+A) The `new_method` function is not bound to `self`.
+
+Explanation: When defining a method inside a decorator, it's crucial to ensure that it correctly binds to instances of the decorated class. If `new_method` is defined outside and then assigned directly, it won't have access to instance attributes through `self`. Correcting this would involve using a lambda function or ensuring proper binding within the decorator.
+
+**Correct Answer: A**
+
+This question tests the understanding of how decorators modify class behavior and the importance of method binding in Python. It requires students to think critically about how class methods are defined and accessed, as well as how decorators can inadvertently alter class properties."
