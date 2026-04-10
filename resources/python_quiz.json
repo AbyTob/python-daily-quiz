@@ -7334,5 +7334,12 @@
     "answer": "Part 2 (Answer): A B\nThe correct answer is: A. The current implementation is suboptimal due to the use of synchronous blocking calls for I/O-bound tasks, which can lead to a significant decrease in throughput.\n\nB. To optimize this application, you should consider using asynchronous programming with `asyncio` and coroutines. This approach allows multiple tasks to run concurrently, improving the overall performance of the application by utilizing idle time effectively.",
     "timestamp": "2026-04-10 08:01:36",
     "topic": "Task Management and Scheduling"
+  },
+  "q3_2026-04-10": {
+    "id": "1775836923_3",
+    "question": "Part 1 (Question):\nConsider the following Python code that uses a metaclass to add an additional method to any class it decorates:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['add_method'] = lambda self: f\"Added method to {name}\"\n        return super().__new__(cls, name, bases, dct)\n\n@Meta()\nclass MyClass:\n    pass\n\ninstance = MyClass()\nprint(instance.add_method())\n```\n\nWhich of the following statements is true about this code?\n\nA) The `add_method` will raise an AttributeError when called because it's not defined in `MyClass`.\n\nB) When you run the code, it will output \"Added method to MyClass\" indicating that the metaclass successfully added a new method.\n\nC) The `add_method` will be added to all instances of `MyClass`, but calling it on any instance will return an AttributeError because the method isn't bound to an instance.\n\nD) Calling `instance.add_method()` will result in a TypeError because `Meta` is not a function and cannot be used as a decorator.",
+    "answer": "Part 2 (Answer):\nB) When you run the code, it will output \"Added method to MyClass\" indicating that the metaclass successfully added a new method.\n\nExplanation: The `Meta` class acts as a metaclass by overriding the `__new__` method. This method is called when a new class is created using `Meta`. Inside `__new__`, we add a new method named `add_method` to the dictionary of attributes (`dct`) passed to `Meta.__new__`. The lambda function `lambda self: f\"Added method to {name}\"` defines what this method will do when called. When we then create an instance of `MyClass`, it has access to the `add_method` added by the metaclass, and calling `instance.add_method()` correctly outputs \"Added method to MyClass\".",
+    "timestamp": "2026-04-10 16:02:03",
+    "topic": "Lambda Functions and Anonymous Functions"
   }
 }
