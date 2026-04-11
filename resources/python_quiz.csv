@@ -45832,3 +45832,52 @@ Explanation:
 
 Option **B** is incorrect because creating tasks inside an event loop (using `asyncio.run(main())`) does not raise an error.
 Options **C** and **D** are incorrect because they imply that only one timer runs, which is not what happens due to the concurrent execution of tasks."
+"2026-04-11 08:02";"";"**Part 1 (Question):**
+You are tasked with creating a Python application that involves asynchronous data fetching. You decide to use the `asyncio` library along with the `aiohttp` library for making HTTP requests asynchronously.
+
+To manage and reuse connections efficiently, you want to create a custom session manager that handles connection pooling. Your goal is to create a context manager (`SessionManager`) using Python's `contextlib.contextmanager` decorator that ensures the session is closed properly when exiting the context.
+
+Write the `SessionManager` class and demonstrate its usage in an asynchronous function that fetches data from multiple URLs concurrently.
+
+**Code Example:**
+```python
+import aiohttp
+import asyncio
+from contextlib import contextmanager
+
+# Define the SessionManager context manager here
+
+async def fetch_data(url):
+    async with SessionManager() as session:
+        async with session.get(url) as response:
+            return await response.text()
+
+urls = [
+    'https://api.example.com/data1',
+    'https://api.example.com/data2',
+    # Add more URLs
+]
+
+# Demonstrate how to use the fetch_data function to concurrently fetch data from multiple URLs
+async def main():
+    tasks = [fetch_data(url) for url in urls]
+    results = await asyncio.gather(*tasks)
+    print(results)
+
+# Run the async main function
+asyncio.run(main())
+```
+
+**Options:**
+A. The `SessionManager` class is implemented correctly and ensures that connections are reused and properly closed.
+B. The `fetch_data` function is incorrectly structured, leading to connection reuse issues.
+C. The `main` function does not properly handle exceptions that may occur during the fetch operations.
+D. The use of `asyncio.gather` is unnecessary for this scenario.
+
+**Part 2 (Answer):**
+A. The `SessionManager` class is implemented correctly and ensures that connections are reused and properly closed.
+
+Explanation:
+- The `SessionManager` context manager should use the `aiohttp.ClientSession` with a pool of connections to efficiently reuse them.
+- The `fetch_data` function correctly uses the session within an asynchronous context, ensuring the session's connection pool is utilized.
+- The `main` function demonstrates proper usage of `asyncio.gather`, which is essential for concurrently fetching data from multiple URLs."
