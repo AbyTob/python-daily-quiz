@@ -45784,3 +45784,51 @@ D) Calling `instance.add_method()` will result in a TypeError because `Meta` is 
 B) When you run the code, it will output ""Added method to MyClass"" indicating that the metaclass successfully added a new method.
 
 Explanation: The `Meta` class acts as a metaclass by overriding the `__new__` method. This method is called when a new class is created using `Meta`. Inside `__new__`, we add a new method named `add_method` to the dictionary of attributes (`dct`) passed to `Meta.__new__`. The lambda function `lambda self: f""Added method to {name}""` defines what this method will do when called. When we then create an instance of `MyClass`, it has access to the `add_method` added by the metaclass, and calling `instance.add_method()` correctly outputs ""Added method to MyClass""."
+"2026-04-11 00:02";"### Part 1: Question
+
+Consider the following Python code:
+
+```python
+import asyncio
+
+class AsyncTimer:
+    def __init__(self, interval):
+        self.interval = interval
+
+    async def run(self):
+        while True:
+            print(f""Timer tick at {asyncio.get_running_loop().time()}"")
+            await asyncio.sleep(self.interval)
+
+async def main():
+    timers = [AsyncTimer(2), AsyncTimer(3)]
+    
+    for timer in timers:
+        asyncio.create_task(timer.run())
+    
+    await asyncio.sleep(10)  # Run for 10 seconds
+
+asyncio.run(main())
+```
+
+What is the output of this code when run?
+
+A) The program prints ""Timer tick at"" followed by the current time every 2 and 3 seconds simultaneously.
+
+B) The program raises a `RuntimeError` because tasks cannot be created outside an event loop.
+
+C) The program prints ""Timer tick at"" followed by the current time every 2 seconds but only one timer runs as expected.
+
+D) The program prints ""Timer tick at"" followed by the current time every 3 seconds but only one timer runs as expected.";"### Part 2: Answer
+
+The correct answer is **A**.
+
+Explanation:
+
+- The `asyncio.get_running_loop().time()` function returns the current time in the event loop's monotonic clock.
+- In the `main` function, multiple tasks are created using `asyncio.create_task(timer.run())`. This schedules each task to run concurrently without blocking.
+- Each `AsyncTimer` instance runs in its own task. When a task waits on `await asyncio.sleep(self.interval)`, it suspends execution and allows other tasks to run during that time.
+- As a result, the program prints ""Timer tick at"" followed by the current time every 2 and 3 seconds simultaneously.
+
+Option **B** is incorrect because creating tasks inside an event loop (using `asyncio.run(main())`) does not raise an error.
+Options **C** and **D** are incorrect because they imply that only one timer runs, which is not what happens due to the concurrent execution of tasks."
